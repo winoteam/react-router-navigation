@@ -2,6 +2,7 @@
 
 import React, { PropTypes, Component } from 'react'
 import { NavigationExperimental, View } from 'react-native'
+import CardStackStyleInterpolator from './CardStackStyleInterpolator'
 
 const {
   Transitioner: NavigationTransitioner,
@@ -11,7 +12,6 @@ const {
 
 const {
   CardStackPanResponder,
-  CardStackStyleInterpolator,
 } = NavigationCard
 
 const {

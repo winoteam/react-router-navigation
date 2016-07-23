@@ -1,15 +1,17 @@
 /* @flow */
 
 import React from 'react'
-import { View, Text } from 'react-native'
-import Row from '@components/Row'
+import { ScrollView } from 'react-native'
+import Card from '@components/Card'
 import styles from './styles'
 
 const FeedScene = (props): React$Element<any> => {
   return (
-    <View style={styles.container}>
-      <Text>Feed !!</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <Card>Card 1</Card>
+      <Card>Card 2</Card>
+      <Card>Card 3</Card>
+    </ScrollView>
   )
 }
 
