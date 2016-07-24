@@ -1,18 +1,30 @@
 {
-  "name": "NavigationExperimentalExample",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+  "name": "react-native-router-navigation",
+  "version": "0.1.0",
+  "description": "A complete routing library for React Navigation based on Navigation API",
+  "main": "index.js",
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "router",
+    "navigation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeoLeBras/react-native-router-navigation.git"
+  },
+  "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeoLeBras/react-native-router-navigation/issues"
+  },
+  "homepage": "https://github.com/LeoLeBras/react-native-router-navigation#readme",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
   },
   "dependencies": {
-    "react": "15.2.1",
-    "react-native": "^0.30.0",
-    "react-native-tab-view": "0.0.18",
-    "recompose": "^0.20.2"
-  },
-  "devDependencies": {
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react-native-stage-0": "^1.0.1"
+    "hoist-non-react-statics": "^1.2.0"
   }
 }
