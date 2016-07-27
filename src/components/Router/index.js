@@ -1,39 +1,38 @@
  /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import navigationState, { POP, PUSH } from './../../reducer'
+import navigationState, { INIT, PUSH, POP } from './../../reducer'
 import Navigation from './../Navigation'
-import type { NavigationScenes, NavigationState } from './../../types'
+import extractScenes from './../../utils/extractScenes'
+import type { NavigationScenes, NavigationRoute, NavigationState } from './../../types'
 
 type Props = {
-  scenes: React$Element<any>,
-  children: React$Element<any>,
+  children?: React$Element<any>,
 }
 
 class Router extends Component {
 
   props: Props
-  state: NavigationState
+  state: NavigationState & {
+    scenes: Array<NavigationRoute>,
+  }
 
 
   // Initilize router at index 0 with
   // first scene pass as props
   componentWillMount() {
-    const scenes = this.props.scenes
-      ? this.props.scenes
-      : this.props.children
-    this.state = {
-      index: 0,
-      routes: [this.props.scenes[0]],
-    }
+    const routes = extractScenes(this.props.children)
+    const action = { type: INIT, routes }
+    const state = navigationState({}, action)
+    this.state = state
   }
 
 
   // Indicates a new item was added to
   // the history
   push = (location: string): void => {
-    const { scenes } = this.props
-    const route = scenes.find((scene) => scene.key == location)
+    const routes = extractScenes(this.props.children)
+    const route = routes.find((scene) => scene.key == location)
     this.dispatch({ type: PUSH, route })
   }
 
@@ -49,6 +48,7 @@ class Router extends Component {
   // state
   dispatch = (action: { type: string }): void => {
     const state = navigationState(this.state, action)
+    console.log(action.type, state)
     this.setState(state)
   }
 

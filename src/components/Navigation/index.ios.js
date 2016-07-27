@@ -3,6 +3,7 @@
 import React, { Component, createElement } from 'react'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
+import TabView from './../TabView'
 import type { NavigationSceneRendererProps } from './../../types'
 
 type Props = {
@@ -15,19 +16,29 @@ class Navigation extends Component {
   props: Props
 
   renderNavBar = (sceneProps: NavigationSceneRendererProps): ReactElement<any> | null => {
-    return (
-      <NavBar
-        pop={this.props.pop}
-        {...sceneProps}
-      />
-    )
+    const { tabs } = sceneProps.scene.route
+    return tabs
+      ? null
+      : <NavBar
+          pop={this.props.pop}
+          {...sceneProps}
+        />
   }
 
   renderScene = (sceneProps: NavigationSceneRendererProps): ReactElement<any> => {
-    const { route } = sceneProps.scene
-    return route.component
-      ? createElement(route.component)
-      : null
+    const { component, tabs } = sceneProps.scene.route
+    return tabs
+      ? this.renderTabs(sceneProps)
+      : createElement(component)
+  }
+
+  renderTabs = (sceneProps: NavigationSceneRendererProps): React$Element<any> => {
+    const { children } = sceneProps.scene.route
+    return (
+      <TabView>
+        {children}
+      </TabView>
+    )
   }
 
   render() {

@@ -15,7 +15,7 @@ export type NavigationScene = {
 };
 
 export type NavigationState = {
-  index: number,
+  index: string,
   routes: Array<NavigationRoute>,
 }
 

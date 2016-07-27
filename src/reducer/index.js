@@ -1,4 +1,4 @@
 /* @flow */
 
-export { PUSH, POP } from './actionTypes'
+export { PUSH, POP, INIT } from './actionTypes'
 export { default as default } from './module'

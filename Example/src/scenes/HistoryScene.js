@@ -1,23 +1,21 @@
 import React from 'react'
-import { View, StyleSheet, Platform } from 'react-native'
+import { StyleSheet, Platform, View, Text } from 'react-native'
 import { withRouter } from 'react-native-router-navigation'
 import Row from '@components/Row'
 
-const LaunchScene = (props) => {
+const HistoryScene = (props) => {
   const { router } = props
   return (
     <View style={styles.container}>
-      <Row onPress={() => router.push('app')}>
-        Go to app
-      </Row>
+      <Row onPress={router.pop}>Pop =)</Row>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Platform.OS == 'ios' ? 64 : 56,
+    marginTop: 20,
   },
 })
 
-export default withRouter(LaunchScene)
+export default withRouter(HistoryScene)

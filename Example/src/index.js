@@ -1,20 +1,16 @@
+/* @flow */
+
 import React from 'react'
 import { View } from 'react-native'
-import Router from 'react-native-router-navigation'
-import { LaunchScene, FeedScene } from '@scenes'
+import Router, { Scene } from 'react-native-router-navigation'
+import { LaunchScene, FeedScene, HistoryScene } from '@scenes'
 
-const scenes = [{
-  key: 'launch',
-  title: 'Launch',
-  component: LaunchScene,
-}, {
-  key: 'feed',
-  title: 'Feed',
-  component: FeedScene,
-}]
-
-export default () => {
-  return (
-    <Router scenes={scenes} />
-  )
-}
+export default () => (
+  <Router>
+    <Scene key="launch" title="Launch" component={LaunchScene} />
+    <Scene key="app" tabs="true">
+      <Scene key="feed" title="Feed" component={FeedScene} />
+      <Scene key="history" title="History" component={HistoryScene} />
+    </Scene>
+  </Router>
+)
