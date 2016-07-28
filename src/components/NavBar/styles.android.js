@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: Dimensions.get('window').width,
     height: NAVBAR_HEIGHT,
-    backgroundColor: '#00BBD3',
+    backgroundColor: 'white',
     zIndex: 10,
     elevation: 4,
   },

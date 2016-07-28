@@ -4,6 +4,7 @@ import React, { Component, createElement } from 'react'
 import { BackAndroid, View } from 'react-native'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
+import TabView from './../TabView'
 import type { NavigationState, NavigationSceneRendererProps } from './types'
 
 type Props = {
@@ -26,16 +27,25 @@ class Navigation extends Component {
     BackAndroid.removeEventListener('hardwareBackPress')
   }
 
-  renderScene = (sceneProps: NavigationSceneRendererProps): ReactElement<any> => {
-    const { route } = sceneProps.scene
+  renderScene = (sceneProps: NavigationSceneRendererProps): React$Element<any> => {
+    const { component, tabs } = sceneProps.scene.route
+    return tabs
+      ? this.renderTabs(sceneProps)
+      : <View style={{ flex: 1 }}>
+          <NavBar
+            pop={this.props.pop}
+            {...sceneProps}
+          />
+          {createElement(component)}
+        </View>
+  }
+
+  renderTabs = (sceneProps: NavigationSceneRendererProps): React$Element<any> => {
+    const { children } = sceneProps.scene.route
     return (
-      <View style={{ flex: 1 }}>
-        <NavBar
-          pop={this.props.pop}
-          {...sceneProps}
-        />
-        {createElement(route.component)}
-      </View>
+      <TabView>
+        {children}
+      </TabView>
     )
   }
 

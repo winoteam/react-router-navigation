@@ -19,9 +19,7 @@ export default function(state: NavigationState, action: NavigatationAction): Nav
       const { route } = action
 
       // Update path
-      const path = route.tabs
-        ? `${parseInt(state.path) + 1}`
-        : `${state.path.slice(0, -1)}${state.path.slice(-1) + 1}`
+      const path = `${state.path.slice(0, -1)}${state.path.slice(-1) + 1}`
       const index = parseInt(path.slice(-1))
 
       // Set children
@@ -30,6 +28,7 @@ export default function(state: NavigationState, action: NavigatationAction): Nav
         route.children = extractScenes(route.children)
       }
 
+      // Return new state
       return {
         path,
         index,
@@ -38,6 +37,7 @@ export default function(state: NavigationState, action: NavigatationAction): Nav
           route,
         ]
       }
+
     }
 
     case POP: {
@@ -49,3 +49,51 @@ export default function(state: NavigationState, action: NavigatationAction): Nav
 
   }
 }
+
+`
+  {
+    index: 0,
+    path: '0',
+    routes: [{
+      key: 'launch',
+    }],
+  }
+
+  {
+    index: 1,
+    path: '1.0',
+    routes: [{
+      key: 'launch',
+    }, {
+      key: 'app',
+      index: 0,
+      routes: [{
+        key: 'feed',
+      }, {
+        key: 'search',
+      }]
+    }]
+  }
+
+  {
+    index: 1,
+    path: '1.0.0',
+    routes: [{
+      key: 'launch',
+    }, {
+      key: 'app',
+      index: 0,
+      routes: [{
+        key: 'feed',
+        index: 0,
+        routes: [{
+          key: 'article',
+        }],
+      }, {
+        key: 'search',
+      }]
+    }]
+  }
+
+
+`

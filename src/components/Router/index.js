@@ -7,7 +7,7 @@ import extractScenes from './../../utils/extractScenes'
 import type { NavigationScenes, NavigationRoute, NavigationState } from './../../types'
 
 type Props = {
-  children?: React$Element<any>,
+  children: Array<React$Element<any>>,
 }
 
 class Router extends Component {
@@ -31,8 +31,13 @@ class Router extends Component {
   // Indicates a new item was added to
   // the history
   push = (location: string): void => {
-    const routes = extractScenes(this.props.children)
-    const route = routes.find((scene) => scene.key == location)
+    const currentRoute = this.state.routes[this.state.index]
+    const siblingRoutes = extractScenes(this.props.children)
+    const childrenRoutes = currentRoute.children
+      ? extractScenes(currentRoute.children)
+      : []
+    const route = [...siblingRoutes, ...childrenRoutes]
+      .find((scene) => scene.key == location)
     this.dispatch({ type: PUSH, route })
   }
 
@@ -44,17 +49,16 @@ class Router extends Component {
   }
 
 
-  // Dispatch an action and update local
-  // state
+  // Dispatch an action and update
+  // local state
   dispatch = (action: { type: string }): void => {
     const state = navigationState(this.state, action)
-    console.log(action.type, state)
     this.setState(state)
   }
 
 
-  // Provid push and pop action to components
-  // tree via react context
+  // Provid push and pop action to
+  // components tree via react context
   static childContextTypes = { router: PropTypes.object.isRequired }
   getChildContext() {
      return {

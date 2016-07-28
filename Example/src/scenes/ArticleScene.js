@@ -3,11 +3,11 @@ import { StyleSheet, Platform, View, Text } from 'react-native'
 import { withRouter } from 'react-native-router-navigation'
 import Row from '@components/Row'
 
-const FeedScene = (props) => {
+const ArticleScene = (props) => {
   const { router } = props
   return (
     <View style={styles.container}>
-      <Row onPress={() => router.push('article')}>Push to article</Row>
+      <Row onPress={router.pop}>Pop to feed</Row>
     </View>
   )
 }
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withRouter(FeedScene)
+export default withRouter(ArticleScene)

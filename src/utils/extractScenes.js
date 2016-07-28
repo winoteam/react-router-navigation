@@ -2,13 +2,7 @@
 
 import type { NavigationRoute } from './../types'
 
-type Children = Array<{
-  key: string,
-  props: {
-    title: string,
-    component: () => React$Element<any>,
-  },
-}>
+type Children = Array<React$Element<any>>
 
 export default function extractScenes(children: Children) {
   return children.map((child) => ({
