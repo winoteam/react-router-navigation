@@ -1,6 +1,6 @@
 /* @flow */
 
-function forInitial(props): Object {
+function forInitial(props) {
   const { navigationState, scene } = props
   const focused = navigationState.index === scene.index
   const opacity = focused ? 1 : 0
@@ -14,7 +14,7 @@ function forInitial(props): Object {
   }
 }
 
-function forIOS(props): Object {
+function forIOS(props) {
   const { layout, position, scene } = props
   if (!layout.isMeasured) {
     return forInitial(props)
@@ -45,7 +45,7 @@ function forIOS(props): Object {
   }
 }
 
-function forAndroid(props): Object {
+function forAndroid(props) {
   const { layout, position, scene } = props
   if (!layout.isMeasured) {
     return forInitial(props)
@@ -71,8 +71,4 @@ function forAndroid(props): Object {
   }
 }
 
-export default {
-  forInitial,
-  forIOS,
-  forAndroid,
-}
+export default { forInitial, forIOS, forAndroid }
