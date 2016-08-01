@@ -3,9 +3,9 @@ import { View, StyleSheet, Platform } from 'react-native'
 import { withRouter } from 'react-native-router-navigation'
 import Row from '@components/Row'
 
-class AuthScene extends Component {
+class WelcomeScene extends Component {
 
-  static title: string = 'Auth'
+  static title: string = 'Welcome'
   static navBarStyle: Object = {
     backgroundColor: '#e91d56',
     borderBottomWidth: 0,
@@ -18,8 +18,8 @@ class AuthScene extends Component {
     const { router } = this.props
     return (
       <View style={styles.container}>
-        <Row onPress={() => router.push('welcome')}>
-          Push to welcome scene
+        <Row onPress={() => router.push('app')}>
+          Go to app  (tabs)
         </Row>
         <Row onPress={router.pop}>
           Pop to launch scene
@@ -30,11 +30,10 @@ class AuthScene extends Component {
 
 }
 
-
 const styles = StyleSheet.create({
   container: {
     marginTop: Platform.OS == 'ios' ? 64 : 56,
   },
 })
 
-export default withRouter(AuthScene)
+export default withRouter(WelcomeScene)

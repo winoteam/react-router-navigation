@@ -5,7 +5,7 @@ import Row from '@components/Row'
 
 class LaunchScene extends Component {
 
-  static title: string = "Launch"
+  static title: string = 'Launch'
   static navBarStyle: Object = { backgroundColor: '#8A0262' }
   static titleStyle: Object = { color: 'white' }
   static statusBarStyle: string = 'light-content'
@@ -18,7 +18,7 @@ class LaunchScene extends Component {
           Go to auth
         </Row>
         <Row onPress={() => router.push('app')}>
-          Go to app (tabs)
+          Go to app
         </Row>
       </View>
     )

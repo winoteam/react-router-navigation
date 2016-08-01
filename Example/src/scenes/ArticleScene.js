@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Platform, View, Text } from 'react-native'
+import { StyleSheet, Platform, View } from 'react-native'
 import { withRouter } from 'react-native-router-navigation'
 import Row from '@components/Row'
 
@@ -14,7 +14,7 @@ const ArticleScene = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: Platform.OS == 'ios' ? 64 : 56,
   },
 })
 
