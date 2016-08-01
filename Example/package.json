@@ -9,5 +9,8 @@
     "react": "15.2.1",
     "react-native": "^0.30.0",
     "react-native-router-navigation": "../"
+  },
+  "devDependencies": {
+    "babel-preset-react-native-stage-0": "^1.0.1"
   }
 }
