@@ -1,57 +1,70 @@
- /* @flow */
+/* @flow */
+/* eslint max-len: 0 */
 
 import React, { Component, PropTypes } from 'react'
-import navigationState, { INIT, PUSH, POP } from './../../reducer'
+import navigationState, { INIT, PUSH, POP, CHANGE_TAB } from './../../reducer'
 import Navigation from './../Navigation'
 import extractScenes from './../../utils/extractScenes'
-import type { NavigationScenes, NavigationRoute, NavigationState } from './../../types'
+import type { NavigationScene, NavigationState, NavigationAction, NavigationContext } from './../../types'
 
 type Props = {
-  children: Array<React$Element<any>>,
+  children: Array<React$Element<NavigationScene>>
 }
+
+type State = NavigationState
 
 class Router extends Component {
 
   props: Props
-  state: NavigationState & {
-    scenes: Array<NavigationRoute>,
-  }
+  state: State
 
 
-  // Initilize router at index 0 with
-  // first scene pass as props
+  // Initilize navigation state at
+  // index 0 with first scene pass
+  // as props
   componentWillMount() {
     const routes = extractScenes(this.props.children)
     const action = { type: INIT, routes }
-    const state = navigationState({}, action)
+    const state = navigationState({
+      index: 0,
+      path: '0',
+      routes: Array,
+    }, action)
     this.state = state
   }
 
 
   // Indicates a new item was added to
-  // the history
-  push = (location: string): void => {
+  // the historyééé
+  push = (key: string): void => {
     const currentRoute = this.state.routes[this.state.index]
     const siblingRoutes = extractScenes(this.props.children)
     const childrenRoutes = currentRoute.children
       ? extractScenes(currentRoute.children)
       : []
     const route = [...siblingRoutes, ...childrenRoutes]
-      .find((scene) => scene.key == location)
+      .find((scene) => scene.key === key)
     this.dispatch({ type: PUSH, route })
   }
 
 
   // Indicates there is a new current item,
   // i.e. the "current pointer" changed
-  pop = (): void => {
+  pop = () => {
     this.dispatch({ type: POP })
+  }
+
+
+  // Indicates there is a new targeted
+  // tab added to the history
+  changeTab = (index: number) => {
+    this.dispatch({ type: CHANGE_TAB, index })
   }
 
 
   // Dispatch an action and update
   // local state
-  dispatch = (action: { type: string }): void => {
+  dispatch = (action: NavigationAction) => {
     const state = navigationState(this.state, action)
     this.setState(state)
   }
@@ -60,13 +73,13 @@ class Router extends Component {
   // Provid push and pop action to
   // components tree via react context
   static childContextTypes = { router: PropTypes.object.isRequired }
-  getChildContext() {
-     return {
-       router: {
-         push: this.push,
-         pop: this.pop,
-       },
-     }
+  getChildContext(): NavigationContext {
+    return {
+      router: {
+        push: this.push,
+        pop: this.pop,
+      },
+    }
   }
 
 
@@ -79,6 +92,7 @@ class Router extends Component {
         navigationState={this.state}
         push={this.push}
         pop={this.pop}
+        changeTab={this.changeTab}
       />
     )
   }
