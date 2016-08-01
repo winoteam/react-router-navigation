@@ -1,0 +1,29 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "ecmaFeatures": {
+    "jsx": true,
+    "modules": true
+  },
+  "plugins": [
+    "babel",
+    "react"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "React$Element": true
+  },
+  "rules": {
+    "semi": [2, "never"],
+    "no-floating-decimal": 0,
+    "jsx-boolean-value": 0,
+    "import/no-unresolved": 0,
+    "react/sort-comp": 0,
+    "arrow-body-style": 0,
+    radix: ["error", "as-needed"]
+  }
+}
