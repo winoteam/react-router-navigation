@@ -1,36 +1,65 @@
 /* @flow */
 
+import { Animated } from 'react-native'
+
 export type NavigationRoute = {
   key: string,
-  title?: string,
-  component: React$Element<any>,
+  component: () => React$Element<any> & {
+    title?: string,
+  },
+  tabs?: boolean,
+  children?: any,
+  routes?: Array<NavigationRoute>,
 }
 
+export type NavigationTabs = Array<NavigationRoute>
+
 export type NavigationScene = {
-  index: number,
-  isActive: boolean,
-  isStale: boolean,
-  key: string,
-  route: NavigationRoute,
-};
+  component: () => React$Element<any>,
+}
 
 export type NavigationState = {
-  index: string,
+  index: number,
+  path: string,
   routes: Array<NavigationRoute>,
 }
 
-export type NavigatationAction = ({
+export type NavigationAction = {
   type: string,
-}) => void
+} & any
 
-export type NavigationRouter = {
-  push: (location: string) => void,
-  pop: () => void,
+export type NavigationSceneProps = {}
+
+export type NavigationContext = {
+  router: {
+    push: (key: string) => void,
+    pop: () => void,
+  },
+}
+
+export type NavigationAnimatedValue = Animated.Value
+
+export type NavigationLayout = {
+  height: NavigationAnimatedValue,
+  initHeight: number,
+  initWidth: number,
+  isMeasured: boolean,
+  width: NavigationAnimatedValue,
 }
 
 export type NavigationTransitionProps = {
+  layout: NavigationLayout,
   navigationState: NavigationState,
-  scene: NavigationScene,
+  position: NavigationAnimatedValue,
+  progress: NavigationAnimatedValue,
+  scenes: Array<NavigationScene>,
+  scene: {
+    component: () => React$Element<any>,
+    index: number,
+    isActive: boolean,
+    isStale: boolean,
+    key: string,
+    route: NavigationRoute,
+  },
+  gestureResponseDistance?: ?number,
 }
-
-export type NavigationScenes = Array<NavigationRoute>
