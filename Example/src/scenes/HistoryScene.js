@@ -1,21 +1,26 @@
-import React from 'react'
-import { StyleSheet, Platform, View, Text } from 'react-native'
+import React, { Component } from 'react'
+import { View } from 'react-native'
 import { withRouter } from 'react-native-router-navigation'
 import Row from '@components/Row'
 
-const HistoryScene = (props) => {
-  const { router } = props
-  return (
-    <View style={styles.container}>
-      <Row onPress={router.pop}>Pop =)</Row>
-    </View>
-  )
-}
+class HistoryScene extends Component {
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 20,
-  },
-})
+  static title: string = "History"
+  static navBarStyle: Object = { backgroundColor: '#8A0262' }
+  static titleStyle: Object = { color: 'white' }
+  static statusBarStyle: string = 'light-content'
+
+  render() {
+    const { router } = this.props
+    return (
+      <View>
+        <Row onPress={router.pop}>
+          Pop
+        </Row>
+      </View>
+    )
+  }
+
+}
 
 export default withRouter(HistoryScene)
