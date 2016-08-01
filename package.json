@@ -14,6 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/LeoLeBras/react-native-router-navigation.git"
   },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha 'src/**/__tests__/*.spec.js' --compilers js:babel-core/register"
+  },
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
   "license": "MIT",
   "bugs": {
@@ -25,6 +28,23 @@
     "react-native": "*"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^1.2.0"
+    "hoist-non-react-statics": "^1.2.0",
+    "react-static-container": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "eslint": "^2.9.0",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-import": "^1.11.1",
+    "eslint-plugin-jsx-a11y": "^1.2.0",
+    "eslint-plugin-react": "^5.2.2",
+    "expect": "^1.20.2",
+    "lodash": "^4.14.1",
+    "mocha": "^3.0.0"
   }
 }
