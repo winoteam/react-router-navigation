@@ -4,7 +4,7 @@
 import React, { Component, PropTypes } from 'react'
 import navigationState, { INIT, PUSH, POP, CHANGE_TAB } from './../../reducer'
 import Navigation from './../Navigation'
-import extractScenes from './../../utils/extractScenes'
+import { extractScenes, getSiblingScenes} from './../../helpers/utils'
 import type { NavigationScene, NavigationState, NavigationAction, NavigationContext } from './../../types'
 
 type Props = {
@@ -23,26 +23,23 @@ class Router extends Component {
   // index 0 with first scene pass
   // as props
   componentWillMount() {
-    const routes = extractScenes(this.props.children)
+    const { children } = this.props
+    const routes = extractScenes(children)
     const action = { type: INIT, routes }
     const state = navigationState({
       index: 0,
       path: '0',
-      routes: Array,
+      children,
+      routes: [],
     }, action)
     this.state = state
   }
 
 
   // Indicates a new item was added to
-  // the historyééé
+  // the history
   push = (key: string): void => {
-    const currentRoute = this.state.routes[this.state.index]
-    const siblingRoutes = extractScenes(this.props.children)
-    const childrenRoutes = currentRoute.children
-      ? extractScenes(currentRoute.children)
-      : []
-    const route = [...siblingRoutes, ...childrenRoutes]
+    const route = getSiblingScenes(this.state)
       .find((scene) => scene.key === key)
     this.dispatch({ type: PUSH, route })
   }
@@ -78,6 +75,7 @@ class Router extends Component {
       router: {
         push: this.push,
         pop: this.pop,
+        state: this.state,
       },
     }
   }

@@ -1,19 +1,16 @@
 /* @flow */
 /* eslint max-len: 0 */
 
-import React, { Component, createElement } from 'react'
-import { TabBarIOS } from 'react-native'
+import React, { PropTypes, Component, createElement } from 'react'
+import { View, TabBarIOS } from 'react-native'
 import StaticContainer from 'react-static-container'
+import CardStack from './../CardStack'
 import type { NavigationTabs, NavigationRoute, NavigationState, NavigationTransitionProps } from './../../types'
 
 type Props = {
   children: NavigationTabs,
+  renderTabsContainer: () => React$Element<any>,
   onChange: (index: number) => void,
-  renderContainer: () => React$Element<any>,
-  renderScene: (sceneProps: NavigationTransitionProps) => React$Element<any>,
-  renderOverlay: (sceneProps: NavigationTransitionProps) => React$Element<any>,
-  pop: () => void,
-  navigationState: NavigationState,
 }
 
 type State = {
@@ -39,34 +36,18 @@ class TabView extends Component {
   }
 
 
-  // Callback which receives the current
-  // scene and returns a React Element.
-  renderScene = (child: NavigationRoute): React$Element<any> => {
-    return (
-      <StaticContainer>
-        {createElement(
-          this.props.renderContainer,
-          {},
-          createElement(child.component, {})
-        )}
-      </StaticContainer>
-    )
-  }
-
-
   render() {
-    const { children } = this.props
+    const { children, renderTabsContainer } = this.props
     const { selectedIndex } = this.state
-    return (
+    return createElement(renderTabsContainer, {},
       <TabBarIOS>
         {children.map((child, index) => (
           <TabBarIOS.Item
             key={index}
-            title={child.title}
-            systemIcon="history"
+            title={child.key}
             selected={selectedIndex === index}
             onPress={() => this.onChangeTab(index)}
-            children={this.renderScene(child)}
+            children={createElement(() => this.props.renderTab(index))}
           />
         ))}
       </TabBarIOS>

@@ -20,11 +20,14 @@ class NavBar extends Component {
 
   renderTitleComponent = (): React$Element<any> => {
     const { component } = this.props.scene.route
-    return (
-      <NavigationHeader.Title textStyle={component.titleStyle}>
+    if (component.title) {
+      return (
+        <NavigationHeader.Title textStyle={component.titleStyle}>
         {component.title}
-      </NavigationHeader.Title>
-    )
+        </NavigationHeader.Title>
+      )
+    }
+    return null
   }
 
   renderBackButton = (): React$Element<any> => {

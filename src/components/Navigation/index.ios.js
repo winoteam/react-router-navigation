@@ -5,7 +5,7 @@ import { StatusBar, View } from 'react-native'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
 import TabView from './../TabView'
-import styles from './styles'
+import { getCurrentRoute } from './../../helpers/utils'
 import type { NavigationState, NavigationTransitionProps } from './../../types'
 
 type Props = {
@@ -19,6 +19,9 @@ class Navigation extends Component {
   props: Props
 
   renderNavBar = (sceneProps: NavigationTransitionProps): React$Element<any> => {
+    if (sceneProps.scene.route.tabs) {
+      return null
+    }
     return (
       <NavBar
         pop={this.props.pop}
@@ -35,30 +38,40 @@ class Navigation extends Component {
   }
 
   renderTabs = (sceneProps: NavigationTransitionProps): React$Element<any> => {
-    const { component, children } = sceneProps.scene.route
+    const { component, routes } = sceneProps.scene.route
     return (
       <TabView
-        renderContainer={component}
+        renderTab={(index) => this.renderTab(index, sceneProps)}
+        renderTabsContainer={component}
+        onChange={this.props.changeTab}
+        children={routes}
+        {...sceneProps}
+      />
+    )
+  }
+
+  renderTab = (index: number, sceneProps: NavigationTransitionProps): React$Element<any> => {
+    const navigationState = sceneProps.scene.route.routes[index]
+    return (
+      <CardStack
+        navigationState={navigationState}
+        pop={this.props.pop}s
         renderScene={this.renderScene}
         renderOverlay={this.renderNavBar}
-        onChange={this.props.changeTab}
-        navigationState={this.props.navigationState}
-        pop={this.props.pop}
-        children={children}
       />
     )
   }
 
   getStatusBarStyle() {
-    // const route = getCurrentRoute(this.props.navigationState)
-    // return route.component && route.component.statusBarStyle || 'default'
-    return 'default'
+    const route = getCurrentRoute(this.props.navigationState)
+    if (!route) return 'default'
+    return route && route.component && route.component.statusBarStyle || 'default'
   }
 
   render() {
     const { navigationState } = this.props
     return (
-      <View style={styles.container}>
+      <View style={{ flex: 1 }}>
         <StatusBar
           barStyle={this.getStatusBarStyle()}
         />

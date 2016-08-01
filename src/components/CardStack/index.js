@@ -1,8 +1,8 @@
 /* @flow */
 
-import React, { Component } from 'react'
+import React, { Component, createElement } from 'react'
 import { Platform, NavigationExperimental, View } from 'react-native'
-import StyleInterpolator from './../../utils/StyleInterpolator'
+import StyleInterpolator from './../../helpers/StyleInterpolator'
 import type { NavigationState, NavigationTransitionProps } from './../../types'
 
 const {
@@ -27,21 +27,18 @@ class CardStack extends Component {
 
   renderScenes = (props: any): React$Element<any> => {
     const { renderOverlay } = this.props
-    const overlay = renderOverlay && <renderOverlay {...props} />
-
     const scenes = props.scenes.map((scene) => (
       this.renderScene({
         ...props,
         scene,
       })
     ))
-
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           {scenes}
         </View>
-        {overlay}
+        {createElement(renderOverlay, props)}
       </View>
     )
   }
