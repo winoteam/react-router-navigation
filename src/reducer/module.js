@@ -1,16 +1,15 @@
 /* @flow */
 
-import { INIT, POP, PUSH } from './actionTypes'
+import { INIT, PUSH, POP, CHANGE_TAB } from './actionTypes'
 import extractScenes from './../utils/extractScenes'
-import type { NavigatationAction, NavigationState } from './../../types'
+import type { NavigationAction, NavigationState } from './../types'
 
-export default function(state: NavigationState, action: NavigatationAction): NavigationState {
+export default function (state: NavigationState, action: NavigationAction): NavigationState {
   switch (action.type) {
 
     case INIT: {
       return {
-        index: 0,
-        path: '0',
+        ...state,
         routes: [action.routes[0]],
       }
     }
@@ -19,11 +18,12 @@ export default function(state: NavigationState, action: NavigatationAction): Nav
       const { route } = action
 
       // Update path
-      const path = `${state.path.slice(0, -1)}${state.path.slice(-1) + 1}`
+      let path = `${state.path.slice(0, -1)}${parseInt(state.path.slice(-1)) + 1}`
       const index = parseInt(path.slice(-1))
 
       // Set children
       if (route.tabs) {
+        path += '.0'
         route.index = 0
         route.children = extractScenes(route.children)
       }
@@ -35,65 +35,24 @@ export default function(state: NavigationState, action: NavigatationAction): Nav
         routes: [
           ...state.routes,
           route,
-        ]
+        ],
       }
-
     }
 
     case POP: {
       const index = state.index - 1
-      const path = `${state.path.slice(0, -1)}${state.path.slice(-1) - 1}`
+      const path = `${state.path.slice(0, -1)}${parseInt(state.path.slice(-1)) - 1}`
       const routes = state.routes.slice(0, -1)
-      return { ...state, index, path, routes }
+      return { ...state, path, index, routes }
+    }
+
+    case CHANGE_TAB: {
+      return state
+    }
+
+    default: {
+      return state
     }
 
   }
 }
-
-`
-  {
-    index: 0,
-    path: '0',
-    routes: [{
-      key: 'launch',
-    }],
-  }
-
-  {
-    index: 1,
-    path: '1.0',
-    routes: [{
-      key: 'launch',
-    }, {
-      key: 'app',
-      index: 0,
-      routes: [{
-        key: 'feed',
-      }, {
-        key: 'search',
-      }]
-    }]
-  }
-
-  {
-    index: 1,
-    path: '1.0.0',
-    routes: [{
-      key: 'launch',
-    }, {
-      key: 'app',
-      index: 0,
-      routes: [{
-        key: 'feed',
-        index: 0,
-        routes: [{
-          key: 'article',
-        }],
-      }, {
-        key: 'search',
-      }]
-    }]
-  }
-
-
-`
