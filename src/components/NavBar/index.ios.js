@@ -3,22 +3,21 @@
 import React, { Component } from 'react'
 import { NavigationExperimental } from 'react-native'
 import BackButton from './../BackButton'
-import type { NavigationScene } from './../../types'
+import type { NavigationTransitionProps } from './../../types'
 
 const {
   Header: NavigationHeader,
 } = NavigationExperimental
 
-type Props = {
+type Props = NavigationTransitionProps & {
   pop: () => void,
-  scene: NavigationScene,
 }
 
 class NavBar extends Component {
 
   props: Props
 
-  renderTitleComponent = (): React$Element<any> => {
+  renderTitleComponent = (): React$Element<any> | null => {
     const { component } = this.props.scene.route
     if (component.title) {
       return (
@@ -30,8 +29,8 @@ class NavBar extends Component {
     return null
   }
 
-  renderBackButton = (): React$Element<any> => {
-    const { index, route } = this.props.scene
+  renderBackButton = (): React$Element<any> | null => {
+    const { route } = this.props.scene
     const { hideBackButton } = route.component
     if (this.props.scene.index === 0 || !this.props.pop || hideBackButton) {
       return null

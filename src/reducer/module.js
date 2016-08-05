@@ -16,7 +16,7 @@ export default function (state: NavigationState, action: NavigationAction): Navi
     }
 
     case PUSH: {
-      const newState = {...state}
+      const newState = { ...state }
       const route = action.route
 
       // Update path
@@ -79,7 +79,7 @@ export default function (state: NavigationState, action: NavigationAction): Navi
         : 'index'
       _.update(newState, pathToNewIndex, () =>  parseInt(newPath.slice(-1)))
       _.update(newState, 'path', () => newPath)
-      _.update(newState, state.path)
+      _.omit(newState, state.path)
       return newState
     }
 

@@ -3,9 +3,10 @@
 
 import React from 'react'
 import { Image, TouchableOpacity } from 'react-native'
+import type { NavigationTransitionProps } from './../../types'
 import styles from './styles'
 
-type Props = {
+type Props = NavigationTransitionProps & {
   onPress: Function,
 }
 

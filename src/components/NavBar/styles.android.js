@@ -13,12 +13,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
     elevation: 4,
   },
-  back: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: NAVBAR_HEIGHT,
-    height: NAVBAR_HEIGHT,
-  },
 })
 
 export default styles

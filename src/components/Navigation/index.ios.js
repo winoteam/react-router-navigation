@@ -1,7 +1,9 @@
 /* @flow */
+/* eslint-disable react/jsx-indent */
 
 import React, { Component, createElement } from 'react'
 import { StatusBar, View } from 'react-native'
+import StaticContainer from 'react-static-container'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
 import TabView from './../TabView'
@@ -18,7 +20,7 @@ class Navigation extends Component {
 
   props: Props
 
-  renderNavBar = (sceneProps: NavigationTransitionProps): React$Element<any> => {
+  renderNavBar = (sceneProps: NavigationTransitionProps): React$Element<any> | null => {
     if (sceneProps.scene.route.tabs) {
       return null
     }
@@ -33,8 +35,14 @@ class Navigation extends Component {
   renderScene = (sceneProps: NavigationTransitionProps): React$Element<any> => {
     const { component, tabs } = sceneProps.scene.route
     return tabs
-      ? this.renderTabs(sceneProps)
-      : createElement(component)
+      ? <StaticContainer>
+          <TabView />
+        </StaticContainer>
+      : createElement(
+          StaticContainer,
+          {},
+          createElement(component, {})
+        )
   }
 
   renderTabs = (sceneProps: NavigationTransitionProps): React$Element<any> => {

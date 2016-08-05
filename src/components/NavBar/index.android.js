@@ -1,42 +1,27 @@
 /* @flow */
 
-import React, { Component } from 'react'
-import { TouchableNativeFeedback, View, Image } from 'react-native'
-import type { NavigationAction, NavigateState } from '@helpers/router/types'
+import React from 'react'
+import { View } from 'react-native'
+import type { NavigationTransitionProps, NavigateState } from '@helpers/router/types'
+import BackButton from './../BackButton'
 import styles from './styles'
 
-type Props = {
-  onNavigate: NavigationAction,
+type Props = NavigationTransitionProps & {
+  pop: () => void,
   navigationState: NavigateState,
 }
 
-class NavBar extends Component {
-
-  props: Props
-
-  onBack = (): void => {
-    this.props.pop()
-  }
-
-  render() {
-    const { index } = this.props.scene
-    return (
-      <View style={styles.container}>
-        {index > 0 &&
-          <TouchableNativeFeedback
-            onPress={() => this.onBack()}
-            background={TouchableNativeFeedback.Ripple('white', true)}>
-            <View style={styles.back}>
-              <Image
-                source={require('./img/back-android.png')}
-              />
-            </View>
-          </TouchableNativeFeedback>
-        }
-      </View>
-    )
-  }
-
+const NavBar = (props: Props): React$Element<any> => {
+  const { index } = props.scene
+  return (
+    <View style={styles.container}>
+      {index > 0 &&
+        <BackButton
+          onPress={props.pop}
+        />
+      }
+    </View>
+  )
 }
 
 export default NavBar

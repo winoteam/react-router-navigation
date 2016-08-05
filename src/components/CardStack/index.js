@@ -17,7 +17,7 @@ const {
 type Props = {
   navigationState: NavigationState,
   renderScene: (sceneProps: NavigationTransitionProps) => React$Element<any>,
-  renderOverlay: (sceneProps: NavigationTransitionProps) => React$Element<any>,
+  renderOverlay?: (sceneProps: NavigationTransitionProps) => React$Element<any>,
   pop: () => void,
 }
 
@@ -38,7 +38,7 @@ class CardStack extends Component {
         <View style={{ flex: 1 }}>
           {scenes}
         </View>
-        {createElement(renderOverlay, props)}
+        {renderOverlay && createElement(renderOverlay, props)}
       </View>
     )
   }
@@ -52,10 +52,9 @@ class CardStack extends Component {
       ...props,
       onNavigateBack: this.props.pop,
     }
-    const panHandlers = Platform.OS === 'android' ?
-      CardStackPanResponder.forVertical(panHandlersProps) :
-      CardStackPanResponder.forHorizontal(panHandlersProps)
-
+    const panHandlers = Platform.OS === 'android'
+      ? CardStackPanResponder.forVertical(panHandlersProps)
+      : CardStackPanResponder.forHorizontal(panHandlersProps)
     return (
       <NavigationCard
         {...props}

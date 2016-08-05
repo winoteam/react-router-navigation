@@ -25,9 +25,11 @@ const TabBar = (props: Props) => {
           </View>
         </TouchableNativeFeedback>
       ))}
-      <View style={[styles.indicator, {
-        width: Dimensions / tabs.length,
-      }]} />
+      <View
+        style={[styles.indicator, {
+          width: Dimensions / tabs.length,
+        }]}
+      />
     </View>
   )
 }

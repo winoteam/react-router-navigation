@@ -4,7 +4,7 @@
 import React, { Component, PropTypes } from 'react'
 import navigationState, { INIT, PUSH, POP, CHANGE_TAB } from './../../reducer'
 import Navigation from './../Navigation'
-import { extractScenes, getSiblingScenes} from './../../helpers/utils'
+import { extractScenes, getSiblingScenes } from './../../helpers/utils'
 import type { NavigationScene, NavigationState, NavigationAction, NavigationContext } from './../../types'
 
 type Props = {
@@ -27,8 +27,7 @@ class Router extends Component {
     const routes = extractScenes(children)
     const action = { type: INIT, routes }
     const state = navigationState({
-      index: 0,
-      path: '0',
+      index: 0, path: '0',
       children,
       routes: [],
     }, action)
@@ -69,14 +68,17 @@ class Router extends Component {
 
   // Provid push and pop action to
   // components tree via react context
-  static childContextTypes = { router: PropTypes.object.isRequired }
+  static childContextTypes = {
+    router: PropTypes.object.isRequired,
+    navigationState: PropTypes.object.isRequired,
+  }
   getChildContext(): NavigationContext {
     return {
       router: {
         push: this.push,
         pop: this.pop,
-        state: this.state,
       },
+      navigationState: this.state,
     }
   }
 

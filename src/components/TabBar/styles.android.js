@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     height: 10,
     top: 0,
     left: 0,
-  }
+  },
 })
 
 export default styles
