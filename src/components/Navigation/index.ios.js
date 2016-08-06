@@ -3,10 +3,8 @@
 
 import React, { Component, createElement } from 'react'
 import { StatusBar, View } from 'react-native'
-import StaticContainer from 'react-static-container'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
-import TabView from './../TabView'
 import { getCurrentRoute } from './../../helpers/utils'
 import type { NavigationState, NavigationTransitionProps } from './../../types'
 
@@ -21,53 +19,20 @@ class Navigation extends Component {
   props: Props
 
   renderNavBar = (sceneProps: NavigationTransitionProps): React$Element<any> | null => {
-    if (sceneProps.scene.route.tabs) {
-      return null
+    if (!sceneProps.scene.route.tabs) {
+      return (
+        <NavBar
+          pop={this.props.pop}
+          {...sceneProps}
+        />
+      )
     }
-    return (
-      <NavBar
-        pop={this.props.pop}
-        {...sceneProps}
-      />
-    )
+    return null
   }
 
   renderScene = (sceneProps: NavigationTransitionProps): React$Element<any> => {
-    const { component, tabs } = sceneProps.scene.route
-    return tabs
-      ? <StaticContainer>
-          <TabView />
-        </StaticContainer>
-      : createElement(
-          StaticContainer,
-          {},
-          createElement(component, {})
-        )
-  }
-
-  renderTabs = (sceneProps: NavigationTransitionProps): React$Element<any> => {
-    const { component, routes } = sceneProps.scene.route
-    return (
-      <TabView
-        renderTab={(index) => this.renderTab(index, sceneProps)}
-        renderTabsContainer={component}
-        onChange={this.props.changeTab}
-        children={routes}
-        {...sceneProps}
-      />
-    )
-  }
-
-  renderTab = (index: number, sceneProps: NavigationTransitionProps): React$Element<any> => {
-    const navigationState = sceneProps.scene.route.routes[index]
-    return (
-      <CardStack
-        navigationState={navigationState}
-        pop={this.props.pop}s
-        renderScene={this.renderScene}
-        renderOverlay={this.renderNavBar}
-      />
-    )
+    const { component } = sceneProps.scene.route
+    return createElement(component, {})
   }
 
   getStatusBarStyle() {

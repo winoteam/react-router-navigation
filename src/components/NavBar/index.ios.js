@@ -22,22 +22,22 @@ class NavBar extends Component {
     if (component.title) {
       return (
         <NavigationHeader.Title textStyle={component.titleStyle}>
-        {component.title}
+          {component.title}
         </NavigationHeader.Title>
       )
     }
     return null
   }
 
-  renderBackButton = (): React$Element<any> | null => {
-    const { route } = this.props.scene
+  renderBackButton = (props: NavigationTransitionProps): React$Element<any> | null => {
+    const { route } = props.scene
     const { hideBackButton } = route.component
-    if (this.props.scene.index === 0 || !this.props.pop || hideBackButton) {
+    if (props.scene.index === 0 || !this.props.pop || hideBackButton) {
       return null
     }
     return (
       <BackButton
-        {...this.props}
+        {...props}
         onPress={this.props.pop}
       />
     )

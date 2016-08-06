@@ -1,24 +1,30 @@
 /* @flow */
 
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import type { NavigationTransitionProps, NavigateState } from '@helpers/router/types'
 import BackButton from './../BackButton'
 import styles from './styles'
 
 type Props = NavigationTransitionProps & {
   pop: () => void,
-  navigationState: NavigateState,
 }
 
 const NavBar = (props: Props): React$Element<any> => {
-  const { index } = props.scene
+  const { index, route } = props.scene
+  const { component } = route
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, component.navBarStyle]}>
       {index > 0 &&
         <BackButton
+          {...props}
           onPress={props.pop}
         />
+      }
+      {component.title &&
+        <Text style={[styles.title, component.titleStyle]}>
+          {component.title}
+        </Text>
       }
     </View>
   )

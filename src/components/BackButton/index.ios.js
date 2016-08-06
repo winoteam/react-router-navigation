@@ -11,10 +11,10 @@ type Props = NavigationTransitionProps & {
 }
 
 const BackButton = (props: Props) => {
-  const { onPress } = props
-  const { route } = props.scene
-  const backButtonStyle = route.component && (
-    route.component.backButtonStyle || 'default'
+  const { onPress, scene } = props
+  const { component } = scene.route
+  const backButtonStyle = component && (
+    component.backButtonStyle || 'default'
   )
   const backButtonIcons = {
     default: require('./img/back-default.png'),

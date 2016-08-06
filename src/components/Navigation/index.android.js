@@ -2,10 +2,8 @@
 
 import React, { Component, createElement } from 'react'
 import { BackAndroid, StatusBar, View } from 'react-native'
-import StaticContainer from 'react-static-container'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
-import TabView from './../TabView'
 import { getCurrentRoute } from './../../helpers/utils'
 import type { NavigationState, NavigationTransitionProps } from './../../types'
 
@@ -43,10 +41,13 @@ class Navigation extends Component {
     )
   }
 
-  getStatusBarStyle() {
-    const route = getCurrentRoute(this.props.navigationState)
-    if (!route) return 'default'
-    return route && route.component && route.component.statusBarStyle || 'default'
+  componentWillReceiveProps(nextProps) {
+    const route = getCurrentRoute(nextProps.navigationState)
+    if (!route) return '#e0e0e0'
+    const backButtonIcon = route && route.component && route.component.statusBarStyle || '#e0e0e0'
+    setTimeout(() => {
+      StatusBar.setBackgroundColor(backButtonIcon)
+    }, 200)
   }
 
   render() {
@@ -54,7 +55,7 @@ class Navigation extends Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
-          barStyle={this.getStatusBarStyle()}
+          backgroundColor="#e0e0e0"
         />
         <CardStack
           navigationState={navigationState}
@@ -68,85 +69,3 @@ class Navigation extends Component {
 }
 
 export default Navigation
-
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// /* @flow */
-//
-// import React, { Component, createElement } from 'react'
-// import { BackAndroid, View } from 'react-native'
-// import NavBar from './../NavBar'
-// import CardStack from './../CardStack'
-// import TabView from './../TabView'
-// import type { NavigationState, NavigationSceneRendererProps } from './types'
-//
-// type Props = {
-//   navigationState: NavigationState,
-//   pop: () => void,
-// }
-//
-// class Navigation extends Component {
-//
-//   props: Props
-//
-//   componentDidMount() {
-//     BackAndroid.addEventListener('hardwareBackPress', () => {
-//       this.props.pop()
-//       return true
-//     })
-//   }
-//
-//   componentWillUnmount() {
-//     BackAndroid.removeEventListener('hardwareBackPress')
-//   }
-//
-//   renderScene = (sceneProps: NavigationSceneRendererProps): React$Element<any> => {
-//     const { component, tabs } = sceneProps.scene.route
-//     return tabs
-//       ? this.renderTabs(sceneProps)
-//       : <View style={{ flex: 1 }}>
-//           <NavBar
-//             pop={this.props.pop}
-//             {...sceneProps}
-//           />
-//           {createElement(component)}
-//         </View>
-//   }
-//
-//   renderTabs = (sceneProps: NavigationSceneRendererProps): React$Element<any> => {
-//     const { children } = sceneProps.scene.route
-//     return (
-//       <TabView>
-//         {children}
-//       </TabView>
-//     )
-//   }
-//
-//   render() {
-//     const { navigationState, pop } = this.props
-//     return (
-//       <CardStack
-//         navigationState={navigationState}
-//         pop={pop}
-//         renderScene={this.renderScene}
-//       />
-//     )
-//   }
-//
-// }
-//
-// export default Navigation
