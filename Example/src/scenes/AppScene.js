@@ -1,16 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { View, StyleSheet } from 'react-native'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+})
 
 class AppScene extends Component {
 
-  static title: string = 'Yolo'
-  static navBarStyle: Object = {
+  static propTypes = {
+    children: PropTypes.element.isRequired,
+  }
+
+  static title = 'Yolo'
+  static navBarStyle = {
     backgroundColor: '#e91d56',
     borderBottomWidth: 0,
   }
-  static titleStyle: Object = { color: 'white' }
-  static hideBackButton: string = true
-  static statusBarStyle: string = 'light-content'
+  static titleStyle = { color: 'white' }
+  static hideBackButton = true
+  static statusBarStyle = 'light-content'
 
   render() {
     const { children } = this.props
@@ -22,12 +32,5 @@ class AppScene extends Component {
   }
 
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-})
 
 export default AppScene

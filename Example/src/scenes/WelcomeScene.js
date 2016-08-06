@@ -1,18 +1,31 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import { View, StyleSheet, Platform } from 'react-native'
 import { withRouter } from 'react-native-router-navigation'
 import Row from '@components/Row'
 
+const styles = StyleSheet.create({
+  container: {
+    marginTop: Platform.OS === 'ios' ? 64 : 56,
+  },
+})
+
 class WelcomeScene extends Component {
 
-  static title: string = 'Welcome'
-  static navBarStyle: Object = {
+  static propTypes = {
+    router: PropTypes.shape({
+      pop: PropTypes.func,
+      push: PropTypes.func,
+    }),
+  }
+
+  static title = 'Welcome'
+  static navBarStyle = {
     backgroundColor: '#e91d56',
     borderBottomWidth: 0,
   }
-  static titleStyle: Object = { color: 'white' }
-  static backButtonStyle: string = 'light'
-  static statusBarStyle: string = 'light-content'
+  static titleStyle = { color: 'white' }
+  static backButtonStyle = 'light'
+  static statusBarStyle = Platform.OS === 'ios' ? 'light-content' : '#d11348'
 
   render() {
     const { router } = this.props
@@ -29,11 +42,5 @@ class WelcomeScene extends Component {
   }
 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: Platform.OS == 'ios' ? 64 : 56,
-  },
-})
 
 export default withRouter(WelcomeScene)

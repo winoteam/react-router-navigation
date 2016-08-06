@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { View, TouchableWithoutFeedback, Text } from 'react-native'
 import styles from './styles'
 
@@ -13,6 +13,10 @@ const Row = (props) => {
       </View>
     </TouchableWithoutFeedback>
   )
+}
+
+Row.propTypes = {
+  onPress: PropTypes.func.isRequired,
 }
 
 export default Row

@@ -1,14 +1,20 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import { View } from 'react-native'
 import { withRouter } from 'react-native-router-navigation'
 import Row from '@components/Row'
 
 class HistoryScene extends Component {
 
-  static title: string = "History"
-  static navBarStyle: Object = { backgroundColor: '#8A0262' }
-  static titleStyle: Object = { color: 'white' }
-  static statusBarStyle: string = 'light-content'
+  static propTypes = {
+    router: PropTypes.shape({
+      pop: PropTypes.func,
+    }),
+  }
+
+  static title = 'History'
+  static navBarStyle = { backgroundColor: '#8A0262' }
+  static titleStyle = { color: 'white' }
+  static statusBarStyle = 'light-content'
 
   render() {
     const { router } = this.props

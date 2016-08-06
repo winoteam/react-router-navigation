@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable react/jsx-boolean-value */
 
 import React from 'react'
 import Router, { IndexScene, Scene } from 'react-native-router-navigation'
