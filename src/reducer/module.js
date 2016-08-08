@@ -2,7 +2,7 @@
 
 import _ from 'lodash'
 import { INIT, PUSH, POP, CHANGE_TAB } from './actionTypes'
-import { extractScenes } from './../helpers/utils'
+import { extractScenes, normalizePath, findPathOfClosestTabs } from './../helpers/utils'
 import type { NavigationAction, NavigationState } from './../types'
 
 export default function (state: NavigationState, action: NavigationAction): NavigationState {
@@ -65,8 +65,12 @@ export default function (state: NavigationState, action: NavigationAction): Navi
       return newState
     }
 
+
+    // Pop to previous route by updating
+    // local index + routes and also
+    // global state path
     case POP: {
-      const newState = {...state}
+      const newState = _.cloneDeep(state)
       const newPath = `${state.path.slice(0, -1)}${parseInt(state.path.slice(-1)) - 1}`
       const pathToNewIndex = newPath.length > 1
         ? newPath
@@ -79,13 +83,25 @@ export default function (state: NavigationState, action: NavigationAction): Navi
         : 'index'
       _.update(newState, pathToNewIndex, () =>  parseInt(newPath.slice(-1)))
       _.update(newState, 'path', () => newPath)
-      _.omit(newState, state.path)
+      _.update(newState, normalizePath(state.path).slice(0, -3), (routes) => routes.slice(0, -1))
       return newState
     }
 
+
+    // Just update global state path and
+    // local index
     case CHANGE_TAB: {
-      return state
+      const { index } = action
+      const newState = _.cloneDeep(state)
+      const pathOfClosestTabs = findPathOfClosestTabs(state)
+      _.update(newState, `${normalizePath(pathOfClosestTabs)}.index`, () => index)
+      _.update(newState, `path`, (path) => {
+        const offset = pathOfClosestTabs.length * 2
+        return `${path.slice(0, offset)}${index}${path.slice(offset + 1)}`
+      })
+      return newState
     }
+
 
     default: {
       return state

@@ -2,11 +2,11 @@
 
 import React from 'react'
 import { View, Text } from 'react-native'
-import type { NavigationTransitionProps, NavigateState } from '@helpers/router/types'
+import type { NavigationSceneProps, NavigateState } from '@helpers/router/types'
 import BackButton from './../BackButton'
 import styles from './styles'
 
-type Props = NavigationTransitionProps & {
+type Props = NavigationSceneProps & {
   pop: () => void,
 }
 

@@ -13,7 +13,7 @@ class FeedScene extends Component {
 
   static propTypes = {
     router: PropTypes.shape({
-      push: PropTypes.func,
+      push: PropTypes.func.isRequired,
     }),
   }
 
@@ -24,6 +24,7 @@ class FeedScene extends Component {
     return (
       <View style={styles.container}>
         <Row onPress={() => router.push('article')}>Push to article</Row>
+        <Row onPress={() => router.push('history')}>Push to historic</Row>
       </View>
     )
   }

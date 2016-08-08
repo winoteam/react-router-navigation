@@ -3,10 +3,10 @@
 
 import React from 'react'
 import { Image, TouchableOpacity } from 'react-native'
-import type { NavigationTransitionProps } from './../../types'
+import type { NavigationSceneProps } from './../../types'
 import styles from './styles'
 
-type Props = NavigationTransitionProps & {
+type Props = NavigationSceneProps & {
   onPress: Function,
 }
 
@@ -23,8 +23,8 @@ const BackButton = (props: Props) => {
   }
   const backButtonIcon = backButtonIcons[backButtonStyle]
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Image style={styles.button} source={backButtonIcon} />
+    <TouchableOpacity style={styles.main} onPress={onPress}>
+      <Image source={backButtonIcon} />
     </TouchableOpacity>
   )
 }

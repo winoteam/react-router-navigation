@@ -5,7 +5,7 @@ import { BackAndroid, StatusBar, View } from 'react-native'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
 import { getCurrentRoute } from './../../helpers/utils'
-import type { NavigationState, NavigationTransitionProps } from './../../types'
+import type { NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
   navigationState: NavigationState,
@@ -28,7 +28,7 @@ class Navigation extends Component {
     BackAndroid.removeEventListener('hardwareBackPress')
   }
 
-  renderScene = (sceneProps: NavigationTransitionProps): React$Element<any> => {
+  renderScene = (sceneProps: NavigationSceneProps): React$Element<any> => {
     const { component } = sceneProps.scene.route
     return (
       <View style={{ flex: 1 }}>

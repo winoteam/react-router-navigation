@@ -13,6 +13,7 @@ const ArticleScene = (props) => {
   const { router } = props
   return (
     <View style={styles.container}>
+      <Row onPress={() => router.push('welcome')}>Go to welcom</Row>
       <Row onPress={router.pop}>Pop to feed</Row>
     </View>
   )
@@ -20,7 +21,8 @@ const ArticleScene = (props) => {
 
 ArticleScene.propTypes = {
   router: PropTypes.shape({
-    pop: PropTypes.func,
+    push: PropTypes.func.isRequired,
+    pop: PropTypes.func.isRequired,
   }),
 }
 

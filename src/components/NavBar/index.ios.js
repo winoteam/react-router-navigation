@@ -3,13 +3,13 @@
 import React, { Component } from 'react'
 import { NavigationExperimental } from 'react-native'
 import BackButton from './../BackButton'
-import type { NavigationTransitionProps } from './../../types'
+import type { NavigationSceneProps } from './../../types'
 
 const {
   Header: NavigationHeader,
 } = NavigationExperimental
 
-type Props = NavigationTransitionProps & {
+type Props = NavigationSceneProps & {
   pop: () => void,
 }
 
@@ -29,7 +29,7 @@ class NavBar extends Component {
     return null
   }
 
-  renderBackButton = (props: NavigationTransitionProps): React$Element<any> | null => {
+  renderBackButton = (props: NavigationSceneProps): React$Element<any> | null => {
     const { route } = props.scene
     const { hideBackButton } = route.component
     if (props.scene.index === 0 || !this.props.pop || hideBackButton) {

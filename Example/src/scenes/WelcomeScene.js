@@ -13,8 +13,8 @@ class WelcomeScene extends Component {
 
   static propTypes = {
     router: PropTypes.shape({
-      pop: PropTypes.func,
-      push: PropTypes.func,
+      pop: PropTypes.func.isRequired,
+      push: PropTypes.func.isRequired,
     }),
   }
 

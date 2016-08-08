@@ -4,10 +4,10 @@
 
 import React from 'react'
 import { TouchableNativeFeedback, View, Image } from 'react-native'
-import type { NavigationTransitionProps } from './../../types'
+import type { NavigationSceneProps } from './../../types'
 import styles from './styles'
 
-type Props = NavigationTransitionProps & {
+type Props = NavigationSceneProps & {
   onPress: () => void,
 }
 

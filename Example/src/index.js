@@ -1,4 +1,3 @@
-/* @flow */
 /* eslint-disable react/jsx-boolean-value */
 
 import React from 'react'
@@ -20,6 +19,7 @@ export default () => (
       <Scene key="feed">
         <IndexScene component={FeedScene} />
         <Scene key="article" component={ArticleScene} />
+        <Scene key="welcome" component={WelcomeScene} />
       </Scene>
       <Scene key="history">
         <IndexScene component={HistoryScene} />

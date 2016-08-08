@@ -13,7 +13,6 @@ class AppScene extends Component {
     children: PropTypes.element.isRequired,
   }
 
-  static title = 'Yolo'
   static navBarStyle = {
     backgroundColor: '#e91d56',
     borderBottomWidth: 0,

@@ -23,6 +23,8 @@
 .*/node_modules/react/lib/React.js
 .*/node_modules/react/lib/ReactDOM.js
 
+.*/node_modules/react-native/Libraries
+
 .*/__mocks__/.*
 .*/__tests__/.*
 
@@ -70,6 +72,7 @@
 .*/example/.*
 
 [include]
+node_modules/react-native/Libraries/react-native/react-native-interface.js
 
 [libs]
 node_modules/react-native/Libraries/react-native/react-native-interface.js

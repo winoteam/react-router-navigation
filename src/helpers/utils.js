@@ -12,23 +12,39 @@ export function extractScenes(
   }))
 }
 
-export function getSiblingScenes(state: NavigationState) {
-  let normalizedPath = state.path.slice(0, -2)
+export function normalizePath(path: string): string {
+  return path
     .split('.')
-    .filter((path) => path)
-    .map((path) => `routes[${path}]`)
+    .filter((_path) => _path)
+    .map((_path) => `routes[${_path}]`)
     .join('.')
-  normalizedPath = normalizedPath
+}
+
+export function getSiblingScenes(state: NavigationState) {
+  const normalizedPath = normalizePath(state.path.slice(0, -2))
+  const path = normalizedPath
     ? `${normalizedPath}.children`
     : 'children'
-  const sceneChildren = _.get(state, normalizedPath)
+  const sceneChildren = _.get(state, path)
   return extractScenes(sceneChildren)
 }
 
 export function getCurrentRoute(state: NavigationState): NavigationRoute {
-  const normalizedPath = state.path
-    .split('.')
-    .map((path) => `routes[${path}]`)
-    .join('.')
+  const normalizedPath = normalizePath(state.path)
   return _.get(state, normalizedPath)
+}
+
+export function findPathOfClosestTabs(state: NavigationState): string {
+  const paths = state.path.split('.')
+  const path = paths
+    .map((_path, index) => paths.slice(0, index + 1).join('.'))
+    .reverse()
+    .map((_path) => ({
+      path: _path,
+      navigationState: _.get(state, normalizePath(_path)),
+    }))
+    .filter(({ navigationState }) => navigationState.tabs)
+    .map(({ path }) => path)
+    .join('')
+  return path
 }

@@ -5,11 +5,13 @@ import React, { Component, createElement } from 'react'
 import { StatusBar, View } from 'react-native'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
+import TabsStack from './../TabsStack'
 import { getCurrentRoute } from './../../helpers/utils'
-import type { NavigationState, NavigationTransitionProps } from './../../types'
+import type { NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
   navigationState: NavigationState,
+  push: (location: string) => void,
   pop: () => void,
   changeTab: (index: number) => void,
 }
@@ -18,11 +20,11 @@ class Navigation extends Component {
 
   props: Props
 
-  renderNavBar = (sceneProps: NavigationTransitionProps): React$Element<any> | null => {
+  renderNavBar = (sceneProps: NavigationSceneProps, pop: () => void): React$Element<any> | null => {
     if (!sceneProps.scene.route.tabs) {
       return (
         <NavBar
-          pop={this.props.pop}
+          pop={pop}
           {...sceneProps}
         />
       )
@@ -30,9 +32,22 @@ class Navigation extends Component {
     return null
   }
 
-  renderScene = (sceneProps: NavigationTransitionProps): React$Element<any> => {
-    const { component } = sceneProps.scene.route
-    return createElement(component, {})
+  renderScene = (sceneProps: NavigationSceneProps): React$Element<any> => {
+    const { component, tabs } = sceneProps.scene.route
+    return tabs
+      ? this.renderTabsStack(sceneProps)
+      : createElement(component, {})
+  }
+
+  renderTabsStack = (sceneProps: NavigationSceneProps): React$Element<any> => {
+    return (
+      <TabsStack
+        renderScene={this.renderScene}
+        renderOverlay={this.renderNavBar}
+        {...sceneProps}
+        {...this.props}
+      />
+    )
   }
 
   getStatusBarStyle() {
@@ -52,7 +67,7 @@ class Navigation extends Component {
           navigationState={navigationState}
           pop={this.props.pop}
           renderScene={this.renderScene}
-          renderOverlay={this.renderNavBar}
+          renderOverlay={(sceneProps) => this.renderNavBar(sceneProps, this.props.pop)}
         />
       </View>
     )

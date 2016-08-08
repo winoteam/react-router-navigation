@@ -1,8 +1,8 @@
 /* @flow */
 
-import type { NavigationTransitionProps } from './../types'
+import type { NavigationSceneProps } from './../types'
 
-function forInitial(props: NavigationTransitionProps) {
+function forInitial(props: NavigationSceneProps) {
   const { navigationState, scene } = props
   const focused = navigationState.index === scene.index
   const opacity = focused ? 1 : 0
@@ -16,7 +16,7 @@ function forInitial(props: NavigationTransitionProps) {
   }
 }
 
-function forIOS(props: NavigationTransitionProps) {
+function forIOS(props: NavigationSceneProps) {
   const { layout, position, scene } = props
   if (!layout.isMeasured) {
     return forInitial(props)
@@ -47,7 +47,7 @@ function forIOS(props: NavigationTransitionProps) {
   }
 }
 
-function forAndroid(props: NavigationTransitionProps) {
+function forAndroid(props: NavigationSceneProps) {
   const { layout, position, scene } = props
   if (!layout.isMeasured) {
     return forInitial(props)

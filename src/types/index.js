@@ -47,7 +47,7 @@ export type NavigationLayout = {
   width: NavigationAnimatedValue,
 }
 
-export type NavigationTransitionProps = {
+export type NavigationSceneProps = {
   layout: NavigationLayout,
   navigationState: NavigationState,
   position: NavigationAnimatedValue,

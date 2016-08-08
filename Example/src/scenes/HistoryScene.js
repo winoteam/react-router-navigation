@@ -7,7 +7,7 @@ class HistoryScene extends Component {
 
   static propTypes = {
     router: PropTypes.shape({
-      pop: PropTypes.func,
+      pop: PropTypes.func.isRequired,
     }),
   }
 
