@@ -44,7 +44,7 @@ export function findPathOfClosestTabs(state: NavigationState): string {
       navigationState: _.get(state, normalizePath(_path)),
     }))
     .filter(({ navigationState }) => navigationState.tabs)
-    .map(({ path }) => path)
+    .map((tabState) => tabState.path)
     .join('')
   return path
 }

@@ -8,13 +8,12 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     position: 'absolute',
+    flexDirection: 'row',
     bottom: 0,
     width: Dimensions.get('window').width,
-    flexDirection: 'row',
     height: 49,
     borderTopWidth: 1,
     borderTopColor: '#c7c7c7',
-    bottom: 0,
     backgroundColor: '#fafafa',
   },
   tabText: {
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 2.5,
-  }
+  },
 })
 
 export default styles

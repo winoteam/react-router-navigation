@@ -2,7 +2,6 @@
 
 import React, { createElement } from 'react'
 import { TouchableWithoutFeedback, View, Text } from 'react-native'
-import StaticContainer from 'react-static-container'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 import styles from './styles'
 
@@ -15,7 +14,6 @@ type Props = {
 const TabView = (props: Props): React$Element<any> => {
   const { navigationState, renderScene, changeTab } = props
   const { routes } = navigationState
-  const route = routes[navigationState.index]
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -38,7 +36,7 @@ const TabView = (props: Props): React$Element<any> => {
                 <Text
                   style={[
                     styles.tabText,
-                    { color: selected ? '#0076ff' : '#929292' }
+                    { color: selected ? '#0076ff' : '#929292' },
                   ]}
                 >
                   {route.key}

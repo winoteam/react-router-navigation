@@ -1,5 +1,7 @@
 /* @flow */
 /* eslint-disable react/jsx-indent */
+/* eslint-disable max-len */
+/* eslint no-mixed-operators: 0 */
 
 import React, { Component, createElement } from 'react'
 import { StatusBar, View } from 'react-native'
@@ -11,16 +13,16 @@ import type { NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
   navigationState: NavigationState,
-  push: (location: string, callback?: Function) => void,
-  pop: (callback?: Function) => void,
-  changeTab: (index: number, callback?: Function) => void,
+  push: (location: string, callback: Function) => void,
+  pop: (callback: Function) => void,
+  changeTab: (index: number, callback: Function) => void,
 }
 
 class Navigation extends Component {
 
   props: Props
 
-  renderNavBar = (sceneProps: NavigationSceneProps, pop: () => void): React$Element<any> | null => {
+  renderNavBar = (sceneProps: NavigationSceneProps, pop: (callback: Function) => void): React$Element<any> | null => {
     if (!sceneProps.scene.route.tabs) {
       return (
         <NavBar

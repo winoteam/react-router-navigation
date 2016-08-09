@@ -1,8 +1,7 @@
 /* @flow */
 
-import React, { createElement } from 'react'
-import { Dimensions, ViewPagerAndroid, TouchableHighlight, View, Text } from 'react-native'
-import StaticContainer from 'react-static-container'
+import React from 'react'
+import { ViewPagerAndroid, View } from 'react-native'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 import styles from './styles'
 
@@ -13,9 +12,8 @@ type Props = {
 }
 
 const TabView = (props: Props): React$Element<any> => {
-  const { navigationState, renderScene, changeTab } = props
+  const { navigationState, renderScene } = props
   const { routes } = navigationState
-  const route = routes[navigationState.index]
   return (
     <View style={styles.container}>
       <View style={styles.tabBar} />

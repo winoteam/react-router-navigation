@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint max-len: 0 */
+/* eslint space-infix-ops: 0 */
 
 import React, { Component, PropTypes } from 'react'
 import navigationState, { INIT, PUSH, POP, CHANGE_TAB } from './../../reducer'
@@ -27,7 +28,8 @@ class Router extends Component {
     const routes = extractScenes(children)
     const action = { type: INIT, routes }
     const state = navigationState({
-      index: 0, path: '0',
+      index: 0,
+      path: '0',
       children,
       routes: [],
     }, action)
@@ -60,7 +62,7 @@ class Router extends Component {
 
   // Dispatch an action and update
   // local state
-  dispatch = (action: NavigationAction, callback: Function = () => true) => {
+  dispatch = (action: NavigationAction, callback?: Function = () => true) => {
     const state = navigationState(this.state, action)
     if (typeof callback === 'function') callback(state)
     this.setState(state)
