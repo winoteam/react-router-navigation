@@ -97,7 +97,9 @@ export default function (state: NavigationState, action: NavigationAction): Navi
       _.update(newState, `${normalizePath(pathOfClosestTabs)}.index`, () => index)
       _.update(newState, `path`, (path) => {
         const offset = pathOfClosestTabs.length * 2
-        return `${path.slice(0, offset)}${index}${path.slice(offset + 1)}`
+        const pathToTab = `${path.slice(0, offset)}${index}`
+        const currentTabIndex = _.get(state, normalizePath(pathToTab)).index
+        return `${pathToTab}.${currentTabIndex}`
       })
       return newState
     }
