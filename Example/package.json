@@ -11,6 +11,7 @@
     "react-native-router-navigation": "../"
   },
   "devDependencies": {
-    "babel-preset-react-native-stage-0": "^1.0.1"
+    "babel-preset-react-native-stage-0": "^1.0.1",
+    "flow-bin": "^0.30.0"
   }
 }

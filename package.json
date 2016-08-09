@@ -41,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^1.2.0",
     "eslint-plugin-react": "^5.2.2",
     "expect": "^1.20.2",
+    "flow-bin": "^0.30.0",
     "mocha": "^3.0.0"
   }
 }
