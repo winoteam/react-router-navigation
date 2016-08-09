@@ -1,5 +1,7 @@
+/* eslint-disable global-require */
+
 import React, { PropTypes, Component } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, Image } from 'react-native'
 import { withRouter } from 'react-native-router-navigation'
 import Row from '@components/Row'
 
@@ -18,6 +20,11 @@ class FeedScene extends Component {
   }
 
   static title = 'Feed'
+  static renderTabIcon = ({ selected }) => (
+    selected
+      ? <Image source={require('./../assets/icon-blue.png')} />
+      : <Image source={require('./../assets/icon-default.png')} />
+  )
 
   render() {
     const { router } = this.props
