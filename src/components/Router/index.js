@@ -1,6 +1,5 @@
 /* @flow */
 /* eslint max-len: 0 */
-/* eslint space-infix-ops: 0 */
 
 import React, { Component, PropTypes } from 'react'
 import navigationState, { INIT, PUSH, POP, CHANGE_TAB } from './../../reducer'
@@ -38,7 +37,7 @@ class Router extends Component {
 
   // Indicates a new item was added to
   // the history
-  push = (key: string, callback?: Function): void => {
+  push = (key: string, callback: Function): void => {
     const scenes = getSiblingScenes(this.state)
     const route = scenes.find((scene) => scene.key === key)
     this.dispatch({ type: PUSH, route }, callback)
@@ -47,14 +46,14 @@ class Router extends Component {
 
   // Indicates there is a new current item,
   // i.e. the "current pointer" changed
-  pop = (callback?: Function) => {
+  pop = (callback: Function) => {
     this.dispatch({ type: POP }, callback)
   }
 
 
   // Indicates there is a new targeted
   // tab added to the history
-  changeTab = (index: number, callback?: Function) => {
+  changeTab = (index: number, callback: Function) => {
     this.dispatch({ type: CHANGE_TAB, index }, callback)
   }
 
@@ -72,7 +71,6 @@ class Router extends Component {
   // components tree via react context
   static childContextTypes = {
     router: PropTypes.object.isRequired,
-    navigationState: PropTypes.object.isRequired,
   }
   getChildContext(): NavigationContext {
     return {
@@ -80,7 +78,6 @@ class Router extends Component {
         push: this.push,
         pop: this.pop,
       },
-      navigationState: this.state,
     }
   }
 

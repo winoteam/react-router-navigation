@@ -16,7 +16,6 @@ export default function withRouter(WrappedComponent: () => React$Element<any>) {
   )
   WithRouter.contextTypes = {
     router: PropTypes.object.isRequired,
-    navigationState: PropTypes.object.isRequired,
   }
   WithRouter.displayName = `withRouter(${getDisplayName(WrappedComponent)})`
   WithRouter.WrappedComponent = WrappedComponent

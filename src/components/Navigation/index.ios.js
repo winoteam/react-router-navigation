@@ -11,9 +11,9 @@ import type { NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
   navigationState: NavigationState,
-  push: (location: string) => void,
-  pop: () => void,
-  changeTab: (index: number) => void,
+  push: (location: string, callback?: Function) => void,
+  pop: (callback?: Function) => void,
+  changeTab: (index: number, callback?: Function) => void,
 }
 
 class Navigation extends Component {
@@ -43,7 +43,7 @@ class Navigation extends Component {
     return (
       <TabsStack
         renderScene={this.renderScene}
-        renderOverlay={this.renderNavBar}
+        renderHeader={this.renderNavBar}
         {...sceneProps}
         {...this.props}
       />
@@ -67,7 +67,7 @@ class Navigation extends Component {
           navigationState={navigationState}
           pop={this.props.pop}
           renderScene={this.renderScene}
-          renderOverlay={(sceneProps) => this.renderNavBar(sceneProps, this.props.pop)}
+          renderHeader={(sceneProps) => this.renderNavBar(sceneProps, this.props.pop)}
         />
       </View>
     )

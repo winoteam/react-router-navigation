@@ -4,6 +4,7 @@ import React, { Component, createElement } from 'react'
 import { BackAndroid, StatusBar, View } from 'react-native'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
+import TabsStack from './../TabsStack'
 import { getCurrentRoute } from './../../helpers/utils'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 
@@ -29,15 +30,39 @@ class Navigation extends Component {
   }
 
   renderScene = (sceneProps: NavigationSceneProps): React$Element<any> => {
-    const { component } = sceneProps.scene.route
-    return (
+    const { component, tabs } = sceneProps.scene.route
+    const renderScene = () => (
       <View style={{ flex: 1 }}>
-        <NavBar
-          pop={this.props.pop}
-          {...sceneProps}
-        />
+        {createElement(this.renderNavBar, sceneProps)}
         {createElement(component)}
       </View>
+    )
+    return tabs
+      ? this.renderTabsStack(sceneProps)
+      : renderScene()
+  }
+
+  renderNavBar = (sceneProps: NavigationSceneProps): React$Element<any> | null => {
+    const { navigationState } = this.props
+    if (navigationState.path.length > 1 && sceneProps.scenes.length < 2) {
+      return null
+    }
+    return (
+      <NavBar
+        pop={this.props.pop}
+        {...sceneProps}
+      />
+    )
+  }
+
+  renderTabsStack = (sceneProps: NavigationSceneProps): React$Element<any> => {
+    return (
+      <TabsStack
+        renderScene={this.renderScene}
+        renderHeader={this.renderNavBar}
+        {...sceneProps}
+        {...this.props}
+      />
     )
   }
 
