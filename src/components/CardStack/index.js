@@ -17,7 +17,7 @@ const {
 type Props = {
   navigationState: NavigationState,
   renderScene: (sceneProps: NavigationSceneProps) => React$Element<any>,
-  renderOverlay?: (sceneProps: NavigationSceneProps) => React$Element<any> | null,
+  renderHeader?: (sceneProps: NavigationSceneProps) => React$Element<any> | null,
   pop: () => void,
 }
 
@@ -26,7 +26,7 @@ class CardStack extends Component {
   props: Props
 
   renderScenes = (props: any): React$Element<any> => {
-    const { renderOverlay } = this.props
+    const { renderHeader } = this.props
     const scenes = props.scenes.map((scene) => (
       this.renderScene({
         ...props,
@@ -38,7 +38,7 @@ class CardStack extends Component {
         <View style={{ flex: 1 }}>
           {scenes}
         </View>
-        {renderOverlay && createElement(renderOverlay, props)}
+        {renderHeader && createElement(renderHeader, props)}
       </View>
     )
   }
@@ -54,9 +54,10 @@ class CardStack extends Component {
       ...props,
       onNavigateBack: this.props.pop,
     }
-    const panHandlers = Platform.OS === 'android'
-      ? CardStackPanResponder.forVertical(panHandlersProps)
-      : CardStackPanResponder.forHorizontal(panHandlersProps)
+    const panHandlers = Platform.OS === 'ios'
+      ? CardStackPanResponder.forHorizontal(panHandlersProps)
+      : null
+
     return (
       <NavigationCard
         {...props}
@@ -69,7 +70,10 @@ class CardStack extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return this.props.navigationState.index !== nextProps.navigationState.index
+    return (
+      this.props.navigationState.index !== nextProps.navigationState.index ||
+      this.props.navigationState.key !== nextProps.navigationState.key
+    )
   }
 
   render() {

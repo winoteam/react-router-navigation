@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { NavigationExperimental } from 'react-native'
 import BackButton from './../BackButton'
 import type { NavigationSceneProps } from './../../types'
+import styles from './styles'
 
 const {
   Header: NavigationHeader,
@@ -54,7 +55,7 @@ class NavBar extends Component {
         {...this.props}
         renderTitleComponent={this.renderTitleComponent}
         renderLeftComponent={this.renderBackButton}
-        style={component.navBarStyle}
+        style={[styles.container, component.navBarStyle]}
       />
     )
   }

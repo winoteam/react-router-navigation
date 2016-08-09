@@ -2,18 +2,22 @@
 
 import React, { PropTypes, Component } from 'react'
 import _ from 'lodash'
-import { TabBarIOS } from 'react-native'
 import CardStack from './../CardStack'
+import TabView from './../TabView'
 import { normalizePath } from './../../helpers/utils'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
   push: (key: string) => void,
   pop: () => void,
-  changeTab: (index: string) => void,
+  changeTab: (index: number) => void,
   navigationState: NavigationState,
   renderScene: (sceneProps: NavigationSceneProps) => React$Element<any>,
-  renderOverlay: (sceneProps: NavigationSceneProps) => React$Element<any> | null,
+  renderHeader: (sceneProps: NavigationSceneProps) => React$Element<any> | null,
+}
+
+type DefaultProps = {
+  renderHeader: () => null,
 }
 
 type State = {
@@ -26,6 +30,10 @@ class TabsStack extends Component {
   state: State
   props: Props
 
+  static defaultProps: DefaultProps = {
+    renderHeader: () => null
+  }
+
 
   // Clone navigation state to it's own
   // in this component and remove circular
@@ -37,39 +45,28 @@ class TabsStack extends Component {
     const extractedNavigationState = _.cloneDeep(_.get(navigationState, path))
     this.state = {
       navigationState: extractedNavigationState,
-      tabIndex: 0,
     }
   }
 
 
-  // Push new route and update local
-  // navigation state with updated navigation
-  // state
+  // Dispatch actions
   push = (key: string) => {
-    this.props.push(key, (navigationState) => {
-      const path = normalizePath(navigationState.path.slice(0, -4))
-      const nextNavigationState = _.cloneDeep(_.get(navigationState, path))
-      this.setState({ navigationState: nextNavigationState })
-    })
+    this.props.push(key, this.updateNavigationState)
   }
-
-
-  // Update current tab index
-  changeTab = (index: string) => {
-    this.props.changeTab(index)
-    this.setState({
-      tabIndex: index,
-    })
+  changeTab = (index: number) => {
+    this.props.changeTab(index, this.updateNavigationState)
   }
-
-
-  // Back to previous route
   pop = () => {
-    this.props.pop((navigationState) => {
-      const path = normalizePath(navigationState.path.slice(0, -4))
-      const nextNavigationState = _.cloneDeep(_.get(navigationState, path))
-      this.setState({ navigationState: nextNavigationState })
-    })
+    this.props.pop(this.updateNavigationState)
+  }
+
+
+  // Update local navigation state each
+  // time an action is dispatched
+  updateNavigationState = (navigationState: navigationState): void => {
+    const path = normalizePath(navigationState.path.slice(0, -4))
+    const nextNavigationState = _.cloneDeep(_.get(navigationState, path))
+    this.setState({ navigationState: nextNavigationState })
   }
 
 
@@ -90,25 +87,20 @@ class TabsStack extends Component {
   // Render each tab in a <CardStack />
   // component
   render() {
-    const { navigationState, tabIndex } = this.state
+    const { navigationState } = this.state
     return (
-      <TabBarIOS>
-        {navigationState.routes.map((child, index) => (
-          <TabBarIOS.Item
-            key={index}
-            title={child.key}
-            selected={tabIndex === index}
-            onPress={() => this.changeTab(index)}
-          >
-            <CardStack
-              navigationState={child}
-              pop={this.pop}
-              renderScene={this.props.renderScene}
-              renderOverlay={(sceneProps) => this.props.renderOverlay(sceneProps, this.pop)}
-            />
-          </TabBarIOS.Item>
-        ))}
-      </TabBarIOS>
+      <TabView
+        navigationState={navigationState}
+        changeTab={this.changeTab}
+        renderScene={(_navigationState) => (
+          <CardStack
+            navigationState={_navigationState}
+            pop={this.pop}
+            renderScene={this.props.renderScene}
+            renderHeader={(sceneProps) => this.props.renderHeader(sceneProps, this.pop)}
+          />
+        )}
+      />
     )
   }
 

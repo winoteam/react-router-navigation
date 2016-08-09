@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     position: 'absolute',
-    zIndex: 1,
     width: Dimensions.get('window').width,
     height: NAVBAR_HEIGHT,
     backgroundColor: '#f5f5f5',
