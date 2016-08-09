@@ -1,4 +1,6 @@
 /* @flow */
+/* eslint consistent-return: 0 */
+/* eslint no-mixed-operators: 0 */
 
 import React, { Component, createElement } from 'react'
 import { BackAndroid, StatusBar, View } from 'react-native'

@@ -1,6 +1,7 @@
 /* @flow */
-/* eslint-disable global-require */
-/* eslint-disable new-cap */
+/* eslint global-require: 0 */
+/* eslint new-cap: 0 */
+/* eslint import/newline-after-import: 0 */
 
 import React from 'react'
 import { TouchableNativeFeedback, View, Image } from 'react-native'

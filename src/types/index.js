@@ -28,12 +28,10 @@ export type NavigationAction = {
   type: string,
 } & any
 
-export type NavigationSceneProps = {}
-
 export type NavigationContext = {
   router: {
-    push: (key: string) => void,
-    pop: () => void,
+    push: (key: string, callback: Function) => void,
+    pop: (callback: Function) => void,
   },
 }
 

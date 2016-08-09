@@ -24,6 +24,8 @@
     "import/no-unresolved": 0,
     "react/sort-comp": 0,
     "arrow-body-style": 0,
-    radix: ["error", "as-needed"]
+    "radix": ["error", "as-needed"],
+    "react/jsx-filename-extension": 0,
+    "import/no-extraneous-dependencies": 0
   }
 }

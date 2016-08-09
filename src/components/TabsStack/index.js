@@ -8,9 +8,9 @@ import { normalizePath } from './../../helpers/utils'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
-  push: (key: string) => void,
-  pop: () => void,
-  changeTab: (index: number) => void,
+  push: (key: string, callback: Function) => void,
+  pop: (callback: Function) => void,
+  changeTab: (index: number, callback: Function) => void,
   navigationState: NavigationState,
   renderScene: (sceneProps: NavigationSceneProps) => React$Element<any>,
   renderHeader: (sceneProps: NavigationSceneProps) => React$Element<any> | null,
@@ -22,7 +22,6 @@ type DefaultProps = {
 
 type State = {
   navigationState: NavigationState,
-  tabIndex: number,
 }
 
 class TabsStack extends Component {
@@ -31,7 +30,7 @@ class TabsStack extends Component {
   props: Props
 
   static defaultProps: DefaultProps = {
-    renderHeader: () => null
+    renderHeader: () => null,
   }
 
 
@@ -63,7 +62,7 @@ class TabsStack extends Component {
 
   // Update local navigation state each
   // time an action is dispatched
-  updateNavigationState = (navigationState: navigationState): void => {
+  updateNavigationState = (navigationState: NavigationState): void => {
     const path = normalizePath(navigationState.path.slice(0, -4))
     const nextNavigationState = _.cloneDeep(_.get(navigationState, path))
     this.setState({ navigationState: nextNavigationState })

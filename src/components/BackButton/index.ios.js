@@ -1,5 +1,6 @@
 /* @flow */
-/* eslint-disable global-require */
+/* eslint global-require: 0 */
+/* eslint import/newline-after-import: 0 */
 
 import React from 'react'
 import { Image, TouchableOpacity } from 'react-native'

@@ -69,7 +69,7 @@ class CardStack extends Component {
     )
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: Props) {
     return (
       this.props.navigationState.index !== nextProps.navigationState.index ||
       this.props.navigationState.key !== nextProps.navigationState.key

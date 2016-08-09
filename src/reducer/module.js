@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint prefer-template: 0 */
 
 import _ from 'lodash'
 import { INIT, PUSH, POP, CHANGE_TAB } from './actionTypes'
@@ -33,7 +34,7 @@ export default function (state: NavigationState, action: NavigationAction): Navi
             .join('.')
           + '.index'
         : 'index'
-      _.update(newState, pathToNewIndex, () =>  parseInt(newPath.slice(-1)))
+      _.update(newState, pathToNewIndex, () => parseInt(newPath.slice(-1)))
 
       // Set tabs
       if (route.tabs) {
@@ -81,7 +82,7 @@ export default function (state: NavigationState, action: NavigationAction): Navi
             .join('.')
           + '.index'
         : 'index'
-      _.update(newState, pathToNewIndex, () =>  parseInt(newPath.slice(-1)))
+      _.update(newState, pathToNewIndex, () => parseInt(newPath.slice(-1)))
       _.update(newState, 'path', () => newPath)
       _.update(newState, normalizePath(state.path).slice(0, -3), (routes) => routes.slice(0, -1))
       return newState
@@ -95,7 +96,7 @@ export default function (state: NavigationState, action: NavigationAction): Navi
       const newState = _.cloneDeep(state)
       const pathOfClosestTabs = findPathOfClosestTabs(state)
       _.update(newState, `${normalizePath(pathOfClosestTabs)}.index`, () => index)
-      _.update(newState, `path`, (path) => {
+      _.update(newState, 'path', (path) => {
         const offset = pathOfClosestTabs.length * 2
         const pathToTab = `${path.slice(0, offset)}${index}`
         const currentTabIndex = _.get(state, normalizePath(pathToTab)).index
