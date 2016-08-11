@@ -4,6 +4,7 @@ import React, { Component, createElement } from 'react'
 import { Platform, NavigationExperimental, View } from 'react-native'
 import StyleInterpolator from './../../helpers/StyleInterpolator'
 import type { NavigationState, NavigationSceneProps } from './../../types'
+import styles from './styles'
 
 const {
   Transitioner: NavigationTransitioner,
@@ -79,6 +80,7 @@ class CardStack extends Component {
   render() {
     return (
       <NavigationTransitioner
+        style={styles.container}
         navigationState={this.props.navigationState}
         render={this.renderScenes}
       />
