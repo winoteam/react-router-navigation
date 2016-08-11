@@ -6,6 +6,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  wrapper: {
+    flex: 1,
+  },
+  scene: {
+    flex: 1,
+  },
+  tab: {
+    flex: 1,
+  },
   tabBar: {
     position: 'absolute',
     flexDirection: 'row',
@@ -16,16 +25,17 @@ const styles = StyleSheet.create({
     borderTopColor: '#c7c7c7',
     backgroundColor: '#fafafa',
   },
-  tabText: {
-    marginTop: 4,
-    fontSize: 10,
-    color: '#0076ff',
-  },
   tabItem: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 2.5,
+  },
+  tabText: {
+    marginTop: 2.75,
+    bottom: 2,
+    textAlign: 'center',
+    fontSize: 10,
+    color: '#0076ff',
   },
 })
 

@@ -14,32 +14,39 @@ type Props = {
 const TabView = (props: Props): React$Element<any> => {
   const { navigationState, renderScene, changeTab } = props
   const { routes } = navigationState
-  return (
+  const tabComponent = navigationState.component || {}
+  const route = routes.find((_route, index) => index === navigationState.index)
+
+  return createElement(tabComponent, {}, (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        {routes.map((route, index) => (
-          <View key={index}>
-            {index === navigationState.index && renderScene(route)}
-          </View>
-        ))}
+        {renderScene(route)}
       </View>
-      <View style={styles.tabBar}>
-        {routes.map((route, index) => {
-          const selected = index === navigationState.index
+      <View style={[styles.tabBar, tabComponent.tabBarStyle]}>
+        {routes.map((_route, index) => {
+          const active = index === navigationState.index
+          const { renderTabIcon, title } = _route.routes[0].component
           return (
             <TouchableWithoutFeedback
               key={index}
               onPress={() => changeTab(index)}
             >
               <View style={styles.tabItem}>
-                {createElement(route.routes[0].component.renderTabIcon, { selected })}
+                {renderTabIcon && createElement(renderTabIcon, {
+                  active,
+                  activeColor: tabComponent.tabBarActiveTextColor || '#0076ff',
+                  defaultColor: tabComponent.tabBarDefaultTextColor || '#929292',
+                })}
                 <Text
                   style={[
                     styles.tabText,
-                    { color: selected ? '#0076ff' : '#929292' },
+                    { color: active
+                      ? tabComponent.tabBarActiveTextColor || '#0076ff'
+                      : '#929292',
+                    },
                   ]}
                 >
-                  {route.key}
+                  {title}
                 </Text>
               </View>
             </TouchableWithoutFeedback>
@@ -47,7 +54,7 @@ const TabView = (props: Props): React$Element<any> => {
         })}
       </View>
     </View>
-  )
+  ))
 }
 
 export default TabView
