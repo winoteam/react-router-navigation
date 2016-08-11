@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Component } from 'react'
+import React, { createElement, Component } from 'react'
 import { NavigationExperimental } from 'react-native'
 import BackButton from './../BackButton'
 import type { NavigationSceneProps } from './../../types'
@@ -11,7 +11,7 @@ const {
 } = NavigationExperimental
 
 type Props = NavigationSceneProps & {
-  pop: () => void,
+  pop: (callback?: Function) => void,
 }
 
 class NavBar extends Component {
@@ -19,14 +19,35 @@ class NavBar extends Component {
   props: Props
 
   renderTitleComponent = (): React$Element<any> | null => {
-    const { component } = this.props.scene.route
+    const { scene, scenes } = this.props
+    const { component } = scene.route
+
+    const titleStyle = scenes
+      .map(({ route }) => route.component)
+      .reduce((sceneA, sceneB) => ({
+        ...sceneA.titleStyle,
+        ...sceneB.titleStyle,
+      }))
+
+    const renderTitle = scenes
+      .map(({ route }) => route.component.renderTitle)
+      .reverse()
+      .find((_renderTitle) => _renderTitle)
+
     if (component.title) {
+      if (renderTitle) {
+        return createElement(renderTitle, {
+          title: component.title,
+          titleStyle,
+        })
+      }
       return (
-        <NavigationHeader.Title textStyle={component.titleStyle}>
+        <NavigationHeader.Title textStyle={titleStyle}>
           {component.title}
         </NavigationHeader.Title>
       )
     }
+
     return null
   }
 
