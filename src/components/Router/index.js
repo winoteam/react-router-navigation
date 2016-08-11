@@ -10,6 +10,8 @@ import type { NavigationScene, NavigationState, NavigationAction, NavigationCont
 
 type Props = {
   children?: Array<React$Element<NavigationScene>>
+} | {
+  scenes: Array<React$Element<NavigationScene>>
 }
 
 type State = NavigationState
@@ -24,13 +26,15 @@ class Router extends Component {
   // index 0 with first scene pass
   // as props
   componentWillMount() {
-    const { children } = this.props
-    const routes = extractScenes(children)
+    const { children, scenes } = this.props
+    const routes = children
+      ? extractScenes(children)
+      : extractScenes(scenes)
     const action = { type: INIT, routes }
     const state = navigationState({
       index: 0,
       path: '0',
-      children,
+      children: routes,
       routes: [],
     }, action)
     this.state = state

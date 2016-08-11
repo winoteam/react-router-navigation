@@ -4,9 +4,13 @@ import _ from 'lodash'
 import type { NavigationState, NavigationRoute, NavigationScene } from './../types'
 
 export function extractScenes(
-  children: Array<React$Element<NavigationScene>>
+  scenes: Array<React$Element<NavigationScene>>
 ): Array<NavigationRoute> {
+  const children = scenes.key === 'root'
+   ? scenes.props.children
+   : scenes
   return children.map((child) => ({
+    ...child,
     ...child.props,
     key: child.key,
   }))
