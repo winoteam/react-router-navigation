@@ -22,8 +22,8 @@ class Navigation extends Component {
 
   props: Props
 
-  renderNavBar = (sceneProps: NavigationSceneProps, pop: (callback: Function) => void): React$Element<any> | null => {
-    if (!sceneProps.scene.route.tabs) {
+  renderNavBar = (sceneProps: NavigationSceneProps, pop: (callback?: Function) => void): React$Element<any> | null => {
+    if (!sceneProps.scene.route.tabs && !sceneProps.scene.route.component.hideNavBar) {
       return (
         <NavBar
           pop={pop}
