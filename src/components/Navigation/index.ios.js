@@ -64,6 +64,7 @@ class Navigation extends Component {
       <View style={{ flex: 1 }}>
         <StatusBar
           barStyle={this.getStatusBarStyle()}
+          animated={true}
         />
         <CardStack
           navigationState={navigationState}
