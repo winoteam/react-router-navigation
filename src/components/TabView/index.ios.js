@@ -17,42 +17,48 @@ const TabView = (props: Props): React$Element<any> => {
   const tabComponent = navigationState.component || {}
   const route = routes.find((_route, index) => index === navigationState.index)
 
+  const hideTabBar = route.routes
+    .slice(-1)[0]
+    .component.hideTabBar
+
   return createElement(tabComponent, {}, (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         {renderScene(route)}
       </View>
-      <View style={[styles.tabBar, tabComponent.tabBarStyle]}>
-        {routes.map((_route, index) => {
-          const active = index === navigationState.index
-          const { renderTabIcon, title } = _route.routes[0].component
-          return (
-            <TouchableWithoutFeedback
-              key={index}
-              onPress={() => changeTab(index)}
-            >
-              <View style={styles.tabItem}>
-                {renderTabIcon && createElement(renderTabIcon, {
-                  active,
-                  activeColor: tabComponent.tabBarActiveTextColor || '#0076ff',
-                  defaultColor: tabComponent.tabBarDefaultTextColor || '#929292',
-                })}
-                <Text
-                  style={[
-                    styles.tabText,
-                    { color: active
-                      ? tabComponent.tabBarActiveTextColor || '#0076ff'
-                      : '#929292',
-                    },
-                  ]}
-                >
-                  {title}
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
-          )
-        })}
-      </View>
+      {!hideTabBar &&
+        <View style={[styles.tabBar, tabComponent.tabBarStyle]}>
+          {routes.map((_route, index) => {
+            const active = index === navigationState.index
+            const { renderTabIcon, title } = _route.routes[0].component
+            return (
+              <TouchableWithoutFeedback
+                key={index}
+                onPress={() => changeTab(index)}
+              >
+                <View style={styles.tabItem}>
+                  {renderTabIcon && createElement(renderTabIcon, {
+                    active,
+                    activeColor: tabComponent.tabBarActiveTextColor || '#0076ff',
+                    defaultColor: tabComponent.tabBarDefaultTextColor || '#929292',
+                  })}
+                  <Text
+                    style={[
+                      styles.tabText,
+                      { color: active
+                        ? tabComponent.tabBarActiveTextColor || '#0076ff'
+                        : '#929292',
+                      },
+                    ]}
+                  >
+                    {title}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            )
+          })}
+        </View>
+      }
     </View>
   ))
 }
