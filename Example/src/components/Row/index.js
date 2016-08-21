@@ -17,7 +17,7 @@ const Row = (props) => {
 
 Row.propTypes = {
   onPress: PropTypes.func.isRequired,
-  children: PropTypes.element,
+  children: PropTypes.any.isRequired,
 }
 
 export default Row

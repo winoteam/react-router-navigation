@@ -20,18 +20,30 @@ class FeedScene extends Component {
   }
 
   static title = 'Feed'
-  static renderTabIcon = ({ selected }) => (
-    selected
+  static renderTabIcon = ({ active }) => (
+    active
       ? <Image source={require('./../assets/icon-blue.png')} />
       : <Image source={require('./../assets/icon-default.png')} />
   )
+  static wrapInScrollView = true
 
   render() {
     const { router } = this.props
     return (
       <View style={styles.container}>
-        <Row onPress={() => router.push('article')}>Push to article</Row>
-        <Row onPress={() => router.push('history')}>Push to historic</Row>
+        {Array.from({ length: 20 }).map((item, index) => (
+          <Row
+            key={index}
+            onPress={() => router.push({
+              key: 'article',
+              params: {
+                articleId: index,
+              },
+            })}
+          >
+            Push to article n°{index}
+          </Row>
+        ))}
       </View>
     )
   }

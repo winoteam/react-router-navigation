@@ -25,8 +25,8 @@ class LaunchScene extends Component {
     const { router } = this.props
     return (
       <View style={styles.container}>
-        <Row onPress={() => router.push('auth')}>
-          Go to auth
+        <Row onPress={() => router.push('welcome')}>
+          Go to welcome
         </Row>
         <Row onPress={() => router.push('app')}>
           Go to app

@@ -31,11 +31,8 @@ class WelcomeScene extends Component {
     const { router } = this.props
     return (
       <View style={styles.container}>
-        <Row onPress={() => router.push('app')}>
-          Go to app  (tabs)
-        </Row>
         <Row onPress={router.pop}>
-          Pop to launch scene
+          Pop
         </Row>
       </View>
     )

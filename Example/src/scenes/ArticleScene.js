@@ -13,8 +13,7 @@ const ArticleScene = (props) => {
   const { router } = props
   return (
     <View style={styles.container}>
-      <Row onPress={() => router.push('welcome')}>Go to welcom</Row>
-      <Row onPress={router.pop}>Pop to feed</Row>
+      <Row onPress={router.pop}>Pop</Row>
     </View>
   )
 }
