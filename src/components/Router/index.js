@@ -5,7 +5,7 @@
 import React, { Component, PropTypes } from 'react'
 import navigationState, { INIT, PUSH, POP, CHANGE_TAB } from './../../reducer'
 import Navigation from './../Navigation'
-import { extractScenes, getSiblingScenes } from './../../helpers/utils'
+import { extractScenes, getSiblingScenes } from './../../utils'
 import type { NavigationScene, NavigationState, NavigationAction, NavigationContext } from './../../types'
 
 type Props = {
@@ -46,6 +46,7 @@ class Router extends Component {
   push = (key: string, callback: Function): void => {
     const scenes = getSiblingScenes(this.state)
     const route = scenes.find((scene) => scene.key === key)
+    if (!route) throw new Error(`No scene is defined for key "${key}".`)
     this.dispatch({ type: PUSH, route }, callback)
   }
 

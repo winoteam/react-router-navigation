@@ -5,10 +5,11 @@
 
 import React, { Component, createElement } from 'react'
 import { StatusBar, View } from 'react-native'
+import StaticContainer from 'react-static-container'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
-import TabsStack from './../TabsStack'
-import { getCurrentRoute } from './../../helpers/utils'
+import TabStack from './../TabStack'
+import { getCurrentRoute } from './../../utils'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
@@ -36,14 +37,18 @@ class Navigation extends Component {
 
   renderScene = (sceneProps: NavigationSceneProps): React$Element<any> => {
     const { component, tabs } = sceneProps.scene.route
+    const currentRoute = getCurrentRoute(this.props.navigationState)
+    const isActive = sceneProps.scene.route.key === currentRoute.key
     return tabs
-      ? this.renderTabsStack(sceneProps)
-      : createElement(component, {})
+      ? this.renderTabStack(sceneProps)
+      : <StaticContainer shouldUpdate={isActive}>
+          {createElement(component, { isActive })}
+        </StaticContainer>
   }
 
-  renderTabsStack = (sceneProps: NavigationSceneProps): React$Element<any> => {
+  renderTabStack = (sceneProps: NavigationSceneProps): React$Element<any> => {
     return (
-      <TabsStack
+      <TabStack
         renderScene={this.renderScene}
         renderHeader={this.renderNavBar}
         {...sceneProps}
@@ -64,7 +69,6 @@ class Navigation extends Component {
       <View style={{ flex: 1 }}>
         <StatusBar
           barStyle={this.getStatusBarStyle()}
-          animated={true}
         />
         <CardStack
           navigationState={navigationState}

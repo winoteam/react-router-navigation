@@ -6,8 +6,8 @@ import React, { Component, createElement } from 'react'
 import { BackAndroid, StatusBar, View } from 'react-native'
 import NavBar from './../NavBar'
 import CardStack from './../CardStack'
-import TabsStack from './../TabsStack'
-import { getCurrentRoute } from './../../helpers/utils'
+import TabStack from './../TabStack'
+import { getCurrentRoute } from './../../utils'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
@@ -40,7 +40,7 @@ class Navigation extends Component {
       </View>
     )
     return tabs
-      ? this.renderTabsStack(sceneProps)
+      ? this.renderTabStack(sceneProps)
       : renderScene()
   }
 
@@ -57,9 +57,9 @@ class Navigation extends Component {
     )
   }
 
-  renderTabsStack = (sceneProps: NavigationSceneProps): React$Element<any> => {
+  renderTabStack = (sceneProps: NavigationSceneProps): React$Element<any> => {
     return (
-      <TabsStack
+      <TabStack
         renderScene={this.renderScene}
         renderHeader={this.renderNavBar}
         {...sceneProps}

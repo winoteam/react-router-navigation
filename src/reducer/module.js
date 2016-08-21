@@ -3,16 +3,37 @@
 
 import _ from 'lodash'
 import { INIT, PUSH, POP, CHANGE_TAB } from './actionTypes'
-import { extractScenes, normalizePath, findPathOfClosestTabs } from './../helpers/utils'
+import { extractScenes, normalizePath, findPathOfClosestTabs } from './../utils'
 import type { NavigationAction, NavigationState } from './../types'
 
 export default function (state: NavigationState, action: NavigationAction): NavigationState {
   switch (action.type) {
 
     case INIT: {
+      const route = action.routes[0]
+      const newState = { ...state }
+      if (route.tabs) {
+        newState.path = '0.0.0'
+        route.index = 0
+        route.routes = extractScenes(route.children)
+          .map((child) => {
+            const { children } = child
+            const component = children[0]
+              ? children[0].props.component
+              : children.props.component
+            return {
+              ...child,
+              index: 0,
+              routes: [{
+                key: child.key,
+                component,
+              }],
+            }
+          })
+      }
       return {
-        ...state,
-        routes: [action.routes[0]],
+        ...newState,
+        routes: [route],
       }
     }
 
