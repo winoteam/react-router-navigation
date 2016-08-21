@@ -69,7 +69,7 @@
 .*/node_modules/tr46/.*\.json
 
 # Ignore examples
-.*/example/.*
+.*/Example/.*
 
 [include]
 node_modules/react-native/Libraries/react-native/react-native-interface.js
