@@ -4,16 +4,16 @@ import React, { PropTypes, Component } from 'react'
 import _ from 'lodash'
 import CardStack from './../CardStack'
 import TabView from './../TabView'
-import { normalizePath } from './../../helpers/utils'
+import { normalizePath } from './../../utils'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
-  push: (key: string, callback: Function) => void,
-  pop: (callback: Function) => void,
-  changeTab: (index: number, callback: Function) => void,
   navigationState: NavigationState,
   renderScene: (sceneProps: NavigationSceneProps) => React$Element<any>,
   renderHeader: (sceneProps: NavigationSceneProps) => React$Element<any> | null,
+  push: (key: string, callback: Function) => void,
+  pop: (callback: Function) => void,
+  changeTab: (index: number, callback: Function) => void,
 }
 
 type DefaultProps = {
@@ -24,7 +24,7 @@ type State = {
   navigationState: NavigationState,
 }
 
-class TabsStack extends Component {
+class TabStack extends Component {
 
   state: State
   props: Props
@@ -39,9 +39,11 @@ class TabsStack extends Component {
   // references
   constructor(props: Props) {
     super(props)
-    const { navigationState } = this.props
+    const { navigationState } = props
     const path = normalizePath(navigationState.path.slice(0, -4))
-    const extractedNavigationState = _.cloneDeep(_.get(navigationState, path))
+    const extractedNavigationState = path
+      ? _.cloneDeep(_.get(navigationState, path))
+      : navigationState
     this.state = {
       navigationState: extractedNavigationState,
     }
@@ -64,7 +66,9 @@ class TabsStack extends Component {
   // time an action is dispatched
   updateNavigationState = (navigationState: NavigationState): void => {
     const path = normalizePath(navigationState.path.slice(0, -4))
-    const nextNavigationState = _.cloneDeep(_.get(navigationState, path))
+    const nextNavigationState = path
+      ? _.cloneDeep(_.get(navigationState, path))
+      : navigationState
     this.setState({ navigationState: nextNavigationState })
   }
 
@@ -86,14 +90,13 @@ class TabsStack extends Component {
   // Render each tab in a <CardStack />
   // component
   render() {
-    const { navigationState } = this.state
     return (
       <TabView
-        navigationState={navigationState}
+        navigationState={this.state.navigationState}
         changeTab={this.changeTab}
-        renderScene={(_navigationState) => (
+        renderScene={(navigationState) => (
           <CardStack
-            navigationState={_navigationState}
+            navigationState={navigationState}
             pop={this.pop}
             renderScene={this.props.renderScene}
             renderHeader={(sceneProps) => this.props.renderHeader(sceneProps, this.pop)}
@@ -105,4 +108,4 @@ class TabsStack extends Component {
 
 }
 
-export default TabsStack
+export default TabStack
