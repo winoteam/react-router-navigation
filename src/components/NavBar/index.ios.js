@@ -19,31 +19,22 @@ class NavBar extends Component {
   props: Props
 
   renderTitleComponent = (): React$Element<any> | null => {
-    const { scene, scenes } = this.props
-    const { component } = scene.route
+    const { scenes } = this.props
 
-    const titleStyle = scenes
-      .map(({ route }) => route.component)
-      .reduce((sceneA, sceneB) => ({
-        ...sceneA.titleStyle,
-        ...sceneB.titleStyle,
-      }))
-
-    const renderTitle = scenes
-      .map(({ route }) => route.component.renderTitle)
-      .reverse()
-      .find((_renderTitle) => _renderTitle)
+    const component = scenes
+      .find((scene) => scene.isActive)
+      .route.component
+    const { title, titleStyle, renderTitle } = component
 
     if (component.title) {
       if (renderTitle) {
         return createElement(renderTitle, {
-          title: component.title,
-          titleStyle,
+          title, titleStyle,
         })
       }
       return (
         <NavigationHeader.Title textStyle={titleStyle}>
-          {component.title}
+          {title}
         </NavigationHeader.Title>
       )
     }
@@ -66,7 +57,10 @@ class NavBar extends Component {
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    return nextProps.scene.route.key !== this.props.scene.route.key
+    return (
+      nextProps.navigationState.index !== this.props.navigationState.index ||
+      nextProps.navigationState.key !== this.props.navigationState.key
+    )
   }
 
   render() {
