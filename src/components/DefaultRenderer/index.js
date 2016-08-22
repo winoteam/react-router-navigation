@@ -108,7 +108,6 @@ class DefaultRenderer extends Component {
         scrollEventThrottle: hideNavBarOnScroll ? 25 : 99999,
       }, (
         <View style={styles.wrapper}>
-          {!hideNavBar && <View style={[styles.navBarOverlay, navBarStyle]}></View>}
           {this.props.renderScene(props)}
         </View>
       ),
@@ -156,6 +155,10 @@ class DefaultRenderer extends Component {
         this.state.hideNavBar = false
       }
     }
+  }
+
+  shouldComponentUpdate(nextProps: Props) {
+    return this.props.navigationState.index !== nextProps.navigationState.index
   }
 
   render() {
