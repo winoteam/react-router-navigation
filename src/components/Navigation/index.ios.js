@@ -42,7 +42,7 @@ class Navigation extends Component {
     return tabs
       ? this.renderTabStack(sceneProps)
       : <StaticContainer shouldUpdate={isActive}>
-          {createElement(component, { isActive })}
+          {createElement(component, { ...sceneProps, isActive })}
         </StaticContainer>
   }
 

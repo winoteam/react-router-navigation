@@ -96,7 +96,10 @@ class TabStack extends Component {
         changeTab={this.changeTab}
         renderScene={(navigationState) => (
           <CardStack
-            navigationState={navigationState}
+            navigationState={{
+              ...navigationState,
+              isWrappedInTabs: true,
+            }}
             pop={this.pop}
             renderScene={this.props.renderScene}
             renderHeader={(sceneProps) => this.props.renderHeader(sceneProps, this.pop)}

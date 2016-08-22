@@ -38,7 +38,7 @@ class TabBar extends Component {
             >
               <View style={styles.item}>
                 <View style={styles.icon}>
-                  {renderTabIcon && createElement(renderTabIcon, {
+                  {renderTabIcon && renderTabIcon({
                     active, activeColor, defaultColor,
                   })}
                 </View>

@@ -3,6 +3,7 @@
 import React, { createElement, Component } from 'react'
 import { NavigationExperimental, Platform, Dimensions, Animated, ScrollView, View } from 'react-native'
 import StyleInterpolator from './../../helpers/StyleInterpolator'
+import { findPathOfClosestTabs } from './../../utils'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 import styles from './styles'
 
@@ -89,18 +90,28 @@ class DefaultRenderer extends Component {
   // Render each scene within <View />
   // or Scroll component
   renderScene = (sceneProps: NavigationSceneProps): React$Element<any> => {
-    const { tabs, component } = sceneProps.scene.route
-    const { wrapInScrollView, hideNavBarOnScroll } = component
+    const { navigationState, scene } = sceneProps
+    const { component } = scene.route
+    const { wrapInScrollView, hideNavBarOnScroll, hideNavBar, hideTabBar, navBarStyle } = component
+    const tabs = navigationState.isWrappedInTabs && !hideTabBar
+    const props = sceneProps
+    if (!wrapInScrollView && hideNavBarOnScroll) {
+      props.onHideNavBarOnScroll = this.onScroll
+    }
 
     return createElement(
       wrapInScrollView ? ScrollView : View,
       {
-        style: [styles.scene, { paddingBottom: tabs ? 0 : 49 }],
-        contentContainerStyle: { paddingBottom: tabs ? 0 : 49 },
+        style: [styles.scene, { paddingBottom: tabs ? 49 : 0 }],
+        contentContainerStyle: { paddingBottom: tabs ? 49 : 0 },
         onScroll: this.onScroll,
         scrollEventThrottle: hideNavBarOnScroll ? 25 : 99999,
-      },
-      this.props.renderScene(sceneProps)
+      }, (
+        <View style={styles.wrapper}>
+          {!hideNavBar && <View style={[styles.navBarOverlay, navBarStyle]}></View>}
+          {this.props.renderScene(props)}
+        </View>
+      ),
     )
   }
 

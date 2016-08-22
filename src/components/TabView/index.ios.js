@@ -14,12 +14,12 @@ type Props = {
 const TabView = (props: Props): React$Element<any> => {
   const { navigationState, renderScene } = props
   const { routes } = navigationState
-  const tabComponent = navigationState.component || {}
+  const WrapperComponent = navigationState.component || {}
   const route = routes.find((_route, index) => index === navigationState.index)
 
   const hideTabBar = route.routes.slice(-1)[0].component.hideTabBar
 
-  return createElement(tabComponent, {}, (
+  return createElement(WrapperComponent, {}, (
     <View style={styles.container}>
       <View
         style={[
