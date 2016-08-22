@@ -1,9 +1,11 @@
 /* @flow */
 
 import React, { createElement, Component } from 'react'
-import { NavigationExperimental, Platform, Dimensions, Animated, ScrollView, View } from 'react-native'
+import {
+  NavigationExperimental, Platform, Dimensions, Animated,
+  ScrollView, View,
+} from 'react-native'
 import StyleInterpolator from './../../helpers/StyleInterpolator'
-import { findPathOfClosestTabs } from './../../utils'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 import styles from './styles'
 
@@ -92,7 +94,7 @@ class DefaultRenderer extends Component {
   renderScene = (sceneProps: NavigationSceneProps): React$Element<any> => {
     const { navigationState, scene } = sceneProps
     const { component } = scene.route
-    const { wrapInScrollView, hideNavBarOnScroll, hideNavBar, hideTabBar, navBarStyle } = component
+    const { wrapInScrollView, hideNavBarOnScroll, hideTabBar } = component
     const tabs = navigationState.isWrappedInTabs && !hideTabBar
     const props = sceneProps
     if (!wrapInScrollView && hideNavBarOnScroll) {
@@ -107,9 +109,9 @@ class DefaultRenderer extends Component {
         onScroll: this.onScroll,
         scrollEventThrottle: hideNavBarOnScroll ? 25 : 99999,
       }, (
-        <View style={styles.wrapper}>
-          {this.props.renderScene(props)}
-        </View>
+      <View style={styles.wrapper}>
+        {this.props.renderScene(props)}
+      </View>
       ),
     )
   }
@@ -120,7 +122,13 @@ class DefaultRenderer extends Component {
   onScroll = (e: ScrollEvent): void => {
     const { hideNavBarOnScroll } = this.props.scenes.slice(-1)[0].route.component
     const scrollViewHeight = e.nativeEvent.contentSize.height - Dimensions.get('window').height
-    const scrollY =  Math.min(Math.max(parseInt(e.nativeEvent.contentOffset.y), 0), scrollViewHeight)
+    const scrollY = Math.min(
+      Math.max(
+        parseInt(e.nativeEvent.contentOffset.y),
+        0,
+      ),
+      scrollViewHeight,
+    )
     if (hideNavBarOnScroll) {
       const deltaY = this.state.scrollY - scrollY
       const direction = deltaY > 0 ? 'up' : 'down'

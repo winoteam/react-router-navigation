@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Component, createElement } from 'react'
+import React, { Component } from 'react'
 import { TouchableWithoutFeedback, View, Text } from 'react-native'
 import type { NavigationState } from './../../types'
 import styles from './styles'

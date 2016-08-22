@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Component, createElement } from 'react'
+import React, { Component } from 'react'
 import { Dimensions, View } from 'react-native'
 import TabBar from './../TabBar'
 import type { NavigationState, NavigationSceneProps } from './../../types'
@@ -50,7 +50,7 @@ class TabView extends Component {
               styles.wrapper,
               {
                 transform: [{
-                  translateX: Dimensions.get('window').width * -navigationState.index
+                  translateX: Dimensions.get('window').width * -navigationState.index,
                 }],
               },
             ]}
