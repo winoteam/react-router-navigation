@@ -82,7 +82,10 @@ export default function (state: NavigationState, action: NavigationAction): Navi
       const pathToNewRoute = newPath.split('.')
         .map((path) => `routes[${path}]`)
         .join('.')
-      _.update(newState, pathToNewRoute, () => action.route)
+      _.update(newState, pathToNewRoute, () => ({
+        ...action.route,
+        location: action.location,
+      }))
 
       return newState
     }

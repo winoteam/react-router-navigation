@@ -3,15 +3,15 @@
 /* eslint space-infix-ops: 0 */
 
 import React, { Component, PropTypes } from 'react'
-import navigationState, { INIT, PUSH, POP, CHANGE_TAB } from './../../reducer'
+import navigationState, { INIT, PUSH, POP, FOCUS, CHANGE_TAB } from './../../reducer'
 import Navigation from './../Navigation'
-import { extractScenes, getSiblingScenes } from './../../utils'
-import type { NavigationScene, NavigationState, NavigationAction, NavigationContext } from './../../types'
+import { extractScenes, getSiblingScenes, getCurrentRoute } from './../../utils'
+import type { NavigationScene, NavigationState, NavigationAction, NavigationContext, NavigationLocation } from './../../types'
 
 type Props = {
-  children?: Array<React$Element<NavigationScene>>
-} | {
-  scenes: Array<React$Element<NavigationScene>>
+  children?: Array<React$Element<NavigationScene>>,
+  scenes?: Array<React$Element<NavigationScene>>,
+  reducer: (state: NavigationState, action: NavigationAction) => void,
 }
 
 type State = NavigationState
@@ -22,9 +22,8 @@ class Router extends Component {
   state: State
 
 
-  // Initilize navigation state at
-  // index 0 with first scene pass
-  // as props
+  // Initilize navigation state at index 0
+  // with first scene pass as props
   componentWillMount() {
     const { children, scenes } = this.props
     const routes = children
@@ -43,11 +42,12 @@ class Router extends Component {
 
   // Indicates a new item was added to
   // the history
-  push = (key: string, callback: Function): void => {
+  push = (location: NavigationLocation, callback: Function): void => {
+    const key = typeof location === 'string' ? location : location.key
     const scenes = getSiblingScenes(this.state)
     const route = scenes.find((scene) => scene.key === key)
     if (!route) throw new Error(`No scene is defined for key "${key}".`)
-    this.dispatch({ type: PUSH, route }, callback)
+    this.dispatch({ type: PUSH, location, route }, callback)
   }
 
 
@@ -66,16 +66,23 @@ class Router extends Component {
 
 
   // Dispatch an action and update
-  // local state
+  // local state + dispatch focus action
   dispatch = (action: NavigationAction, callback?: Function = () => true) => {
+    const { reducer } = this.props
     const state = navigationState(this.state, action)
     if (typeof callback === 'function') callback(state)
+    if (reducer) {
+      reducer(state, action)
+      const route = getCurrentRoute(state)
+      const key = `scene_${route.key}`
+      reducer(state, { type: FOCUS, key })
+    }
     this.setState(state)
   }
 
 
-  // Provid push and pop action to
-  // components tree via react context
+  // Provid push and pop action to components
+  // tree via react context
   static childContextTypes = {
     router: PropTypes.object.isRequired,
   }
@@ -89,9 +96,9 @@ class Router extends Component {
   }
 
 
-  // Render navigation state into
-  // <Navigation /> component provided
-  // by NavigationExperimental API
+  // Render navigation state into <Navigation />
+  // component provided by NavigationExperimental
+  // API
   render() {
     return (
       <Navigation

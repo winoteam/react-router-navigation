@@ -18,6 +18,13 @@ export type NavigationScene = {
   component: () => React$Element<any>,
 }
 
+export type NavigationLocation = string | {
+  key: string,
+  params: {
+    [key: string]: string,
+  },
+}
+
 export type NavigationState = {
   index: number,
   path: string,
@@ -30,7 +37,7 @@ export type NavigationAction = {
 
 export type NavigationContext = {
   router: {
-    push: (key: string, callback: Function) => void,
+    push: (location: NavigationLocation, callback: Function) => void,
     pop: (callback: Function) => void,
   },
 }

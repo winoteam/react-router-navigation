@@ -10,11 +10,11 @@ import NavBar from './../NavBar'
 import CardStack from './../CardStack'
 import TabStack from './../TabStack'
 import { getCurrentRoute } from './../../utils'
-import type { NavigationState, NavigationSceneProps } from './../../types'
+import type { NavigationLocation, NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
   navigationState: NavigationState,
-  push: (location: string, callback: Function) => void,
+  push: (location: NavigationLocation, callback: Function) => void,
   pop: (callback: Function) => void,
   changeTab: (index: number, callback: Function) => void,
 }
@@ -49,10 +49,10 @@ class Navigation extends Component {
   renderTabStack = (sceneProps: NavigationSceneProps): React$Element<any> => {
     return (
       <TabStack
-        renderScene={this.renderScene}
-        renderHeader={this.renderNavBar}
         {...sceneProps}
         {...this.props}
+        renderScene={this.renderScene}
+        renderHeader={this.renderNavBar}
       />
     )
   }

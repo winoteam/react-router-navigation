@@ -5,13 +5,13 @@ import _ from 'lodash'
 import CardStack from './../CardStack'
 import TabView from './../TabView'
 import { normalizePath } from './../../utils'
-import type { NavigationState, NavigationSceneProps } from './../../types'
+import type { NavigationState, NavigationLocation, NavigationSceneProps } from './../../types'
 
 type Props = {
   navigationState: NavigationState,
   renderScene: (sceneProps: NavigationSceneProps) => React$Element<any>,
   renderHeader: (sceneProps: NavigationSceneProps) => React$Element<any> | null,
-  push: (key: string, callback: Function) => void,
+  push: (location: NavigationLocation, callback: Function) => void,
   pop: (callback: Function) => void,
   changeTab: (index: number, callback: Function) => void,
 }
@@ -51,8 +51,8 @@ class TabStack extends Component {
 
 
   // Dispatch actions
-  push = (key: string) => {
-    this.props.push(key, this.updateNavigationState)
+  push = (location: NavigationLocation) => {
+    this.props.push(location, this.updateNavigationState)
   }
   changeTab = (index: number) => {
     this.props.changeTab(index, this.updateNavigationState)

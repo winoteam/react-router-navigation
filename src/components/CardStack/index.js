@@ -20,7 +20,7 @@ class CardStack extends Component {
 
   props: Props
 
-  renderScenes = (sceneProps: NavigationSceneProps): React$Element<any> => {
+  renderScene = (sceneProps: NavigationSceneProps): React$Element<any> => {
     return (
       <DefaultRenderer
         {...this.props}
@@ -43,7 +43,7 @@ class CardStack extends Component {
       <NavigationTransitioner
         style={styles.container}
         navigationState={this.props.navigationState}
-        render={this.renderScenes}
+        render={this.renderScene}
       />
     )
   }
