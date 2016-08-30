@@ -38,6 +38,7 @@ export type NavigationAction = {
 export type NavigationContext = {
   router: {
     push: (location: NavigationLocation, callback: Function) => void,
+    replace: (location: NavigationLocation, callback: Function) => void,
     pop: (callback: Function) => void,
   },
 }

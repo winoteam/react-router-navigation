@@ -3,7 +3,7 @@
 /* eslint space-infix-ops: 0 */
 
 import React, { Component, PropTypes } from 'react'
-import navigationState, { INIT, PUSH, POP, FOCUS, CHANGE_TAB } from './../../reducer'
+import navigationState, { INIT, PUSH, REPLACE, POP, FOCUS, CHANGE_TAB } from './../../reducer'
 import Navigation from './../Navigation'
 import { extractScenes, getSiblingScenes, getCurrentRoute } from './../../utils'
 import type { NavigationScene, NavigationState, NavigationAction, NavigationContext, NavigationLocation } from './../../types'
@@ -51,6 +51,16 @@ class Router extends Component {
   }
 
 
+  // Replace a scene when a new one
+  replace = (location: NavigationLocation, callback: Function): void => {
+    const key = typeof location === 'string' ? location : location.key
+    const scenes = getSiblingScenes(this.state)
+    const route = scenes.find((scene) => scene.key === key)
+    if (!route) throw new Error(`No scene is defined for key "${key}".`)
+    this.dispatch({ type: REPLACE, location, route }, callback)
+  }
+
+
   // Indicates there is a new current item,
   // i.e. the "current pointer" changed
   pop = (callback: Function) => {
@@ -77,6 +87,7 @@ class Router extends Component {
       const key = `scene_${route.key}`
       reducer(state, { type: FOCUS, key })
     }
+    console.log(`%c ${action.type} `, 'font-size: 20px; font-weight: bold; color: blue');
     this.setState(state)
   }
 
@@ -90,6 +101,7 @@ class Router extends Component {
     return {
       router: {
         push: this.push,
+        replace: this.replace,
         pop: this.pop,
       },
     }

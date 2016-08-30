@@ -2,7 +2,7 @@
 /* eslint prefer-template: 0 */
 
 import _ from 'lodash'
-import { INIT, PUSH, POP, CHANGE_TAB } from './actionTypes'
+import { INIT, PUSH, REPLACE, POP, CHANGE_TAB } from './actionTypes'
 import { extractScenes, normalizePath, findPathOfClosestTabs } from './../utils'
 import type { NavigationAction, NavigationState } from './../types'
 
@@ -44,6 +44,58 @@ export default function (state: NavigationState, action: NavigationAction): Navi
       // Update path
       const newPath = `${state.path.slice(0, -1)}${parseInt(state.path.slice(-1)) + 1}`
       _.update(newState, 'path', () => newPath)
+
+      // Update index
+      const pathToNewIndex = newPath.length > 1
+        ? newPath
+            .split('.')
+            .slice(0, -1)
+            .filter((path) => path)
+            .map((path) => `routes[${path}]`)
+            .join('.')
+          + '.index'
+        : 'index'
+      _.update(newState, pathToNewIndex, () => parseInt(newPath.slice(-1)))
+
+      // Set tabs
+      if (route.tabs) {
+        route.index = 0
+        route.routes = extractScenes(route.children)
+          .map((child) => {
+            const { children } = child
+            const component = children[0]
+              ? children[0].props.component
+              : children.props.component
+            return {
+              ...child,
+              index: 0,
+              routes: [{
+                key: child.key,
+                component,
+              }],
+            }
+          })
+        _.update(newState, 'path', () => `${newPath}.0.0`)
+      }
+
+      // Add new route to state
+      const pathToNewRoute = newPath.split('.')
+        .map((path) => `routes[${path}]`)
+        .join('.')
+      _.update(newState, pathToNewRoute, () => ({
+        ...action.route,
+        location: action.location,
+      }))
+
+      return newState
+    }
+
+    case REPLACE: {
+      const newState = { ...state }
+      const route = action.route
+
+      // Update path
+      const newPath = state.path
 
       // Update index
       const pathToNewIndex = newPath.length > 1

@@ -168,7 +168,8 @@ class DefaultRenderer extends Component {
   shouldComponentUpdate(nextProps: Props) {
     return (
       this.props.navigationState.index !== nextProps.navigationState.index ||
-      this.props.scenes.length !== nextProps.scenes.length
+      this.props.scenes.length !== nextProps.scenes.length ||
+      this.props.scene.key !== nextProps.scene.key
     )
   }
 
