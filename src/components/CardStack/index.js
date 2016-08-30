@@ -35,7 +35,7 @@ class CardStack extends Component {
     return (
       this.props.navigationState.index !== nextProps.navigationState.index ||
       this.props.navigationState.key !== nextProps.navigationState.key ||
-      this.props.navigationState.path !== nextProps.navigationState.path
+      nextProps.navigationState.path
     )
   }
 
