@@ -9,11 +9,18 @@ export function extractScenes(
   const children = scenes.key === 'root'
    ? scenes.props.children
    : scenes
-  return children.map((child) => ({
-    ...child,
-    ...child.props,
-    key: child.key,
-  }))
+  if (Array.isArray(children)) {
+    return children.map((child) => ({
+      ...child,
+      ...child.props,
+      key: child.key,
+    }))
+  }
+  return [{
+    ...children,
+    ...children.props,
+    key: children.key,
+  }]
 }
 
 export function normalizePath(path: string): string {
