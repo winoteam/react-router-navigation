@@ -3,7 +3,7 @@
 /* eslint space-infix-ops: 0 */
 
 import React, { Component, PropTypes } from 'react'
-import navigationState, { INIT, PUSH, REPLACE, POP, FOCUS, CHANGE_TAB } from './../../reducer'
+import navigationState, { INIT, RESET, PUSH, REPLACE, POP, FOCUS, CHANGE_TAB } from './../../reducer'
 import Navigation from './../Navigation'
 import { extractScenes, getSiblingScenes, getCurrentRoute } from './../../utils'
 import type { NavigationScene, NavigationState, NavigationAction, NavigationContext, NavigationLocation } from './../../types'
@@ -75,9 +75,22 @@ class Router extends Component {
   }
 
 
+  // Reset all navigation state
+  reset = (callback: Function) => {
+    const { children, scenes } = this.props
+    const routes = children
+      ? extractScenes(children)
+      : extractScenes(scenes)
+    this.dispatch({ type: RESET, routes }, callback)
+  }
+
+
   // Dispatch an action and update
   // local state + dispatch focus action
+  lastDispatch = 0
   dispatch = (action: NavigationAction, callback?: Function = () => true) => {
+    if (Date.now() - this.lastDispatch < 500) return // Prevent force push
+    this.lastDispatch = Date.now()
     const { reducer } = this.props
     const state = navigationState(this.state, action)
     if (typeof callback === 'function') callback(state)
@@ -99,6 +112,7 @@ class Router extends Component {
   getChildContext(): NavigationContext {
     return {
       router: {
+        reset: this.reset,
         push: this.push,
         replace: this.replace,
         pop: this.pop,
@@ -116,6 +130,8 @@ class Router extends Component {
         navigationState={this.state}
         push={this.push}
         pop={this.pop}
+        reset={this.reset}
+        replace={this.replace}
         changeTab={this.changeTab}
       />
     )

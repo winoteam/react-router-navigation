@@ -16,6 +16,8 @@ type Props = {
   navigationState: NavigationState,
   push: (location: NavigationLocation, callback: Function) => void,
   pop: (callback: Function) => void,
+  replace: (location: NavigationLocation, callback: Function) => void,
+  reset: (callback: Function) => void,
   changeTab: (index: number, callback: Function) => void,
 }
 

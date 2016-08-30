@@ -60,6 +60,9 @@ class TabStack extends Component {
   pop = () => {
     this.props.pop(this.updateNavigationState)
   }
+  reset = () => {
+    this.props.reset()
+  }
 
 
   // Update local navigation state each
@@ -82,6 +85,7 @@ class TabStack extends Component {
       router: {
         push: this.push,
         pop: this.pop,
+        reset: this.reset,
       },
     }
   }

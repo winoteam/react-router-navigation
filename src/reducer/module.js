@@ -2,16 +2,21 @@
 /* eslint prefer-template: 0 */
 
 import _ from 'lodash'
-import { INIT, PUSH, REPLACE, POP, CHANGE_TAB } from './actionTypes'
+import { INIT, RESET, PUSH, REPLACE, POP, CHANGE_TAB } from './actionTypes'
 import { extractScenes, normalizePath, findPathOfClosestTabs } from './../utils'
 import type { NavigationAction, NavigationState } from './../types'
 
 export default function (state: NavigationState, action: NavigationAction): NavigationState {
   switch (action.type) {
 
-    case INIT: {
+    case INIT:
+    case RESET: {
       const route = action.routes[0]
-      const newState = { ...state }
+      const newState = {
+        ...state,
+        index: 0,
+        path: '0',
+      }
       if (route.tabs) {
         newState.path = '0.0.0'
         route.index = 0

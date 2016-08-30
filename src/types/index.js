@@ -40,6 +40,7 @@ export type NavigationContext = {
     push: (location: NavigationLocation, callback: Function) => void,
     replace: (location: NavigationLocation, callback: Function) => void,
     pop: (callback: Function) => void,
+    reset: (callback: Function) => void,
   },
 }
 
