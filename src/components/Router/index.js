@@ -87,7 +87,6 @@ class Router extends Component {
       const key = `scene_${route.key}`
       reducer(state, { type: FOCUS, key })
     }
-    console.log(`%c ${action.type} `, 'font-size: 20px; font-weight: bold; color: blue');
     this.setState(state)
   }
 
