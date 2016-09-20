@@ -14,7 +14,9 @@ type Props = {
   reducer: (state: NavigationState, action: NavigationAction) => void,
 }
 
-type State = NavigationState
+type State = NavigationState & {
+  key: number,
+}
 
 class Router extends Component {
 
@@ -36,7 +38,10 @@ class Router extends Component {
       children: routes,
       routes: [],
     }, action)
-    this.state = state
+    this.state = {
+      ...state,
+      key: Math.random(),
+    }
   }
 
 
@@ -89,7 +94,7 @@ class Router extends Component {
   // local state + dispatch focus action
   lastDispatch = 0
   dispatch = (action: NavigationAction, callback?: Function = () => true) => {
-    if (Date.now() - this.lastDispatch < 500) return // Prevent force push
+    if (Date.now() - this.lastDispatch < 250) return // Prevent force push
     this.lastDispatch = Date.now()
     const { reducer } = this.props
     const state = navigationState(this.state, action)
@@ -100,7 +105,10 @@ class Router extends Component {
       const key = `scene_${route.key}`
       reducer(state, { type: FOCUS, key })
     }
-    this.setState(state)
+    if (action.type === RESET) {
+      this.setState({ ...state, key: Math.random() } )
+    }
+    else this.setState(state)
   }
 
 
@@ -125,8 +133,10 @@ class Router extends Component {
   // component provided by NavigationExperimental
   // API
   render() {
+    const { key } = this.state // use to re mount <Navigation />
     return (
       <Navigation
+        key={key}
         navigationState={this.state}
         push={this.push}
         pop={this.pop}
