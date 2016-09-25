@@ -93,14 +93,13 @@ class DefaultRenderer extends Component {
   // or Scroll component
   renderScene = (sceneProps: NavigationSceneProps): React$Element<any> => {
     const { navigationState, scene } = sceneProps
-    const { component } = scene.route
+    const component = scene.route.component || {}
     const { wrapInScrollView, hideNavBarOnScroll, hideTabBar } = component
     const tabs = navigationState.isWrappedInTabs && !hideTabBar
     const props = sceneProps
     if (!wrapInScrollView && hideNavBarOnScroll) {
       props.onHideNavBarOnScroll = this.onScroll
     }
-
     return createElement(
       wrapInScrollView ? ScrollView : View,
       {

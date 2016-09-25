@@ -3,6 +3,7 @@
 /* eslint space-infix-ops: 0 */
 
 import React, { Component, PropTypes } from 'react'
+import { InteractionManager } from 'react-native'
 import navigationState, { INIT, RESET, PUSH, REPLACE, POP, FOCUS, CHANGE_TAB } from './../../reducer'
 import Navigation from './../Navigation'
 import { extractScenes, getSiblingScenes, getCurrentRoute } from './../../utils'
@@ -105,10 +106,12 @@ class Router extends Component {
       const key = `scene_${route.key}`
       reducer(state, { type: FOCUS, key })
     }
-    if (action.type === RESET) {
-      this.setState({ ...state, key: Math.random() } )
-    }
-    else this.setState(state)
+    InteractionManager.runAfterInteractions(() => {
+      if (action.type === RESET) {
+        this.setState({ ...state, key: Math.random() } )
+      }
+      else this.setState(state)
+    });
   }
 
 
@@ -136,6 +139,7 @@ class Router extends Component {
     const { key } = this.state // use to re mount <Navigation />
     return (
       <Navigation
+        {...this.props}
         key={key}
         navigationState={this.state}
         push={this.push}

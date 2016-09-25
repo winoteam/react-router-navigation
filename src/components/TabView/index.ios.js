@@ -36,11 +36,16 @@ class TabView extends Component {
   render() {
     const { navigationState, renderScene } = this.props
     const { renderedTabs } = this.state
-    const { routes } = navigationState
-    const WrapperComponent = navigationState.component || {}
+    const { routes, component } = navigationState
     const route = routes.find((_route, index) => index === navigationState.index)
-
     const hideTabBar = route.routes.slice(-1)[0].component.hideTabBar
+    const WrapperComponent = component
+      ? component
+      : (props) => (
+          <View style={styles.container}>
+            {props.children}
+          </View>
+        )
 
     return (
       <WrapperComponent {...this.props}>
