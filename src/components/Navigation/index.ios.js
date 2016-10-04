@@ -10,11 +10,9 @@ import NavBar from './../NavBar'
 import CardStack from './../CardStack'
 import TabStack from './../TabStack'
 import { getCurrentRoute } from './../../utils'
-import type { NavigationScene, NavigationLocation, NavigationState, NavigationSceneProps } from './../../types'
+import type { NavigationLocation, NavigationState, NavigationSceneProps } from './../../types'
 
 type Props = {
-  children?: Array<React$Element<NavigationScene>>,
-  scenes?: Array<React$Element<NavigationScene>>,
   navigationState: NavigationState,
   push: (location: NavigationLocation, callback: Function) => void,
   pop: (callback: Function) => void,
@@ -68,15 +66,12 @@ class Navigation extends Component {
   }
 
   render() {
-    const { navigationState } = this.props
-    const style = { flex: 1 }
-    const WrapperComponent = this.props.children
-      ? this.props.children.props.component
-      : this.props.scenes.props.component
-    return createElement(
-      WrapperComponent || View,
-      { style },
-      <View style={{ flex: 1 }}>
+    const { navigationState, scenes } = this.props
+    const WrappedComponent = scenes.props.component
+      ? scenes.props.component
+      : ({ children}) => <View style={{ flex: 1 }}>{children}</View>
+    return (
+      <WrappedComponent>
         <StatusBar
           barStyle={this.getStatusBarStyle()}
         />
@@ -86,7 +81,7 @@ class Navigation extends Component {
           renderScene={this.renderScene}
           renderHeader={(sceneProps) => this.renderNavBar(sceneProps, this.props.pop)}
         />
-      </View>
+      </WrappedComponent>
     )
   }
 
