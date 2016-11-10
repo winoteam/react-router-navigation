@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   scene: {
-    flex: 1,
     width: Dimensions.get('window').width,
     overflow: 'hidden',
   },
