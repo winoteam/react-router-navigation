@@ -49,7 +49,6 @@ class TabStack extends Component {
     }
   }
 
-
   // Dispatch actions
   push = (location: NavigationLocation) => {
     this.props.push(location, this.updateNavigationState)

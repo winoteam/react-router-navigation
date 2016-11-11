@@ -2,16 +2,20 @@
 
 import { StyleSheet, Dimensions } from 'react-native'
 
+const { width, height } = Dimensions.get('window')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   wrapper: {
-    flex: 1,
     flexDirection: 'row',
+    width,
+    height,
   },
   scene: {
-    width: Dimensions.get('window').width,
+    width,
+    height,
     overflow: 'hidden',
   },
 })

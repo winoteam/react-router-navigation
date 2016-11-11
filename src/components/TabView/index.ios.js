@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import { Dimensions, View } from 'react-native'
+import { Dimensions, View, Text } from 'react-native'
 import TabBar from './../TabBar'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 import styles from './styles'
@@ -18,9 +18,12 @@ type State = {
 class TabView extends Component {
 
   props: Props
+  stat: State
 
-  state: State = {
-    renderedTabs: [0],
+  constructor(props) {
+    super(props)
+    const { index } = props.navigationState
+    this.state = { renderedTabs: [index] }
   }
 
   componentWillReceiveProps(nextProps: Props) {
