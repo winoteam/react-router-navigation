@@ -31,8 +31,8 @@ local.properties
 
 # node.js
 #
-npm-debug.log
 node_modules/
+npm-debug.log
 
 # BUCK
 buck-out/
