@@ -1,0 +1,22 @@
+{
+  "name": "Lab",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "lodash": "v4.17.0",
+    "react": "15.3.2",
+    "react-addons-shallow-compare": "^15.3.2",
+    "react-broadcast": "^0.1.1",
+    "react-native": "v0.37",
+    "react-native-tab-view": "v0.0.38",
+    "react-router": "^4.0.0-alpha.3",
+    "react-static-container": "^1.0.1",
+    "recompose": "^0.20.2"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.16.0"
+  }
+}
