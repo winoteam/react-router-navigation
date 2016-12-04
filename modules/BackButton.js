@@ -1,13 +1,14 @@
 /* @flow */
 /* eslint global-require: 0 */
+/* eslint max-len: 0 */
+/* eslint new-cap: 0 */
 
 import React from 'react'
-import { StyleSheet, Platform, View, TouchableOpacity, TouchableNativeFeedback, Image } from 'react-native'
+import { StyleSheet, Platform, View, TouchableNativeFeedback, TouchableOpacity, Image } from 'react-native'
 import type { SceneProps } from './../types'
 
 type Props = SceneProps & {
-  onPress: () => void,
-  style?: StyleSheet,
+  onPress: Function,
 }
 
 const styles = StyleSheet.create({
@@ -25,36 +26,27 @@ const styles = StyleSheet.create({
   },
 })
 
-const BackButton = ({ onPress, style, ...sceneProps }: Props): React$Element<any> => {
-  const source = sceneProps.scene.route.backButtonStyle === 'light'
+const BackButton = ({ onPress, ...sceneProps }: Props): React$Element<any> => {
+  const Touchable = Platform.OS === 'ios'
+    ? TouchableOpacity
+    : TouchableNativeFeedback
+  const Arrow = sceneProps.scene.route.backButtonStyle === 'light'
     ? require('./assets/back-light.png')
     : require('./assets/back-dark.png')
-  if (Platform.OS === 'ios') {
-    return (
-      <TouchableOpacity
-        style={[styles.container, style]}
-        onPress={onPress}
-      >
-        <Image
-          style={styles.main}
-          source={source}
-        />
-      </TouchableOpacity>
-    )
-  }
+
   return (
-    <TouchableNativeFeedback
+    <Touchable
       style={styles.container}
-      background={TouchableNativeFeedback.Ripple('white', true)}
+      background={Platform.OS === 'android' && TouchableNativeFeedback.Ripple('white', true)}
       onPress={onPress}
     >
       <View>
         <Image
           style={styles.main}
-          source={source}
+          source={Arrow}
         />
       </View>
-    </TouchableNativeFeedback>
+    </Touchable>
   )
 }
 

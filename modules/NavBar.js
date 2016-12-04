@@ -1,21 +1,18 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import { NavigationExperimental, StyleSheet, Platform, Dimensions, View } from 'react-native'
-import _ from 'lodash'
+import { NavigationExperimental, Animated, StyleSheet, Platform, Dimensions } from 'react-native'
 import BackButton from './BackButton'
 import type { SceneProps } from './../types'
 
-const {
-  Header: NavigationHeader,
-} = NavigationExperimental
+const { Header: NavigationHeader } = NavigationExperimental
 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 0,
     zIndex: 10,
-    width: Dimensions.get('window').width
+    width: Dimensions.get('window').width,
   },
 })
 
@@ -26,17 +23,10 @@ type Props = SceneProps & {
 class NavBar extends Component<void, Props, void> {
 
   props: Props
-  initialProps: ?Props
-
-  constructor(props: Props): void {
-    super(props)
-    if (Platform.OS === 'android') {
-      this.initialProps = _.cloneDeep([props])[0]
-    }
-  }
 
   renderLeftComponent = (): ?React$Element<any> => {
     const { scene, onNavigateBack } = this.props
+    // Remove back button for fist scene
     if (scene.index === 0 || !onNavigateBack) return null
     return (
       <BackButton
@@ -57,13 +47,25 @@ class NavBar extends Component<void, Props, void> {
   }
 
   shouldComponentUpdate(): boolean {
+    // Accept updates only for iOS
     return Platform.OS === 'ios'
   }
 
   render(): ?React$Element<any> {
-    const sceneProps = Platform.OS === 'ios' ? this.props : this.initialProps
-    const { route } = sceneProps.scene
+    // Build scene props
+    const sceneProps = {
+      ...this.props,
+      position: new Animated.Value(0),
+    }
+
+    // Extract current route
+    const { route } = this.props.scene
+
+    // If route contains hideNavBar option, return null
     if (route.hideNavBar) return null
+
+    // Else return <NavigationHeader /> (NavigationExperimental)
+    // with this.props
     return (
       <NavigationHeader
         {...sceneProps}
