@@ -1,9 +1,9 @@
 /* @flow */
 
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import { BackAndroid, NavigationExperimental, StyleSheet } from 'react-native'
-import Provider from './Provider'
-import { getRoute, getOptions } from './utils'
+import _ from 'lodash'
+import { getRoute, normalizeRoute, initNavigationState } from './utils'
 import type { NavigationState, SceneProps, Match, Location, History } from './../types'
 
 const {
@@ -17,14 +17,14 @@ const styles = StyleSheet.create({
   },
 })
 
-type ProviderProps = {
+type Props = {
   children: Array<React$Element<any>>,
-  render: (props: SceneProps & { onNavigateBack: Function }) => React$Element<any>,
+  children: (props: SceneProps & { onNavigateBack: Function }) => React$Element<any>,
 }
 
-type Props = ProviderProps & {
-  match: Match,
+type Context = {
   location: Location,
+  match: Match,
   history: History,
 }
 
@@ -34,81 +34,96 @@ class CardStack extends Component<void, Props, State> {
 
   props: Props
   state: State
+  context: Context
 
-  // Initialyze state with a first route
-  constructor(props: Props): void {
-    super(props)
-    const { match, location, children } = props
+  static contextTypes = {
+    history: PropTypes.object,
+    match: PropTypes.object,
+  }
+
+  constructor(props: Props, context: Context): void {
+    super(props, context)
+    // Initialyze state with a first route
+    const { children, tabs } = props
+    const { match, history } = context
+    const { location } = history
     const parent = match && match.parent
     const route = getRoute({ children, parent, location })
-    this.state = {
-      index: 0,
-      routes: [{
-        key: route.props.pattern,
-        component: route,
-        ...getOptions(route.props.component),
-      }],
-    }
+    this.state = initNavigationState(route, children, tabs)
   }
 
-  // Listen hardwareBackPress evennt
   componentDidMount() {
+    // Listen history from <MemoryRouter />
+    const { history } = this.context
+    this.unlistenHistory = history.listen(this.onListenHistory)
+    // Listen hardware BackAndroid event
     BackAndroid.addEventListener('hardwareBackPress', this.onNavigateBack)
   }
+
   componentWillUnmount() {
+    // Remove listeners
+    this.unlistenHistory()
     BackAndroid.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
-  // When a new route is pushed, update the
-  // navigtion state with NavigationStateUtils
-  componentWillReceiveProps(nextProps: Props): void {
-    const { routes } = this.state
-    const { match, location, children } = nextProps
+  onListenHistory = (): void => {
+    // Get current route
+    const navigationState = this.state
+    const route = navigationState.routes[navigationState.index].component
+    // Get next route
+    const { children } = this.props
+    const { match } = this.context
+    const { history } = this.context
+    const { action, location } = history
     const parent = match && match.parent
     const nextRoute = getRoute({ children, parent, location })
-    if (nextRoute) {
-      const key = nextRoute.props.pattern
-      if (routes.slice(-1)[0].key !== key) {
+    // Local state must be updated ?
+    if (nextRoute && route.props.pattern !== nextRoute.props.pattern) {
+      // Push a new route
+      if (action === 'PUSH') {
         this.setState(
           NavigationStateUtils.push(
-            this.state,
-            {
-              key,
-              component: nextRoute,
-              ...getOptions(nextRoute.props.component),
-            }
-          )
+            navigationState,
+            normalizeRoute(nextRoute),
+          ),
+        )
+      }
+      // Pop a route (n-1)
+      else if (action === 'POP') {
+        this.setState(
+          NavigationStateUtils.pop(navigationState),
         )
       }
     }
   }
 
-  // Pop to previous scene
-  // @TODO: use NavigationStateUtils
   onNavigateBack = (): boolean => {
+    // Pop to previous scene (n-1)
     if (this.state.index > 0) {
-      this.setState({
-        index: this.state.index - 1,
-        routes: this.state.routes.slice(0, -1),
-      })
+      this.context.history.goBack()
       return true
     }
     return false
   }
 
-  // Render <CardStack /> when navigation state
-  // index is updated
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    return this.state.index !== nextState.index
+    return (
+      this.state.index !== nextState.index ||
+      !_.isEqual(
+        this.state.routes.map(({ key }) => key),
+        nextState.routes.map(({ key }) => key),
+      )
+    )
   }
 
-  // Render with <NavigationTransitioner />
-  // (from NavigationExperimental)
   render(): React$Element<any> {
+    // Render into <NavigationTransitioner /> with
+    // custom render prop
     return (
       <NavigationTransitioner
         style={styles.container}
         navigationState={this.state}
+        configureTransition={() => null}
         render={(props) => this.props.render({
           ...props,
           onNavigateBack: this.onNavigateBack,
@@ -119,15 +134,4 @@ class CardStack extends Component<void, Props, State> {
 
 }
 
-export default (props): React$Element<any> => (
-  <Provider>
-    {({ location, history, match }) => (
-      <CardStack
-        {...props}
-        location={location}
-        history={history}
-        match={match}
-      />
-    )}
-  </Provider>
-)
+export default CardStack

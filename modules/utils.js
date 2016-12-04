@@ -1,15 +1,15 @@
 /* @flow */
 
 import { matchPattern } from 'react-router'
-import type { Route, Location, Options } from './../types'
+import type { Route, Location, Options, NavigationState } from './../types'
 
+// Get current route from history
 type Props = {
   children: Array<React$Element<any>>,
   parent: string,
   location: Location,
 }
-
-export function getRoute({ children, parent, location }: Props): ?Route {
+export function getRoute({ children, parent, location }: Props): ?React$Element<any> {
   return children
     .find((child) => {
       const { pattern, exactly } = child.props
@@ -17,6 +17,7 @@ export function getRoute({ children, parent, location }: Props): ?Route {
     })
 }
 
+// Get valid options pass to scene
 export function getOptions(possibleOptions: Object): Options {
   const AUTHORIZED_KEYS = [
     'hideNavBar', 'navBarStyle', 'titleStyle', 'backButtonStyle',
@@ -34,4 +35,27 @@ export function getOptions(possibleOptions: Object): Options {
       }
       return options
     }, {})
+}
+
+// Normalize route
+export const normalizeRoute = (route: React$Element): Route => ({
+  key: route.props.pattern,
+  component: route,
+  ...getOptions(route.props.component),
+})
+
+// Initialyze navigation state for navigator
+// and tabs
+export const initNavigationState = (
+  currentRoute: ?Route,
+  children: Array<React$Element<any>>,
+  tabs: boolean
+): NavigationState => {
+  const routes = children.map(normalizeRoute)
+  return {
+    index: 0,
+    routes: tabs
+      ? routes
+      : routes.filter((route) => route.key === currentRoute.props.pattern),
+  }
 }
