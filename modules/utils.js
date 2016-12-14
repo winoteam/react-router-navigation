@@ -1,7 +1,7 @@
 /* @flow */
 
 import { matchPattern } from 'react-router'
-import type { Route, Location, Options, NavigationState } from './../types'
+import type { Route, Location, Options } from './../types'
 
 // Get current route from history
 type Props = {
@@ -43,19 +43,3 @@ export const normalizeRoute = (route: React$Element): Route => ({
   component: route,
   ...getOptions(route.props.component),
 })
-
-// Initialyze navigation state for navigator
-// and tabs
-export const initNavigationState = (
-  currentRoute: ?Route,
-  children: Array<React$Element<any>>,
-  tabs: boolean
-): NavigationState => {
-  const routes = children.map(normalizeRoute)
-  return {
-    index: 0,
-    routes: tabs
-      ? routes
-      : routes.filter((route) => route.key === currentRoute.props.pattern),
-  }
-}

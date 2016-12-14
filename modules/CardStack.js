@@ -1,21 +1,15 @@
 /* @flow */
 
 import React, { PropTypes, Component } from 'react'
-import { BackAndroid, NavigationExperimental, StyleSheet } from 'react-native'
+import { BackAndroid, NavigationExperimental } from 'react-native'
 import _ from 'lodash'
-import { getRoute, normalizeRoute, initNavigationState } from './utils'
-import type { NavigationState, SceneProps, Match, Location, History } from './../types'
+import { getRoute, normalizeRoute } from './utils'
+import type { NavigationState, SceneProps, Match, History } from './../types'
 
 const {
   Transitioner: NavigationTransitioner,
   StateUtils: NavigationStateUtils,
 } = NavigationExperimental
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-})
 
 type Props = {
   children: Array<React$Element<any>>,
@@ -23,7 +17,6 @@ type Props = {
 }
 
 type Context = {
-  location: Location,
   match: Match,
   history: History,
 }
@@ -44,12 +37,16 @@ class CardStack extends Component<void, Props, State> {
   constructor(props: Props, context: Context): void {
     super(props, context)
     // Initialyze state with a first route
-    const { children, tabs } = props
+    const { children } = props
     const { match, history } = context
     const { location } = history
     const parent = match && match.parent
     const route = getRoute({ children, parent, location })
-    this.state = initNavigationState(route, children, tabs)
+    const routes = children.map(normalizeRoute)
+    this.state = {
+      index: 0,
+      routes: routes.filter(({ key }) => key === route.props.pattern),
+    }
   }
 
   componentDidMount() {
@@ -72,8 +69,7 @@ class CardStack extends Component<void, Props, State> {
     const route = navigationState.routes[navigationState.index].component
     // Get next route
     const { children } = this.props
-    const { match } = this.context
-    const { history } = this.context
+    const { history, match } = this.context
     const { action, location } = history
     const parent = match && match.parent
     const nextRoute = getRoute({ children, parent, location })
@@ -121,7 +117,6 @@ class CardStack extends Component<void, Props, State> {
     // custom render prop
     return (
       <NavigationTransitioner
-        style={styles.container}
         navigationState={this.state}
         configureTransition={() => null}
         render={(props) => this.props.render({

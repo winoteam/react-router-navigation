@@ -3,8 +3,8 @@
 import React, { createElement, PropTypes, Component } from 'react'
 import { Platform, NavigationExperimental, StyleSheet } from 'react-native'
 import { TabViewAnimated, TabViewPagerAndroid, TabViewPagerScroll } from 'react-native-tab-view'
-import { getRoute, initNavigationState } from './utils'
-import type { NavigationState, Match, Location, History, Route } from './../types'
+import { getRoute, normalizeRoute } from './utils'
+import type { NavigationState, Match, History, Route } from './../types'
 
 const {
   StateUtils: NavigationStateUtils,
@@ -21,7 +21,6 @@ type Props = {
 }
 
 type Context = {
-  location: Location,
   match: Match,
   history: History,
 }
@@ -47,7 +46,11 @@ class CardStack extends Component<void, Props, State> {
     const { location } = history
     const parent = match && match.parent
     const route = getRoute({ children, parent, location })
-    this.state = initNavigationState(route, children, true)
+    const routes = children.map(normalizeRoute)
+    this.state = {
+      index: routes.findIndex(({ key }) => key === route.props.pattern),
+      routes,
+    }
   }
 
   componentDidMount() {
@@ -67,8 +70,7 @@ class CardStack extends Component<void, Props, State> {
     const route = navigationState.routes[navigationState.index].component
     // Get next route
     const { children } = this.props
-    const { match } = this.context
-    const { history } = this.context
+    const { history, match } = this.context
     const { action, location } = history
     const parent = match && match.parent
     const nextRoute = getRoute({ children, parent, location })
