@@ -1,0 +1,4 @@
+{
+  "preset": "react-native",
+  "testPathIgnorePatterns": ["<rootDir>/node_modules", "<rootDir>/modules/__tests__/helpers"]
+}
