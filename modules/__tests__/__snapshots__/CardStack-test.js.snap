@@ -1,0 +1,137 @@
+exports[`test <CardStack /> re-renders correctly when "pop" action is called 1`] = `
+<View
+  onPress={[Function]}>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        undefined,
+      ]
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Hello
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`test <CardStack /> re-renders correctly when "pop" action is called 2`] = `
+<View
+  onPress={[Function]}>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        undefined,
+      ]
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Index
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`test <CardStack /> re-renders correctly when "push" action is called 1`] = `
+<View
+  onPress={[Function]}>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        undefined,
+      ]
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Index
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`test <CardStack /> re-renders correctly when "push" action is called 2`] = `
+<View
+  onPress={[Function]}>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        undefined,
+      ]
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Hello
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`test <CardStack /> renders correctly 1`] = `
+<View
+  onPress={[Function]}>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        undefined,
+      ]
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Index
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`test <CardStack /> renders correctly with initialEntries prop  1`] = `
+<View
+  onPress={[Function]}>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        undefined,
+      ]
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Hello
+    </Text>
+  </View>
+</View>
+`;

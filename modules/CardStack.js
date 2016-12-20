@@ -3,8 +3,12 @@
 import React, { PropTypes, Component } from 'react'
 import { BackAndroid, NavigationExperimental } from 'react-native'
 import _ from 'lodash'
+import type { NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
+import type { Action, NavigationState } from './StackTypeDefinitions'
 import { getRoute, normalizeRoute } from './utils'
-import type { NavigationState, SceneProps, Match, History } from './../types'
+
+// @TODO need to import this from react-router / History
+import type { Match, History } from './../types'
 
 const {
   Transitioner: NavigationTransitioner,
@@ -12,8 +16,11 @@ const {
 } = NavigationExperimental
 
 type Props = {
-  children: Array<React$Element<any>>,
-  children: (props: SceneProps & { onNavigateBack: Function }) => React$Element<any>,
+  children: Array<React$Element<{
+    pattern: string,
+    component: React$Element<any>,
+  }>>,
+  render: (props: NavigationTransitionProps & { onNavigateBack: Function }) => React$Element<any>,
 }
 
 type Context = {
@@ -21,7 +28,10 @@ type Context = {
   history: History,
 }
 
-type State = NavigationState
+type State = {
+  navigationState: NavigationState,
+  action: Action,
+}
 
 class CardStack extends Component<void, Props, State> {
 
@@ -29,43 +39,53 @@ class CardStack extends Component<void, Props, State> {
   state: State
   context: Context
 
+  unlistenHistory: Function
+
   static contextTypes = {
     history: PropTypes.object,
     match: PropTypes.object,
   }
 
+  // Initialyze navigation state with
+  // initial history
   constructor(props: Props, context: Context): void {
     super(props, context)
-    // Initialyze state with a first route
     const { children } = props
     const { match, history } = context
-    const { location } = history
+    const { action, entries, location } = history
     const parent = match && match.parent
-    const route = getRoute({ children, parent, location })
-    const routes = children.map(normalizeRoute)
-    this.state = {
-      index: 0,
-      routes: routes.filter(({ key }) => key === route.props.pattern),
-    }
+    const currentRoute = normalizeRoute(getRoute({ children, parent, location }))
+    const index = entries.findIndex(({ pathname }) => {
+      return currentRoute && pathname === currentRoute.key
+    })
+    const routes = entries
+      .map(({ pathname }) => {
+        const entry = children
+          .map((route) => normalizeRoute(route))
+          .find((route) => route && route.key === pathname)
+        return entry || { key: '', component: null } // @TODO remove || operator
+      })
+      .filter((route) => route && route.key)
+    this.state = { navigationState: { index, routes }, action }
   }
 
+  // Listen history from <MemoryRouter /> and
+  // hardware BackAndroid event
   componentDidMount() {
-    // Listen history from <MemoryRouter />
     const { history } = this.context
     this.unlistenHistory = history.listen(this.onListenHistory)
-    // Listen hardware BackAndroid event
     BackAndroid.addEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
+  // Remove all listeners
   componentWillUnmount() {
-    // Remove listeners
     this.unlistenHistory()
     BackAndroid.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
   onListenHistory = (): void => {
     // Get current route
-    const navigationState = this.state
+    const { navigationState } = this.state
     const route = navigationState.routes[navigationState.index].component
     // Get next route
     const { children } = this.props
@@ -74,52 +94,57 @@ class CardStack extends Component<void, Props, State> {
     const parent = match && match.parent
     const nextRoute = getRoute({ children, parent, location })
     // Local state must be updated ?
-    if (nextRoute && route.props.pattern !== nextRoute.props.pattern) {
-      // Push a new route
+    if (nextRoute && route && route.props.pattern !== nextRoute.props.pattern) {
       if (action === 'PUSH') {
-        this.setState(
-          NavigationStateUtils.push(
+        this.setState({
+          navigationState: NavigationStateUtils.push(
             navigationState,
             normalizeRoute(nextRoute),
           ),
-        )
-      }
-      // Pop a route (n-1)
-      else if (action === 'POP') {
-        this.setState(
-          NavigationStateUtils.pop(navigationState),
-        )
+          action,
+        })
+      } else if (action === 'POP') {
+        this.setState({
+          navigationState: NavigationStateUtils.pop(navigationState),
+          action,
+        })
       }
     }
   }
 
+  // Pop to previous scene (n-1)
   onNavigateBack = (): boolean => {
-    // Pop to previous scene (n-1)
-    if (this.state.index > 0) {
+    if (this.state.navigationState.index > 0) {
       this.context.history.goBack()
       return true
     }
     return false
   }
 
+  // Render when index is updated or when
+  // one route is updated
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    const { navigationState } = this.state
+    const nextNavigationState = nextState.navigationState
     return (
-      this.state.index !== nextState.index ||
+      navigationState.index !== nextNavigationState.index ||
       !_.isEqual(
-        this.state.routes.map(({ key }) => key),
-        nextState.routes.map(({ key }) => key),
+        navigationState.routes.map(({ key }) => key),
+        nextNavigationState.routes.map(({ key }) => key),
       )
     )
   }
 
+  // Render into <NavigationTransitioner /> with
+  // custom render() prop
+  // !! Warning: transitions are disabled by default !!
   render(): React$Element<any> {
-    // Render into <NavigationTransitioner /> with
-    // custom render prop
     return (
       <NavigationTransitioner
-        navigationState={this.state}
+        navigationState={this.state.navigationState}
         configureTransition={() => null}
-        render={(props) => this.props.render({
+        render={(props: NavigationTransitionProps) => this.props.render({
+          ...this.state,
           ...props,
           onNavigateBack: this.onNavigateBack,
         })}
