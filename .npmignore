@@ -1,1 +1,5 @@
-Example/
+examples/
+node_modules/
+.babelrc
+.git
+.watchmanconfig

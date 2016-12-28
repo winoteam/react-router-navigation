@@ -1,4 +1,5 @@
 {
   "preset": "react-native",
-  "testPathIgnorePatterns": ["<rootDir>/node_modules", "<rootDir>/modules/__tests__/helpers"]
+  "testRegex": "./__tests__/.*-test.js$",
+  "rootDir": "."
 }
