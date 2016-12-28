@@ -3,11 +3,11 @@
 import React, { PropTypes, Component } from 'react'
 import { BackAndroid, NavigationExperimental } from 'react-native'
 import _ from 'lodash'
-import type { NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
-import type { Action, NavigationState } from './StackTypeDefinitions'
-import { getRoute, normalizeRoute } from './utils'
+import type { NavigationState, NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
+import type { Card } from './StackTypeDefinitions'
+import { getRoute } from './utils'
 
-// @TODO need to import this from react-router / History
+// @TODO react-router and history need to have official flow types
 import type { Match, History } from './../types'
 
 const {
@@ -20,7 +20,11 @@ type Props = {
     pattern: string,
     component: React$Element<any>,
   }>>,
-  render: (props: NavigationTransitionProps & { onNavigateBack: Function }) => React$Element<any>,
+  render: (
+    props: NavigationTransitionProps & {
+      cards: Array<Card>,
+      onNavigateBack: Function,
+    }) => React$Element<any>,
 }
 
 type Context = {
@@ -30,7 +34,7 @@ type Context = {
 
 type State = {
   navigationState: NavigationState,
-  action: Action,
+  cards: Array<Card>,
 }
 
 class CardStack extends Component<void, Props, State> {
@@ -52,21 +56,26 @@ class CardStack extends Component<void, Props, State> {
     super(props, context)
     const { children } = props
     const { match, history } = context
-    const { action, entries, location } = history
+    const { entries, location } = history
     const parent = match && match.parent
-    const currentRoute = normalizeRoute(getRoute({ children, parent, location }))
+    const currentRoute = getRoute({ children, parent, location })
     const index = entries.findIndex(({ pathname }) => {
-      return currentRoute && pathname === currentRoute.key
+      return currentRoute && currentRoute.props.pattern === pathname
     })
     const routes = entries
       .map(({ pathname }) => {
         const entry = children
-          .map((route) => normalizeRoute(route))
+          .map((child) => ({ key: child.props.pattern }))
           .find((route) => route && route.key === pathname)
-        return entry || { key: '', component: null } // @TODO remove || operator
+        return entry || { key: '' }
       })
-      .filter((route) => route && route.key)
-    this.state = { navigationState: { index, routes }, action }
+      .filter(({ key }) => key)
+    const navigationState = { index, routes }
+    const cards = children.map((child) => ({
+      key: child.props.pattern,
+      component: child.props.component,
+    }))
+    this.state = { navigationState, cards }
   }
 
   // Listen history from <MemoryRouter /> and
@@ -83,30 +92,30 @@ class CardStack extends Component<void, Props, State> {
     BackAndroid.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
+  // Listen all history events
   onListenHistory = (): void => {
     // Get current route
     const { navigationState } = this.state
-    const route = navigationState.routes[navigationState.index].component
-    // Get next route
     const { children } = this.props
+    const route = navigationState.routes[navigationState.index]
+    const card = children.find((child) => child.props.pattern === route.key)
+    // Get next route
     const { history, match } = this.context
     const { action, location } = history
     const parent = match && match.parent
     const nextRoute = getRoute({ children, parent, location })
     // Local state must be updated ?
-    if (nextRoute && route && route.props.pattern !== nextRoute.props.pattern) {
+    if (nextRoute && card && card.props.pattern !== nextRoute.props.pattern) {
       if (action === 'PUSH') {
         this.setState({
           navigationState: NavigationStateUtils.push(
             navigationState,
-            normalizeRoute(nextRoute),
+            { key: nextRoute.props.pattern },
           ),
-          action,
         })
       } else if (action === 'POP') {
         this.setState({
           navigationState: NavigationStateUtils.pop(navigationState),
-          action,
         })
       }
     }
@@ -124,14 +133,9 @@ class CardStack extends Component<void, Props, State> {
   // Render when index is updated or when
   // one route is updated
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    const { navigationState } = this.state
-    const nextNavigationState = nextState.navigationState
-    return (
-      navigationState.index !== nextNavigationState.index ||
-      !_.isEqual(
-        navigationState.routes.map(({ key }) => key),
-        nextNavigationState.routes.map(({ key }) => key),
-      )
+    return !_.isEqual(
+      this.state.navigationState,
+      nextState.navigationState,
     )
   }
 
