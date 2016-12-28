@@ -113,7 +113,7 @@ exports[`test <CardStack /> renders correctly 1`] = `
 </View>
 `;
 
-exports[`test <CardStack /> renders correctly with initialEntries prop  1`] = `
+exports[`test <CardStack /> renders correctly with initialIndex and initialEntries prop  1`] = `
 <View
   onPress={[Function]}>
   <View

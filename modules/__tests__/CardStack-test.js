@@ -1,15 +1,14 @@
-import React from 'react'
-import renderer from 'react-test-renderer'
+import 'react-native'
+import React, { PropTypes, Component } from 'react'
 import { Match } from 'react-router'
-import TestRouter from './helpers/TestRouter'
-import DefaultPager from './helpers/DefaultPager'
-import componentFactory from './helpers/componentFactory'
+import { TestRouter, componentFactory, CardView } from './utils'
 import CardStack from './../CardStack'
+import renderer from 'react-test-renderer'
 
 it('<CardStack /> renders correctly', () => {
   const component = renderer.create(
     <TestRouter>
-      <CardStack render={DefaultPager}>
+      <CardStack render={CardView}>
         <Match exactly pattern="/" component={componentFactory('Index')} />
         <Match pattern="/hello" component={componentFactory('Hello')} />
       </CardStack>
@@ -19,13 +18,13 @@ it('<CardStack /> renders correctly', () => {
   expect(tree).toMatchSnapshot()
 })
 
-it('<CardStack /> renders correctly with initialEntries prop ', () => {
+it('<CardStack /> renders correctly with initialIndex and initialEntries prop ', () => {
   const component = renderer.create(
     <TestRouter
       initialIndex={1}
       initialEntries={['/', '/hello', '/goodbye']}
     >
-      <CardStack render={DefaultPager}>
+      <CardStack render={CardView}>
         <Match exactly pattern="/" component={componentFactory('Index')} />
         <Match pattern="/hello" component={componentFactory('Hello')} />
         <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
@@ -37,41 +36,35 @@ it('<CardStack /> renders correctly with initialEntries prop ', () => {
 })
 
 it('<CardStack /> re-renders correctly when "push" action is called', () => {
-  // Create component
   const component = renderer.create(
     <TestRouter>
-      <CardStack render={DefaultPager}>
+      <CardStack render={CardView}>
         <Match exactly pattern="/" component={componentFactory('Index')} />
         <Match pattern="/hello" component={componentFactory('Hello')} />
       </CardStack>
     </TestRouter>
   )
-  // Snapshot on initialization
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
-  // Push new route
   tree.props.onPress((history) => history.push('/hello'))
   tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })
 
 it('<CardStack /> re-renders correctly when "pop" action is called', () => {
-  // Create component
   const component = renderer.create(
     <TestRouter
       initialIndex={1}
       initialEntries={['/', '/hello']}
     >
-      <CardStack render={DefaultPager}>
+      <CardStack render={CardView}>
         <Match exactly pattern="/" component={componentFactory('Index')} />
         <Match pattern="/hello" component={componentFactory('Hello')} />
       </CardStack>
     </TestRouter>
   )
-  // Snapshot on initialization
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
-  // Pop
   tree.props.onPress((history) => history.goBack())
   tree = component.toJSON()
   expect(tree).toMatchSnapshot()

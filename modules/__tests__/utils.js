@@ -1,12 +1,13 @@
-/* eslint react/no-multi-comp: 0 */
-
-import React, { PropTypes, Component } from 'react'
-import { View } from 'react-native'
-import { StaticRouter } from 'react-router'
+import React, { PropTypes, Component, createElement } from 'react'
+import { View, Text } from 'react-native'
+import { Match, StaticRouter } from 'react-router'
 import { createMemoryHistory } from 'history'
 
-// @TODO use <Router /> from react-router
-class History extends Component {
+export const componentFactory = (message) => () => (
+  <Text>{message}</Text>
+)
+
+export class History extends Component {
   static childContextTypes = {
     history: PropTypes.object.isRequired,
   }
@@ -31,7 +32,7 @@ class History extends Component {
   }
 }
 
-class TestRouter extends Component {
+export class TestRouter extends Component {
   componentWillMount() {
     this.history = createMemoryHistory(this.props)
   }
@@ -61,4 +62,18 @@ class TestRouter extends Component {
   }
 }
 
-export default TestRouter
+export const CardView = ({ navigationState, cards }) => {
+  const currentCard = cards.find((card) => {
+    const currentRoute = navigationState.routes[navigationState.index]
+    return card.key === currentRoute.key
+  })
+  return createElement(currentCard.component)
+}
+
+export const TabView = ({ navigationState, tabs }) => {
+  const currentTab = tabs.find((tab) => {
+    const currentRoute = navigationState.routes[navigationState.index]
+    return tab.key === currentRoute.key
+  })
+  return createElement(currentTab.component)
+}
