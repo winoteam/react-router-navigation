@@ -1,23 +1,24 @@
 /* @flow */
 
-import React, { createElement, PropTypes, Component } from 'react'
-import { Platform, NavigationExperimental, StyleSheet } from 'react-native'
-import { TabViewAnimated, TabViewPagerAndroid, TabViewPagerScroll } from 'react-native-tab-view'
-import { getRoute, normalizeRoute } from './utils'
-import type { NavigationState, Match, History, Route } from './../types'
+import React, { PropTypes, Component } from 'react'
+import { TabViewTransitioner } from 'react-native-tab-view'
+import _ from 'lodash'
+import type { SceneRendererProps, NavigationState } from 'react-native-tab-view/src/TabViewTypeDefinitions'
+import type { Tab } from './StackTypeDefinitions'
+import { getRoute } from './utils'
 
-const {
-  StateUtils: NavigationStateUtils,
-} = NavigationExperimental
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-})
+// @TODO react-router and history need to have official flow types
+import type { Match, History } from './../types'
 
 type Props = {
-  children: Array<React$Element<any>>,
+  children: Array<React$Element<{
+    pattern: string,
+    component: React$Element<any>,
+  }>>,
+  render: (
+    props: SceneRendererProps & {
+      tabs: Array<Tab>,
+    }) => React$Element<any>,
 }
 
 type Context = {
@@ -25,128 +26,117 @@ type Context = {
   history: History,
 }
 
-type State = NavigationState
+type State = {
+  navigationState: NavigationState,
+  tabs: Array<Tab>,
+}
 
-class CardStack extends Component<void, Props, State> {
+class TabStack extends Component<void, Props, State> {
 
   props: Props
   state: State
   context: Context
+
+  unlistenHistory: Function
 
   static contextTypes = {
     history: PropTypes.object,
     match: PropTypes.object,
   }
 
+  // Initialyze navigation state with
+  // initial history
   constructor(props: Props, context: Context): void {
     super(props, context)
-    // Initialyze state with a first route
     const { children } = props
     const { match, history } = context
     const { location } = history
     const parent = match && match.parent
-    const route = getRoute({ children, parent, location })
-    const routes = children.map(normalizeRoute)
+    const currentRoute = getRoute({ children, parent, location })
+    const routes = children.map((child) => ({ key: child.props.pattern }))
+    const index = routes.findIndex(({ key }) => {
+      return currentRoute && currentRoute.props.pattern === key
+    })
+    const tabs = children.map((child) => ({
+      key: child.props.pattern,
+      component: child.props.component,
+    }))
     this.state = {
-      index: routes.findIndex(({ key }) => key === route.props.pattern),
-      routes,
+      navigationState: { index, routes },
+      tabs,
     }
   }
 
+  // Listen history from <MemoryRouter />
   componentDidMount() {
-    // Listen history from <MemoryRouter />
     const { history } = this.context
     this.unlistenHistory = history.listen(this.onListenHistory)
   }
 
+  // Remove all listeners
   componentWillUnmount() {
-    // Remove listeners
     this.unlistenHistory()
   }
 
+  // Listen all history events
   onListenHistory = (): void => {
     // Get current route
-    const navigationState = this.state
-    const route = navigationState.routes[navigationState.index].component
-    // Get next route
+    const { navigationState } = this.state
     const { children } = this.props
+    const route = navigationState.routes[navigationState.index]
+    const tab = children.find((child) => child.props.pattern === route.key)
+    // Get next route
     const { history, match } = this.context
     const { action, location } = history
     const parent = match && match.parent
     const nextRoute = getRoute({ children, parent, location })
     // Local state must be updated ?
-    if (nextRoute && route.props.pattern !== nextRoute.props.pattern) {
+    if (nextRoute && tab && tab.props.pattern !== nextRoute.props.pattern) {
       if (action === 'REPLACE') {
         const index = navigationState.routes
           .findIndex(({ key }) => key === nextRoute.props.pattern)
-        this.setState(
-          NavigationStateUtils.jumpToIndex(
-            navigationState,
+        this.setState({
+          navigationState: {
+            ...navigationState,
             index,
-          ),
-        )
+          },
+        })
       }
     }
   }
 
-  handleChangeTab = (index: number): void => {
-    // When tabs index changes, replace new route in history
-    const { key } = this.state.routes[index]
-    this.context.history.replace(key)
+  onRequestChangeTab = () => {
+    this.setState({
+      tabs: this.state.tabs,
+    })
   }
 
-  renderLabel = ({ route }: { route: Route }): React$Element<any> => {
-    const scene = this.props.routes
-      .find(({ key }) => key === route.key)
-    if (!scene) return null
-    return (
-      <Text style={styles.tabLabel}>
-        {scene.props.component.title}
-      </Text>
-    )
-  }
-
-  renderScene = ({ route }: { route: Route }): ?React$Element<any> => {
-    const scene = this.state.routes
-      .find(({ key }) => key === route.key)
-    if (!scene) return null
-    return createElement(
-      scene.component.props.component,
-      { key: route.key },
-    )
-  }
-
-  renderPager = (sceneProps): React$Element<any> => {
-    const { renderPager } = this.props
-    if (renderPager) {
-      return renderPager({
-        ...sceneProps,
-        renderScene: this.renderScene,
-      })
-    }
-    return Platform.OS === 'ios'
-      ? <TabViewPagerScroll {...sceneProps} />
-      : <TabViewPagerAndroid {...sceneProps} />
-  }
-
+  // Render when index is updated or when
+  // one route is updated
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    return this.state.index !== nextState.index
+    return !_.isEqual(
+      this.state.navigationState,
+      nextState.navigationState,
+    )
   }
 
+  // Render into <TabViewTransitioner /> with
+  // custom render() prop
+  // !! Warning: transitions are disabled by default !!
   render(): React$Element<any> {
     return (
-      <TabViewAnimated
-        style={styles.container}
-        navigationState={this.state}
-        renderFooter={this.props.renderFooter}
-        renderPager={this.renderPager}
-        renderScene={this.renderScene}
-        onRequestChangeTab={this.handleChangeTab}
+      <TabViewTransitioner
+        navigationState={this.state.navigationState}
         configureTransition={() => null}
+        onRequestChangeTab={this.onRequestChangeTab}
+        render={(props: SceneRendererProps) => this.props.render({
+          ...this.state,
+          ...props,
+        })}
       />
     )
   }
 
 }
 
-export default CardStack
+export default TabStack
