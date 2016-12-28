@@ -1,0 +1,159 @@
+exports[`test <TabStack /> re-renders correctly when "replace" action is called 1`] = `
+<View
+  onPress={[Function]}>
+  <View
+    configureTransition={[Function]}
+    initialLayout={
+      Object {
+        "height": 0,
+        "width": 0,
+      }
+    }
+    navigationState={
+      Object {
+        "index": 0,
+        "routes": Array [
+          Object {
+            "key": "/",
+          },
+          Object {
+            "key": "/hello",
+          },
+          Object {
+            "key": "/goodbye",
+          },
+        ],
+      }
+    }
+    onLayout={[Function]}
+    onRequestChangeTab={[Function]}
+    render={[Function]}>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Index
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`test <TabStack /> re-renders correctly when "replace" action is called 2`] = `
+<View
+  onPress={[Function]}>
+  <View
+    configureTransition={[Function]}
+    initialLayout={
+      Object {
+        "height": 0,
+        "width": 0,
+      }
+    }
+    navigationState={
+      Object {
+        "index": 1,
+        "routes": Array [
+          Object {
+            "key": "/",
+          },
+          Object {
+            "key": "/hello",
+          },
+          Object {
+            "key": "/goodbye",
+          },
+        ],
+      }
+    }
+    onLayout={[Function]}
+    onRequestChangeTab={[Function]}
+    render={[Function]}>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Hello
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`test <TabStack /> renders correctly 1`] = `
+<View
+  onPress={[Function]}>
+  <View
+    configureTransition={[Function]}
+    initialLayout={
+      Object {
+        "height": 0,
+        "width": 0,
+      }
+    }
+    navigationState={
+      Object {
+        "index": 0,
+        "routes": Array [
+          Object {
+            "key": "/",
+          },
+          Object {
+            "key": "/hello",
+          },
+          Object {
+            "key": "/goodbye",
+          },
+        ],
+      }
+    }
+    onLayout={[Function]}
+    onRequestChangeTab={[Function]}
+    render={[Function]}>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Index
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`test <TabStack /> renders correctly with initialEntries prop  1`] = `
+<View
+  onPress={[Function]}>
+  <View
+    configureTransition={[Function]}
+    initialLayout={
+      Object {
+        "height": 0,
+        "width": 0,
+      }
+    }
+    navigationState={
+      Object {
+        "index": 1,
+        "routes": Array [
+          Object {
+            "key": "/",
+          },
+          Object {
+            "key": "/hello",
+          },
+          Object {
+            "key": "/goodbye",
+          },
+        ],
+      }
+    }
+    onLayout={[Function]}
+    onRequestChangeTab={[Function]}
+    render={[Function]}>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      Hello
+    </Text>
+  </View>
+</View>
+`;
