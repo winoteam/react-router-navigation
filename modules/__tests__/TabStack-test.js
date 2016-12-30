@@ -49,3 +49,20 @@ it('<TabStack /> re-renders correctly when "replace" action is called', () => {
   tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })
+
+it('<TabStack /> re-renders correctly when onRequestChangeTab() method is called', () => {
+  const component = renderer.create(
+    <TestRouter>
+      <TabStack render={TabView}>
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
+        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
+      </TabStack>
+    </TestRouter>
+  )
+  let tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+  tree.children[0].props.onRequestChangeTab(2)
+  tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+})
