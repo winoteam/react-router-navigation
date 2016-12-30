@@ -3,6 +3,7 @@
 import React, { PropTypes, Component } from 'react'
 import { BackAndroid, NavigationExperimental } from 'react-native'
 import _ from 'lodash'
+import { matchPattern } from 'react-router'
 import type { NavigationState, NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card } from './StackTypeDefinitions'
 import { getRoute } from './utils'
@@ -18,6 +19,7 @@ const {
 type Props = {
   children: Array<React$Element<{
     pattern: string,
+    title?: string,
     component: React$Element<any>,
   }>>,
   render: (
@@ -60,20 +62,32 @@ class CardStack extends Component<void, Props, State> {
     const parent = match && match.parent
     const currentRoute = getRoute({ children, parent, location })
     const index = entries.findIndex(({ pathname }) => {
-      return currentRoute && currentRoute.props.pattern === pathname
+      const pattern = currentRoute.props.pattern
+      const location = { pathname }
+      const exactly = currentRoute.props.exactly
+      return currentRoute && matchPattern(pattern, location, exactly)
     })
+    // @TODO use reduce() prototype
     const routes = entries
       .map(({ pathname }) => {
         const entry = children
-          .map((child) => ({ key: child.props.pattern }))
-          .find((route) => route && route.key === pathname)
-        return entry || { key: '' }
+          .find((child) => {
+            const pattern = child.props.pattern
+            const location = { pathname }
+            const exactly = child.props.exactly
+            return matchPattern(pattern, location, exactly)
+          })
+        // $FlowFixMe(>=0.32.0) - find can return undefined
+        return {
+          key: entry.props.pattern,
+          exactly: entry.props.exactly,
+        }
       })
       .filter(({ key }) => key)
     const navigationState = { index, routes }
     const cards = children.map((child) => ({
+      ...child.props,
       key: child.props.pattern,
-      component: child.props.component,
     }))
     this.state = { navigationState, cards }
   }
