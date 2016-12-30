@@ -11,6 +11,7 @@ import { getRoute } from './utils'
 import type { Match, History } from './../types'
 
 type Props = {
+  style?: StyleSheet,
   children: Array<React$Element<{
     pattern: string,
     component: React$Element<any>,
@@ -18,6 +19,7 @@ type Props = {
   render: (
     props: SceneRendererProps & {
       tabs: Array<Tab>,
+      onRequestChangeTab: (index: number) => void,
     }) => React$Element<any>,
 }
 
@@ -59,7 +61,7 @@ class TabStack extends Component<void, Props, State> {
     })
     const tabs = children.map((child) => ({
       key: child.props.pattern,
-      component: child.props.component,
+      ...child.props,
     }))
     this.state = {
       navigationState: { index, routes },
@@ -84,14 +86,14 @@ class TabStack extends Component<void, Props, State> {
     const { navigationState } = this.state
     const { children } = this.props
     const route = navigationState.routes[navigationState.index]
-    const tab = children.find((child) => child.props.pattern === route.key)
+    const tab = children.find((child) => route && child.props.pattern === route.key)
     // Get next route
     const { history, match } = this.context
     const { action, location } = history
     const parent = match && match.parent
     const nextRoute = getRoute({ children, parent, location })
     // Local state must be updated ?
-    if (nextRoute && tab && tab.props.pattern !== nextRoute.props.pattern) {
+    if (nextRoute && (tab && tab.props.pattern !== nextRoute.props.pattern) || !tab) {
       if (action === 'REPLACE') {
         const index = navigationState.routes
           .findIndex(({ key }) => key === nextRoute.props.pattern)
@@ -105,10 +107,10 @@ class TabStack extends Component<void, Props, State> {
     }
   }
 
-  onRequestChangeTab = () => {
-    this.setState({
-      tabs: this.state.tabs,
-    })
+  // Callback for when the current tab changes
+  onRequestChangeTab = (index): void => {
+    const tab = this.state.tabs[Math.round(index)]
+    if (tab) this.context.history.replace(tab.key)
   }
 
   // Render when index is updated or when
@@ -126,12 +128,14 @@ class TabStack extends Component<void, Props, State> {
   render(): React$Element<any> {
     return (
       <TabViewTransitioner
+        style={this.props.style}
         navigationState={this.state.navigationState}
         configureTransition={() => null}
         onRequestChangeTab={this.onRequestChangeTab}
         render={(props: SceneRendererProps) => this.props.render({
           ...this.state,
           ...props,
+          onRequestChangeTab: this.onRequestChangeTab,
         })}
       />
     )
