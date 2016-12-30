@@ -92,14 +92,14 @@ class CardStack extends Component<void, Props, State> {
 
   // Listen history from <MemoryRouter /> and
   // hardware BackAndroid event
-  componentDidMount() {
+  componentDidMount(): void {
     const { history } = this.context
     this.unlistenHistory = history.listen(this.onListenHistory)
     BackAndroid.addEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
   // Remove all listeners
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     this.unlistenHistory()
     BackAndroid.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
@@ -118,17 +118,30 @@ class CardStack extends Component<void, Props, State> {
     const nextRoute = getCurrentRoute({ children, parent, location })
     // Local state must be updated ?
     if (nextRoute && card && card.props.pattern !== nextRoute.key) {
-      if (action === 'PUSH') {
-        this.setState({
-          navigationState: NavigationStateUtils.push(
-            navigationState,
-            { key: nextRoute.key },
-          ),
-        })
-      } else if (action === 'POP') {
-        this.setState({
-          navigationState: NavigationStateUtils.pop(navigationState),
-        })
+      switch (action) {
+        case 'PUSH':
+          this.setState({
+            navigationState: NavigationStateUtils.push(
+              navigationState,
+              { key: nextRoute.key },
+            ),
+          })
+          break
+        case 'POP':
+          this.setState({
+            navigationState: NavigationStateUtils.pop(navigationState),
+          })
+          break
+        case 'REPLACE':
+          this.setState({
+            navigationState: NavigationStateUtils.replaceAtIndex(
+              navigationState,
+              navigationState.index,
+              { key: nextRoute.key },
+            ),
+          })
+          break
+        default:
       }
     }
   }

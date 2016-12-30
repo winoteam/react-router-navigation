@@ -70,6 +70,26 @@ it('<CardStack /> re-renders correctly when "pop" action is called', () => {
   expect(tree).toMatchSnapshot()
 })
 
+it('<CardStack /> re-renders correctly when "replace" action is called', () => {
+  const component = renderer.create(
+    <TestRouter
+      initialIndex={1}
+      initialEntries={['/', '/hello']}
+    >
+      <CardStack render={CardView}>
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
+        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
+      </CardStack>
+    </TestRouter>
+  )
+  let tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+  tree.props.onPress((history) => history.replace('/goodbye'))
+  tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+})
+
 it('<CardStack /> re-renders correctly when onNavigateBack() method is called', () => {
   const component = renderer.create(
     <TestRouter
