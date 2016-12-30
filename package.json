@@ -27,8 +27,8 @@
   "peerDependencies": {
     "react": "15.4.1",
     "react-addons-shallow-compare": "15.4.1",
-    "react-native": "0.38.0",
-    "react-router": "v4.0.0-alpha.5"
+    "react-native": "0.39.2",
+    "react-router": "4.0.0-alpha.5"
   },
   "dependencies": {
     "react-native-tab-view": "^0.0.42"
@@ -47,8 +47,8 @@
     "jest": "18.0.0",
     "react": "15.4.1",
     "react-addons-shallow-compare": "^15.4.1",
-    "react-native": "0.38.0",
-    "react-router": "v4.0.0-alpha.5",
+    "react-native": "0.39.2",
+    "react-router": "4.0.0-alpha.5",
     "react-test-renderer": "15.4.1"
   }
 }
