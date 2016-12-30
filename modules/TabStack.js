@@ -73,13 +73,13 @@ class TabStack extends Component<void, Props, State> {
   }
 
   // Listen history from <MemoryRouter />
-  componentDidMount() {
+  componentDidMount(): void {
     const { history } = this.context
     this.unlistenHistory = history.listen(this.onListenHistory)
   }
 
   // Remove all listeners
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     this.unlistenHistory()
   }
 

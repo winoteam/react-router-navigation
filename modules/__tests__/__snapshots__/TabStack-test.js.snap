@@ -203,6 +203,49 @@ exports[`test <TabStack /> renders correctly 1`] = `
 </View>
 `;
 
+exports[`test <TabStack /> renders correctly with <Redirect /> 1`] = `
+<View
+  onPress={[Function]}>
+  <View>
+    <View
+      configureTransition={[Function]}
+      initialLayout={
+        Object {
+          "height": 0,
+          "width": 0,
+        }
+      }
+      navigationState={
+        Object {
+          "index": 0,
+          "routes": Array [
+            Object {
+              "key": "/one",
+            },
+            Object {
+              "key": "/two",
+            },
+            Object {
+              "key": "/three",
+            },
+          ],
+        }
+      }
+      onLayout={[Function]}
+      onRequestChangeTab={[Function]}
+      render={[Function]}
+      style={undefined}>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail">
+        One
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
 exports[`test <TabStack /> renders correctly with initialEntries prop  1`] = `
 <View
   onPress={[Function]}>
