@@ -2,12 +2,11 @@
 
 import React, { createElement } from 'react'
 import { NavigationExperimental, StyleSheet, Platform, View } from 'react-native'
-import type { Card } from './StackTypeDefinitions'
 import CardStack from './CardStack'
 import NavBar from './NavBar'
 import NavigationCardStackStyleInterpolator from './NavigationCardStackStyleInterpolator'
 
-const { CardStack: NavigationCardStack, } = NavigationExperimental
+const { CardStack: NavigationCardStack } = NavigationExperimental
 
 const styles = StyleSheet.create({
   scene: { flex: 1 },

@@ -20,9 +20,7 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = {}
-
-const TabBarBottom = (props: Props): React$Element<any> => (
+const TabBarBottom = (props: any): React$Element<any> => (
   <TabBar
     {...props}
     renderLabel={({ route }) => (
@@ -30,9 +28,9 @@ const TabBarBottom = (props: Props): React$Element<any> => (
         {route.title}
       </Text>
     )}
-    activeOpacity={1}
     style={styles.tabbar}
     tabStyle={styles.tab}
+    activeOpacity={1}
   />
 )
 

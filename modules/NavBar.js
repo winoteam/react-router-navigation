@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { NavigationExperimental, Animated, StyleSheet, Platform, Dimensions } from 'react-native'
-import type { NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
+import type { NavigationSceneRendererProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card } from './StackTypeDefinitions'
 import BackButton from './BackButton'
 
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = NavigationTransitionProps & {
+type Props = NavigationSceneRendererProps & {
   cards: Array<Card>,
   onNavigateBack: Function,
 }
@@ -42,7 +42,7 @@ class NavBar extends Component<void, Props, void> {
   renderTitleComponent = (): ?React$Element<any> => {
     const { cards, scene } = this.props
     const currentCard = cards.find((card) => card.key === scene.route.key)
-    if (!currentCard.title) return null
+    if (!currentCard || !currentCard.title) return null
     return (
       <NavigationHeader.Title>
         {currentCard.title}
@@ -64,18 +64,12 @@ class NavBar extends Component<void, Props, void> {
         : new Animated.Value(this.props.navigationState.index),
     }
 
-    // Extract current route
-    const { route } = this.props.scene
-
-    // If route contains hideNavBar option, return null
-    if (route.hideNavBar) return null
-
     // Else return <NavigationHeader /> (NavigationExperimental)
     // with this.props
     return (
       <NavigationHeader
         {...sceneProps}
-        style={[styles.container, route.navBarStyle]}
+        style={styles.container}
         renderLeftComponent={this.renderLeftComponent}
         renderTitleComponent={this.renderTitleComponent}
       />

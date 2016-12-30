@@ -16,7 +16,7 @@
   "scripts": {
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clear",
     "dev": " cd examples/Basic && yarn && yarn start & wml start",
-    "test": "jest --config=jest.json"
+    "test": "eslint . && flow && jest --config=jest.json"
   },
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
   "license": "MIT",
@@ -39,6 +39,7 @@
     "babel-preset-react-native": "1.9.1",
     "eslint": "3.9.0",
     "eslint-config-airbnb": "12.0.0",
+    "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-import": "1.16.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.4.1",
@@ -46,7 +47,8 @@
     "jest": "18.0.0",
     "react": "15.4.1",
     "react-addons-shallow-compare": "^15.4.1",
-    "react-native": "0.39.2",
+    "react-native": "0.38.0",
+    "react-router": "v4.0.0-alpha.5",
     "react-test-renderer": "15.4.1"
   }
 }

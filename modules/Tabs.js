@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint react/no-unused-prop-types: 0 */
 
 import React, { createElement } from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
@@ -7,7 +8,7 @@ import TabStack from './TabStack'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   wrapper: {
     flex: 1,
@@ -20,15 +21,16 @@ const styles = StyleSheet.create({
 })
 
 type Props = {
+  children: Array<React$Element<any>>,
   containerStyle?: StyleSheet,
   style?: StyleSheet,
 }
 
-const Tabs = (props: any): React$Element<any> => (
+const Tabs = (props: Props): React$Element<any> => (
   <TabStack
     {...props}
     style={[styles.container, props.containerStyle]}
-    render={({ tabs, navigationState, onRequestChangeTab }) => (
+    render={({ navigationState, tabs, onRequestChangeTab }) => (
       <TabViewAnimated
         style={[styles.container, props.style]}
         initialLayout={Dimensions.get('window')}
@@ -39,10 +41,9 @@ const Tabs = (props: any): React$Element<any> => (
             {...sceneProps}
             renderLabel={({ route }) => {
               const scene = tabs.find((tab) => tab.key === route.key)
-              if (!scene.title) return null
               return (
                 <Text style={styles.tabLabel}>
-                  {scene.title}
+                  {scene && scene.title && scene.title}
                 </Text>
               )
             }}

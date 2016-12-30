@@ -1,13 +1,11 @@
 /* @flow */
 /* eslint global-require: 0 */
-/* eslint max-len: 0 */
 /* eslint new-cap: 0 */
 
 import React from 'react'
 import { StyleSheet, Platform, View, TouchableNativeFeedback, TouchableOpacity, Image } from 'react-native'
-import type { SceneProps } from './../types'
 
-type Props = SceneProps & {
+type Props = {
   onPress: Function,
 }
 
@@ -26,13 +24,13 @@ const styles = StyleSheet.create({
   },
 })
 
-const BackButton = ({ onPress, ...sceneProps }: Props): React$Element<any> => {
+const BackButton = ({ onPress }: Props): React$Element<any> => {
   const Touchable = Platform.OS === 'ios'
     ? TouchableOpacity
     : TouchableNativeFeedback
-  const Arrow = sceneProps.scene.route.backButtonStyle === 'light'
-    ? require('./assets/back-light.png')
-    : require('./assets/back-dark.png')
+  const Arrow = Platform.OS === 'android'
+    ? require('./assets/back-dark.png')
+    : require('./assets/back-default.png')
 
   return (
     <Touchable

@@ -6,10 +6,7 @@ import _ from 'lodash'
 import { matchPattern } from 'react-router'
 import type { NavigationState, NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card } from './StackTypeDefinitions'
-import { getRoute } from './utils'
-
-// @TODO react-router and history need to have official flow types
-import type { Match, History } from './../types'
+import { getCurrentRoute } from './utils'
 
 const {
   Transitioner: NavigationTransitioner,
@@ -18,9 +15,10 @@ const {
 
 type Props = {
   children: Array<React$Element<{
-    pattern: string,
-    title?: string,
     component: React$Element<any>,
+    pattern: string,
+    exactly?: boolean,
+    title?: string,
   }>>,
   render: (
     props: NavigationTransitionProps & {
@@ -29,9 +27,10 @@ type Props = {
     }) => React$Element<any>,
 }
 
+// @TODO tpye check match and history
 type Context = {
-  match: Match,
-  history: History,
+  match: any,
+  history: any,
 }
 
 type State = {
@@ -60,30 +59,29 @@ class CardStack extends Component<void, Props, State> {
     const { match, history } = context
     const { entries, location } = history
     const parent = match && match.parent
-    const currentRoute = getRoute({ children, parent, location })
-    const index = entries.findIndex(({ pathname }) => {
-      const pattern = currentRoute.props.pattern
-      const location = { pathname }
-      const exactly = currentRoute.props.exactly
-      return currentRoute && matchPattern(pattern, location, exactly)
+    const currentRoute = getCurrentRoute({ children, parent, location })
+    const currentChild = children.find((child) => {
+      return currentRoute && child.props.pattern === currentRoute.key
     })
-    // @TODO use reduce() prototype
-    const routes = entries
-      .map(({ pathname }) => {
-        const entry = children
-          .find((child) => {
-            const pattern = child.props.pattern
-            const location = { pathname }
-            const exactly = child.props.exactly
-            return matchPattern(pattern, location, exactly)
-          })
-        // $FlowFixMe(>=0.32.0) - find can return undefined
-        return {
-          key: entry.props.pattern,
-          exactly: entry.props.exactly,
-        }
-      })
-      .filter(({ key }) => key)
+    const index = entries.findIndex(({ pathname }) => {
+      if (!currentChild) return false
+      const pattern = currentChild.props.pattern
+      const exactly = currentChild.props.exactly
+      return matchPattern(pattern, { pathname }, exactly)
+    })
+    const routes = entries.reduce((acc, { pathname }) => {
+      const entry = children
+        .find((child) => {
+          const pattern = child.props.pattern
+          const exactly = child.props.exactly
+          return matchPattern(pattern, { pathname }, exactly)
+        })
+      if (!entry) return acc
+      return [...acc, {
+        key: entry.props.pattern,
+        exactly: entry.props.exactly,
+      }]
+    }, [])
     const navigationState = { index, routes }
     const cards = children.map((child) => ({
       ...child.props,
@@ -117,14 +115,14 @@ class CardStack extends Component<void, Props, State> {
     const { history, match } = this.context
     const { action, location } = history
     const parent = match && match.parent
-    const nextRoute = getRoute({ children, parent, location })
+    const nextRoute = getCurrentRoute({ children, parent, location })
     // Local state must be updated ?
-    if (nextRoute && card && card.props.pattern !== nextRoute.props.pattern) {
+    if (nextRoute && card && card.props.pattern !== nextRoute.key) {
       if (action === 'PUSH') {
         this.setState({
           navigationState: NavigationStateUtils.push(
             navigationState,
-            { key: nextRoute.props.pattern },
+            { key: nextRoute.key },
           ),
         })
       } else if (action === 'POP') {

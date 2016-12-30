@@ -27,7 +27,8 @@ exports[`test <TabStack /> re-renders correctly when "replace" action is called 
     }
     onLayout={[Function]}
     onRequestChangeTab={[Function]}
-    render={[Function]}>
+    render={[Function]}
+    style={undefined}>
     <Text
       accessible={true}
       allowFontScaling={true}
@@ -67,7 +68,8 @@ exports[`test <TabStack /> re-renders correctly when "replace" action is called 
     }
     onLayout={[Function]}
     onRequestChangeTab={[Function]}
-    render={[Function]}>
+    render={[Function]}
+    style={undefined}>
     <Text
       accessible={true}
       allowFontScaling={true}
@@ -107,7 +109,8 @@ exports[`test <TabStack /> renders correctly 1`] = `
     }
     onLayout={[Function]}
     onRequestChangeTab={[Function]}
-    render={[Function]}>
+    render={[Function]}
+    style={undefined}>
     <Text
       accessible={true}
       allowFontScaling={true}
@@ -147,7 +150,8 @@ exports[`test <TabStack /> renders correctly with initialEntries prop  1`] = `
     }
     onLayout={[Function]}
     onRequestChangeTab={[Function]}
-    render={[Function]}>
+    render={[Function]}
+    style={undefined}>
     <Text
       accessible={true}
       allowFontScaling={true}
