@@ -33,11 +33,12 @@ export class History extends Component {
 }
 
 export class TestRouter extends Component {
+  state = { key: 0 }
   componentWillMount() {
     this.history = createMemoryHistory(this.props)
   }
   onPress = (callback) => {
-    callback(this.history)
+    callback(this.history, (newState) => this.setState(newState))
   }
   render() {
     return (
@@ -49,6 +50,10 @@ export class TestRouter extends Component {
           {({ history, action, location }) => (
             <StaticRouter
               {...this.props}
+              children={typeof this.props.children === 'function'
+                ? this.props.children(this.state)
+                : this.props.children
+              }
               action={action}
               location={location}
               onPush={history.push}

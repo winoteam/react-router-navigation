@@ -5,8 +5,9 @@ import { BackAndroid, NavigationExperimental } from 'react-native'
 import _ from 'lodash'
 import { matchPattern } from 'react-router'
 import type { NavigationState, NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
-import type { Card } from './StackTypeDefinitions'
-import { getCurrentRoute } from './utils'
+import type { Card, MatchCardProps } from './StackTypeDefinitions'
+import CardStackView from './CardStackView'
+import { getCurrentRoute, buildCards } from './utils'
 
 const {
   Transitioner: NavigationTransitioner,
@@ -14,12 +15,7 @@ const {
 } = NavigationExperimental
 
 type Props = {
-  children: Array<React$Element<{
-    component: React$Element<any>,
-    pattern: string,
-    exactly?: boolean,
-    title?: string,
-  }>>,
+  children: Array<React$Element<MatchCardProps>>,
   render: (
     props: NavigationTransitionProps & {
       cards: Array<Card>,
@@ -55,38 +51,29 @@ class CardStack extends Component<void, Props, State> {
   // initial history
   constructor(props: Props, context: Context): void {
     super(props, context)
+    // Build the card stack
     const { children } = props
+    const cards = buildCards(children)
+    // Get initial route of navigation state
     const { match, history } = context
-    const { entries, location } = history
+    const { location, entries } = history
     const parent = match && match.parent
-    const currentRoute = getCurrentRoute({ children, parent, location })
-    const currentChild = children.find((child) => {
-      return currentRoute && child.props.pattern === currentRoute.key
-    })
+    const currentRoute = getCurrentRoute(cards, parent, location)
+    const currentCard = currentRoute && cards.find((card) => card.key === currentRoute.key)
+    // Build navigation state
     const index = entries.findIndex(({ pathname }) => {
-      if (!currentChild) return false
-      const pattern = currentChild.props.pattern
-      const exactly = currentChild.props.exactly
-      return matchPattern(pattern, { pathname }, exactly)
+      if (!currentCard) return false
+      return matchPattern(currentCard.pattern, { pathname }, currentCard.exactly)
     })
     const routes = entries.reduce((acc, { pathname }) => {
-      const entry = children
-        .find((child) => {
-          const pattern = child.props.pattern
-          const exactly = child.props.exactly
-          return matchPattern(pattern, { pathname }, exactly)
-        })
+      const entry = cards.find((card) => {
+        return matchPattern(card.pattern, { pathname }, card.exactly)
+      })
       if (!entry) return acc
-      return [...acc, {
-        key: entry.props.pattern,
-        exactly: entry.props.exactly,
-      }]
+      return [...acc, { key: entry.pattern }]
     }, [])
     const navigationState = { index, routes }
-    const cards = children.map((child) => ({
-      ...child.props,
-      key: child.props.pattern,
-    }))
+    // Save everything in local state
     this.state = { navigationState, cards }
   }
 
@@ -107,17 +94,16 @@ class CardStack extends Component<void, Props, State> {
   // Listen all history events
   onListenHistory = (): void => {
     // Get current route
-    const { navigationState } = this.state
-    const { children } = this.props
-    const route = navigationState.routes[navigationState.index]
-    const card = children.find((child) => child.props.pattern === route.key)
+    const { navigationState, cards } = this.state
+    const currentRoute = navigationState.routes[navigationState.index]
+    const currentCard = cards.find((card) => card.key === currentRoute.key)
     // Get next route
     const { history, match } = this.context
     const { action, location } = history
     const parent = match && match.parent
-    const nextRoute = getCurrentRoute({ children, parent, location })
+    const nextRoute = getCurrentRoute(cards, parent, location)
     // Local state must be updated ?
-    if (nextRoute && card && card.props.pattern !== nextRoute.key) {
+    if (nextRoute && currentCard && currentCard.pattern !== nextRoute.key) {
       switch (action) {
         case 'PUSH':
           this.setState({
@@ -172,11 +158,14 @@ class CardStack extends Component<void, Props, State> {
       <NavigationTransitioner
         navigationState={this.state.navigationState}
         configureTransition={() => null}
-        render={(props: NavigationTransitionProps) => this.props.render({
-          ...this.state,
-          ...props,
-          onNavigateBack: this.onNavigateBack,
-        })}
+        render={(props: NavigationTransitionProps) => (
+          <CardStackView
+            {...this.state}
+            {...this.props}
+            {...props}
+            onNavigateBack={this.onNavigateBack}
+          />
+        )}
       />
     )
   }

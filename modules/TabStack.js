@@ -1,20 +1,16 @@
 /* @flow */
 
 import React, { PropTypes, Component } from 'react'
+import { Dimensions } from 'react-native'
 import { TabViewTransitioner } from 'react-native-tab-view'
 import _ from 'lodash'
 import type { SceneRendererProps, NavigationState } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { Tab } from './StackTypeDefinitions'
-import { getCurrentRoute } from './utils'
+import type { Tab, MatchTabProps } from './StackTypeDefinitions'
+import { getCurrentRoute, buildTabs } from './utils'
 
 type Props = {
   style?: StyleSheet | Array<?StyleSheet>,
-  children: Array<React$Element<{
-    title?: string,
-    pattern: string,
-    exactly?: boolean,
-    component: React$Element<any>,
-  }>>,
+  children: Array<React$Element<MatchTabProps>>,
   render: (
     props: SceneRendererProps & {
       tabs: Array<Tab>,
@@ -50,26 +46,23 @@ class TabStack extends Component<void, Props, State> {
   // initial history
   constructor(props: Props, context: Context): void {
     super(props, context)
+    // Build the tab stack
     const { children } = props
+    const tabs = buildTabs(children)
+    // Get initial route
     const { match, history } = context
     const { location } = history
     const parent = match && match.parent
-    const currentRoute = getCurrentRoute({ children, parent, location })
-    const routes = children.map((child) => ({ key: child.props.pattern }))
-    const index = routes.findIndex(({ key }) => {
+    const currentRoute = getCurrentRoute(tabs, parent, location)
+    // Build navigation state
+    const routes = tabs.map(({ key }) => ({ key }))
+    const index = routes.findIndex((route) => {
       if (!currentRoute) return false
-      const currentChild = children.find((child) => child.props.pattern === currentRoute.key)
-      if (!currentChild) return false
-      return currentChild.props.pattern === key
+      return currentRoute.key === route.key
     })
-    const tabs = children.map((child) => ({
-      key: child.props.pattern,
-      ...child.props,
-    }))
-    this.state = {
-      navigationState: { index, routes },
-      tabs,
-    }
+    const navigationState = { index, routes }
+    // Save everything in state
+    this.state = { navigationState, tabs }
   }
 
   // Listen history from <MemoryRouter />
@@ -86,17 +79,16 @@ class TabStack extends Component<void, Props, State> {
   // Listen all history events
   onListenHistory = (): void => {
     // Get current route
-    const { navigationState } = this.state
-    const { children } = this.props
+    const { navigationState, tabs } = this.state
     const route = navigationState.routes[navigationState.index]
-    const tab = children.find((child) => route && child.props.pattern === route.key)
+    const currentTab = tabs.find((tab) => route && tab.key === route.key)
     // Get next route
     const { history, match } = this.context
     const { action, location } = history
     const parent = match && match.parent
-    const nextRoute = getCurrentRoute({ children, parent, location })
+    const nextRoute = getCurrentRoute(tabs, parent, location)
     // Local state must be updated ?
-    if (nextRoute && ((tab && tab.props.pattern !== nextRoute.key) || !tab)) {
+    if (nextRoute && ((currentTab && currentTab.key !== nextRoute.key) || !currentTab)) {
       if (action === 'REPLACE') {
         const index = navigationState.routes
           .findIndex(({ key }) => key === nextRoute.key)
@@ -132,6 +124,7 @@ class TabStack extends Component<void, Props, State> {
     return (
       <TabViewTransitioner
         style={this.props.style}
+        initialLayout={Dimensions.get('window')}
         navigationState={this.state.navigationState}
         configureTransition={() => null}
         onRequestChangeTab={this.onRequestChangeTab}
