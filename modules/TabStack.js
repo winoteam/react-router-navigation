@@ -121,10 +121,11 @@ class TabStack extends Component<void, Props, State> {
   // custom render() prop
   // !! Warning: transitions are disabled by default !!
   render(): React$Element<any> {
+    const { width, height } = Dimensions.get('window')
     return (
       <TabViewTransitioner
         style={this.props.style}
-        initialLayout={Dimensions.get('window')}
+        initialLayout={{ width, height }}
         navigationState={this.state.navigationState}
         configureTransition={() => null}
         onRequestChangeTab={this.onRequestChangeTab}

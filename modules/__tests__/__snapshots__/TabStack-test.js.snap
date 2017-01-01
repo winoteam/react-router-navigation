@@ -5,8 +5,8 @@ exports[`test <TabStack /> re-renders correctly when "replace" action is called 
     configureTransition={[Function]}
     initialLayout={
       Object {
-        "height": 0,
-        "width": 0,
+        "height": 1334,
+        "width": 750,
       }
     }
     navigationState={
@@ -46,8 +46,8 @@ exports[`test <TabStack /> re-renders correctly when "replace" action is called 
     configureTransition={[Function]}
     initialLayout={
       Object {
-        "height": 0,
-        "width": 0,
+        "height": 1334,
+        "width": 750,
       }
     }
     navigationState={
@@ -87,8 +87,8 @@ exports[`test <TabStack /> re-renders correctly when onRequestChangeTab() method
     configureTransition={[Function]}
     initialLayout={
       Object {
-        "height": 0,
-        "width": 0,
+        "height": 1334,
+        "width": 750,
       }
     }
     navigationState={
@@ -128,8 +128,8 @@ exports[`test <TabStack /> re-renders correctly when onRequestChangeTab() method
     configureTransition={[Function]}
     initialLayout={
       Object {
-        "height": 0,
-        "width": 0,
+        "height": 1334,
+        "width": 750,
       }
     }
     navigationState={
@@ -169,8 +169,8 @@ exports[`test <TabStack /> renders correctly 1`] = `
     configureTransition={[Function]}
     initialLayout={
       Object {
-        "height": 0,
-        "width": 0,
+        "height": 1334,
+        "width": 750,
       }
     }
     navigationState={
@@ -210,8 +210,8 @@ exports[`test <TabStack /> renders correctly by ignoring non <Match /> component
     configureTransition={[Function]}
     initialLayout={
       Object {
-        "height": 0,
-        "width": 0,
+        "height": 1334,
+        "width": 750,
       }
     }
     navigationState={
@@ -249,8 +249,8 @@ exports[`test <TabStack /> renders correctly with <Redirect /> 1`] = `
       configureTransition={[Function]}
       initialLayout={
         Object {
-          "height": 0,
-          "width": 0,
+          "height": 1334,
+          "width": 750,
         }
       }
       navigationState={
@@ -291,8 +291,8 @@ exports[`test <TabStack /> renders correctly with initialEntries prop  1`] = `
     configureTransition={[Function]}
     initialLayout={
       Object {
-        "height": 0,
-        "width": 0,
+        "height": 1334,
+        "width": 750,
       }
     }
     navigationState={
