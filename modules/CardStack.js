@@ -160,9 +160,9 @@ class CardStack extends Component<void, Props, State> {
         configureTransition={() => null}
         render={(props: NavigationTransitionProps) => (
           <CardStackView
-            {...this.state}
-            {...this.props}
             {...props}
+            cards={this.state.cards}
+            render={this.props.render}
             onNavigateBack={this.onNavigateBack}
           />
         )}

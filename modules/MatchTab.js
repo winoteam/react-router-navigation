@@ -12,9 +12,9 @@ const MatchTab = (props: Props) => {
   return (
     <Match {...props}>
       {(matchProps) => {
-        return render
-          ? render(matchProps)
-          : <Component {...matchProps} />
+        if (render) return render(matchProps)
+        else if (Component) return <Component {...matchProps} />
+        return null
       }}
     </Match>
   )

@@ -8,6 +8,11 @@ import type { Card } from './StackTypeDefinitions'
 type Props = NavigationTransitionProps & {
   cards: Array<Card>,
   onNavigateBack: Function,
+  render: (
+    props: NavigationTransitionProps & {
+      cards: Array<Card>,
+      onNavigateBack: Function,
+    }) => React$Element<any>,
 }
 
 class CardStackView extends Component<void, Props, void> {
