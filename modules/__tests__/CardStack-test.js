@@ -1,16 +1,16 @@
 import React, { PropTypes, Component, createElement } from 'react'
 import { View } from 'react-native'
+import { Match } from 'react-router'
 import { TestRouter, componentFactory, CardView } from './utils'
 import CardStack from './../CardStack'
-import MatchCard from './../MatchCard'
 import renderer from 'react-test-renderer'
 
 it('<CardStack /> renders correctly', () => {
   const component = renderer.create(
     <TestRouter>
       <CardStack render={CardView}>
-        <MatchCard exactly pattern="/" component={componentFactory('Index')} />
-        <MatchCard pattern="/hello" component={componentFactory('Hello')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
       </CardStack>
     </TestRouter>
   )
@@ -23,8 +23,8 @@ it('<CardStack /> renders correctly by ignoring non <Match /> component', () => 
     <TestRouter>
       <CardStack render={CardView}>
         <View pattern="/" />
-        <MatchCard exactly pattern="/" component={componentFactory('Index')} />
-        <MatchCard pattern="/hello" component={componentFactory('Hello')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
       </CardStack>
     </TestRouter>
   )
@@ -39,9 +39,9 @@ it('<CardStack /> renders correctly with initialIndex and initialEntries prop ',
       initialEntries={['/', '/hello', '/goodbye']}
     >
       <CardStack render={CardView}>
-        <MatchCard exactly pattern="/" component={componentFactory('Index')} />
-        <MatchCard pattern="/hello" component={componentFactory('Hello')} />
-        <MatchCard pattern="/goodbye" component={componentFactory('Goodbye')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
+        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
       </CardStack>
     </TestRouter>
   )
@@ -53,8 +53,8 @@ it('<CardStack /> re-renders correctly when "push" action is called', () => {
   const component = renderer.create(
     <TestRouter>
       <CardStack render={CardView}>
-        <MatchCard exactly pattern="/" component={componentFactory('Index')} />
-        <MatchCard pattern="/hello" component={componentFactory('Hello')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
       </CardStack>
     </TestRouter>
   )
@@ -72,8 +72,8 @@ it('<CardStack /> re-renders correctly when "pop" action is called', () => {
       initialEntries={['/', '/hello']}
     >
       <CardStack render={CardView}>
-        <MatchCard exactly pattern="/" component={componentFactory('Index')} />
-        <MatchCard pattern="/hello" component={componentFactory('Hello')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
       </CardStack>
     </TestRouter>
   )
@@ -91,9 +91,9 @@ it('<CardStack /> re-renders correctly when "replace" action is called', () => {
       initialEntries={['/', '/hello']}
     >
       <CardStack render={CardView}>
-        <MatchCard exactly pattern="/" component={componentFactory('Index')} />
-        <MatchCard pattern="/hello" component={componentFactory('Hello')} />
-        <MatchCard pattern="/goodbye" component={componentFactory('Goodbye')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
+        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
       </CardStack>
     </TestRouter>
   )
@@ -115,8 +115,8 @@ it('<CardStack /> re-renders correctly when onNavigateBack() method is called', 
           {CardView({ navigationState, onNavigateBack, cards })}
         </View>
       )}>
-        <MatchCard exactly pattern="/" component={componentFactory('Index')} />
-        <MatchCard pattern="/hello" component={componentFactory('Hello')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
       </CardStack>
     </TestRouter>
   )
@@ -136,9 +136,9 @@ it('<CardStack /> re-renders correctly after unmount/reset', () => {
       {({ key }) => (
         // Unmount and remount <CardStack /> with key update
         <CardStack key={key} render={CardView}>
-          <MatchCard exactly pattern="/" component={componentFactory('Index')} />
-          <MatchCard pattern="/hello" component={componentFactory('Hello')} />
-          <MatchCard pattern="/goodbye" component={componentFactory('Goodbye')} />
+          <Match exactly pattern="/" component={componentFactory('Index')} />
+          <Match pattern="/hello" component={componentFactory('Hello')} />
+          <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
         </CardStack>
       )}
     </TestRouter>
