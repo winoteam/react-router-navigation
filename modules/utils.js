@@ -33,7 +33,7 @@ export function buildItemStack<Item>(
   advancedProps: Array<string>,
   matchComponent: string,
 ): Array<Item & { key: string }> {
-  // Defined required props
+  // Define required props
   const defaultProps = ['component', 'render', 'pattern', 'exactly']
   // Map all children
   return Children.toArray(children).reduce((items, child) => {
@@ -41,7 +41,7 @@ export function buildItemStack<Item>(
     const displayName = child.displayName || child.type.displayName || child.type.name
     const isAdvancedMatch = matchComponent === displayName
     if (displayName !== 'Match' && !isAdvancedMatch) return items
-    // Build card
+    // Build item
     const item = Object.keys(child.props).reduce((props, key) => {
       if (key === 'pattern') {
         props.key = child.props[key]
