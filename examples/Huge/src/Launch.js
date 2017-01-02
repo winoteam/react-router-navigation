@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, ActivityIndicator, Text } from 'react-native'
+import { StyleSheet, View, StatusBar, ActivityIndicator, Text } from 'react-native'
 import { withHistory } from 'react-native-router-navigation'
 
 const styles = StyleSheet.create({
@@ -25,6 +25,10 @@ class Launch extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar
+          backgroundColor="black"
+          barStyle="default"
+        />
         <ActivityIndicator style={styles.loader} />
         <Text>Loading ...</Text>
       </View>

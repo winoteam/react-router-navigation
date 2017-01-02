@@ -44,7 +44,10 @@ class Feed extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="default" />
+        <StatusBar
+          backgroundColor="black"
+          barStyle="default"
+        />
         <Navigation>
           <MatchCard
             exactly

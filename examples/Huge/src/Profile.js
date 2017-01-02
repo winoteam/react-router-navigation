@@ -1,5 +1,5 @@
 import React from 'react'
-import { StatusBar, StyleSheet, View, Text } from 'react-native'
+import { StatusBar, StyleSheet, Platform, View, Text } from 'react-native'
 import { Match, Redirect } from 'react-router'
 import { Tabs, MatchTab } from 'react-native-router-navigation'
 
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tabBar: {
-    paddingTop: 10,
+    paddingTop: Platform.OS === 'ios' ? 10 : 0,
     backgroundColor: '#8a0262',
   },
 })
@@ -29,7 +29,10 @@ const Profile = () => (
       pattern="/app/profile/(likes|bookmarks)"
       render={() => (
         <View style={styles.container}>
-          <StatusBar barStyle="light-content" />
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="#730652"
+          />
           <Tabs tabBarStyle={styles.tabBar}>
             <MatchTab
               pattern="/app/profile/likes"
