@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Link } from 'react-native-router-navigation'
+import { Link } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Platform, PixelRatio, ListView, View, Text } from 'react-native'
-import { Navigation, MatchCard, Link, withHistory } from 'react-native-router-navigation'
+import { Navigation, MatchCard, Link, withHistory } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
   container: {

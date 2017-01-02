@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Platform, View, Text } from 'react-native'
 import { MemoryRouter, Match, Redirect } from 'react-router'
-import { Navigation, Tabs, MatchTab, MatchCard, Link } from 'react-native-router-navigation'
+import { Navigation, Tabs, MatchTab, MatchCard, Link } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
   navigation: {

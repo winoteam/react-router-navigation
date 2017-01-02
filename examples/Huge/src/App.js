@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Match, Redirect } from 'react-router'
-import { BottomNavigation, MatchTab } from 'react-native-router-navigation'
+import { BottomNavigation, MatchTab } from 'react-router-navigation'
 
 import Feed from './Feed'
 import Search from './Search'

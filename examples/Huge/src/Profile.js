@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar, StyleSheet, Platform, View, Text } from 'react-native'
 import { Match, Redirect } from 'react-router'
-import { Tabs, MatchTab } from 'react-native-router-navigation'
+import { Tabs, MatchTab } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
   container: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Navigation, MatchCard } from 'react-native-router-navigation'
+import { Navigation, MatchCard } from 'react-router-navigation'
 
 import Launch from './Launch'
 import Auth from './Auth'

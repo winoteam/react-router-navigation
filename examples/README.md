@@ -1,8 +1,8 @@
 # Run the example
 Clone the repo:
 ```shell
-$ git clone https://github.com/LeoLeBras/react-native-router-navigation.git
-$ cd examples/Basic
+$ git clone https://github.com/LeoLeBras/react-router-navigation.git
+$ cd examples/(Basic|Huge)
 ```
 
 Install Node.js components:

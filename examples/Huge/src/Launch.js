@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, StatusBar, ActivityIndicator, Text } from 'react-native'
-import { withHistory } from 'react-native-router-navigation'
+import { withHistory } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
   container: {
