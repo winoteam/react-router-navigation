@@ -14,6 +14,8 @@ const styles = StyleSheet.create({
     top: 0,
     zIndex: 10,
     width: Dimensions.get('window').width,
+    backgroundColor: '#fafafa',
+    borderBottomColor: '#b2b2b2',
   },
 })
 
@@ -22,15 +24,28 @@ type Props = NavigationSceneRendererProps & {
   onNavigateBack: Function,
 }
 
-class NavBar extends Component<void, Props, void> {
+type State = {
+  isActive: boolean,
+}
+
+class NavBar extends Component<void, Props, State> {
 
   props: Props
+  state: State
+
+  constructor(props: Props) {
+    super(props)
+    const { cards, scene } = props
+    const currentCard = cards.find((card) => card.key === scene.route.key)
+    const hideNavBar = currentCard && currentCard.hideNavBar
+    this.state = { isActive: !hideNavBar }
+  }
 
   renderLeftComponent = (): ?React$Element<any> => {
     // Remove back button for fist scene
     const { scene, onNavigateBack } = this.props
     if (scene.index === 0 || !onNavigateBack) return null
-    // Else simply return ut
+    // Else simply return it
     return (
       <BackButton
         {...this.props}
@@ -50,6 +65,17 @@ class NavBar extends Component<void, Props, void> {
     )
   }
 
+  componentWillReceiveProps(nextProps: Props): void {
+    const { isActive } = this.state
+    const { cards, scene, scenes, navigationState } = nextProps
+    const currentCard = cards.find((card) => card.key === scene.route.key)
+    if (currentCard && currentCard.hideNavBar) {
+      if (isActive) this.setState({ isActive: false })
+    } else if (!isActive && scenes.length === navigationState.routes.length) {
+      this.setState({ isActive: true })
+    }
+  }
+
   // Accept updates only for iOS
   shouldComponentUpdate(): boolean {
     return Platform.OS === 'ios'
@@ -63,6 +89,10 @@ class NavBar extends Component<void, Props, void> {
         ? this.props.position
         : new Animated.Value(this.props.navigationState.index),
     }
+
+    // Hides the navigation bar if needed
+    const { isActive } = this.state
+    if (!isActive) return null
 
     // Else return <NavigationHeader /> (NavigationExperimental)
     // with this.props
