@@ -15,18 +15,30 @@ type MatchProps = {
   pararms: Object,
 }
 
-type State = { matchProps: ?MatchProps }
+type State = {
+  matchProps: ?MatchProps,
+  pathname: ?string,
+}
 
 class MatchCard extends React.Component<void, Props, State> {
 
   props: Props
-  state: State = { matchProps: null }
+  state: State = {
+    pathname: null,
+    matchProps: null,
+  }
 
   static displayName = 'MatchCard'
 
   renderMatchView = (matchProps: MatchProps): ?React$Element<MatchProps> => {
     const { render, component: Component } = this.props
-    if (!this.state.matchProps) this.state.matchProps = matchProps
+    if (
+      this.state.pathname === matchProps.pathname ||
+      !this.state.matchProps
+    ) {
+      this.state.matchProps = matchProps
+    }
+    this.state.pathname = matchProps.pathname
     if (render) return render(this.state.matchProps)
     else if (Component) return <Component {...this.state.matchProps} />
     return null

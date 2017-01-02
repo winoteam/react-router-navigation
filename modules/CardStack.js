@@ -111,7 +111,7 @@ class CardStack extends Component<void, Props, State> {
       // Pathname with query params
       (matchPattern(currentRoute.key, location, true) &&
        matchPattern(nextRoute.key, location, true) &&
-       entries[index].pathname !== entries[index - 1].pathname
+       entries[index - 1] && entries[index].pathname !== entries[index - 1].pathname
       )
     )) {
       // Note: Extra '@@xxx' is removed with normalizeRoute()
