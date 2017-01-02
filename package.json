@@ -15,7 +15,6 @@
   },
   "scripts": {
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clear",
-    "dev": " cd examples/Basic && yarn && yarn start & wml start",
     "test": "eslint . && flow && jest --config=jest.json"
   },
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
@@ -31,6 +30,7 @@
     "react-router": "4.0.0-alpha.5"
   },
   "dependencies": {
+    "hoist-non-react-statics": "^1.2.0",
     "react-native-tab-view": "^0.0.42"
   },
   "devDependencies": {
