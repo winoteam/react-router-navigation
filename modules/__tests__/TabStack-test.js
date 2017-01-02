@@ -3,16 +3,15 @@ import { View } from 'react-native'
 import { Match, Redirect, Miss } from 'react-router'
 import { TestRouter, componentFactory, TabView } from './utils'
 import TabStack from './../TabStack'
-import MatchTab from './../MatchTab'
 import renderer from 'react-test-renderer'
 
 it('<TabStack /> renders correctly', () => {
   const component = renderer.create(
     <TestRouter>
       <TabStack render={TabView}>
-        <MatchTab exactly pattern="/" component={componentFactory('Index')} />
-        <MatchTab pattern="/hello" component={componentFactory('Hello')} />
-        <MatchTab pattern="/goodbye" component={componentFactory('Goodbye')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
+        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
       </TabStack>
     </TestRouter>
   )
@@ -25,8 +24,8 @@ it('<TabStack /> renders correctly by ignoring non <Match /> component', () => {
     <TestRouter>
       <TabStack render={TabView}>
         <View pattern="/" />
-        <MatchTab exactly pattern="/" component={componentFactory('Index')} />
-        <MatchTab pattern="/hello" component={componentFactory('Hello')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
       </TabStack>
     </TestRouter>
   )
@@ -38,9 +37,9 @@ it('<TabStack /> renders correctly with initialEntries prop ', () => {
   const component = renderer.create(
     <TestRouter initialEntries={['/hello']}>
       <TabStack render={TabView}>
-        <MatchTab exactly pattern="/" component={componentFactory('Index')} />
-        <MatchTab pattern="/hello" component={componentFactory('Hello')} />
-        <MatchTab pattern="/goodbye" component={componentFactory('Goodbye')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
+        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
       </TabStack>
     </TestRouter>
   )
@@ -52,9 +51,9 @@ it('<TabStack /> re-renders correctly when "replace" action is called', () => {
   const component = renderer.create(
     <TestRouter>
       <TabStack render={TabView}>
-        <MatchTab exactly pattern="/" component={componentFactory('Index')} />
-        <MatchTab pattern="/hello" component={componentFactory('Hello')} />
-        <MatchTab pattern="/goodbye" component={componentFactory('Goodbye')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
+        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
       </TabStack>
     </TestRouter>
   )
@@ -69,9 +68,9 @@ it('<TabStack /> re-renders correctly when onRequestChangeTab() method is called
   const component = renderer.create(
     <TestRouter>
       <TabStack render={TabView}>
-        <MatchTab exactly pattern="/" component={componentFactory('Index')} />
-        <MatchTab pattern="/hello" component={componentFactory('Hello')} />
-        <MatchTab pattern="/goodbye" component={componentFactory('Goodbye')} />
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
+        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
       </TabStack>
     </TestRouter>
   )
@@ -89,9 +88,9 @@ it('<TabStack /> renders correctly with <Redirect />', () => {
         <Match exactly pattern="/" render={() => <Redirect to="/one" />} />
         <Miss render={() => (
           <TabStack render={TabView}>
-            <MatchTab pattern="/one" component={componentFactory('One')} />
-            <MatchTab pattern="/two" component={componentFactory('Two')} />
-            <MatchTab pattern="/three" component={componentFactory('Three')} />
+            <Match pattern="/one" component={componentFactory('One')} />
+            <Match pattern="/two" component={componentFactory('Two')} />
+            <Match pattern="/three" component={componentFactory('Three')} />
           </TabStack>
         )} />
       </View>
