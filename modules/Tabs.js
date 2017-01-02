@@ -27,7 +27,7 @@ type Props = {
   containerStyle?: StyleSheet,
   style?: StyleSheet,
   tabBarStyle?: StyleSheet,
-  renderHeader: () => React$Element<any>,
+  renderHeader?: () => React$Element<any>,
 }
 
 class Tabs extends Component<void, Props, void> {
