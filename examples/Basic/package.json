@@ -3,25 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^1.2.0",
     "react": "^15.4.1",
     "react-addons-shallow-compare": "^15.4.1",
     "react-native": "0.39.2",
     "react-native-router-navigation": "file:./../../",
     "react-native-tab-view": "^0.0.42",
     "react-router": "4.0.0-alpha.5"
-  },
-  "devDependencies": {
-    "babel-jest": "18.0.0",
-    "babel-preset-react-native": "1.9.1",
-    "jest": "18.0.0",
-    "react-test-renderer": "15.4.1"
-  },
-  "jest": {
-    "preset": "react-native"
   }
 }
