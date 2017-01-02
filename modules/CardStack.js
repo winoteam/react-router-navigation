@@ -7,7 +7,7 @@ import { matchPattern } from 'react-router'
 import type { NavigationState, NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card, MatchCardProps } from './StackTypeDefinitions'
 import CardStackView from './CardStackView'
-import { getCurrentRoute, buildCards } from './utils'
+import { getCurrentRoute, buildCards, normalizeRoute } from './utils'
 
 const {
   Transitioner: NavigationTransitioner,
@@ -68,7 +68,11 @@ class CardStack extends Component<void, Props, State> {
       if (!currentCard) return false
       return matchPattern(currentCard.pattern, entry, currentCard.exactly)
     })
-    const routes = entries.map(({ pathname }) => ({ key: pathname }))
+    const routes = entries.map((entry) => {
+      const card = cards.find(({ pattern, exactly }) => matchPattern(pattern, entry, exactly))
+      if (!card) return { key: entry.pathname }
+      return { key: card.key }
+    })
     const navigationState = { index, routes }
     // Save everything in local state
     this.state = { navigationState, cards }
@@ -91,22 +95,33 @@ class CardStack extends Component<void, Props, State> {
   // Listen all history events
   onListenHistory = (): void => {
     // Get current route
-    const { navigationState, cards } = this.state
-    const currentRoute = navigationState.routes[navigationState.index]
+    const { cards, navigationState } = this.state
+    const currentRoute = normalizeRoute(navigationState.routes[navigationState.index])
     const currentCard = cards.find((card) => card.key === currentRoute.key)
     // Get next route
     const { history, match } = this.context
     const { action, location } = history
+    const { entries, index } = history
     const parent = match && match.parent
     const nextRoute = getCurrentRoute(cards, parent, location)
     // Local state must be updated ?
-    if (nextRoute && currentCard && currentCard.pattern !== nextRoute.key) {
+    if (nextRoute && currentCard && (
+      // Basic pathname
+      (currentCard.pattern !== nextRoute.key) ||
+      // Pathname with query params
+      (matchPattern(currentRoute.key, location, true) &&
+       matchPattern(nextRoute.key, location, true) &&
+       entries[index].pathname !== entries[index - 1].pathname
+      )
+    )) {
+      // Note: Extra '@@xxx' is removed with normalizeRoute()
+      const key = `${nextRoute.key}@@${Date.now()}`
       switch (action) {
         case 'PUSH':
           this.setState({
             navigationState: NavigationStateUtils.push(
               navigationState,
-              { key: nextRoute.key },
+              { key },
             ),
           })
           break
@@ -120,7 +135,7 @@ class CardStack extends Component<void, Props, State> {
             navigationState: NavigationStateUtils.replaceAtIndex(
               navigationState,
               navigationState.index,
-              { key: nextRoute.key },
+              { key },
             ),
           })
           break
@@ -136,6 +151,18 @@ class CardStack extends Component<void, Props, State> {
       return true
     }
     return false
+  }
+
+
+  renderView = (transitionProps: NavigationTransitionProps): React$Element<any> => {
+    return (
+      <CardStackView
+        {...transitionProps}
+        cards={this.state.cards}
+        render={this.props.render}
+        onNavigateBack={this.onNavigateBack}
+      />
+    )
   }
 
   // Render when index is updated or when
@@ -155,14 +182,7 @@ class CardStack extends Component<void, Props, State> {
       <NavigationTransitioner
         navigationState={this.state.navigationState}
         configureTransition={() => null}
-        render={(props: NavigationTransitionProps) => (
-          <CardStackView
-            {...props}
-            cards={this.state.cards}
-            render={this.props.render}
-            onNavigateBack={this.onNavigateBack}
-          />
-        )}
+        render={this.renderView}
       />
     )
   }

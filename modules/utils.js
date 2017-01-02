@@ -76,3 +76,25 @@ export function buildCards(children: Array<React$Element<MatchCardProps>>): Arra
 export function buildTabs(children: Array<React$Element<MatchTabProps>>): Array<Tab> {
   return buildItemStack(children, ['label', 'tabBarStyle'], 'MatchTab')
 }
+
+
+/**
+ * Normalize a route :
+ *   - clean key of each route
+ */
+export function normalizeRoute(route: NavigationRoute): NavigationRoute {
+  const extraIndex = route.key.indexOf('@@')
+  if (extraIndex === -1) return route
+  const key = route.key.slice(0, extraIndex)
+  return { key }
+}
+
+
+/**
+ * Get current card with route given
+ */
+export function getCurrentCard(route: NavigationRoute, cards: Array<Card>): ?Card {
+  return cards.find((card) => {
+    return normalizeRoute(route).key === card.key
+  })
+}

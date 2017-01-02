@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { Match } from 'react-router'
 import { TestRouter, componentFactory, CardView } from './utils'
 import CardStack from './../CardStack'
+import MatchCard from './../MatchCard'
 import renderer from 'react-test-renderer'
 
 it('<CardStack /> renders correctly', () => {
@@ -61,6 +62,21 @@ it('<CardStack /> re-renders correctly when "push" action is called', () => {
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
   tree.props.onPress((history) => history.push('/hello'))
+  tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+})
+
+it('<CardStack /> re-renders correctly when "push" action is called with same pattern', () => {
+  const component = renderer.create(
+    <TestRouter initialEntries={['/article/1']}>
+      <CardStack render={CardView}>
+        <MatchCard pattern="/article/:id" component={componentFactory('Article')} />
+      </CardStack>
+    </TestRouter>
+  )
+  let tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+  tree.props.onPress((history) => history.push('/article/2'))
   tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })

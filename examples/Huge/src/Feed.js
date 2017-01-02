@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { StatusBar, StyleSheet, Platform, PixelRatio, ListView, View, Text } from 'react-native'
-import { Navigation, MatchCard, withHistory } from 'react-native-router-navigation'
+import { StyleSheet, Platform, PixelRatio, ListView, View, Text } from 'react-native'
+import { Navigation, MatchCard, Link, withHistory } from 'react-native-router-navigation'
 
 const styles = StyleSheet.create({
   container: {
@@ -21,7 +21,17 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   article: {
+    flex: 1,
+    alignItems: 'flex-start',
+    marginTop: Platform.OS === 'ios' ? 64 : 54,
     padding: 16,
+  },
+  link: {
+    marginTop: 16,
+    marginLeft: -8,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    backgroundColor: 'white',
   },
 })
 
@@ -44,10 +54,6 @@ class Feed extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar
-          backgroundColor="black"
-          barStyle="default"
-        />
         <Navigation>
           <MatchCard
             exactly
@@ -60,7 +66,10 @@ class Feed extends Component {
                 renderRow={(rowData) => (
                   <Text
                     style={styles.row}
-                    onPress={() => this.props.history.push(`/app/feed/article/${rowData}`)}
+                    onPress={() => {
+                      const id = rowData.slice(5) // Remove 'Item ' string
+                      this.props.history.push(`/app/feed/article/${id}`)
+                    }}
                   >
                     {rowData}
                   </Text>
@@ -75,11 +84,14 @@ class Feed extends Component {
             )}
           />
           <MatchCard
-            pattern="/app/feed/article/:name"
+            pattern="/app/feed/article/:id"
             title="Item"
             render={({ params }) => (
-              <View style={styles.scene}>
-                <Text style={styles.article}>{params.name}</Text>
+              <View style={styles.article}>
+                <Text>Item {params.id}</Text>
+                <Link style={styles.link} to={`/app/feed/article/${parseInt(params.id) + 1}`}>
+                  Next item
+                </Link>
               </View>
             )}
           />

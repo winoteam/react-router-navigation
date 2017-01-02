@@ -159,6 +159,52 @@ exports[`test <CardStack /> re-renders correctly when "push" action is called 2`
 </View>
 `;
 
+exports[`test <CardStack /> re-renders correctly when "push" action is called with same pattern 1`] = `
+<View
+  onPress={[Function]}>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        undefined,
+      ]
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      1
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`test <CardStack /> re-renders correctly when "push" action is called with same pattern 2`] = `
+<View
+  onPress={[Function]}>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "flex": 1,
+        },
+        undefined,
+      ]
+    }>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail">
+      2
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`test <CardStack /> re-renders correctly when "replace" action is called 1`] = `
 <View
   onPress={[Function]}>
