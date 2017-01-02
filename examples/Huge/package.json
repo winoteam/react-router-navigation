@@ -1,0 +1,16 @@
+{
+  "name": "Huge",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react": "^15.4.1",
+    "react-addons-shallow-compare": "^15.4.1",
+    "react-native": "0.39.2",
+    "react-native-router-navigation": "file:./../../",
+    "react-native-tab-view": "^0.0.42",
+    "react-router": "4.0.0-alpha.5"
+  }
+}
