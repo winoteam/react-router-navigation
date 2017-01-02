@@ -5,6 +5,7 @@ import { NavigationExperimental, Animated, StyleSheet, Platform, Dimensions } fr
 import type { NavigationSceneRendererProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card } from './StackTypeDefinitions'
 import BackButton from './BackButton'
+import { getCurrentCard } from './utils'
 
 const { Header: NavigationHeader } = NavigationExperimental
 
@@ -36,7 +37,7 @@ class NavBar extends Component<void, Props, State> {
   constructor(props: Props) {
     super(props)
     const { cards, scene } = props
-    const currentCard = cards.find((card) => card.key === scene.route.key)
+    const currentCard = getCurrentCard(scene.route, cards)
     const hideNavBar = currentCard && currentCard.hideNavBar
     this.state = { isActive: !hideNavBar }
   }
@@ -56,7 +57,7 @@ class NavBar extends Component<void, Props, State> {
 
   renderTitleComponent = (): ?React$Element<any> => {
     const { cards, scene } = this.props
-    const currentCard = cards.find((card) => card.key === scene.route.key)
+    const currentCard = getCurrentCard(scene.route, cards)
     if (!currentCard || !currentCard.title) return null
     return (
       <NavigationHeader.Title>
@@ -68,7 +69,7 @@ class NavBar extends Component<void, Props, State> {
   componentWillReceiveProps(nextProps: Props): void {
     const { isActive } = this.state
     const { cards, scene, scenes, navigationState } = nextProps
-    const currentCard = cards.find((card) => card.key === scene.route.key)
+    const currentCard = getCurrentCard(scene.route, cards)
     if (currentCard && currentCard.hideNavBar) {
       if (isActive) this.setState({ isActive: false })
     } else if (!isActive && scenes.length === navigationState.routes.length) {
