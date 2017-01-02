@@ -22,6 +22,8 @@ class MatchCard extends React.Component<void, Props, State> {
   props: Props
   state: State = { matchProps: null }
 
+  static displayName = 'MatchCard'
+
   renderMatchView = (matchProps: MatchProps): ?React$Element<MatchProps> => {
     const { render, component: Component } = this.props
     if (!this.state.matchProps) this.state.matchProps = matchProps

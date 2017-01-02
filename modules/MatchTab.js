@@ -19,5 +19,6 @@ const MatchTab = (props: Props) => {
     </Match>
   )
 }
+MatchTab.displayName = 'MatchTab'
 
 export default MatchTab
