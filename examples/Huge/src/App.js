@@ -16,9 +16,7 @@ const App = () => (
     <Match
       exactly
       pattern="/app"
-      render={() => {
-        console.log('Redirect');
-        return <Redirect to="/app/feed" />}}
+      render={() => <Redirect to="/app/feed" />}
     />
     <Match
       pattern="/app/(feed|search|profile)"

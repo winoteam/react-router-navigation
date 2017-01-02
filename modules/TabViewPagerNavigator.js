@@ -9,7 +9,7 @@ type NavigatorRoute = {
 }
 
 type Props = SceneRendererProps & {
-  children: Array<React$Element<any>>,
+  children?: Array<React$Element<any>>,
 }
 
 class TabViewPagerNavigator extends Component<void, Props, void> {

@@ -47,7 +47,7 @@ class BottomNavigationBar extends Component<void, Props, State> {
   state: State
   context: Context
 
-  constructor(props, context) {
+  constructor(props: Props, context: Context) {
     super(props, context)
     const { tabs } = props
     this.state = {
@@ -60,12 +60,6 @@ class BottomNavigationBar extends Component<void, Props, State> {
 
   static contextTypes = {
     history: PropTypes.object,
-  }
-
-  componentWillReceiveProps(nextProps: Props): void {
-    console.log(nextProps)
-    console.log('couoc')
-    console.log(nextProps.navigationState)
   }
 
   onRequestChangeTab = (index: number): void => {
