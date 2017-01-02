@@ -56,22 +56,19 @@ class CardStack extends Component<void, Props, State> {
     const cards = buildCards(children)
     // Get initial route of navigation state
     const { match, history } = context
-    const { location, entries } = history
+    const { location } = history
     const parent = match && match.parent
     const currentRoute = getCurrentRoute(cards, parent, location)
     const currentCard = currentRoute && cards.find((card) => card.key === currentRoute.key)
     // Build navigation state
-    const index = entries.findIndex(({ pathname }) => {
-      if (!currentCard) return false
-      return matchPattern(currentCard.pattern, { pathname }, currentCard.exactly)
+    const entries = history.entries.filter((entry) => {
+      return cards.find((card) => matchPattern(card.pattern, entry, card.exactly))
     })
-    const routes = entries.reduce((acc, { pathname }) => {
-      const entry = cards.find((card) => {
-        return matchPattern(card.pattern, { pathname }, card.exactly)
-      })
-      if (!entry) return acc
-      return [...acc, { key: entry.pattern }]
-    }, [])
+    const index = entries.findIndex((entry) => {
+      if (!currentCard) return false
+      return matchPattern(currentCard.pattern, entry, currentCard.exactly)
+    })
+    const routes = entries.map(({ pathname }) => ({ key: pathname }))
     const navigationState = { index, routes }
     // Save everything in local state
     this.state = { navigationState, cards }
