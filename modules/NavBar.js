@@ -25,22 +25,9 @@ type Props = NavigationSceneRendererProps & {
   onNavigateBack: Function,
 }
 
-type State = {
-  isActive: boolean,
-}
-
-class NavBar extends Component<void, Props, State> {
+class NavBar extends Component<void, Props, void> {
 
   props: Props
-  state: State
-
-  constructor(props: Props) {
-    super(props)
-    const { cards, scene } = props
-    const currentCard = getCurrentCard(scene.route, cards)
-    const hideNavBar = currentCard && currentCard.hideNavBar
-    this.state = { isActive: !hideNavBar }
-  }
 
   renderLeftComponent = (): ?React$Element<any> => {
     // Remove back button for fist scene
@@ -66,17 +53,6 @@ class NavBar extends Component<void, Props, State> {
     )
   }
 
-  componentWillReceiveProps(nextProps: Props): void {
-    const { isActive } = this.state
-    const { cards, scene, scenes, navigationState } = nextProps
-    const currentCard = getCurrentCard(scene.route, cards)
-    if (currentCard && currentCard.hideNavBar) {
-      if (isActive) this.setState({ isActive: false })
-    } else if (!isActive && scenes.length === navigationState.routes.length) {
-      this.setState({ isActive: true })
-    }
-  }
-
   // Accept updates only for iOS
   shouldComponentUpdate(): boolean {
     return Platform.OS === 'ios'
@@ -92,8 +68,9 @@ class NavBar extends Component<void, Props, State> {
     }
 
     // Hides the navigation bar if needed
-    const { isActive } = this.state
-    if (!isActive) return null
+    const { scene, cards } = this.props
+    const currentCard = getCurrentCard(scene.route, cards)
+    if (currentCard && currentCard.hideNavBar) return null
 
     // Else return <NavigationHeader /> (NavigationExperimental)
     // with this.props
