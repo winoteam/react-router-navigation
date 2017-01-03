@@ -4,7 +4,7 @@
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view'
-import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
+import type { SceneRendererProps, Scene } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type { Tab } from './StackTypeDefinitions'
 import TabStack from './TabStack'
 
@@ -58,6 +58,14 @@ class Tabs extends Component<void, Props, void> {
     )
   }
 
+  // @TODO $FlowFixMe
+  renderScene = (props: SceneRendererProps & Scene & { tabs: Array<Tab> }): ?React$Element<any> => {
+    const { tabs, route } = props
+    const currentTab = tabs.find((tab) => tab.key === route.key)
+    if (!currentTab) return null
+    return createElement(currentTab.component || currentTab.render)
+  }
+
   render(): React$Element<any> {
     return (
       <TabStack
@@ -70,11 +78,7 @@ class Tabs extends Component<void, Props, void> {
             navigationState={navigationState}
             onRequestChangeTab={onRequestChangeTab}
             renderHeader={(sceneProps) => this.renderHeader({ ...sceneProps, tabs })}
-            renderScene={({ route }) => {
-              const currentTab = tabs.find((tab) => tab.key === route.key)
-              if (!currentTab) return null
-              return createElement(currentTab.component || currentTab.render)
-            }}
+            renderScene={(sceneProps) => this.renderScene({ ...sceneProps, tabs })}
           />
         )}
       />
