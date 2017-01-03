@@ -15,6 +15,7 @@ const { CardStack: NavigationCardStack } = NavigationExperimental
 
 const styles = StyleSheet.create({
   scene: { flex: 1 },
+  cards: { overflow: 'hidden' },
 })
 
 type SceneRendererProps = NavigationSceneRendererProps & {
@@ -40,6 +41,13 @@ class Navigation extends Component<void, Props, void> {
       : <NavBar {...{ cards, onNavigateBack, ...sceneProps }} />
   }
 
+  renderHeader = (props: SceneRendererProps): ?React$Element<any> => {
+    const { cards, onNavigateBack, ...sceneProps } = props
+    return Platform.OS === 'ios'
+      ? this.renderNavBar({ ...sceneProps, onNavigateBack, cards })
+      : null
+  }
+
   renderScene = (props: SceneRendererProps): ?React$Element<any> => {
     const { cards, scene } = props
     const currentCard = getCurrentCard(scene.route, cards)
@@ -58,7 +66,7 @@ class Navigation extends Component<void, Props, void> {
         {...this.props}
         render={({ cards, navigationState, onNavigateBack }) => (
           <NavigationCardStack
-            style={this.props.style}
+            style={[styles.cards, this.props.style]}
             navigationState={navigationState}
             enableGestures={Platform.OS !== 'android'}
             onNavigateBack={onNavigateBack}
@@ -67,10 +75,7 @@ class Navigation extends Component<void, Props, void> {
               ? NavigationCardStackStyleInterpolator.forAndroid
               : NavigationCardStackStyleInterpolator.forIOS
             }
-            renderHeader={(props) => Platform.OS === 'ios'
-              ? this.renderNavBar({ ...props, onNavigateBack, cards })
-              : null
-            }
+            renderHeader={(props) => this.renderHeader({ ...props, cards, onNavigateBack })}
             renderScene={(props) => this.renderScene({ ...props, cards, onNavigateBack })}
           />
         )}
