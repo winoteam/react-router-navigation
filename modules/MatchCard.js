@@ -32,13 +32,13 @@ class MatchCard extends React.Component<void, Props, State> {
 
   renderMatchView = (matchProps: MatchProps): ?React$Element<MatchProps> => {
     const { render, component: Component } = this.props
+    if (!this.state.pathname) this.state.pathname = matchProps.pathname
     if (
       this.state.pathname === matchProps.pathname ||
       !this.state.matchProps
     ) {
       this.state.matchProps = matchProps
     }
-    this.state.pathname = matchProps.pathname
     if (render) return render(this.state.matchProps)
     else if (Component) return <Component {...this.state.matchProps} />
     return null

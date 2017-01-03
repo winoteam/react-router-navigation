@@ -74,7 +74,7 @@ export class TestRouter extends Component {
 export const CardView = ({ navigationState, cards }) => {
   const route = navigationState.routes[navigationState.index]
   const currentCard = getCurrentCard(route, cards)
-  return createElement(currentCard.component)
+  return createElement(currentCard.component, { key: route.key })
 }
 
 export const TabView = ({ navigationState, tabs }) => {
