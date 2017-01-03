@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, StatusBar, View } from 'react-native'
 import { Match, Redirect } from 'react-router'
 import { BottomNavigation, MatchTab } from 'react-router-navigation'
 
@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
 
 const App = () => (
   <View style={styles.container}>
+    <StatusBar
+      backgroundColor="black"
+      barStyle="default"
+    />
     <Match
       exactly
       pattern="/app"
