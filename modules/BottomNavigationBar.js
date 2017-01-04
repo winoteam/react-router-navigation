@@ -1,7 +1,8 @@
 /* @flow */
+/* eslint new-cap: 0 */
 
 import React, { PropTypes, Component } from 'react'
-import { TouchableWithoutFeedback, StyleSheet, Dimensions, PixelRatio, View, Text } from 'react-native'
+import { TouchableWithoutFeedback, TouchableNativeFeedback, StyleSheet, Platform, Dimensions, PixelRatio, View, Text } from 'react-native'
 import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type { Tab } from './StackTypeDefinitions'
 
@@ -10,10 +11,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: Dimensions.get('window').width,
-    height: 48,
     backgroundColor: '#fafafa',
-    borderTopWidth: 1 / PixelRatio.get(),
-    borderTopColor: '#b2b2b2',
+    ...Platform.select({
+      ios: {
+        height: 49,
+        borderTopColor: '#b2b2b2',
+        borderTopWidth: 1 / PixelRatio.get(),
+      },
+      android: {
+        height: 56,
+        borderTopWidth: 2 / PixelRatio.get(),
+        borderTopColor: '#e4e4e4',
+        backgroundColor: 'white',
+      },
+    }),
   },
   item: {
     flex: 1,
@@ -21,18 +32,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   label: {
-    color: '#929292',
-    fontSize: 10,
+    ...Platform.select({
+      ios: {
+        color: '#929292',
+        fontSize: 10,
+      },
+      android: {
+        fontSize: 13,
+      },
+    }),
     textAlign: 'center',
+  },
+  activeLabel: {
+    ...Platform.select({
+      android: {
+        color: '#008f8d',
+      },
+      ios: {
+        color: '#0075ff',
+      },
+    }),
   },
 })
 
 type Props = SceneRendererProps & {
   tabs: Array<Tab>,
+  onResetTab: (index: number) => void,
 }
 
 type State = {
   tabItems: Array<Tab & {
+    isActive: boolean,
     pathname: string,
   }>,
 }
@@ -47,19 +77,20 @@ class BottomNavigationBar extends Component<void, Props, State> {
   state: State
   context: Context
 
-  constructor(props: Props, context: Context) {
-    super(props, context)
-    const { tabs } = props
-    this.state = {
-      tabItems: tabs.map((tab) => ({
-        ...tab,
-        pathname: tab.pattern,
-      })),
-    }
-  }
-
   static contextTypes = {
     history: PropTypes.object,
+  }
+
+  constructor(props: Props, context: Context) {
+    super(props, context)
+    const { navigationState, tabs } = props
+    this.state = {
+      tabItems: tabs.map((tab, index) => ({
+        ...tab,
+        pathname: tab.pattern,
+        isActive: navigationState.index === index,
+      })),
+    }
   }
 
   onRequestChangeTab = (index: number): void => {
@@ -69,31 +100,49 @@ class BottomNavigationBar extends Component<void, Props, State> {
     // Get current tab and update its pathname
     const currentTab = tabItems[navigationState.index]
     currentTab.pathname = history.location.pathname
-    const nextTabItems = tabItems
+    currentTab.isActive = true
     // Get new tab to switch
     const tab = tabItems[index]
     // Update history
     history.replace(tab.pathname)
+    // Reset tab
+    if (navigationState.index === index) this.props.onResetTab(index)
     // Update state
-    nextTabItems[navigationState.index] = currentTab
+    const nextTabItems = tabItems.map((tabItem, i) => {
+      if (i === index) {
+        return {
+          ...tab,
+          isActive: true,
+        }
+      }
+      return {
+        ...tabItem,
+        isActive: false,
+      }
+    })
     this.setState({ tabItems: nextTabItems })
   }
 
   render(): React$Element<any> {
     const { tabItems } = this.state
+    const Touchable = Platform.OS === 'ios'
+      ? TouchableWithoutFeedback
+      : TouchableNativeFeedback
+    const isAndroid = Platform.OS === 'android'
     return (
       <View style={styles.container}>
         {tabItems.map((item, index) => (
-          <TouchableWithoutFeedback
+          <Touchable
             key={index}
+            background={isAndroid && TouchableNativeFeedback.Ripple('#008f8d', true)}
             onPress={() => this.onRequestChangeTab(index)}
           >
             <View style={styles.item}>
-              <Text style={styles.label}>
+              <Text style={[styles.label, item.isActive && styles.activeLabel]}>
                 {item.label}
               </Text>
             </View>
-          </TouchableWithoutFeedback>
+          </Touchable>
         ))}
       </View>
     )
