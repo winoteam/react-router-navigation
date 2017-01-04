@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { matchPattern } from 'react-router'
 import type { NavigationState, NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card, MatchCardProps } from './StackTypeDefinitions'
-import CardStackView from './CardStackView'
+import StaticContainer from './StaticContainer'
 import { getCurrentRoute, buildCards, normalizeRoute } from './utils'
 
 const {
@@ -70,7 +70,7 @@ class CardStack extends Component<void, Props, State> {
     })
     const routes = entries.map((entry) => {
       const card = cards.find(({ pattern, exactly }) => matchPattern(pattern, entry, exactly))
-      if (!card) return { key: entry.pathname }
+      if (!card) return { key: entry.pathname } // @TODO use to fix flow issue
       return { key: card.key }
     })
     const navigationState = { index, routes }
@@ -154,16 +154,23 @@ class CardStack extends Component<void, Props, State> {
   }
 
 
-  renderView = (transitionProps: NavigationTransitionProps): React$Element<any> => {
-    return (
-      <CardStackView
-        {...transitionProps}
-        cards={this.state.cards}
-        render={this.props.render}
-        onNavigateBack={this.onNavigateBack}
-      />
-    )
-  }
+  // Render view in <StaticContainer /> with
+  // conditoinnal updates
+  renderView = (transitionProps: NavigationTransitionProps): React$Element<any> => (
+    <StaticContainer
+      {...transitionProps}
+      shouldUpdate={(props, nextProps) => !_.isEqual(
+        props.navigationState,
+        nextProps.navigationState,
+      )}
+    >
+      {() => this.props.render({
+        ...transitionProps,
+        cards: this.state.cards,
+        onNavigateBack: this.onNavigateBack,
+      })}
+    </StaticContainer>
+  )
 
   // Render when index is updated or when
   // one route is updated
