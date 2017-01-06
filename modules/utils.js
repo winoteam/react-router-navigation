@@ -5,6 +5,7 @@ import { Children } from 'react'
 import { matchPattern } from 'react-router'
 import type { NavigationRoute } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card, MatchCardProps, Tab, MatchTabProps } from './StackTypeDefinitions'
+import type { History, Location, Entries } from './HistoryTypeDefinitions'
 
 /**
  * Extract current match from all matches
@@ -13,7 +14,7 @@ import type { Card, MatchCardProps, Tab, MatchTabProps } from './StackTypeDefini
 export function getCurrentRoute(
   matchs: Array<{ pattern: string, exactly?: boolean } & Object>,
   parent: ?string,
-  location: { pathname: string },
+  location: Location,
 ): ?NavigationRoute {
   const route = matchs
     .find(({ pattern, exactly }) => {
@@ -97,4 +98,61 @@ export function getCurrentCard(route: NavigationRoute, cards: Array<Card>): ?Car
   return cards.find((card) => {
     return normalizeRoute(route).key === card.key
   })
+}
+
+/**
+ * Sync history with navigation state actions
+ */
+export function getCleanedHistory(
+  history: History,
+  { tabs, tabsEntries, firstEntryIndex, currentTabIndex }: {
+    tabs: Array<Tab>,
+    tabsEntries: { [key: number]: Entries },
+    firstEntryIndex: number,
+    currentTabIndex: number,
+  } = {},
+): History {
+  // Simple pop action
+  if (history.action === 'POP' && (history.length - 1) !== history.index) {
+    const length = history.index + 1
+    history.entries = history.entries.slice(0, length)
+    history.length = length
+  }
+  if (tabs) {
+    history.entries = history.entries.reduce((acc, entry, index, arr) => {
+      if (index >= firstEntryIndex) {
+        // Remove the entry
+        if (!matchPattern(tabs[currentTabIndex].key, entry)) {
+          return acc
+        }
+        // Add missing entries
+        if (
+          history.action === 'REPLACE' &&
+          tabsEntries[currentTabIndex] &&
+          (arr.length - 1) === index && // This is last item
+          acc.length < tabsEntries[currentTabIndex].length // Entries are missing
+        ) {
+          const missingEntries = tabsEntries[currentTabIndex]
+            .slice(
+              firstEntryIndex,
+              tabsEntries[currentTabIndex].findIndex((tabEntry) => {
+                return matchPattern(tabEntry.key, entry)
+              })
+            )
+          return [
+            ...acc,
+            ...missingEntries,
+            entry,
+          ]
+        }
+      }
+      // Add the entry
+      return [...acc, entry]
+    }, [])
+    // Update length and index
+    const newLength = history.entries.length
+    history.length = newLength
+    history.index = newLength - 1
+  }
+  return history
 }

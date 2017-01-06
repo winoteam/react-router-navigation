@@ -6,8 +6,9 @@ import _ from 'lodash'
 import { matchPattern } from 'react-router'
 import type { NavigationState, NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card, MatchCardProps } from './StackTypeDefinitions'
+import type { Match, History } from './HistoryTypeDefinitions'
 import StaticContainer from './StaticContainer'
-import { getCurrentRoute, buildCards, normalizeRoute } from './utils'
+import { getCurrentRoute, buildCards, normalizeRoute, getCleanedHistory } from './utils'
 
 const {
   Transitioner: NavigationTransitioner,
@@ -23,10 +24,9 @@ type Props = {
     }) => React$Element<any>,
 }
 
-// @TODO tpye check match and history
 type Context = {
-  match: any,
-  history: any,
+  match: Match,
+  history: History,
 }
 
 type State = {
@@ -82,6 +82,7 @@ class CardStack extends Component<void, Props, State> {
   // hardware BackAndroid event
   componentDidMount(): void {
     const { history } = this.context
+    // @TODO $FlowFixMe
     this.unlistenHistory = history.listen(this.onListenHistory)
     BackAndroid.addEventListener('hardwareBackPress', this.onNavigateBack)
   }
@@ -93,31 +94,31 @@ class CardStack extends Component<void, Props, State> {
   }
 
   // Listen all history events
-  onListenHistory = (): void => {
+  onListenHistory: Function = (): void => {
     // Get current route
     const { cards, navigationState } = this.state
     const currentRoute = normalizeRoute(navigationState.routes[navigationState.index])
     const currentCard = cards.find((card) => card.key === currentRoute.key)
     // Get next route
     const { history, match } = this.context
-    const { action, location } = history
-    const { entries, index } = history
+    const { entries, index, location, action } = history
     const parent = match && match.parent
     const nextRoute = getCurrentRoute(cards, parent, location)
-    // Local state must be updated ?
-    if (nextRoute && currentCard && (
+    // Local state and history must be updated ?
+    if (
+      nextRoute && currentCard && (
       // Basic pathname
       (currentCard.pattern !== nextRoute.key) ||
       // Pathname with query params
+      // Ex: with same pattern article/:id,
+      //     pathname article/2 !== article/3
       (matchPattern(currentRoute.key, location, true) &&
        matchPattern(nextRoute.key, location, true) &&
-       entries[index - 1] && entries[index].pathname !== entries[index - 1].pathname
-      )
+       entries[index - 1] && entries[index].pathname !== entries[index - 1].pathname)
     )) {
-      // Note: Extra '@@xxx' is removed with normalizeRoute()
       const key = `${nextRoute.key}@@${Date.now()}`
       switch (action) {
-        case 'PUSH':
+        case 'PUSH': {
           this.setState({
             navigationState: NavigationStateUtils.push(
               navigationState,
@@ -125,12 +126,30 @@ class CardStack extends Component<void, Props, State> {
             ),
           })
           break
-        case 'POP':
-          this.setState({
-            navigationState: NavigationStateUtils.pop(navigationState),
-          })
+        }
+        case 'POP': {
+          // @TODO support NavigationStateUtils.go(state, n = 0) {...}
+          const n = (history.length - 1) - history.index
+          if (n > 1) {
+            // @TODO add NavigationStateUtils.pop(state, n = 0) {...}
+            this.setState({
+              navigationState: NavigationStateUtils.reset(
+                navigationState,
+                navigationState.routes.slice(
+                  0,
+                  (navigationState.index - n) + 1,
+                ),
+                navigationState.index - n,
+              ),
+            })
+          } else {
+            this.setState({
+              navigationState: NavigationStateUtils.pop(navigationState),
+            })
+          }
           break
-        case 'REPLACE':
+        }
+        case 'REPLACE': {
           this.setState({
             navigationState: NavigationStateUtils.replaceAtIndex(
               navigationState,
@@ -139,7 +158,15 @@ class CardStack extends Component<void, Props, State> {
             ),
           })
           break
+        }
         default:
+      }
+      // Sync history with next navigation state
+      // @TODO - add pop(n) action to history context
+      //         > https://github.com/LeoLeBras/history/
+      const newHistory = getCleanedHistory(this.context.history)
+      if (!_.isEqual(history, newHistory)) {
+        Object.assign(history, newHistory)
       }
     }
   }
@@ -164,7 +191,7 @@ class CardStack extends Component<void, Props, State> {
         nextProps.navigationState,
       )}
     >
-      {() => this.props.render({
+      {this.props.render({
         ...transitionProps,
         cards: this.state.cards,
         onNavigateBack: this.onNavigateBack,
