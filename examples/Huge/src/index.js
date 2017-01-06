@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router'
 import Root from './Root'
 
 const Huge = () => (
-  <MemoryRouter initialEntries={['/app']}>
+  <MemoryRouter initialEntries={['/launch']}>
     <Root />
   </MemoryRouter>
 )
