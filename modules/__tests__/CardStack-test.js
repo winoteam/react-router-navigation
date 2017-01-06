@@ -1,7 +1,7 @@
 import React, { PropTypes, Component, createElement } from 'react'
 import { View } from 'react-native'
 import { Match } from 'react-router'
-import { TestRouter, componentFactory, CardView } from './utils'
+import { TestRouter, componentFactory, CardView } from './helpers'
 import CardStack from './../CardStack'
 import MatchCard from './../MatchCard'
 import renderer from 'react-test-renderer'
@@ -81,7 +81,7 @@ it('<CardStack /> re-renders correctly when "push" action is called with same pa
   expect(tree).toMatchSnapshot()
 })
 
-it('<CardStack /> re-renders correctly when "pop" action is called', () => {
+it('<CardStack /> re-renders correctly when "goBack" action is called', () => {
   const component = renderer.create(
     <TestRouter
       initialIndex={1}
@@ -96,6 +96,26 @@ it('<CardStack /> re-renders correctly when "pop" action is called', () => {
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
   tree.props.onPress((history) => history.goBack())
+  tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+})
+
+it('<CardStack /> re-renders correctly when "go" action is called', () => {
+  const component = renderer.create(
+    <TestRouter
+      initialIndex={2}
+      initialEntries={['/', '/hello', '/goodbye']}
+    >
+      <CardStack render={CardView}>
+        <Match exactly pattern="/" component={componentFactory('Index')} />
+        <Match pattern="/hello" component={componentFactory('Hello')} />
+        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
+      </CardStack>
+    </TestRouter>
+  )
+  let tree = component.toJSON()
+  expect(tree).toMatchSnapshot()
+  tree.props.onPress((history) => history.go(-2))
   tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })
@@ -167,7 +187,7 @@ it('<CardStack /> re-renders correctly after unmount/reset', () => {
   // Reset <CardStack /> and history :
   tree.props.onPress((history, setState) => {
     setState({ key: 1 })
-    history.goBack(-9999999)
+    history.goBack(0)
   })
   tree = component.toJSON()
   expect(tree).toMatchSnapshot()

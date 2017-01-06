@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { View } from 'react-native'
 import { Match, Redirect, Miss } from 'react-router'
-import { TestRouter, componentFactory, TabView } from './utils'
+import { TestRouter, componentFactory, TabView } from './helpers'
 import TabStack from './../TabStack'
 import renderer from 'react-test-renderer'
 
