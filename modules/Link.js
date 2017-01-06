@@ -2,6 +2,7 @@
 
 import React, { PropTypes, createElement } from 'react'
 import { Platform, TouchableOpacity, TouchableNativeFeedback, View, Text } from 'react-native'
+import type { History } from './HistoryTypeDefinitions'
 
 type Props = {
   children?: string,
@@ -11,14 +12,14 @@ type Props = {
 }
 
 type Context = {
-  history: any,
+  history: History,
 }
 
 const Link = (props: Props, context: Context): React$Element<any> => {
   const Touchable = Platform.OS === 'ios'
     ? TouchableOpacity
     : TouchableNativeFeedback
-  const onPress = () => context.history.push(props.to)
+  const onPress = () => props.to && context.history.push(props.to)
   return createElement(
     props.component || Touchable,
     { onPress },

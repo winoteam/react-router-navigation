@@ -94,7 +94,7 @@ class CardStack extends Component<void, Props, State> {
   }
 
   // Listen all history events
-  onListenHistory: Function = (): void => {
+  onListenHistory = (): void => {
     // Get current route
     const { cards, navigationState } = this.state
     const currentRoute = normalizeRoute(navigationState.routes[navigationState.index])
