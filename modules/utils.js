@@ -129,15 +129,15 @@ export function getCleanedHistory(
         if (
           history.action === 'REPLACE' &&
           tabsEntries[currentTabIndex] &&
-          (arr.length - 1) === index && // This is last item
-          acc.length < tabsEntries[currentTabIndex].length // Entries are missing
+          arr.length === index && // This is last item
+          (acc.length + 1) < tabsEntries[currentTabIndex].length // Entries are missing
         ) {
           const missingEntries = tabsEntries[currentTabIndex]
             .slice(
               firstEntryIndex,
               tabsEntries[currentTabIndex].findIndex((tabEntry) => {
                 return matchPattern(tabEntry.key, entry)
-              })
+              }),
             )
           return [
             ...acc,
