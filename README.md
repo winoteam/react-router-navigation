@@ -17,7 +17,7 @@ And then, enjoy it:
 import React from 'react'
 import { Text } from 'react-native'
 import { MemoryRouter } from 'react-router'
-import { Navigation, MatchCard } from 'react-router-navigation'
+import { Navigation, MatchCard, Link } from 'react-router-navigation'
 
 const App = () => (
   <MemoryRouter>
@@ -26,7 +26,7 @@ const App = () => (
         exactly
         pattern="/"
         title="Index"
-        render={() => <Text>Index</Text>}
+        render={() => <Link to="/hello">Press it</Link>}
       />
       <MatchCard
         pattern="/hello"
@@ -41,7 +41,7 @@ const App = () => (
 ## Docs
 WIP ...
 
-# Questions
+## Questions
 If you have any questions, feel free to get in touch on Twitter, [@Leo_LeBras](https://twitter.com/Leo_LeBras).
 
 ### Thanks
