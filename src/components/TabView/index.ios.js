@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { Dimensions, View, Text } from 'react-native'
+import StaticContainer from 'react-static-container'
 import TabBar from './../TabBar'
 import type { NavigationState, NavigationSceneProps } from './../../types'
 import styles from './styles'
@@ -42,7 +43,6 @@ class TabView extends Component {
     const { routes } = navigationState
     const WrapperComponent = navigationState.component || {}
     const route = routes.find((_route, index) => index === navigationState.index)
-
     const hideTabBar = route.routes.slice(-1)[0].component.hideTabBar
 
     return (
@@ -59,9 +59,11 @@ class TabView extends Component {
             ]}
           >
             {routes.map((scene, index) => (
-              <View key={index} style={styles.scene}>
-                {renderedTabs.includes(index) ? renderScene(scene) : null}
-              </View>
+              <StaticContainer key={index} shouldUpdate={() => index === navigationState.index}>
+                <View style={styles.scene}>
+                  {renderedTabs.includes(index) ? renderScene(scene) : null}
+                </View>
+              </StaticContainer>
             ))}
           </View>
           {!hideTabBar && <TabBar {...this.props} />}
