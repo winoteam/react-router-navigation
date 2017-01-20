@@ -24,14 +24,26 @@ const styles = StyleSheet.create({
   },
 })
 
-const BackButton = ({ onPress }: Props): React$Element<any> => {
-  const Touchable = Platform.OS === 'ios'
-    ? TouchableOpacity
-    : TouchableNativeFeedback
-  const Arrow = Platform.OS === 'android'
-    ? require('./assets/back-dark.png')
-    : require('./assets/back-default.png')
+const isAndroid = Platform.OS === 'android'
 
+const Touchable = isAndroid
+  ? TouchableNativeFeedback
+  : TouchableOpacity
+
+const arrows = {
+  default: isAndroid
+    ? require('./assets/back-dark.png')
+    : require('./assets/back-default.png'),
+  light: isAndroid
+    ? require('./assets/back-dark.png')
+    : require('./assets/back-default.png'),
+  dark: isAndroid
+    ? require('./assets/back-dark.png')
+    : require('./assets/back-default.png'),
+}
+
+const BackButton = ({ onPress }: Props): React$Element<any> => {
+  const Arrow = arrows.default
   return (
     <Touchable
       style={styles.container}
