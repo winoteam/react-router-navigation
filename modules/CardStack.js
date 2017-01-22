@@ -7,7 +7,6 @@ import { matchPattern } from 'react-router'
 import type { NavigationState, NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card, MatchCardProps } from './StackTypeDefinitions'
 import type { Match, History } from './HistoryTypeDefinitions'
-import StaticContainer from './StaticContainer'
 import { getCurrentRoute, buildCards, normalizeRoute, getCleanedHistory } from './utils'
 
 const {
@@ -17,11 +16,18 @@ const {
 
 type Props = {
   children: Array<React$Element<MatchCardProps>>,
+  configureTransition?: Object,
+  onTransitionStart?: () => void,
+  onTransitionEnd?: () => void,
   render: (
     props: NavigationTransitionProps & {
       cards: Array<Card>,
       onNavigateBack: Function,
     }) => React$Element<any>,
+}
+
+type DefaultProps = {
+  configureTransition: Object,
 }
 
 type Context = {
@@ -34,13 +40,17 @@ type State = {
   cards: Array<Card>,
 }
 
-class CardStack extends Component<void, Props, State> {
+class CardStack extends Component<DefaultProps, Props, State> {
 
   props: Props
   state: State
   context: Context
 
   unlistenHistory: Function
+
+  static defaultProps: DefaultProps = {
+    configureTransition: () => null,
+  }
 
   static contextTypes = {
     history: PropTypes.object,
@@ -181,31 +191,14 @@ class CardStack extends Component<void, Props, State> {
   }
 
 
-  // Render view in <StaticContainer /> with
+  // Render view in <Static /> with
   // conditoinnal updates
-  renderView = (transitionProps: NavigationTransitionProps): React$Element<any> => (
-    <StaticContainer
-      {...transitionProps}
-      shouldUpdate={(props, nextProps) => !_.isEqual(
-        props.navigationState,
-        nextProps.navigationState,
-      )}
-    >
-      {this.props.render({
-        ...transitionProps,
-        cards: this.state.cards,
-        onNavigateBack: this.onNavigateBack,
-      })}
-    </StaticContainer>
-  )
-
-  // Render when index is updated or when
-  // one route is updated
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    return !_.isEqual(
-      this.state.navigationState,
-      nextState.navigationState,
-    )
+  renderView = (transitionProps: NavigationTransitionProps): React$Element<any> => {
+    return this.props.render({
+      ...transitionProps,
+      cards: this.state.cards,
+      onNavigateBack: this.onNavigateBack,
+    })
   }
 
   // Render into <NavigationTransitioner /> with
@@ -215,7 +208,9 @@ class CardStack extends Component<void, Props, State> {
     return (
       <NavigationTransitioner
         navigationState={this.state.navigationState}
-        configureTransition={() => null}
+        configureTransition={this.props.configureTransition}
+        onTransitionStart={this.props.onTransitionStart}
+        onTransitionEnd={this.props.onTransitionEnd}
         render={this.renderView}
       />
     )

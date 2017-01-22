@@ -1,12 +1,20 @@
 /* @flow */
 
+export type CardState = {
+  isFocused: boolean,
+  isTransitioning: boolean,
+}
+
 export type MatchCardProps = {
   pattern: string,
   exactly?: boolean,
   component?: () => React$Element<any>,
   render?: () => React$Element<any>,
-  title?: string,
   hideNavBar?: boolean,
+  navBarStyle?: StyleSheet,
+  title?: string,
+  titleStyle?: StyleSheet,
+  onResetCard?: () => void,
 }
 
 // @TODO $FlowFixMe

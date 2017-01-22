@@ -1,7 +1,7 @@
 /* @flow */
 /* eslint no-param-reassign: 0 */
 
-import { Children } from 'react'
+import { Children, cloneElement } from 'react'
 import { matchPattern } from 'react-router'
 import type { NavigationRoute } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 import type { Card, MatchCardProps, Tab, MatchTabProps } from './StackTypeDefinitions'
@@ -48,7 +48,7 @@ export function buildItemStack<Item>(
         props.key = child.props[key]
         props[key] = child.props[key]
       } else if (isAdvancedMatch && (key === 'render' || key === 'component')) {
-        props[key] = () => child
+        props[key] = (ownProps: any) => cloneElement(child, ownProps)
       } else if (
         defaultProps.includes(key) ||
         (isAdvancedMatch && advancedProps.includes(key))
@@ -67,7 +67,11 @@ export function buildItemStack<Item>(
  * Build a card stack
  */
 export function buildCards(children: Array<React$Element<MatchCardProps>>): Array<Card> {
-  return buildItemStack(children, ['title', 'hideNavBar'], 'MatchCard')
+  return buildItemStack(
+    children,
+    ['title', 'titleStyle', 'navBarStyle', 'hideNavBar'],
+    'MatchCard',
+  )
 }
 
 

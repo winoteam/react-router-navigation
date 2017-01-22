@@ -1,11 +1,11 @@
 /* @flow */
 /* eslint react/no-unused-prop-types: 0 */
 
-import React from 'react'
+import React, { Component, createElement } from 'react'
 import { Match } from 'react-router'
-import type { MatchCardProps } from './StackTypeDefinitions'
+import type { MatchCardProps, CardState } from './StackTypeDefinitions'
 
-type Props = MatchCardProps
+type Props = MatchCardProps & CardState
 
 type MatchProps = {
   pattern: string,
@@ -15,14 +15,17 @@ type MatchProps = {
   pararms: Object,
 }
 
+type RendererProps = MatchProps & CardState
+
 type State = {
   matchProps: ?MatchProps,
   pathname: ?string,
 }
 
-class MatchCard extends React.Component<void, Props, State> {
+class MatchCard extends Component<void, Props, State> {
 
   props: Props
+
   state: State = {
     pathname: null,
     matchProps: null,
@@ -30,8 +33,8 @@ class MatchCard extends React.Component<void, Props, State> {
 
   static displayName = 'MatchCard'
 
-  renderMatchView = (matchProps: MatchProps): ?React$Element<MatchProps> => {
-    const { render, component: Component } = this.props
+  renderMatchView = (matchProps: MatchProps): ?React$Element<RendererProps> => {
+    // Set match props
     if (!this.state.pathname) this.state.pathname = matchProps.pathname
     if (
       this.state.pathname === matchProps.pathname ||
@@ -39,9 +42,19 @@ class MatchCard extends React.Component<void, Props, State> {
     ) {
       this.state.matchProps = matchProps
     }
-    if (render) return render(this.state.matchProps)
-    else if (Component) return <Component {...this.state.matchProps} />
+    // Render view with props
+    const { render, component } = this.props
+    const props = {
+      ...this.props,
+      ...this.state.matchProps,
+    }
+    if (render) return render(props)
+    else if (Component) return createElement(component, props)
     return null
+  }
+
+  shouldComponentUpdate() {
+    return false
   }
 
   render(): React$Element<any> {
