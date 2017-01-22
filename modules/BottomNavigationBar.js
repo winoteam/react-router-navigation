@@ -108,18 +108,10 @@ class BottomNavigationBar extends Component<void, Props, State> {
     // Reset tab
     if (navigationState.index === index) this.props.onResetTab(index)
     // Update state
-    const nextTabItems = tabItems.map((tabItem, i) => {
-      if (i === index) {
-        return {
-          ...tab,
-          isActive: true,
-        }
-      }
-      return {
-        ...tabItem,
-        isActive: false,
-      }
-    })
+    const nextTabItems = tabItems.map((tabItem, i) => ({
+      ...tabItem,
+      isActive: i === index,
+    }))
     this.setState({ tabItems: nextTabItems })
   }
 
