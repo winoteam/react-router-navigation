@@ -79,7 +79,11 @@ export function buildCards(children: Array<React$Element<MatchCardProps>>): Arra
  * Build a tab stack
  */
 export function buildTabs(children: Array<React$Element<MatchTabProps>>): Array<Tab> {
-  return buildItemStack(children, ['label', 'tabBarStyle'], 'MatchTab')
+  return buildItemStack(
+    children,
+    ['label', 'tabBarStyle', 'tabBarIndicatorStyle'],
+    'MatchTab',
+  )
 }
 
 

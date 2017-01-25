@@ -3,7 +3,7 @@
 
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
-import { TabViewAnimated, TabBarTop } from 'react-native-tab-view'
+import { TabViewAnimated, TabBar } from 'react-native-tab-view'
 import type { SceneRendererProps, Scene } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type { Tab } from './StackTypeDefinitions'
 import TabStack from './TabStack'
@@ -43,9 +43,10 @@ class Tabs extends Component<void, Props, void> {
       )
     }
     return (
-      <TabBarTop
+      <TabBar
         {...sceneProps}
         style={this.props.tabBarStyle}
+        indicatorStyle={this.props.tabBarIndicatorStyle}
         renderLabel={({ route }) => {
           const scene = tabs.find((tab) => tab.key === route.key)
           return (

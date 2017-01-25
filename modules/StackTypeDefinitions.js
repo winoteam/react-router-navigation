@@ -28,6 +28,7 @@ export type MatchTabProps = {
   component?: () => React$Element<any>,
   render?: () => React$Element<any>,
   label?: string,
+  tabBarIndicatorStyle?: StyleSheet,
 }
 
 // @TODO $FlowFixMe
