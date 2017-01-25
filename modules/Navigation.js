@@ -11,7 +11,11 @@ import NavBar from './NavBar'
 import NavigationCardStackStyleInterpolator from './NavigationCardStackStyleInterpolator'
 import { getCurrentCard } from './utils'
 
-const { Card: NavigationCard } = NavigationExperimental
+const {
+  Transitioner: NavigationTransitioner,
+  Card: NavigationCard,
+} = NavigationExperimental
+
 const { CardStackPanResponder: NavigationCardStackPanResponder } = NavigationCard
 
 const styles = StyleSheet.create({
@@ -35,6 +39,7 @@ type SceneRendererProps = NavigationSceneRendererProps & {
 
 type Props = {
   style?: StyleSheet,
+  cardStyle?: StyleSheet,
   children: Array<React$Element<MatchCardProps>>,
   configureTransition?: Object,
   renderNavBar?: (props: SceneRendererProps) => React$Element<any>
@@ -56,17 +61,22 @@ type State = {
 
 class Navigation extends Component<DefaultProps, Props, State> {
 
-  props: Props
-  state: State = {
-    isTransitioning: false,
-    index: 0,
-  }
-
   static defaultProps: DefaultProps = {
     configureTransition: () => ({
       duration: Platform.OS === 'ios' ? 250 : 100,
       useNativeDriver: !!NativeModules.NativeAnimatedModule && Platform.OS === 'android',
     }),
+  }
+
+  props: Props
+
+  state: State = {
+    isTransitioning: false,
+    index: 0,
+  }
+
+  onTransitionEnd = (): void => {
+    this.setState({ isTransitioning: false })
   }
 
   renderNavBar = (props: SceneRendererProps): React$Element<any> => {
@@ -97,7 +107,7 @@ class Navigation extends Component<DefaultProps, Props, State> {
       : null
     // Render card
     const currentCard = getCurrentCard(scene.route, cards)
-    if (!currentCard) return null
+    if (!currentCard && (!currentCard.component || !currentCard.render)) return null
     return (
       <NavigationCard
         {...props}
@@ -105,7 +115,7 @@ class Navigation extends Component<DefaultProps, Props, State> {
         panHandlers={panHandlers}
         renderScene={() => (
           <View style={styles.scene}>
-            {createElement(
+            {/* @TODO $FlowFixMe */createElement(
               currentCard.component || currentCard.render,
               cardState
             )}
@@ -117,27 +127,31 @@ class Navigation extends Component<DefaultProps, Props, State> {
     )
   }
 
-  onTransitionEnd = (): void => {
-    this.setState({ isTransitioning: false })
-  }
+  renderView = (props: SceneRendererProps): React$Element<any> => (
+    <View style={styles.container}>
+      <View style={styles.scenes}>
+        {props.scenes.map((scene, index) => {
+          return this.renderScene(
+            { ...props, scene },
+            index,
+          )
+        })}
+      </View>
+      {Platform.OS === 'ios' && this.renderNavBar(props)}
+    </View>
+  )
 
   render(): React$Element<any> {
     return (
       <CardStack
         {...this.props}
-        configureTransition={this.props.configureTransition}
-        onTransitionStart={this.onTransitionStart}
-        onTransitionEnd={this.onTransitionEnd}
-        render={(props) => (
-          <View style={styles.container}>
-            <View style={styles.scenes}>
-              {props.scenes.map((scene) => this.renderScene({
-                ...props,
-                scene,
-              }))}
-            </View>
-            {Platform.OS === 'ios' && this.renderNavBar(props)}
-          </View>
+        render={({ navigationState, cards }) => (
+          <NavigationTransitioner
+            navigationState={navigationState}
+            configureTransition={this.props.configureTransition}
+            onTransitionEnd={this.onTransitionEnd}
+            render={(props) => this.renderView({ ...props, cards })}
+          />
         )}
       />
     )
