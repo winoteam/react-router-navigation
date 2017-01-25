@@ -47,7 +47,7 @@ class NavBar extends Component<void, Props, void> {
     const currentCard = getCurrentCard(scene.route, cards)
     if (!currentCard || !currentCard.title) return null
     return (
-      <NavigationHeader.Title>
+      <NavigationHeader.Title textStyle={currentCard.titleStyle}>
         {currentCard.title}
       </NavigationHeader.Title>
     )
@@ -70,14 +70,17 @@ class NavBar extends Component<void, Props, void> {
     // Hides the navigation bar if needed
     const { scene, cards } = this.props
     const currentCard = getCurrentCard(scene.route, cards)
-    if (currentCard && currentCard.hideNavBar) return null
+    if (!currentCard || currentCard.hideNavBar) return null
 
-    // Else return <NavigationHeader /> (NavigationExperimental)
+    // Return <NavigationHeader /> (NavigationExperimental)
     // with this.props
     return (
       <NavigationHeader
         {...sceneProps}
-        style={styles.container}
+        style={[
+          styles.container,
+          currentCard.navBarStyle,
+        ]}
         renderLeftComponent={this.renderLeftComponent}
         renderTitleComponent={this.renderTitleComponent}
       />
