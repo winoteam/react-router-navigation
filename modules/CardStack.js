@@ -16,18 +16,11 @@ const {
 
 type Props = {
   children: Array<React$Element<MatchCardProps>>,
-  configureTransition?: Object,
-  onTransitionStart?: () => void,
-  onTransitionEnd?: () => void,
   render: (
     props: NavigationTransitionProps & {
       cards: Array<Card>,
       onNavigateBack: Function,
     }) => React$Element<any>,
-}
-
-type DefaultProps = {
-  configureTransition: Object,
 }
 
 type Context = {
@@ -40,17 +33,13 @@ type State = {
   cards: Array<Card>,
 }
 
-class CardStack extends Component<DefaultProps, Props, State> {
+class CardStack extends Component<void, Props, State> {
 
   props: Props
   state: State
   context: Context
 
   unlistenHistory: Function
-
-  static defaultProps: DefaultProps = {
-    configureTransition: () => null,
-  }
 
   static contextTypes = {
     history: PropTypes.object,
@@ -208,9 +197,7 @@ class CardStack extends Component<DefaultProps, Props, State> {
     return (
       <NavigationTransitioner
         navigationState={this.state.navigationState}
-        configureTransition={this.props.configureTransition}
-        onTransitionStart={this.props.onTransitionStart}
-        onTransitionEnd={this.props.onTransitionEnd}
+        configureTransition={() => null}
         render={this.renderView}
       />
     )
