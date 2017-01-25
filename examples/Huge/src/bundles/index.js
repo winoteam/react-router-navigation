@@ -1,29 +1,27 @@
-import React from 'react'
-import { StyleSheet, StatusBar, View } from 'react-native'
-import { Match, Redirect } from 'react-router'
-import { BottomNavigation, MatchTab } from 'react-router-navigation'
+import React, { Component } from 'react'
+import { Navigation, BottomNavigation, MatchCard, MatchTab } from 'react-router-navigation'
 
+import Launch from './Launch'
+import Auth from './Auth'
 import Feed from './Feed'
 import Search from './Search'
 import Profile from './Profile'
 
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-})
-
-const App = () => (
-  <View style={styles.container}>
-    <StatusBar
-      backgroundColor="black"
-      barStyle="default"
+const Root = () => (
+  <Navigation>
+    <MatchCard
+      pattern="/launch"
+      component={Launch}
+      hideNavBar
     />
-    <Match
-      exactly
+    <MatchCard
+      pattern="/auth"
+      component={Auth}
+      title="Auth"
+    />
+    <MatchCard
       pattern="/app"
-      render={() => <Redirect to="/app/feed" />}
-    />
-    <Match
-      pattern="/app/(feed|search|profile)"
+      hideNavBar={true}
       render={() => (
         <BottomNavigation>
           <MatchTab
@@ -44,7 +42,7 @@ const App = () => (
         </BottomNavigation>
       )}
     />
-  </View>
+  </Navigation>
 )
 
-export default App
+export default Root

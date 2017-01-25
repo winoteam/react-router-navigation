@@ -17,7 +17,12 @@ const styles = StyleSheet.create({
 
 const Auth = () => (
   <View style={styles.container}>
-    <Link to="/app" style={styles.link}>Go to app</Link>
+    <Link
+      to="/app"
+      style={styles.link}
+    >
+      Go to app
+    </Link>
   </View>
 )
 

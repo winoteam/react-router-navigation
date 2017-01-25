@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
     backgroundColor: '#8a0262',
   },
+  indicatorStyle: {
+    backgroundColor: 'white',
+  },
 })
 
 const Profile = () => (
@@ -33,7 +36,10 @@ const Profile = () => (
             barStyle="light-content"
             backgroundColor="#730652"
           />
-          <Tabs tabBarStyle={styles.tabBar}>
+          <Tabs
+            tabBarStyle={styles.tabBar}
+            tabBarIndicatorStyle={styles.indicatorStyle}
+          >
             <MatchTab
               pattern="/app/profile/likes"
               label="Likes"
