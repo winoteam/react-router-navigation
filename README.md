@@ -10,7 +10,7 @@ Install:
 ```shell
 $ npm i react-router-navigation
 ```
-Think to install `react-router@v4` if this has not been done before.
+Think to install `react-router@v4.0.0-alpha.5` if this has not been done before.
 
 And then, enjoy it:
 ```js
