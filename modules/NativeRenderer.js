@@ -1,8 +1,8 @@
 /* @flow */
 
 import React, { Component, cloneElement } from 'react'
-import { Navigator, StyleSheet, View } from 'react-native'
-import type { NavigationState, NavigationSceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
+import { Animated, Navigator, StyleSheet, View } from 'react-native'
+import type { NavigationState, NavigationSceneRendererProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 
 const styles = StyleSheet.create({
   scene: {
@@ -33,6 +33,8 @@ class NativeRenderer extends Component<void, Props, State> {
     index: 0,
   }
 
+  pan: Animated.Value = new Animated.Value(0)
+
   navigator: Navigator
 
   componentWillReceiveProps(nextProps: Props): void {
@@ -41,6 +43,12 @@ class NativeRenderer extends Component<void, Props, State> {
     const currentRoute = nextNavigationState.routes[nextNavigationState.index]
     // Test if navigation state changes
     if (navigationState.index !== nextNavigationState.index) {
+      // Update animated position for <NavigationHeader />
+      Animated.timing(
+        this.pan,
+        { toValue: nextNavigationState.index, duration: 375 },
+      ).start()
+      // Update navigator state
       if (navigationState.index < nextNavigationState.index) {
         this.navigator.push(currentRoute)
       } else {
@@ -48,10 +56,6 @@ class NativeRenderer extends Component<void, Props, State> {
         this.navigator.popN(n)
       }
     }
-  }
-
-  onTransitionEnd = (): void => {
-    this.setState({ isTransitioning: false })
   }
 
   renderScene = (scene: Scene): React$Element<any> => {
@@ -68,14 +72,19 @@ class NativeRenderer extends Component<void, Props, State> {
       isFocused: isActive,
       isTransitioning: this.state.isTransitioning,
     }
+    const component = this.props.renderScene(scene)
     return (
       <View style={styles.scene}>
-        {cloneElement(
-          this.props.renderScene(scene),
+        {component && cloneElement(
+          component,
           cardState,
         )}
       </View>
     )
+  }
+
+  onTransitionEnd = (): void => {
+    this.setState({ isTransitioning: false })
   }
 
   render(): React$Element<any> {
@@ -85,7 +94,7 @@ class NativeRenderer extends Component<void, Props, State> {
         ref={(c) => this.navigator = c}
         initialRoute={navigationState.routes[navigationState.index]}
         renderScene={this.renderScene}
-        navigationBar={this.props.renderNavBar}
+        navigationBar={this.props.renderNavBar(this.pan)}
         configureScene={() => Navigator.SceneConfigs.PushFromRight}
         onDidFocus={this.onTransitionEnd}
       />

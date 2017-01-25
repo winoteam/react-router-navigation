@@ -48,7 +48,7 @@ class Navigator extends Component<void, Props, void> {
             navigationState={props.navigationState}
             onNavigateBack={props.onNavigateBack}
             renderScene={(scene) => this.renderScene({ ...props, scene })}
-            renderNavBar={this.renderNavBar(props)}
+            renderNavBar={(position) => this.renderNavBar({ ...props, position })}
           />
         )}
       />
