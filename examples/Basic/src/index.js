@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Platform, View, Text } from 'react-native'
 import { MemoryRouter, Match, Redirect } from 'react-router'
-import { Navigation, Tabs, MatchTab, MatchCard, Link } from 'react-router-navigation'
+import { Navigation, Card, Tabs, Tab, Link } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
   navigation: {
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 export default () => (
   <MemoryRouter>
     <Navigation style={styles.container}>
-      <MatchCard
+      <Card
         exactly
         pattern="/"
         render={() => (
@@ -32,7 +32,7 @@ export default () => (
           </View>
         )}
       />
-      <MatchCard
+      <Card
         pattern="/yolo"
         component={() => (
           <View style={styles.scene}>
@@ -42,7 +42,7 @@ export default () => (
         )}
         title="Yolo"
       />
-      <MatchCard
+      <Card
         pattern="/hello"
         title="Hello"
         render={() => (
@@ -56,7 +56,7 @@ export default () => (
               style={styles.scene}
               containerStyle={styles.tabs}
             >
-              <MatchTab
+              <Tab
                 pattern="/hello/one"
                 label="One"
                 render={() => (
@@ -65,7 +65,7 @@ export default () => (
                   </View>
                 )}
               />
-              <MatchTab
+              <Tab
                 pattern="/hello/two"
                 label="Two"
                 render={() => (
@@ -74,7 +74,7 @@ export default () => (
                   </View>
                 )}
               />
-              <MatchTab
+              <Tab
                 pattern="/hello/three"
                 label="Three"
                 render={() => (

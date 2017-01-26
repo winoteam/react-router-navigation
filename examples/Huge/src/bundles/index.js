@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Navigation, BottomNavigation, MatchCard, MatchTab } from 'react-router-navigation'
+import { Navigation, BottomNavigation, Card, Tab } from 'react-router-navigation'
 
 import Launch from './Launch'
 import Auth from './Auth'
@@ -9,32 +9,32 @@ import Profile from './Profile'
 
 const Root = () => (
   <Navigation>
-    <MatchCard
+    <Card
       pattern="/launch"
       component={Launch}
       hideNavBar
     />
-    <MatchCard
+    <Card
       pattern="/auth"
       component={Auth}
       title="Auth"
     />
-    <MatchCard
+    <Card
       pattern="/app"
       hideNavBar={true}
       render={() => (
         <BottomNavigation>
-          <MatchTab
+          <Tab
             pattern="/app/feed"
             component={Feed}
             label="Feed"
           />
-          <MatchTab
+          <Tab
             pattern="/app/search"
             component={Search}
             label="Search"
           />
-          <MatchTab
+          <Tab
             pattern="/app/profile"
             component={Profile}
             label="Profile"

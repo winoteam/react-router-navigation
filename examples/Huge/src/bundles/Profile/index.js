@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar, StyleSheet, Platform, View, Text } from 'react-native'
 import { Match, Redirect } from 'react-router'
-import { Tabs, MatchTab } from 'react-router-navigation'
+import { Tabs, Tab } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
   container: {
@@ -40,7 +40,7 @@ const Profile = () => (
             tabBarStyle={styles.tabBar}
             tabBarIndicatorStyle={styles.indicatorStyle}
           >
-            <MatchTab
+            <Tab
               pattern="/app/profile/likes"
               label="Likes"
               render={() => (
@@ -49,7 +49,7 @@ const Profile = () => (
                 </View>
               )}
             />
-            <MatchTab
+            <Tab
               pattern="/app/profile/bookmarks"
               label="Bookmarks"
               render={() => (
