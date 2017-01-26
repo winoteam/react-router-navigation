@@ -70,7 +70,7 @@ export function buildItemStack<Item>(
 export function buildCards(children: Array<React$Element<CardProps>>): Cards {
   return buildItemStack(
     children,
-    ['title', 'titleStyle', 'navBarStyle', 'hideNavBar'],
+    ['title', 'titleStyle', 'navBarStyle', 'hideNavBar', 'renderLeftComponent'],
     'Card',
   )
 }

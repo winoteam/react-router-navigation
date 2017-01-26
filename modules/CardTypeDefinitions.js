@@ -12,6 +12,7 @@ export type CardProps = {
   render?: () => React$Element<any>,
   hideNavBar?: boolean,
   navBarStyle?: StyleSheet,
+  renderLeftComponent: () => React$Element<any>,
   title?: string,
   titleStyle?: StyleSheet,
   onResetCard?: () => void,

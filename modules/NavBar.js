@@ -32,9 +32,14 @@ class NavBar extends Component<void, Props, void> {
 
   renderLeftComponent = (): ?React$Element<any> => {
     // Remove back button for fist scene
-    const { scene, onNavigateBack } = this.props
+    const { scene, onNavigateBack, cards } = this.props
     if (scene.index === 0 || !onNavigateBack) return null
-    // Else simply return it
+    // Render custom renderLeftComponent component
+    const currentCard = getCurrentCard(scene.route, cards)
+    if (currentCard && currentCard.renderLeftComponent) {
+      return currentCard.renderLeftComponent(this.props)
+    }
+    // Else return default back button
     return (
       <BackButton
         {...this.props}
