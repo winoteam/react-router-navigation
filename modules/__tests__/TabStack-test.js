@@ -1,6 +1,6 @@
-import React, { PropTypes, Component } from 'react'
+import React from 'react'
 import { View } from 'react-native'
-import { Match, Redirect, Miss } from 'react-router'
+import { Match } from 'react-router'
 import { TestRouter, componentFactory, TabView } from './helpers'
 import TabStack from './../TabStack'
 import renderer from 'react-test-renderer'
@@ -78,24 +78,5 @@ it('<TabStack /> re-renders correctly when onRequestChangeTab() method is called
   expect(tree).toMatchSnapshot()
   tree.children[0].props.onRequestChangeTab(2)
   tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<TabStack /> renders correctly with <Redirect />', () => {
-  const component = renderer.create(
-    <TestRouter>
-      <View>
-        <Match exactly pattern="/" render={() => <Redirect to="/one" />} />
-        <Miss render={() => (
-          <TabStack render={TabView}>
-            <Match pattern="/one" component={componentFactory('One')} />
-            <Match pattern="/two" component={componentFactory('Two')} />
-            <Match pattern="/three" component={componentFactory('Three')} />
-          </TabStack>
-        )} />
-      </View>
-    </TestRouter>
-  )
-  const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })

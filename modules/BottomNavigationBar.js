@@ -4,7 +4,7 @@
 import React, { PropTypes, Component } from 'react'
 import { TouchableWithoutFeedback, TouchableNativeFeedback, StyleSheet, Platform, Dimensions, PixelRatio, View, Text } from 'react-native'
 import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { Tab } from './StackTypeDefinitions'
+import type { Tabs, Tab } from './TabTypeDefinitions'
 
 const styles = StyleSheet.create({
   container: {
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 })
 
 type Props = SceneRendererProps & {
-  tabs: Array<Tab>,
+  tabs: Tabs,
   onResetTab: (index: number) => void,
 }
 

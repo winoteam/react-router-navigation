@@ -44,10 +44,11 @@ const arrows = {
 
 const BackButton = ({ onPress }: Props): React$Element<any> => {
   const Arrow = arrows.default
+  const background = Platform.OS === 'android' && TouchableNativeFeedback.Ripple('white', true)
   return (
     <Touchable
       style={styles.container}
-      background={Platform.OS === 'android' && TouchableNativeFeedback.Ripple('white', true)}
+      background={background}
       onPress={onPress}
     >
       <View>

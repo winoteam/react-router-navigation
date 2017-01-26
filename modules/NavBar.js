@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { NavigationExperimental, Animated, StyleSheet, Platform, Dimensions } from 'react-native'
 import type { NavigationSceneRendererProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
-import type { Card } from './StackTypeDefinitions'
+import type { Cards } from './CardTypeDefinitions'
 import BackButton from './BackButton'
 import { getCurrentCard } from './utils'
 
@@ -20,8 +20,9 @@ const styles = StyleSheet.create({
   },
 })
 
+// @TODO $FlowFixMe
 type Props = NavigationSceneRendererProps & {
-  cards: Array<Card>,
+  cards: Cards,
   onNavigateBack: Function,
 }
 

@@ -6,22 +6,21 @@ import { Dimensions } from 'react-native'
 import { TabViewTransitioner } from 'react-native-tab-view'
 import _ from 'lodash'
 import type { SceneRendererProps, NavigationState } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { Tab, MatchTabProps } from './StackTypeDefinitions'
+import type { Tabs, TabProps } from './TabTypeDefinitions'
 import type { Match, History, Entries } from './HistoryTypeDefinitions'
 import { getCurrentRoute, buildTabs, getCleanedHistory } from './utils'
 
 type Props = {
   style?: StyleSheet | Array<?StyleSheet>,
-  children: Array<React$Element<MatchTabProps>>,
+  children: Array<React$Element<TabProps>>,
   render: (
     props: SceneRendererProps & {
-      tabs: Array<Tab>,
+      tabs: Tabs,
       onRequestChangeTab: (index: number) => void,
     }) => React$Element<any>,
 }
 
 type DefaultProps = {}
-
 
 type Context = {
   match: Match,
@@ -30,7 +29,7 @@ type Context = {
 
 type State = {
   navigationState: NavigationState,
-  tabs: Array<Tab>,
+  tabs: Tabs,
   tabsEntries: {
     [key: number]: Entries,
   },

@@ -5,7 +5,7 @@
 import React, { Component, createElement } from 'react'
 import { NavigationExperimental, StyleSheet, Platform, NativeModules, View } from 'react-native'
 import type { NavigationSceneRendererProps, NavigationAnimatedValue } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
-import type { Card, MatchCardProps } from './StackTypeDefinitions'
+import type { Cards, CardProps } from './CardTypeDefinitions'
 import CardStack from './CardStack'
 import NavBar from './NavBar'
 import NavigationCardStackStyleInterpolator from './NavigationCardStackStyleInterpolator'
@@ -33,14 +33,14 @@ const styles = StyleSheet.create({
 })
 
 type SceneRendererProps = NavigationSceneRendererProps & {
-  cards: Array<Card>,
+  cards: Cards,
   onNavigateBack: Function,
 }
 
 type Props = {
   style?: StyleSheet,
   cardStyle?: StyleSheet,
-  children: Array<React$Element<MatchCardProps>>,
+  children: Array<React$Element<CardProps>>,
   configureTransition?: Object,
   renderNavBar?: (props: SceneRendererProps) => React$Element<any>
 }
@@ -107,7 +107,8 @@ class Navigation extends Component<DefaultProps, Props, State> {
       : null
     // Render card
     const currentCard = getCurrentCard(scene.route, cards)
-    if (!currentCard && (!currentCard.component || !currentCard.render)) return null
+    if (!currentCard) return null
+    if (!currentCard.component && !currentCard.render) return null
     return (
       <NavigationCard
         {...props}

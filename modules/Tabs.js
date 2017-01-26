@@ -5,7 +5,7 @@ import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
 import type { SceneRendererProps, Scene } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { Tab } from './StackTypeDefinitions'
+import type { Tab } from './TabTypeDefinitions'
 import TabStack from './TabStack'
 
 const styles = StyleSheet.create({
@@ -27,6 +27,7 @@ type Props = {
   containerStyle?: StyleSheet,
   style?: StyleSheet,
   tabBarStyle?: StyleSheet,
+  tabBarIndicatorStyle?: StyleSheet,
   renderHeader?: () => React$Element<any>,
 }
 

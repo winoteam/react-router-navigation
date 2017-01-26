@@ -1,9 +1,9 @@
-import React, { PropTypes, Component, createElement } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { Match } from 'react-router'
 import { TestRouter, componentFactory, CardView } from './helpers'
 import CardStack from './../CardStack'
-import MatchCard from './../MatchCard'
+import Card from './../Card'
 import renderer from 'react-test-renderer'
 
 it('<CardStack /> renders correctly', () => {
@@ -70,7 +70,7 @@ it('<CardStack /> re-renders correctly when "push" action is called with same pa
   const component = renderer.create(
     <TestRouter initialEntries={['/article/1']}>
       <CardStack render={CardView}>
-        <MatchCard pattern="/article/:id" component={componentFactory('Article')} />
+        <Card pattern="/article/:id" component={componentFactory('Article')} />
       </CardStack>
     </TestRouter>
   )

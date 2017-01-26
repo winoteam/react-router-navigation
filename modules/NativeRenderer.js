@@ -2,7 +2,7 @@
 
 import React, { Component, cloneElement } from 'react'
 import { Animated, Navigator, StyleSheet, View } from 'react-native'
-import type { NavigationState, NavigationSceneRendererProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
+import type { NavigationState } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
 
 const styles = StyleSheet.create({
   scene: {
@@ -15,8 +15,8 @@ type Scene = { key: string }
 
 type Props = {
   navigationState: NavigationState,
-  renderScene: (props: NavigationSceneRendererProps & { scene: Scene }) => ?React$Element<any>,
-  renderNavBar: (props: NavigationSceneRendererProps) => React$Element<any>,
+  renderScene: (scene: Scene) => ?React$Element<any>,
+  renderNavBar: (position: Animated.Value) => ?React$Element<any>,
 }
 
 type State = {

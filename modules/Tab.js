@@ -3,11 +3,11 @@
 
 import React from 'react'
 import { Match } from 'react-router'
-import type { MatchCardProps } from './StackTypeDefinitions'
+import type { TabProps } from './TabTypeDefinitions'
 
-type Props = MatchCardProps
+type Props = TabProps
 
-const MatchTab = (props: Props) => {
+const Tab = (props: Props) => {
   const { render, component: Component } = props
   return (
     <Match {...props}>
@@ -19,6 +19,7 @@ const MatchTab = (props: Props) => {
     </Match>
   )
 }
-MatchTab.displayName = 'MatchTab'
 
-export default MatchTab
+Tab.displayName = 'Tab'
+
+export default Tab

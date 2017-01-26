@@ -8,7 +8,7 @@ import React, { PropTypes, Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Platform, View, Text } from 'react-native'
 import { TabViewAnimated, TabViewPagerPan, TabBarTop } from 'react-native-tab-view'
 import type { Scene, SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { Tab } from './StackTypeDefinitions'
+import type { Tabs } from './TabTypeDefinitions'
 import TabStack from './TabStack'
 import TabViewPagerNavigator from './TabViewPagerNavigator'
 import BottomNavigationBar from './BottomNavigationBar'
@@ -49,7 +49,7 @@ class BottomNavigation extends Component<void, Props, State> {
       : <TabViewPagerPan {...sceneRendererProps} swipeEnabled={false} />
   }
 
-  renderNavigationBar = (props: SceneRendererProps & { tabs: Array<Tab> }): React$Element<any> => {
+  renderNavigationBar = (props: SceneRendererProps & { tabs: Tabs }): React$Element<any> => {
     const { tabs, ...sceneRendererProps } = props
     return (
       <BottomNavigationBar
@@ -61,7 +61,7 @@ class BottomNavigation extends Component<void, Props, State> {
   }
 
   // @TODO $FlowFixMe
-  renderScene = (props: SceneRendererProps & Scene & { tabs: Array<Tab> }): ?React$Element<any> => {
+  renderScene = (props: SceneRendererProps & Scene & { tabs: Tabs }): ?React$Element<any> => {
     const { tabs, navigationState, route } = props
     const { scenesRendered } = this.state
     const currentRoute = navigationState.routes[navigationState.index]

@@ -5,7 +5,7 @@ import { BackAndroid, NavigationExperimental } from 'react-native'
 import _ from 'lodash'
 import { matchPattern } from 'react-router'
 import type { NavigationState, NavigationTransitionProps } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
-import type { Card, MatchCardProps } from './StackTypeDefinitions'
+import type { Cards, CardProps } from './CardTypeDefinitions'
 import type { Match, History } from './HistoryTypeDefinitions'
 import { getCurrentRoute, buildCards, normalizeRoute, getCleanedHistory } from './utils'
 
@@ -15,10 +15,10 @@ const {
 } = NavigationExperimental
 
 type Props = {
-  children: Array<React$Element<MatchCardProps>>,
+  children: Array<React$Element<CardProps>>,
   render: (
     props: NavigationTransitionProps & {
-      cards: Array<Card>,
+      cards: Cards,
       onNavigateBack: Function,
     }) => React$Element<any>,
 }
@@ -30,7 +30,7 @@ type Context = {
 
 type State = {
   navigationState: NavigationState,
-  cards: Array<Card>,
+  cards: Cards,
 }
 
 class CardStack extends Component<void, Props, State> {

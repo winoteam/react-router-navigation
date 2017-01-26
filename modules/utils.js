@@ -4,7 +4,8 @@
 import { Children, cloneElement } from 'react'
 import { matchPattern } from 'react-router'
 import type { NavigationRoute } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
-import type { Card, MatchCardProps, Tab, MatchTabProps } from './StackTypeDefinitions'
+import type { Cards, Card, CardProps } from './CardTypeDefinitions'
+import type { Tabs, TabProps } from './TabTypeDefinitions'
 import type { History, Location, Entries } from './HistoryTypeDefinitions'
 
 /**
@@ -66,11 +67,11 @@ export function buildItemStack<Item>(
 /**
  * Build a card stack
  */
-export function buildCards(children: Array<React$Element<MatchCardProps>>): Array<Card> {
+export function buildCards(children: Array<React$Element<CardProps>>): Cards {
   return buildItemStack(
     children,
     ['title', 'titleStyle', 'navBarStyle', 'hideNavBar'],
-    'MatchCard',
+    'Card',
   )
 }
 
@@ -78,11 +79,11 @@ export function buildCards(children: Array<React$Element<MatchCardProps>>): Arra
 /**
  * Build a tab stack
  */
-export function buildTabs(children: Array<React$Element<MatchTabProps>>): Array<Tab> {
+export function buildTabs(children: Array<React$Element<TabProps>>): Tabs {
   return buildItemStack(
     children,
     ['label', 'tabBarStyle', 'tabBarIndicatorStyle'],
-    'MatchTab',
+    'Tab',
   )
 }
 
@@ -102,7 +103,7 @@ export function normalizeRoute(route: NavigationRoute): NavigationRoute {
 /**
  * Get current card with route given
  */
-export function getCurrentCard(route: NavigationRoute, cards: Array<Card>): ?Card {
+export function getCurrentCard(route: NavigationRoute, cards: Cards): ?Card {
   return cards.find((card) => {
     return normalizeRoute(route).key === card.key
   })
@@ -114,7 +115,7 @@ export function getCurrentCard(route: NavigationRoute, cards: Array<Card>): ?Car
 export function getCleanedHistory(
   history: History,
   { tabs, tabsEntries, firstEntryIndex, currentTabIndex }: {
-    tabs: Array<Tab>,
+    tabs: Tabs,
     tabsEntries: { [key: number]: Entries },
     firstEntryIndex: number,
     currentTabIndex: number,

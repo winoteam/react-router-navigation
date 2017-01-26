@@ -5,7 +5,7 @@ export type CardState = {
   isTransitioning: boolean,
 }
 
-export type MatchCardProps = {
+export type CardProps = {
   pattern: string,
   exactly?: boolean,
   component?: () => React$Element<any>,
@@ -18,20 +18,8 @@ export type MatchCardProps = {
 }
 
 // @TODO $FlowFixMe
-export type Card = MatchCardProps & {
+export type Card = CardProps & {
   key: string,
 }
 
-export type MatchTabProps = {
-  pattern: string,
-  exactly?: boolean,
-  component?: () => React$Element<any>,
-  render?: () => React$Element<any>,
-  label?: string,
-  tabBarIndicatorStyle?: StyleSheet,
-}
-
-// @TODO $FlowFixMe
-export type Tab = MatchTabProps & {
-  key: string,
-}
+export type Cards = Array<Card>

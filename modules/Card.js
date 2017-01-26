@@ -3,9 +3,9 @@
 
 import React, { Component, createElement } from 'react'
 import { Match } from 'react-router'
-import type { MatchCardProps, CardState } from './StackTypeDefinitions'
+import type { CardProps, CardState } from './CardTypeDefinitions'
 
-type Props = MatchCardProps & CardState
+type Props = CardProps & CardState
 
 type MatchProps = {
   pattern: string,
@@ -22,7 +22,7 @@ type State = {
   pathname: ?string,
 }
 
-class MatchCard extends Component<void, Props, State> {
+class Card extends Component<void, Props, State> {
 
   props: Props
 
@@ -31,7 +31,7 @@ class MatchCard extends Component<void, Props, State> {
     matchProps: null,
   }
 
-  static displayName = 'MatchCard'
+  static displayName = 'Card'
 
   renderMatchView = (matchProps: MatchProps): ?React$Element<RendererProps> => {
     // Set match props
@@ -43,13 +43,14 @@ class MatchCard extends Component<void, Props, State> {
       this.state.matchProps = matchProps
     }
     // Render view with props
-    const { render, component } = this.props
+    const { render, component, isTransitioning, isFocused } = this.props
     const props = {
-      ...this.props,
       ...this.state.matchProps,
+      isTransitioning,
+      isFocused,
     }
     if (render) return render(props)
-    else if (Component) return createElement(component, props)
+    else if (component) return createElement(component, props)
     return null
   }
 
@@ -67,4 +68,4 @@ class MatchCard extends Component<void, Props, State> {
 
 }
 
-export default MatchCard
+export default Card
