@@ -16,21 +16,19 @@ And then, enjoy it:
 ```js
 import React from 'react'
 import { Text } from 'react-native'
-import { MemoryRouter } from 'react-router'
-import { Navigation, MatchCard, Link } from 'react-router-navigation'
+import { MemoryRouter, Match } from 'react-router'
+import { Navigation, Link } from 'react-router-navigation'
 
 const App = () => (
   <MemoryRouter>
     <Navigation>
-      <MatchCard
+      <Match
         exactly
         pattern="/"
-        title="Index"
         render={() => <Link to="/hello">Press it</Link>}
       />
-      <MatchCard
+      <Match
         pattern="/hello"
-        title="Hello"
         render={() => <Text>Hello</Text>}
       />
     </Navigation>
