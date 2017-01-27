@@ -36,7 +36,7 @@ export function buildItemStack<Item>(
   matchComponent: string,
 ): Array<Item & { key: string }> {
   // Define required props
-  const defaultProps = ['component', 'render', 'pattern', 'exactly']
+  const defaultProps = ['component', 'render', 'children', 'pattern', 'exactly']
   // Map all children
   return Children.toArray(children).reduce((items, child) => {
     const displayName = child.displayName || child.type.displayName || child.type.name
@@ -46,7 +46,7 @@ export function buildItemStack<Item>(
       if (key === 'pattern') {
         props.key = child.props[key]
         props[key] = child.props[key]
-      } else if (isAdvancedMatch && (key === 'render' || key === 'component')) {
+      } else if (key === 'render' || key === 'component' || key === 'children') {
         props[key] = (ownProps: any) => cloneElement(child, ownProps)
       } else if (
         defaultProps.includes(key) ||
@@ -136,14 +136,15 @@ export function getCleanedHistory(
         if (
           history.action === 'REPLACE' &&
           tabsEntries[currentTabIndex] &&
-          arr.length === index && // This is last item
+          (arr.length - 1) === index && // This is last item
           (acc.length + 1) < tabsEntries[currentTabIndex].length // Entries are missing
         ) {
+          const tab = tabs[currentTabIndex]
           const missingEntries = tabsEntries[currentTabIndex]
             .slice(
               firstEntryIndex,
               tabsEntries[currentTabIndex].findIndex((tabEntry) => {
-                return matchPattern(tabEntry.key, entry)
+                return matchPattern(tab.pattern, { pathname: tabEntry })
               }),
             )
           return [
