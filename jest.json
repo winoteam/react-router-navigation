@@ -1,0 +1,5 @@
+{
+  "preset": "react-native",
+  "testRegex": "./__tests__/.*-test.js$",
+  "rootDir": "."
+}

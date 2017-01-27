@@ -31,11 +31,25 @@ local.properties
 
 # node.js
 #
-npm-debug.log
 node_modules/
+npm-debug.log
 
 # BUCK
 buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
+
+# Yarn
+yarn-error.log
+
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
+
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots

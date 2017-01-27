@@ -15,17 +15,28 @@
     "mocha": true
   },
   "globals": {
-    "React$Element": true
+    "React$Element": true,
+    "__DEV__": true,
+    "describe": true,
+    "expect": true,
+    "it": true
   },
   "rules": {
     "semi": [2, "never"],
     "no-floating-decimal": 0,
-    "jsx-boolean-value": 0,
+    "react/jsx-boolean-value": 0,
     "import/no-unresolved": 0,
     "react/sort-comp": 0,
+    "react/prop-types": 0,
     "arrow-body-style": 0,
+    "no-return-assign": 0,
     "radix": ["error", "as-needed"],
     "react/jsx-filename-extension": 0,
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+    "import/prefer-default-export": 0,
+    "import/extensions": 0,
+    "no-unused-expressions": 0,
+    "react/no-unescaped-entities": 0,
+    "arrow-parens": 0
   }
 }
