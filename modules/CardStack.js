@@ -107,14 +107,22 @@ class CardStack extends Component<void, Props, State> {
     if (
       nextRoute && currentCard && (
       // Basic pathname
-      (currentCard.pattern !== nextRoute.key) ||
+      (currentRoute.key !== nextRoute.key) ||
       // Pathname with query params
       // Ex: with same pattern article/:id,
       //     pathname article/2 !== article/3
       (matchPattern(currentRoute.key, location, true) &&
-       matchPattern(nextRoute.key, location, true) &&
-       entries[index - 1] && entries[index].pathname !== entries[index - 1].pathname)
-    )) {
+       matchPattern(nextRoute.key, location, true) && (
+       ((action === 'PUSH' || action === 'REPLACE') &&
+         entries[index - 1] &&
+         matchPattern(nextRoute.key, entries[index - 1], true) &&
+         entries[index].pathname !== entries[index - 1].pathname) ||
+        (action === 'POP' &&
+         entries[index + 1] &&
+         matchPattern(nextRoute.key, entries[index + 1], true) &&
+         entries[index].pathname !== entries[index + 1].pathname)
+      )))
+    ) {
       const key = `${nextRoute.key}@@${Date.now()}`
       switch (action) {
         case 'PUSH': {
