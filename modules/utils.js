@@ -39,10 +39,8 @@ export function buildItemStack<Item>(
   const defaultProps = ['component', 'render', 'pattern', 'exactly']
   // Map all children
   return Children.toArray(children).reduce((items, child) => {
-    // child === <Match /> || child === <MatchCard />
     const displayName = child.displayName || child.type.displayName || child.type.name
     const isAdvancedMatch = matchComponent === displayName
-    if (displayName !== 'Match' && !isAdvancedMatch) return items
     // Build item
     const item = Object.keys(child.props).reduce((props, key) => {
       if (key === 'pattern') {
