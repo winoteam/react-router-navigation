@@ -19,20 +19,6 @@ it('<TabStack /> renders correctly', () => {
   expect(tree).toMatchSnapshot()
 })
 
-it('<TabStack /> renders correctly by ignoring non <Match /> component', () => {
-  const component = renderer.create(
-    <TestRouter>
-      <TabStack render={TabView}>
-        <View pattern="/" />
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-      </TabStack>
-    </TestRouter>
-  )
-  const tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
 it('<TabStack /> renders correctly with initialEntries prop ', () => {
   const component = renderer.create(
     <TestRouter initialEntries={['/hello']}>

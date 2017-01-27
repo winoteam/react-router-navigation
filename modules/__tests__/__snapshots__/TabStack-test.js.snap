@@ -203,44 +203,6 @@ exports[`test <TabStack /> renders correctly 1`] = `
 </View>
 `;
 
-exports[`test <TabStack /> renders correctly by ignoring non <Match /> component 1`] = `
-<View
-  onPress={[Function]}>
-  <View
-    configureTransition={[Function]}
-    initialLayout={
-      Object {
-        "height": 1334,
-        "width": 750,
-      }
-    }
-    navigationState={
-      Object {
-        "index": 0,
-        "routes": Array [
-          Object {
-            "key": "/",
-          },
-          Object {
-            "key": "/hello",
-          },
-        ],
-      }
-    }
-    onLayout={[Function]}
-    onRequestChangeTab={[Function]}
-    render={[Function]}
-    style={undefined}>
-    <Text
-      accessible={true}
-      allowFontScaling={true}
-      ellipsizeMode="tail">
-      Index
-    </Text>
-  </View>
-</View>
-`;
-
 exports[`test <TabStack /> renders correctly with initialEntries prop  1`] = `
 <View
   onPress={[Function]}>

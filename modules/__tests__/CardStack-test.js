@@ -3,27 +3,12 @@ import { View } from 'react-native'
 import { Match } from 'react-router'
 import { TestRouter, componentFactory, CardView } from './helpers'
 import CardStack from './../CardStack'
-import Card from './../Card'
 import renderer from 'react-test-renderer'
 
 it('<CardStack /> renders correctly', () => {
   const component = renderer.create(
     <TestRouter>
       <CardStack render={CardView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-      </CardStack>
-    </TestRouter>
-  )
-  const tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<CardStack /> renders correctly by ignoring non <Match /> component', () => {
-  const component = renderer.create(
-    <TestRouter>
-      <CardStack render={CardView}>
-        <View pattern="/" />
         <Match exactly pattern="/" component={componentFactory('Index')} />
         <Match pattern="/hello" component={componentFactory('Hello')} />
       </CardStack>
@@ -70,7 +55,12 @@ it('<CardStack /> re-renders correctly when "push" action is called with same pa
   const component = renderer.create(
     <TestRouter initialEntries={['/article/1']}>
       <CardStack render={CardView}>
-        <Card pattern="/article/:id" component={componentFactory('Article')} />
+        <Match
+          pattern="/article/:id"
+          children={(params) => {
+            return componentFactory('Article')(params)
+          }}
+        />
       </CardStack>
     </TestRouter>
   )

@@ -1,10 +1,10 @@
 import React, { PropTypes, Component, createElement } from 'react'
 import { View, Text } from 'react-native'
-import { Match, StaticRouter } from 'react-router'
+import { StaticRouter } from 'react-router'
 import { createMemoryHistory } from 'history'
 import { getCurrentCard } from './../utils'
 
-export const componentFactory = (message) => ({ params, location }) => {
+export const componentFactory = (message) => ({ params }) => {
   if (params && params.id) {
     return <Text>{params.id}</Text>
   }
@@ -74,7 +74,10 @@ export class TestRouter extends Component {
 export const CardView = ({ navigationState, cards }) => {
   const route = navigationState.routes[navigationState.index]
   const currentCard = getCurrentCard(route, cards)
-  return createElement(currentCard.component, { key: route.key })
+  return createElement(
+    currentCard.component || currentCard.children,
+    { key: route.key },
+  )
 }
 
 export const TabView = ({ navigationState, tabs }) => {
