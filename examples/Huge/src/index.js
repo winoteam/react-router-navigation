@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router'
 import App from './bundles'
 
 const Huge = () => (
-  <MemoryRouter initialEntries={['/app/feed']}>
+  <MemoryRouter initialEntries={['/launch']}>
     <App />
   </MemoryRouter>
 )
