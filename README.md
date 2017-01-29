@@ -1,4 +1,7 @@
 # react-router-navigation
+[![Build Status](https://travis-ci.org/CharlesMangwa/react-native-simple-markdown.svg?branch=master)](https://travis-ci.org/CharlesMangwa/react-native-simple-markdown)
+[![npm version](https://badge.fury.io/js/react-router-navigation.svg)](https://badge.fury.io/js/react-router-navigation)
+
 `react-router-navigation` provides tools to transition between multiple screens with
 navigators or tab views. This library is based on `react-router`, `NavigationExperimental`,
 and `react-native-tab-view`.
