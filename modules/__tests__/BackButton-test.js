@@ -11,12 +11,3 @@ it('<BackButton /> renders correctly', () => {
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })
-
-it('<BackButton /> calls onPress prop on Press action ', () => {
-  const onPress = jest.fn(() => true)
-  const tree = shallow(
-    <BackButton onPress={onPress} />
-  )
-  tree.find(TouchableOpacity).first().simulate('press')
-  expect(onPress).toBe(true)
-})
