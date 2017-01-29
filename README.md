@@ -1,5 +1,5 @@
 # react-router-navigation
-[![Build Status](https://travis-ci.org/CharlesMangwa/react-native-simple-markdown.svg?branch=master)](https://travis-ci.org/CharlesMangwa/react-native-simple-markdown)
+[![Build Status](https://travis-ci.org/LeoLeBras/react-router-navigation.svg?branch=master)](https://travis-ci.org/LeoLeBras/react-router-navigation)
 [![npm version](https://badge.fury.io/js/react-router-navigation.svg)](https://badge.fury.io/js/react-router-navigation)
 
 `react-router-navigation` provides tools to transition between multiple screens with
