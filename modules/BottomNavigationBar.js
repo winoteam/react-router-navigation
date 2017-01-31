@@ -123,19 +123,27 @@ class BottomNavigationBar extends Component<void, Props, State> {
     const isAndroid = Platform.OS === 'android'
     return (
       <View style={styles.container}>
-        {tabItems.map((item, index) => (
-          <Touchable
-            key={index}
-            background={isAndroid && TouchableNativeFeedback.Ripple('#008f8d', true)}
-            onPress={() => this.onRequestChangeTab(index)}
-          >
-            <View style={styles.item}>
-              <Text style={[styles.label, item.isActive && styles.activeLabel]}>
-                {item.label}
-              </Text>
-            </View>
-          </Touchable>
-        ))}
+        {tabItems.map((item, index) => {
+          const labelStyle = item.labelStyle && typeof item.labelStyle === 'function'
+            ? item.labelStyle(item)
+            : item.labelStyle
+          return (
+            <Touchable
+              key={index}
+              background={isAndroid && TouchableNativeFeedback.Ripple('#008f8d', true)}
+              onPress={() => this.onRequestChangeTab(index)}
+            >
+              <View style={styles.item}>
+                {item.renderTabIcon && item.renderTabIcon(item)}
+                {item.label &&
+                  <Text style={[styles.label, item.isActive && styles.activeLabel, labelStyle]}>
+                    {item.label}
+                  </Text>
+                }
+              </View>
+            </Touchable>
+          )
+        })}
       </View>
     )
   }

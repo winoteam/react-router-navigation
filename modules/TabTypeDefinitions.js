@@ -6,7 +6,9 @@ export type TabProps = {
   component?: () => React$Element<any>,
   render?: () => React$Element<any>,
   label?: string,
+  labelStyle?: () => StyleSheet | StyleSheet,
   tabBarIndicatorStyle?: StyleSheet,
+  renderTabIcon?: () => React$Element<any>,
 }
 
 // @TODO $FlowFixMe

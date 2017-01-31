@@ -80,7 +80,7 @@ export function buildCards(children: Array<React$Element<CardProps>>): Cards {
 export function buildTabs(children: Array<React$Element<TabProps>>): Tabs {
   return buildItemStack(
     children,
-    ['label', 'tabBarStyle', 'tabBarIndicatorStyle'],
+    ['label', 'labelStyle', 'tabBarStyle', 'tabBarIndicatorStyle', 'renderTabIcon'],
     'Tab',
   )
 }
