@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/react-router-navigation.svg)](https://badge.fury.io/js/react-router-navigation)
 
 `react-router-navigation` provides tools to transition between multiple screens with
-navigators or tab views. This library is based on `react-router`, `NavigationExperimental`,
+navigators or tab views. This library is based on `react-router`, `react-navigation`,
 and `react-native-tab-view`.
 
 **Note:** This library is experimental.
@@ -19,24 +19,25 @@ And then, enjoy it:
 ```js
 import React from 'react'
 import { Text } from 'react-native'
-import { MemoryRouter, Match } from 'react-router'
+import { Route } from 'react-router'
+import { NativeRouter } from 'react-router-native'
 import { Link } from 'react-router-navigation'
 import { Navigation } from 'react-router-navigation'
 
 const App = () => (
-  <MemoryRouter>
+  <NativeRouter>
     <Navigation>
-      <Match
-        exactly
-        pattern="/"
+      <Route
+        exact
+        path="/"
         render={() => <Link to="/hello">Press it</Link>}
       />
-      <Match
-        pattern="/hello"
+      <Route
+        path="/hello"
         render={() => <Text>Hello</Text>}
       />
     </Navigation>
-  </MemoryRouter>
+  </NativeRouter>
 )
 ```
 
@@ -49,4 +50,4 @@ If you have any questions, feel free to get in touch on Twitter, [@Leo_LeBras](h
 ### Thanks
 `react-router-navigation` is based on [React Router](https://github.com/reactjs/react-router). Thanks to Ryan Florence [@ryanflorence](https://twitter.com/ryanflorence), Michael Jackson [@mjackson](https://twitter.com/mjackson) and all the contributors for their work on [react-router](https://github.com/reactjs/react-router) and [history](https://github.com/mjackson/history).
 
-Special thanks to Eric Vicenti [@ericvicenti](https://twitter.com/ericvicenti) and Hedger Wang [@hedgerwang](https://twitter.com/hedgerwang) for their work on [`NavigationExperimental`](https://github.com/ericvicenti/navigation-rfc) and [@satya164](https://twitter.com/satya164) for his work on [`react-native-tab-view`](https://github.com/react-native-community/react-native-tab-view)
+Special thanks to [@ericvicenti](https://twitter.com/ericvicenti), [@skevy](https://twitter.com/skevy), [@satya164](https://twitter.com/satya164) and [@grabbou](https://twitter.com/grabbou) for their work on [`react-navigation`](https://github.com/react-community/react-navigation/) and [@satya164](https://twitter.com/satya164) for his work on [`react-native-tab-view`](https://github.com/react-native-community/react-native-tab-view)
