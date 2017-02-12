@@ -5,11 +5,7 @@ import { NativeRouter, Link } from 'react-router-native'
 import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
-  scene: {
-    flex: 1,
-    marginTop: Platform.OS === 'ios' ? 64 : 54,
-  },
-  tab: {
+  container: {
     flex: 1,
   },
 })
@@ -21,18 +17,22 @@ export default () => (
         exact
         path="/"
         render={() => (
-          <View style={styles.scene}>
+          <View style={styles.container}>
             <Text>Index</Text>
-            <Link to="/yolo">Push to a new scene</Link>
+            <Link to="/yolo">
+              <Text>Push to a new scene</Text>
+            </Link>
           </View>
         )}
       />
       <Card
         path="/yolo"
         component={() => (
-          <View style={styles.scene}>
+          <View style={styles.container}>
             <Text>Yolo</Text>
-            <Link to="/hello/one">Push to tabs</Link>
+            <Link to="/hello/one">
+              <Text>Push to tabs</Text>
+            </Link>
           </View>
         )}
         title="Yolo"
@@ -47,12 +47,12 @@ export default () => (
               path="/hello"
               render={() => <Redirect to="/hello/one" />}
             />
-            <Tabs style={styles.scene}>
+            <Tabs style={styles.container}>
               <Tab
                 path="/hello/one"
                 label="One"
                 render={() => (
-                  <View style={styles.tab}>
+                  <View style={styles.container}>
                     <Text>One</Text>
                   </View>
                 )}
@@ -61,7 +61,7 @@ export default () => (
                 path="/hello/two"
                 label="Two"
                 render={() => (
-                  <View style={styles.tab}>
+                  <View style={styles.container}>
                     <Text>Two</Text>
                   </View>
                 )}
@@ -70,7 +70,7 @@ export default () => (
                 path="/hello/three"
                 label="Three"
                 render={() => (
-                  <View style={styles.tab}>
+                  <View style={styles.container}>
                     <Text>Three</Text>
                   </View>
                 )}
