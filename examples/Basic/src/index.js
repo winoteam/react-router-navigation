@@ -1,15 +1,10 @@
 import React from 'react'
 import { StyleSheet, Platform, View, Text } from 'react-native'
-import { MemoryRouter, Match, Redirect } from 'react-router'
-import { Navigation, Card, Tabs, Tab, Link } from 'react-router-navigation'
+import { Switch, Route, Redirect } from 'react-router'
+import { NativeRouter, Link } from 'react-router-native'
+import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
-  navigation: {
-    flex: 1,
-  },
-  tabs: {
-    flex: 1,
-  },
   scene: {
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 64 : 54,
@@ -20,11 +15,11 @@ const styles = StyleSheet.create({
 })
 
 export default () => (
-  <MemoryRouter>
-    <Navigation style={styles.container}>
+  <NativeRouter>
+    <Navigation>
       <Card
-        exactly
-        pattern="/"
+        exact
+        path="/"
         render={() => (
           <View style={styles.scene}>
             <Text>Index</Text>
@@ -33,7 +28,7 @@ export default () => (
         )}
       />
       <Card
-        pattern="/yolo"
+        path="/yolo"
         component={() => (
           <View style={styles.scene}>
             <Text>Yolo</Text>
@@ -43,21 +38,18 @@ export default () => (
         title="Yolo"
       />
       <Card
-        pattern="/hello"
+        path="/hello"
         title="Hello"
         render={() => (
-          <View style={{ flex: 1 }}>
-            <Match
-              exactly
-              pattern="/hello"
+          <Switch>
+            <Route
+              exact
+              path="/hello"
               render={() => <Redirect to="/hello/one" />}
             />
-            <Tabs
-              style={styles.scene}
-              containerStyle={styles.tabs}
-            >
+            <Tabs style={styles.scene}>
               <Tab
-                pattern="/hello/one"
+                path="/hello/one"
                 label="One"
                 render={() => (
                   <View style={styles.tab}>
@@ -66,7 +58,7 @@ export default () => (
                 )}
               />
               <Tab
-                pattern="/hello/two"
+                path="/hello/two"
                 label="Two"
                 render={() => (
                   <View style={styles.tab}>
@@ -75,7 +67,7 @@ export default () => (
                 )}
               />
               <Tab
-                pattern="/hello/three"
+                path="/hello/three"
                 label="Three"
                 render={() => (
                   <View style={styles.tab}>
@@ -84,9 +76,9 @@ export default () => (
                 )}
               />
             </Tabs>
-          </View>
+          </Switch>
         )}
       />
     </Navigation>
-  </MemoryRouter>
+  </NativeRouter>
 )

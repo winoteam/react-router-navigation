@@ -1,22 +1,26 @@
 /* @flow */
 
 import React, { Component, cloneElement } from 'react'
-import { Animated, Navigator, StyleSheet, View } from 'react-native'
-import type { NavigationState } from 'react-native/Libraries/NavigationExperimental/NavigationTypeDefinition'
+import { Animated, Navigator, Platform, StyleSheet, View } from 'react-native'
+import type { CardRendererProps } from './TypeDefinitions'
 
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
+    marginTop: Platform.OS === 'ios' ? 64 : 56,
     backgroundColor: '#e9e9ee',
   },
 })
 
 type Scene = { key: string }
 
-type Props = {
-  navigationState: NavigationState,
+type DefaultProps = {
+  renderNavBar: () => ?React$Element<any>,
+}
+
+type Props = CardRendererProps & {
   renderScene: (scene: Scene) => ?React$Element<any>,
-  renderNavBar: (position: Animated.Value) => ?React$Element<any>,
+  renderNavBar?: (position?: Animated.Value) => ?React$Element<any>,
 }
 
 type State = {
@@ -24,7 +28,7 @@ type State = {
   index: number,
 }
 
-class NativeRenderer extends Component<void, Props, State> {
+class NativeRenderer extends Component<DefaultProps, Props, State> {
 
   props: Props
 
@@ -33,32 +37,36 @@ class NativeRenderer extends Component<void, Props, State> {
     index: 0,
   }
 
-  pan: Animated.Value = new Animated.Value(0)
-
   navigator: Navigator
 
   componentWillReceiveProps(nextProps: Props): void {
     const { navigationState } = this.props
+    const currentRoute = navigationState.routes[navigationState.index]
     const nextNavigationState = nextProps.navigationState
-    const currentRoute = nextNavigationState.routes[nextNavigationState.index]
+    const nextRoute = nextNavigationState.routes[nextNavigationState.index]
     // Test if navigation state changes
-    if (navigationState.index !== nextNavigationState.index) {
-      // Update animated position for <NavigationHeader />
-      Animated.timing(
-        this.pan,
-        { toValue: nextNavigationState.index, duration: 375 },
-      ).start()
+    if (currentRoute.key !== nextRoute.key) {
       // Update navigator state
-      if (navigationState.index < nextNavigationState.index) {
-        this.navigator.push(currentRoute)
-      } else {
-        const n = navigationState.index - nextNavigationState.index
-        this.navigator.popN(n)
+      if ((navigationState.index + 1) === nextNavigationState.index) {
+        this.navigator.push(nextRoute) // case 1) PUSH
+      } else if (
+        navigationState.index === nextNavigationState.index &&
+        currentRoute.key !== nextRoute.key
+      ) {
+        this.navigator.replace(nextRoute) // case 2) REPLACE
+      } else if (navigationState.index > nextNavigationState.index) {
+        // Warning, special case when POP is called with swipe back
+        const routes = this.navigator.getCurrentRoutes()
+        if (nextNavigationState.routes.length !== routes.length) {
+          const n = navigationState.index - nextNavigationState.index
+          this.navigator.popN(n) // case 3) POP
+        }
       }
     }
   }
 
   renderScene = (scene: Scene): React$Element<any> => {
+    // Get card state
     const { navigationState } = this.props
     const index = navigationState.routes.findIndex((route) => {
       return route.key === scene.key
@@ -72,6 +80,7 @@ class NativeRenderer extends Component<void, Props, State> {
       isFocused: isActive,
       isTransitioning: this.state.isTransitioning,
     }
+    // Render scene
     const component = this.props.renderScene(scene)
     return (
       <View style={styles.scene}>
@@ -88,14 +97,17 @@ class NativeRenderer extends Component<void, Props, State> {
   }
 
   render(): React$Element<any> {
-    const { navigationState } = this.props
+    const { navigationState, renderNavBar } = this.props
     return (
       <Navigator
         ref={(c) => this.navigator = c}
         initialRoute={navigationState.routes[navigationState.index]}
         renderScene={this.renderScene}
-        navigationBar={this.props.renderNavBar(this.pan)}
-        configureScene={() => Navigator.SceneConfigs.PushFromRight}
+        navigationBar={renderNavBar()}
+        configureScene={() => ({
+          ...Navigator.SceneConfigs.PushFromRight,
+          gestures: {},
+        })}
         onDidFocus={this.onTransitionEnd}
       />
     )

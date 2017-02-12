@@ -1,184 +1,200 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Match } from 'react-router'
-import { TestRouter, componentFactory, CardView } from './helpers'
+import { Router, Route } from 'react-router'
+import createHistory from 'history/createMemoryHistory'
+import { componentFactory, CardView } from './utils'
 import CardStack from './../CardStack'
 import renderer from 'react-test-renderer'
 
-it('<CardStack /> renders correctly', () => {
-  const component = renderer.create(
-    <TestRouter>
-      <CardStack render={CardView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-      </CardStack>
-    </TestRouter>
-  )
-  const tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<CardStack /> renders correctly with initialIndex and initialEntries prop ', () => {
-  const component = renderer.create(
-    <TestRouter
-      initialIndex={1}
-      initialEntries={['/', '/hello', '/goodbye']}
-    >
-      <CardStack render={CardView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
-      </CardStack>
-    </TestRouter>
-  )
-  const tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<CardStack /> re-renders correctly when "push" action is called', () => {
-  const component = renderer.create(
-    <TestRouter>
-      <CardStack render={CardView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-      </CardStack>
-    </TestRouter>
-  )
-  let tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-  tree.props.onPress((history) => history.push('/hello'))
-  tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<CardStack /> re-renders correctly when "push" action is called with same pattern', () => {
-  const component = renderer.create(
-    <TestRouter initialEntries={['/article/1']}>
-      <CardStack render={CardView}>
-        <Match
-          pattern="/article/:id"
-          children={(params) => {
-            return componentFactory('Article')(params)
-          }}
-        />
-      </CardStack>
-    </TestRouter>
-  )
-  let tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-  tree.props.onPress((history) => history.push('/article/2'))
-  tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<CardStack /> re-renders correctly when "goBack" action is called', () => {
-  const component = renderer.create(
-    <TestRouter
-      initialIndex={1}
-      initialEntries={['/', '/hello']}
-    >
-      <CardStack render={CardView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-      </CardStack>
-    </TestRouter>
-  )
-  let tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-  tree.props.onPress((history) => history.goBack())
-  tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<CardStack /> re-renders correctly when "go" action is called', () => {
-  const component = renderer.create(
-    <TestRouter
-      initialIndex={2}
-      initialEntries={['/', '/hello', '/goodbye']}
-    >
-      <CardStack render={CardView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
-      </CardStack>
-    </TestRouter>
-  )
-  let tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-  tree.props.onPress((history) => history.go(-2))
-  tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<CardStack /> re-renders correctly when "replace" action is called', () => {
-  const component = renderer.create(
-    <TestRouter
-      initialIndex={1}
-      initialEntries={['/', '/hello']}
-    >
-      <CardStack render={CardView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
-      </CardStack>
-    </TestRouter>
-  )
-  let tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-  tree.props.onPress((history) => history.replace('/goodbye'))
-  tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<CardStack /> re-renders correctly when onNavigateBack() method is called', () => {
-  const component = renderer.create(
-    <TestRouter
-      initialIndex={1}
-      initialEntries={['/', '/hello']}
-    >
-      <CardStack render={({ navigationState, onNavigateBack, cards }) => (
-        <View onPress={onNavigateBack}>
-          {CardView({ navigationState, onNavigateBack, cards })}
-        </View>
-      )}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-      </CardStack>
-    </TestRouter>
-  )
-  let tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-  tree.children[0].children[0].props.onPress()
-  tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})
-
-it('<CardStack /> re-renders correctly after unmount/reset', () => {
-  const component = renderer.create(
-    <TestRouter
-      initialIndex={1}
-      initialEntries={['/', '/hello']}
-    >
-      {({ key }) => (
-        // Unmount and remount <CardStack /> with key update
-        <CardStack key={key} render={CardView}>
-          <Match exactly pattern="/" component={componentFactory('Index')} />
-          <Match pattern="/hello" component={componentFactory('Hello')} />
-          <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
+describe('<CardStack />', () => {
+  it('<CardStack /> renders correctly', () => {
+    const history = createHistory()
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={CardView}>
+          <Route exact path="/" render={componentFactory('Index')} />
+          <Route path="/hello" render={componentFactory('Hello')} />
         </CardStack>
-      )}
-    </TestRouter>
-  )
-  let tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-  tree.props.onPress((history) => history.push('/goodbye'))
-  tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-  // Reset <CardStack /> and history :
-  tree.props.onPress((history, setState) => {
-    setState({ key: 1 })
-    history.goBack(0)
+      </Router>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
   })
-  tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
+
+  it('<CardStack /> renders correctly with initialIndex and initialEntries prop ', () => {
+    const history = createHistory({
+      initialIndex: 1,
+      initialEntries: ['/', '/hello', '/goodbye'],
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={CardView}>
+          <Route exact path="/" render={componentFactory('Index')} />
+          <Route path="/hello" render={componentFactory('Hello')} />
+          <Route path="/goodbye" render={componentFactory('Goodbye')} />
+        </CardStack>
+      </Router>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('<CardStack /> re-renders correctly when "push" action is called', () => {
+    const history = createHistory()
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={CardView}>
+          <Route exact path="/" render={componentFactory('Index')} />
+          <Route path="/hello" render={componentFactory('Hello')} />
+        </CardStack>
+      </Router>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    history.push('/hello')
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('<CardStack /> re-renders correctly when "push" action is called with same path', () => {
+    const history = createHistory({
+      initialEntries: ['/article/1'],
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={CardView}>
+          <Route path="/article/:id" render={componentFactory()} />
+        </CardStack>
+      </Router>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    history.push('/article/2')
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('<CardStack /> re-renders correctly when "goBack" action is called', () => {
+    const history = createHistory({
+      initialIndex: 1,
+      initialEntries: ['/', '/hello'],
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={CardView}>
+          <Route exact path="/" render={componentFactory('Index')} />
+          <Route path="/hello" render={componentFactory('Hello')} />
+        </CardStack>
+      </Router>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    history.goBack()
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('<CardStack /> re-renders correctly when "goBack" action is called with same path', () => {
+    const history = createHistory({
+      initialIndex: 1,
+      initialEntries: ['/article/1', '/article/2'],
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={CardView}>
+          <Route path="/article/:id" render={componentFactory()} />
+        </CardStack>
+      </Router>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    history.goBack()
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('<CardStack /> re-renders correctly when "go" action is called', () => {
+    const history = createHistory({
+      initialIndex: 2,
+      initialEntries: ['/', '/hello', '/goodbye'],
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={CardView}>
+          <Route exact path="/" render={componentFactory('Index')} />
+          <Route path="/hello" render={componentFactory('Hello')} />
+          <Route path="/goodbye" render={componentFactory('Goodbye')} />
+        </CardStack>
+      </Router>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    history.go(-2)
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('<CardStack /> re-renders correctly when "go" action is called with same path', () => {
+    const history = createHistory({
+      initialIndex: 2,
+      initialEntries: ['/article/1', '/article/2', '/article/3'],
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={CardView}>
+          <Route path="/article/:id" render={componentFactory('Article')} />
+        </CardStack>
+      </Router>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    history.go(-2)
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('<CardStack /> re-renders correctly when "replace" action is called', () => {
+    const history = createHistory({
+      initialIndex: 1,
+      initialEntries: ['/', '/hello'],
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={CardView}>
+          <Route exact path="/" render={componentFactory('Index')} />
+          <Route path="/hello" render={componentFactory('Hello')} />
+          <Route path="/goodbye" render={componentFactory('Goodbye')} />
+        </CardStack>
+      </Router>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    history.replace('/goodbye')
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('<CardStack /> re-renders correctly when onNavigateBack() method is called', () => {
+    const history = createHistory({
+      initialIndex: 1,
+      initialEntries: ['/', '/hello'],
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <CardStack render={({ navigationState, onNavigateBack, cards }) => (
+          <View onPress={onNavigateBack}>
+            {CardView({ navigationState, onNavigateBack, cards })}
+          </View>
+        )}>
+          <Route exact path="/" render={componentFactory('Index')} />
+          <Route path="/hello" render={componentFactory('Hello')} />
+        </CardStack>
+      </Router>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    tree.props.onPress()
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
 })

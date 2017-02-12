@@ -14,7 +14,7 @@ type Props = SceneRendererProps & {
 
 class TabViewPagerNavigator extends Component<void, Props, void> {
 
-  navigator: any
+  navigator: Navigator
 
   componentWillReceiveProps(nextProps: Props): void {
     const routes = this.navigator.getCurrentRoutes()

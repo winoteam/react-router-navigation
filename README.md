@@ -13,14 +13,15 @@ Install:
 ```shell
 $ npm i react-router-navigation
 ```
-Think to install `react-router@v4.0.0-alpha.5` if this has not been done before.
+Think to install `react-router@next` if this has not been done before.
 
 And then, enjoy it:
 ```js
 import React from 'react'
 import { Text } from 'react-native'
 import { MemoryRouter, Match } from 'react-router'
-import { Navigation, Link } from 'react-router-navigation'
+import { Link } from 'react-router-navigation'
+import { Navigation } from 'react-router-navigation'
 
 const App = () => (
   <MemoryRouter>

@@ -1,10 +1,13 @@
 /* @flow */
 /* eslint new-cap: 0 */
+/* eslint no-duplicate-imports: 0 */
 
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { TouchableWithoutFeedback, TouchableNativeFeedback, StyleSheet, Platform, Dimensions, PixelRatio, View, Text } from 'react-native'
+import { withRouter } from 'react-router'
+import type { RouterHistory } from 'react-router'
 import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { Tabs, Tab } from './TabTypeDefinitions'
+import type { Tabs, Tab } from './TypeDefinitions'
 
 const styles = StyleSheet.create({
   container: {
@@ -55,7 +58,7 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = SceneRendererProps & {
+type Props = RouterHistory & SceneRendererProps & {
   tabs: Tabs,
   onResetTab: (index: number) => void,
 }
@@ -67,27 +70,18 @@ type State = {
   }>,
 }
 
-type Context = {
-  history: any,
-}
-
 class BottomNavigationBar extends Component<void, Props, State> {
 
   props: Props
   state: State
-  context: Context
 
-  static contextTypes = {
-    history: PropTypes.object,
-  }
-
-  constructor(props: Props, context: Context) {
-    super(props, context)
+  constructor(props: Props) {
+    super(props)
     const { navigationState, tabs } = props
     this.state = {
       tabItems: tabs.map((tab, index) => ({
         ...tab,
-        pathname: tab.pattern,
+        pathname: tab.path,
         isActive: navigationState.index === index,
       })),
     }
@@ -95,16 +89,15 @@ class BottomNavigationBar extends Component<void, Props, State> {
 
   onRequestChangeTab = (index: number): void => {
     const { tabItems } = this.state
-    const { history } = this.context
-    const { navigationState } = this.props
+    const { navigationState, location, replace } = this.props
     // Get current tab and update its pathname
     const currentTab = tabItems[navigationState.index]
-    currentTab.pathname = history.location.pathname
+    currentTab.pathname = location.pathname
     currentTab.isActive = true
     // Get new tab to switch
     const tab = tabItems[index]
     // Update history
-    history.replace(tab.pathname)
+    replace(tab.pathname)
     // Reset tab
     if (navigationState.index === index) this.props.onResetTab(index)
     // Update state
@@ -150,4 +143,4 @@ class BottomNavigationBar extends Component<void, Props, State> {
 
 }
 
-export default BottomNavigationBar
+export default withRouter(BottomNavigationBar)

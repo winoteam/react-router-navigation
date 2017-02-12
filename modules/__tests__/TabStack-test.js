@@ -1,68 +1,77 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Match } from 'react-router'
-import { TestRouter, componentFactory, TabView } from './helpers'
-import TabStack from './../TabStack'
+import { Router, Switch, Route } from 'react-router'
+import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
+import { TestRouter, componentFactory, TabView } from './utils'
+import TabStack from './../TabStack'
 
 it('<TabStack /> renders correctly', () => {
+  const history = createHistory()
   const component = renderer.create(
-    <TestRouter>
+    <Router history={history}>
       <TabStack render={TabView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+        <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </TestRouter>
+    </Router>
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })
 
 it('<TabStack /> renders correctly with initialEntries prop ', () => {
+  const history = createHistory({ initialEntries: ['/hello'] })
   const component = renderer.create(
-    <TestRouter initialEntries={['/hello']}>
+    <Router history={history}>
       <TabStack render={TabView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+        <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </TestRouter>
+    </Router>
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })
 
 it('<TabStack /> re-renders correctly when "replace" action is called', () => {
+  const history = createHistory()
   const component = renderer.create(
-    <TestRouter>
+    <Router history={history}>
       <TabStack render={TabView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+        <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </TestRouter>
+    </Router>
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
-  tree.props.onPress((history) => history.replace('/hello'))
+  history.replace('/hello')
   tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })
 
 it('<TabStack /> re-renders correctly when onRequestChangeTab() method is called', () => {
+  const history = createHistory()
   const component = renderer.create(
-    <TestRouter>
-      <TabStack render={TabView}>
-        <Match exactly pattern="/" component={componentFactory('Index')} />
-        <Match pattern="/hello" component={componentFactory('Hello')} />
-        <Match pattern="/goodbye" component={componentFactory('Goodbye')} />
+    <Router history={history}>
+      <TabStack render={({ navigationState, onRequestChangeTab, tabs }) => (
+        <View onPress={onRequestChangeTab}>
+          {TabView({ navigationState, onRequestChangeTab, tabs })}
+        </View>
+      )}>
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+        <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </TestRouter>
+    </Router>
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
-  tree.children[0].props.onRequestChangeTab(2)
+  tree.props.onPress(2)
   tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })
