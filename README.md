@@ -13,7 +13,8 @@ Install:
 ```shell
 $ npm i react-router-navigation
 ```
-Think to install `react-router@next` if this has not been done before.
+Think to install `react-router@4.0.0-beta.5` and `react-router-native@4.0.0-beta.5`
+if this has not been done before.
 
 And then, enjoy it:
 ```js
