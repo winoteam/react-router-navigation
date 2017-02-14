@@ -11,7 +11,7 @@ and `react-native-tab-view`.
 ## How to use
 Install:
 ```shell
-$ npm i react-router-navigation
+$ npm i react-router-navigation@dev
 ```
 Think to install `react-router@4.0.0-beta.5` and `react-router-native@4.0.0-beta.5`
 if this has not been done before.
