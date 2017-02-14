@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Platform, View, Text } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import { Switch, Route, Redirect } from 'react-router'
 import { NativeRouter, Link } from 'react-router-native'
 import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
