@@ -7,6 +7,7 @@ import { StyleSheet, Platform, View, TouchableNativeFeedback, TouchableOpacity, 
 
 type Props = {
   onPress: Function,
+  style?: StyleSheet,
   color?: 'default' | 'light' | 'dark',
 }
 

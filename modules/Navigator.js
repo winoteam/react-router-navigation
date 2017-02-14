@@ -69,7 +69,10 @@ class Navigator extends Component<void, Props, void> {
       <ReactNative.Navigator.NavigationBar
         style={[styles.defaultNavBar, card.navBarStyle]}
         routeMapper={{
-          LeftButton: () => NavBar.renderLeftComponent(props, styles.subView),
+          LeftButton: () => NavBar.renderLeftComponent(
+            { ...props, scene: { route, index: props.navigationState.index } },
+            styles.subView,
+          ),
           Title: (route) => NavBar.renderTitleComponent(
             { ...props, scene: { route } },
             styles.subView,

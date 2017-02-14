@@ -19,8 +19,7 @@ class NavBar extends Component<void, Props, void> {
   props: Props
 
   static renderLeftComponent = (props: RendererProps, style?: StyleSheet): ?React$Element<any> => {
-    const { onNavigateBack, navigationState: { index, routes }, cards } = props
-    const route = routes[index]
+    const { onNavigateBack, cards, scene: { index, route } } = props
     const card = getCurrentCard(cards, route)
     // Custom left component
     if (card && card.renderLeftComponent) {

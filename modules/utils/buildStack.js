@@ -2,6 +2,7 @@
 /* eslint no-param-reassign: 0*/
 
 import { Children, cloneElement } from 'react'
+import { Platform } from 'react-native'
 
 export default function buildStack<Item>(
   children: Array<React$Element<Item>>
@@ -13,7 +14,8 @@ export default function buildStack<Item>(
         props[key] = child.props[key]
       } else if (key === 'render' || key === 'component' || key === 'children') {
         const renderMethod = (ownProps: any) => cloneElement(child, ownProps)
-        Object.defineProperty(renderMethod, 'name', { value: key })
+        // @TODO (hot fix: rename key for jest test)
+        if (Platform.OS === 'ios') Object.defineProperty(renderMethod, 'name', { value: key })
         props[key] = renderMethod
       } else {
         props[key] = child.props[key]

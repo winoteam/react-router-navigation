@@ -1,7 +1,7 @@
 /* eslint symbol-description: 0 */
 
-const INITIALYZE_HISTORY = Symbol()
-const CHANGE_HISTORY = Symbol()
+const INITIALYZE_HISTORY = 'INITIALYZE_HISTORY'
+const CHANGE_HISTORY = 'CHANGE_HISTORY'
 
 export const initialyzeHistory = (history) => ({
   type: INITIALYZE_HISTORY,
