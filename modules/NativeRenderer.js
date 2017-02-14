@@ -14,10 +14,6 @@ const styles = StyleSheet.create({
 
 type Scene = { key: string }
 
-type DefaultProps = {
-  renderNavBar: () => ?React$Element<any>,
-}
-
 type Props = CardRendererProps & {
   renderScene: (scene: Scene) => ?React$Element<any>,
   renderNavBar?: (position?: Animated.Value) => ?React$Element<any>,
@@ -28,7 +24,7 @@ type State = {
   index: number,
 }
 
-class NativeRenderer extends Component<DefaultProps, Props, State> {
+class NativeRenderer extends Component<void, Props, State> {
 
   props: Props
 

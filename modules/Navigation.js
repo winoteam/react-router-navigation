@@ -18,16 +18,15 @@ class Navigation extends Component<void, Props, void> {
 
   props: Props
 
-  renderNavBar = (props: SceneRendererProps): React$Element<any> => {
-    const { cards, navigationState: { routes, index } } = props
-    const route = routes[index]
-    const currentCard = getCurrentCard(route, cards)
+  renderNavBar = (props: SceneRendererProps): ?React$Element<any> => {
+    const { cards, scene: { route } } = props
+    const card = getCurrentCard(cards, route)
     // Custom nav bar
-    if (currentCard && currentCard.renderNavBar) {
-      return currentCard.renderNavBar(props)
+    if (card && card.renderNavBar) {
+      return card.renderNavBar(props)
     }
     // Hide nav bar
-    if (currentCard && currentCard.hideNavBar) return null
+    if (card && card.hideNavBar) return null
     // Default nav bar
     return (
       <NavBar
@@ -39,10 +38,10 @@ class Navigation extends Component<void, Props, void> {
 
   renderScene = (props: SceneRendererProps & { scene: NavigationScene }): ?React$Element<any> => {
     const { cards, scene: { route } } = props
-    const currentCard = getCurrentCard(route, cards)
-    if (!currentCard) return null
+    const card = getCurrentCard(cards, route)
+    if (!card) return null
     return createElement(
-      currentCard.component || currentCard.render,
+      card.component || card.render,
       { key: route.key },
     )
   }

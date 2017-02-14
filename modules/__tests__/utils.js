@@ -8,13 +8,12 @@ export const componentFactory = (message) => ({ match: { params } }) => (
 
 export const CardView = ({ navigationState, cards }) => {
   const route = navigationState.routes[navigationState.index]
-  const currentRoute = navigationState.routes[navigationState.index]
-  const currentCard = cards.find(({ key }) => key === normalizeRoute(currentRoute).key)
-  return createElement(currentCard.render, { key: route.key })
+  const card = cards.find(({ key }) => key === normalizeRoute(route).key)
+  return createElement(card.render, { key: route.key })
 }
 
 export const TabView = ({ navigationState, tabs, onRequestChangeTab }) => {
-  const currentRoute = navigationState.routes[navigationState.index]
-  const currentTab = tabs.find(({ key }) => key === currentRoute.key)
-  return createElement(currentTab.render)
+  const route = navigationState.routes[navigationState.index]
+  const tab = tabs.find(({ key }) => key === route.key)
+  return createElement(tab.render, { key: route.key })
 }

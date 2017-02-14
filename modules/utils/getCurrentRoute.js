@@ -14,6 +14,5 @@ export default function getCurrentRoute(
     return matchPath(location.pathname, stackItem.path, stackItem)
   })
   if (!item || !item.key || typeof item.key !== 'string') return null
-  const { key, path, exact, strict } = item
-  return { key, path, exact, strict }
+  return { key: item.key }
 }

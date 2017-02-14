@@ -7,7 +7,7 @@ import { StateUtils } from 'react-navigation'
 import { matchPath, withRouter } from 'react-router'
 import type { RouterHistory } from 'react-router'
 import isEqual from 'lodash.isequal'
-import type { TransitionCardsProps, NavigationState, Cards, CardProps } from './TypeDefinitions'
+import type { CardRendererProps, NavigationState, Cards, CardProps } from './TypeDefinitions'
 import { getCurrentRoute, buildStack, normalizeRoute, shouldStackUpdate } from './utils'
 
 type State = {
@@ -17,7 +17,7 @@ type State = {
 
 type Props = RouterHistory & {
   children: Array<React$Element<CardProps>>,
-  render: (props: TransitionCardsProps) => React$Element<any>,
+  render: (props: CardRendererProps) => React$Element<any>,
 }
 
 class CardStack extends Component<void, Props, State> {
@@ -37,15 +37,15 @@ class CardStack extends Component<void, Props, State> {
     if (!entries) throw new Error('No history entries found')
     // Build navigation state
     const navigationState = entries.reduce((state, { pathname }) => {
-      const { key, path, exact, strict } = cards.find((card) => {
-        return matchPath(pathname, card.path, card)
+      const card = cards.find(({ path, exact, strict }) => {
+        return matchPath(pathname, path, { exact, strict })
       })
-      if (!path) return state
+      if (!card || !card.path) return state
       return {
-        index: matchPath(location.pathname, path, { exact, strict })
+        index: matchPath(location.pathname, card.path, card)
           ? state.routes.length
           : state.index,
-        routes: [...state.routes, { key, path, exact, strict }],
+        routes: [...state.routes, { key: card.key }],
       }
     }, { index: -1, routes: [] })
     // Save everything in component state
@@ -64,17 +64,19 @@ class CardStack extends Component<void, Props, State> {
 
   // Listen all history events
   componentWillReceiveProps(nextProps): void {
-    // Get current route
+    const { location: previousLocation } = this.props
     const { cards, navigationState } = this.state
-    const currentRoute = normalizeRoute(navigationState.routes[navigationState.index])
-    // Get next route
     const { action, location, index } = nextProps
-    const previousLocation = this.props.location
+    // Get current card
+    const currentRoute = normalizeRoute(navigationState.routes[navigationState.index])
+    const currentCard = cards.find(({ key }) => key === currentRoute.key)
+    // Get next card
     const nextRoute = getCurrentRoute(cards, location)
+    const nextCard = cards.find(({ key }) => nextRoute && key === nextRoute.key)
     // Local state must be updated ?
     if (
-      (currentRoute && nextRoute && index !== undefined) &&
-      shouldStackUpdate(currentRoute, nextRoute, nextProps, previousLocation)
+      (currentCard && nextRoute && nextCard && index !== undefined) &&
+      shouldStackUpdate(currentCard, nextCard, nextProps, previousLocation)
     ) {
       const key = `${nextRoute.key}@@${Date.now()}`
       switch (action) {
@@ -82,7 +84,7 @@ class CardStack extends Component<void, Props, State> {
           this.setState({
             navigationState: StateUtils.push(
               navigationState,
-              { ...nextRoute, key },
+              { key },
             ),
           })
           break
@@ -112,7 +114,7 @@ class CardStack extends Component<void, Props, State> {
             navigationState: StateUtils.replaceAtIndex(
               navigationState,
               navigationState.index,
-              { ...nextRoute, key },
+              { key },
             ),
           })
           break

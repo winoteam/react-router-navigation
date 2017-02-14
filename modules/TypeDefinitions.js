@@ -5,9 +5,6 @@ import type { ContextRouter } from 'react-router'
 
 export type Route = {
   key: string,
-  path: string,
-  exact?: bool,
-  strict?: bool,
 }
 
 export type NavigationState = {
@@ -19,7 +16,7 @@ export type RouteProps = {
   component?: ReactClass<any>,
   render?: (router: ContextRouter) => React$Element<any>,
   children?: (router: ContextRouter) => React$Element<any>,
-  path?: string,
+  path: string,
   exact?: bool,
   strict?: bool,
 }
@@ -50,17 +47,10 @@ export type Card = CardProps & {
 export type Cards = Array<Card>
 
 export type CardRendererProps = {
+  onNavigateBack: Function,
   navigationState: NavigationState,
   cards: Cards,
-  onNavigateBack: Function,
-}
-
-export type NavigationProps = NavBarProps & {
-  children: Array<React$Element<CardProps>>,
-}
-
-export type NavigatorProps = NavBarProps & {
-  children: Array<React$Element<CardProps>>,
+  card: Card,
 }
 
 export type TabProps = RouteProps & {

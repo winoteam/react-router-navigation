@@ -3,11 +3,11 @@
 
 import { matchPath } from 'react-router'
 import type { RouterHistory, Location } from 'react-router'
-import type { Route } from './../TypeDefinitions'
+import type { Card } from './../TypeDefinitions'
 
 export default function (
-  currentRoute: Route,
-  nextRoute: Route,
+  currentCard: Card,
+  nextCard: Card,
   routerHistory: RouterHistory,
   previousLocation: Location,
 ): boolean {
@@ -16,13 +16,13 @@ export default function (
   const previousEntry = entries[index - 1]
   const currentEntry = entries[index]
   const nextEntry = entries[index + 1]
-  const matchCurrentRoute = matchPath(location.pathname, currentRoute.path, currentRoute)
-  const matchNextRoute = matchPath(location.pathname, nextRoute.path, nextRoute)
+  const matchCurrentRoute = matchPath(location.pathname, currentCard.path, currentCard)
+  const matchNextRoute = matchPath(location.pathname, nextCard.path, nextCard)
   return (
     // URL changes
     (previousLocation.pathname !== location.pathname) &&
     // case 1) basic pathname
-    ((currentRoute.key !== nextRoute.key) ||
+    ((currentCard.key !== nextCard.key) ||
     // case 2) Pathname with query params
     // Ex: with same path article/:id,
     //     pathname article/2 !== article/3

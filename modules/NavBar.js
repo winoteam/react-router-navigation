@@ -8,65 +8,65 @@ import type { CardRendererProps } from './TypeDefinitions'
 import BackButton from './BackButton'
 import { getCurrentCard } from './utils'
 
-type SceneRendererProps = CardRendererProps & NavigationTransitionProps
+type RendererProps = CardRendererProps & NavigationTransitionProps
 
-type Props = SceneRendererProps & {
+type Props = RendererProps & {
   mode: 'float' | 'screen' | 'none',
 }
 
-class DefaultNavBar extends Component<void, Props, void> {
+class NavBar extends Component<void, Props, void> {
 
   props: Props
 
-  renderLeftComponent = (props: SceneRendererProps): ?React$Element<any> => {
-    const { cards } = this.props
-    const { scene: { route } } = props
-    const card = getCurrentCard(route, cards)
+  static renderLeftComponent = (props: RendererProps, style?: StyleSheet): ?React$Element<any> => {
+    const { onNavigateBack, navigationState: { index, routes }, cards } = props
+    const route = routes[index]
+    const card = getCurrentCard(cards, route)
     // Custom left component
     if (card && card.renderLeftComponent) {
       return card.renderLeftComponent(props)
     }
     // Hide back button
-    if (props.scene.index === 0 || !props.onNavigateBack) {
+    if (index === 0 || !onNavigateBack) {
       return null
     }
     // Default back button
     return (
       <BackButton
-        onPress={props.onNavigateBack}
-        style={card && card.backButtonStyle}
+        onPress={onNavigateBack}
+        color={card && card.backButtonStyle}
+        style={style}
       />
     )
   }
 
-  renderTitleComponent = (props: SceneRendererProps): React$Element<any> => {
-    const { cards } = this.props
-    const { scene: { route } } = props
-    const card = getCurrentCard(route, cards)
-    if (!card || !card.title) return null
+  static renderTitleComponent = (props: RendererProps, style?: StyleSheet): ?React$Element<any> => {
+    const { cards, scene: { route } } = props
+    const card = getCurrentCard(cards, route)
+    if (!card) return null
     return (
-      <HeaderTitle style={card.titleStyle}>
+      <HeaderTitle style={[style, card.titleStyle]}>
         {card.title}
       </HeaderTitle>
     )
   }
 
-  renderRightComponent = (): ?React$Element<any> => null
+  static renderRightComponent = (): ?React$Element<any> => null
 
   render() {
     const { cards, scene: { route } } = this.props
-    const card = getCurrentCard(route, cards)
+    const card = getCurrentCard(cards, route)
     return (
       <Header
         {...this.props}
-        style={card.navBarStyle}
-        renderLeftComponent={this.renderLeftComponent}
-        renderTitleComponent={this.renderTitleComponent}
-        renderRightComponent={this.renderRightComponent}
+        style={card && card.navBarStyle}
+        renderLeftComponent={(props) => NavBar.renderLeftComponent({ ...this.props, ...props })}
+        renderTitleComponent={(props) => NavBar.renderTitleComponent({ ...this.props, ...props })}
+        renderRightComponent={(props) => NavBar.renderRightComponent({ ...this.props, ...props })}
       />
     )
   }
 
 }
 
-export default DefaultNavBar
+export default NavBar

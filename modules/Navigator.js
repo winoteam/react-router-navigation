@@ -2,10 +2,10 @@
 /* eslint react/no-unused-prop-types: 0 */
 
 import React, { Component, createElement } from 'react'
-import ReactNative, { StyleSheet, View, Text } from 'react-native'
+import ReactNative, { StyleSheet, View } from 'react-native'
 import CardStack from './CardStack'
+import NavBar from './NavBar'
 import NativeRenderer from './NativeRenderer'
-import BackButton from './BackButton'
 import { getCurrentCard } from './utils'
 import type { CardProps, CardRendererProps } from './TypeDefinitions'
 
@@ -23,11 +23,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: .5,
     borderBottomColor: '#b2b2b2',
   },
-  title: {
-    fontSize: 17,
-    marginTop: 11,
-    color: '#030303',
-    fontWeight: '600',
+  subView: {
+    top: 11,
   },
 })
 
@@ -44,55 +41,41 @@ class Navigator extends Component<void, Props, void> {
   props: Props
 
   renderScene = (props: CardRendererProps & { scene: Scene }): ?React$Element<any> => {
-    const { cards, scene } = props
-    const currentCard = getCurrentCard(scene, cards)
-    if (!currentCard) return null
-    return createElement(currentCard.component || currentCard.render)
+    const { cards, scene: route } = props
+    const card = getCurrentCard(cards, route)
+    if (!card) return null
+    if (!card.component && !card.render) return null
+    return createElement(
+      card.component || card.render,
+      { key: route.key }
+    )
   }
 
   renderNavBar = (props: CardRendererProps): ?React$Element<any> => {
-    // Get current card
-    const { navigationState, onNavigateBack, cards } = props
-    const route = navigationState.routes[navigationState.index]
-    const currentCard = getCurrentCard(route, cards)
-    // Hide <NavBar />
-    if (currentCard && currentCard.hideNavBar) return null
+    const { cards, navigationState: { routes, index } } = props
+    const card = getCurrentCard(cards, routes[index])
     // Custom <Navbar />
-    if (currentCard && currentCard.renderNavBar) {
+    if (card && card.renderNavBar) {
       return (
         <View style={styles.customNavBar}>
-          {currentCard && currentCard.renderNavBar(props)}
+          {card && card.renderNavBar(props)}
         </View>
       )
     }
+    // Hide nav bar
+    if (card && card.hideNavBar) return null
     // Default <NavBar />
-    const LeftButton = (scene, navigator, index) => {
-      if (index === 0) return null
-      const card = getCurrentCard(scene, cards)
-      if (card && card.renderLeftComponent) {
-        return card.renderLeftComponent(props)
-      }
-      return (
-        <BackButton
-          onPress={onNavigateBack}
-          style={card && card.backButtonStyle}
-        />
-      )
-    }
-    const Title = (scene) => {
-      const card = getCurrentCard(scene, cards)
-      return (
-        <Text style={[styles.title, card && card.titleStyle]}>
-          {card && card.title}
-        </Text>
-      )
-    }
-    // @TODO
-    const RightButton = () => null
     return (
       <ReactNative.Navigator.NavigationBar
-        style={[styles.defaultNavBar, currentCard.navBarStyle]}
-        routeMapper={{ LeftButton, Title, RightButton }}
+        style={[styles.defaultNavBar, card.navBarStyle]}
+        routeMapper={{
+          LeftButton: () => NavBar.renderLeftComponent(props, styles.subView),
+          Title: (route) => NavBar.renderTitleComponent(
+            { ...props, scene: { route } },
+            styles.subView,
+          ),
+          RightButton: () => NavBar.renderRightComponent(),
+        }}
       />
     )
   }
@@ -101,18 +84,13 @@ class Navigator extends Component<void, Props, void> {
     return (
       <CardStack
         {...this.props}
-        render={(cardRendererProps) => {
-          const { cards, onNavigateBack, navigationState } = cardRendererProps
-          return (
-            <NativeRenderer
-              navigationState={navigationState}
-              cards={cards}
-              onNavigateBack={onNavigateBack}
-              renderScene={(scene) => this.renderScene({ ...cardRendererProps, scene })}
-              renderNavBar={() => this.renderNavBar(cardRendererProps)}
-            />
-          )
-        }}
+        render={(props) => (
+          <NativeRenderer
+            {...props}
+            renderScene={(scene) => this.renderScene({ ...props, scene })}
+            renderNavBar={() => this.renderNavBar(props)}
+          />
+        )}
       />
     )
   }

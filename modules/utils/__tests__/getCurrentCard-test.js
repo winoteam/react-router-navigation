@@ -11,6 +11,6 @@ describe('getCurrentCard() util', () => {
       key: '/',
       title: 'Root',
     }, currentCard]
-    expect(getCurrentCard(route, cards)).toEqual(currentCard)
+    expect(getCurrentCard(cards, route)).toEqual(currentCard)
   })
 })
