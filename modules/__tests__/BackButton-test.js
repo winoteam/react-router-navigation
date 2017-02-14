@@ -1,6 +1,5 @@
 import React from 'react'
 import BackButton from './../BackButton'
-import { shallow } from 'enzyme'
 import { TouchableOpacity } from 'react-native'
 import renderer from 'react-test-renderer'
 

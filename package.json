@@ -39,7 +39,6 @@
     "babel-eslint": "7.1.0",
     "babel-jest": "18.0.0",
     "babel-preset-react-native": "1.9.1",
-    "enzyme": "^2.7.0",
     "eslint": "3.9.0",
     "eslint-config-airbnb": "12.0.0",
     "eslint-plugin-babel": "^4.0.0",
@@ -48,8 +47,6 @@
     "eslint-plugin-react": "6.4.1",
     "flow-bin": "^0.37.4",
     "jest": "18.0.0",
-    "react-addons-test-utils": "^15.4.2",
-    "react-dom": "^15.4.2",
     "react": "15.4.1",
     "react-native": "0.41.1",
     "react-test-renderer": "15.4.1"
