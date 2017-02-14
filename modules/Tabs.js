@@ -1,11 +1,12 @@
 /* @flow */
+/* eslint max-len: 0 */
 /* eslint react/no-unused-prop-types: 0 */
 
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
 import type { SceneRendererProps, Scene } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { Tab } from './TypeDefinitions'
+import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
 import TabStack from './TabStack'
 
 const styles = StyleSheet.create({
@@ -22,37 +23,39 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = {
+type Props = TabBarProps & {
   children: Array<React$Element<any>>,
   containerStyle?: StyleSheet,
   style?: StyleSheet,
   tabBarStyle?: StyleSheet,
   tabBarIndicatorStyle?: StyleSheet,
-  renderHeader?: () => React$Element<any>,
 }
 
 class Tabs extends Component<void, Props, void> {
 
   props: Props
 
-  renderHeader = (props: SceneRendererProps & { tabs: Array<Tab> }): React$Element<any> => {
-    const { tabs, ...sceneProps } = props
-    if (this.props.renderHeader) {
+  renderHeader = (props: TabBarProps & SceneRendererProps & TabRendererProps): React$Element<any> => {
+    const { tabs, navigationState: { routes, index } } = props
+    // Get current tab
+    const tab = tabs.find(({ key }) => routes[index].key === key)
+    // Custom tab bar
+    if (props.renderTabBar || (tab && tab.renderTabBar)) {
       return createElement(
-        this.props.renderHeader,
+        props.renderTabBar || tab.renderTabBar,
         props,
       )
     }
     return (
       <TabBar
-        {...sceneProps}
-        style={this.props.tabBarStyle}
-        indicatorStyle={this.props.tabBarIndicatorStyle}
+        {...props}
+        style={props.tabBarStyle}
+        indicatorStyle={props.tabBarIndicatorStyle || (tab && tab.renderTabBar)}
         renderLabel={({ route }) => {
-          const scene = tabs.find((tab) => tab.key === route.key)
+          const currentTab = tabs.find(({ key }) => route.key === key)
           return (
-            <Text style={styles.tabLabel}>
-              {scene && scene.label}
+            <Text style={[styles.tabLabel, props.labelStyle, currentTab && currentTab.labelStyle]}>
+              {currentTab && currentTab.label}
             </Text>
           )
         }}
@@ -60,8 +63,7 @@ class Tabs extends Component<void, Props, void> {
     )
   }
 
-  // @TODO $FlowFixMe
-  renderScene = (props: SceneRendererProps & Scene & { tabs: Array<Tab> }): ?React$Element<any> => {
+  renderScene = (props: TabBarProps & SceneRendererProps & TabRendererProps & { scene: Scene }): ?React$Element<any> => {
     const { tabs, route } = props
     const currentTab = tabs.find((tab) => tab.key === route.key)
     if (!currentTab) return null
@@ -73,14 +75,13 @@ class Tabs extends Component<void, Props, void> {
       <TabStack
         {...this.props}
         style={[styles.container, this.props.containerStyle]}
-        render={({ navigationState, tabs, onRequestChangeTab }) => (
+        render={(props) => (
           <TabViewAnimated
+            {...props}
             style={[styles.container, this.props.style]}
             initialLayout={Dimensions.get('window')}
-            navigationState={navigationState}
-            onRequestChangeTab={onRequestChangeTab}
-            renderHeader={(sceneProps) => this.renderHeader({ ...sceneProps, tabs })}
-            renderScene={(sceneProps) => this.renderScene({ ...sceneProps, tabs })}
+            renderHeader={(ownProps) => this.renderHeader({ ...this.props, ...props, ...ownProps })}
+            renderScene={(ownProps) => this.renderScene({ ...this.props, ...props, ...ownProps })}
           />
         )}
       />

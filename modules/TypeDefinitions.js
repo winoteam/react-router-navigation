@@ -2,6 +2,7 @@
 /* eslint no-use-before-define: 0 */
 
 import type { ContextRouter } from 'react-router'
+import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 
 export type Route = {
   key: string,
@@ -53,12 +54,21 @@ export type CardRendererProps = {
   card: Card,
 }
 
-export type TabProps = RouteProps & {
+export type TabBarProps = {
+  renderTabBar: (
+    props: TabBarProps & SceneRendererProps & TabRendererProps
+  ) => React$Element<any>,
   label?: string,
-  labelStyle?: (props: Tab & { isActive: boolean, pathname: string, }) => StyleSheet | StyleSheet,
-  tabBarIndicatorStyle?: StyleSheet, // <Tabs /> only @TODO
-  renderTabIcon?: () => React$Element<any>, // <BottomNavigation /> only @TODO
+  labelStyle?: ((props: Tab & { isActive: boolean, pathname: string, }) => StyleSheet) | StyleSheet,
+  // <BottomNavigation /> only
+  renderTabIcon?: (
+    props: TabBarProps & SceneRendererProps & TabRendererProps,
+  ) => React$Element<any>,
+  // <Tabs /> only
+  tabBarIndicatorStyle?: StyleSheet,
 }
+
+export type TabProps = RouteProps & TabBarProps
 
 export type Tab = TabProps & {
   key: string,
@@ -67,7 +77,8 @@ export type Tab = TabProps & {
 export type Tabs = Array<Tab>
 
 export type TabRendererProps = {
+  onRequestChangeTab: (index: number) => void,
   navigationState: NavigationState,
   tabs: Tabs,
-  onRequestChangeTab: (index: number) => void,
+  tab: Tab,
 }
