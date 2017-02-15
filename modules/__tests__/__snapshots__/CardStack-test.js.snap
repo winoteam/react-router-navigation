@@ -1,167 +1,113 @@
 exports[`<CardStack /> <CardStack /> re-renders correctly when "go" action is called 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Goodbye
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "go" action is called 2`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Index
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "go" action is called with same path 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   3
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "go" action is called with same path 2`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   1
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "goBack" action is called 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Hello
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "goBack" action is called 2`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Index
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "goBack" action is called with same path 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   2
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "goBack" action is called with same path 2`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   1
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "push" action is called 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Index
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "push" action is called 2`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Hello
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "push" action is called with same path 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   1
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "push" action is called with same path 2`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   2
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "replace" action is called 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Hello
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when "replace" action is called 2`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Goodbye
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when onNavigateBack() method is called 1`] = `
-<View
+<TouchableOpacity
   onPress={[Function]}>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail">
+  <Text>
     Hello
   </Text>
-</View>
+</TouchableOpacity>
 `;
 
 exports[`<CardStack /> <CardStack /> re-renders correctly when onNavigateBack() method is called 2`] = `
-<View
+<TouchableOpacity
   onPress={[Function]}>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail">
+  <Text>
     Index
   </Text>
-</View>
+</TouchableOpacity>
 `;
 
 exports[`<CardStack /> <CardStack /> renders correctly 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Index
 </Text>
 `;
 
 exports[`<CardStack /> <CardStack /> renders correctly with initialIndex and initialEntries prop  1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Hello
 </Text>
 `;

@@ -1,5 +1,6 @@
+import './mocks'
 import React from 'react'
-import { View } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import { componentFactory, CardView } from './utils'
@@ -182,9 +183,9 @@ describe('<CardStack />', () => {
     const component = renderer.create(
       <Router history={history}>
         <CardStack render={({ navigationState, onNavigateBack, cards }) => (
-          <View onPress={onNavigateBack}>
+          <TouchableOpacity onPress={onNavigateBack}>
             {CardView({ navigationState, onNavigateBack, cards })}
-          </View>
+          </TouchableOpacity>
         )}>
           <Route exact path="/" render={componentFactory('Index')} />
           <Route path="/hello" render={componentFactory('Hello')} />
