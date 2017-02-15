@@ -7,8 +7,7 @@ import { StyleSheet, Platform, View, TouchableNativeFeedback, TouchableOpacity, 
 
 type Props = {
   onPress: Function,
-  style?: StyleSheet,
-  color?: 'default' | 'light' | 'dark',
+  backButtonStyle?: 'default' | 'light' | 'dark',
 }
 
 const styles = StyleSheet.create({
@@ -44,12 +43,11 @@ const arrows = {
     : require('./assets/back-dark.png'),
 }
 
-const BackButton = ({ onPress, style, color = 'default' }: Props): React$Element<any> => {
-  const Arrow = arrows[color]
+const BackButton = ({ onPress, backButtonStyle = 'default' }: Props): React$Element<any> => {
+  const Arrow = arrows[backButtonStyle]
   const background = isAndroid && TouchableNativeFeedback.Ripple('white', true)
   return (
     <Touchable
-      style={style}
       background={background}
       onPress={onPress}
     >

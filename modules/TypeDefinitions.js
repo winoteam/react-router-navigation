@@ -22,36 +22,55 @@ export type RouteProps = {
   strict?: bool,
 }
 
+/**
+ * Navigation
+ */
+
 export type CardState = {
   isFocused: boolean,
-  isTransitioning: boolean,
+  isTransitioning: boolean
 }
 
 export type NavBarProps = {
+  // General
   hideNavBar?: boolean,
-  renderNavBar: (props: CardRendererProps) => React$Element<any>,
+  renderNavBar: (
+    props: CardRendererProps & NavigationSceneRendererProps
+  ) => React$Element<any>,
   navBarStyle?: StyleSheet,
-  backButtonStyle: 'default' | 'light' | 'dark',
-  renderLeftComponent: (props: CardRendererProps) => React$Element<any>,
+  // Left button
+  hideBackButton?: boolean,
+  backButtonStyle: "default" | "light" | "dark",
+  renderLeftButton: (
+    props: CardRendererProps & NavigationSceneRendererProps
+  ) => React$Element<any>,
+  // Title
   title?: string,
   titleStyle?: StyleSheet,
+  renderTitle: (
+    props: CardRendererProps & NavigationSceneRendererProps
+  ) => React$Element<any>,
+  // Right button
+  renderRightButton: (
+    props: CardRendererProps & NavigationSceneRendererProps
+  ) => React$Element<any>
 }
 
-export type CardProps = RouteProps & NavBarProps & {
-  onResetCard?: () => void, // @TODO
-}
+export type CardProps = RouteProps & NavBarProps
 
-export type Card = CardProps & {
-  key: string,
-}
+export type Card =
+  & RouteProps
+  & NavBarProps
+  & {
+    key: string
+  }
 
 export type Cards = Array<Card>
 
 export type CardRendererProps = {
-  onNavigateBack: Function,
-  navigationState: NavigationState,
-  cards: Cards,
-  card: Card,
+  +onNavigateBack: Function,
+  +navigationState: NavigationState,
+  +cards: Cards
 }
 
 export type TabBarProps = {

@@ -1,60 +1,53 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
+/* eslint react/no-children-prop: 0 */
 
 import React, { Component, createElement } from 'react'
-import { Platform } from 'react-native'
-import type { NavigationTransitionProps, NavigationScene } from 'react-navigation/src/TypeDefinitions'
-import type { NavigationProps, CardRendererProps } from './TypeDefinitions'
+import type { NavigationSceneRendererProps } from 'react-navigation/src/TypeDefinitions'
+import type { NavBarProps, CardRendererProps } from './TypeDefinitions'
 import CardStack from './CardStack'
 import DefaultRenderer from './DefaultRenderer'
 import NavBar from './NavBar'
 import getCurrentCard from './getCurrentCard'
 
-type SceneRendererProps = CardRendererProps & NavigationTransitionProps
+type SceneRendererProps = CardRendererProps & NavigationSceneRendererProps
 
-type Props = NavigationProps
+type Props = NavBarProps & {
+  children: Array<React$Element<any>>,
+}
 
 class Navigation extends Component<void, Props, void> {
 
   props: Props
 
-  renderNavBar = (props: SceneRendererProps): ?React$Element<any> => {
-    const { cards, scene: { route } } = props
-    const card = getCurrentCard(cards, route)
-    // Custom nav bar
-    if (card && card.renderNavBar) {
-      return card.renderNavBar(props)
-    }
-    // Hide nav bar
-    if (card && card.hideNavBar) return null
-    // Default nav bar
-    return (
-      <NavBar
-        {...props}
-        mode={Platform.OS === 'ios' ? 'float' : 'screen'}
-      />
-    )
+  renderHeader = (props: SceneRendererProps): ?React$Element<any> => {
+    return <NavBar {...props} />
   }
 
-  renderScene = (props: SceneRendererProps & { scene: NavigationScene }): ?React$Element<any> => {
+  renderScene = (props: SceneRendererProps): ?React$Element<any> => {
+    // Get card
     const { cards, scene: { route } } = props
     const card = getCurrentCard(cards, route)
     if (!card) return null
-    return createElement(
-      card.component || card.render,
-      { key: route.key },
-    )
+    // Render view
+    if (card.render) return card.render(props)
+    else if (card.children) return card.children(props)
+    else if (card.component) return createElement(card.component, props)
+    return null
   }
 
   render(): React$Element<any> {
+    const { children, ...props } = this.props
     return (
       <CardStack
-        {...this.props}
-        render={(props) => (
+        {...props}
+        children={children}
+        render={(ownProps) => (
           <DefaultRenderer
             {...props}
+            {...ownProps}
             renderScene={this.renderScene}
-            renderNavBar={this.renderNavBar}
+            renderHeader={this.renderHeader}
           />
         )}
       />

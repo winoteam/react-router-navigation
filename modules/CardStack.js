@@ -6,7 +6,6 @@ import { BackAndroid } from 'react-native'
 import { StateUtils } from 'react-navigation'
 import { matchPath, withRouter } from 'react-router'
 import type { RouterHistory } from 'react-router'
-import isEqual from 'lodash.isequal'
 import type { CardRendererProps, NavigationState, Cards, CardProps } from './TypeDefinitions'
 import getCurrentRoute from './getCurrentRoute'
 import buildStack from './buildStack'
@@ -28,14 +27,12 @@ class CardStack extends Component<void, Props, State> {
   props: Props
   state: State
 
-  static displayName = 'CardStack'
-
   // Initialyze navigation state with initial history
   constructor(props: Props): void {
     super(props)
-    // Build the card stack
+    // Build the card stack ($FlowFixMe
     const { children, entries, location } = props
-    const cards = buildStack(children)
+    const cards = children && buildStack(children)
     // Get initial route of navigation state
     if (!entries) throw new Error('No history entries found')
     // Build navigation state
@@ -66,8 +63,7 @@ class CardStack extends Component<void, Props, State> {
   }
 
   // Listen all history events
-  componentWillReceiveProps(nextProps): void {
-    const { location: previousLocation } = this.props
+  componentWillReceiveProps(nextProps: Props): void {
     const { cards, navigationState } = this.state
     const { action, location, index } = nextProps
     // Get current card
@@ -75,11 +71,12 @@ class CardStack extends Component<void, Props, State> {
     const currentCard = cards.find(({ key }) => key === currentRoute.key)
     // Get next card
     const nextRoute = getCurrentRoute(cards, location)
-    const nextCard = cards.find(({ key }) => nextRoute && key === nextRoute.key)
+    if (!nextRoute) return
+    const nextCard = cards.find(({ key }) => key === nextRoute.key)
     // Local state must be updated ?
     if (
-      (currentCard && nextRoute && nextCard && index !== undefined) &&
-      shouldStackUpdate(currentCard, nextCard, nextProps, previousLocation)
+      (currentCard && nextCard && index !== undefined) &&
+      shouldStackUpdate(currentCard, nextCard, this.props, nextProps)
     ) {
       const key = `${nextRoute.key}@@${Date.now()}`
       switch (action) {
@@ -93,6 +90,7 @@ class CardStack extends Component<void, Props, State> {
           break
         }
         case 'POP': {
+          if (this.props.index === undefined || nextProps.index === undefined) return
           const n = this.props.index - nextProps.index
           if (n > 1) {
             this.setState({
@@ -134,11 +132,6 @@ class CardStack extends Component<void, Props, State> {
       return true
     }
     return false
-  }
-
-  // Render when setState is calls
-  shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(this.state, nextState)
   }
 
   // Render view

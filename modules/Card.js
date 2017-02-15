@@ -1,5 +1,4 @@
 /* @flow */
-/* eslint react/no-unused-prop-types: 0 */
 /* eslint no-duplicate-imports: 0 */
 
 import React, { Component, createElement } from 'react'
@@ -23,8 +22,6 @@ class Card extends Component<void, Props, State> {
     match: null,
   }
 
-  static displayName = 'Card'
-
   renderView = (props: Props & RouterHistory & { match: Match }): ?React$Element<any> => {
     const { match, location: { pathname } } = props
     // Set match props
@@ -32,7 +29,7 @@ class Card extends Component<void, Props, State> {
     if (this.state.pathname === pathname || !this.state.match) {
       this.state.match = match
     }
-    // Build props
+    // Build props ($FlowFixMe)
     const { render, children, component, isTransitioning, isFocused } = this.props
     const routeProps = {
       ...props,
@@ -42,7 +39,7 @@ class Card extends Component<void, Props, State> {
     }
     // Render view
     if (render) return render(routeProps)
-    else if (render) return children(routeProps)
+    else if (children) return children(routeProps)
     else if (component) return createElement(component, routeProps)
     return null
   }

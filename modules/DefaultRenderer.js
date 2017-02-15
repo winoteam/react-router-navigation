@@ -5,12 +5,11 @@ import React, { Component, cloneElement } from 'react'
 import { NativeModules, StyleSheet, Platform, View } from 'react-native'
 import { Transitioner } from 'react-navigation'
 import Card from 'react-navigation/src/views/Card'
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator'
 import CardStackPanResponder from 'react-navigation/src/views/CardStackPanResponder'
 import TransitionConfigs from 'react-navigation/src/views/TransitionConfigs'
 import type { TransitionConfig } from 'react-navigation/src/views/TransitionConfigs'
-import type { NavigationTransitionProps, NavigationScene } from 'react-navigation/src/TypeDefinitions'
-import type { NavigationProps, CardRendererProps } from './TypeDefinitions'
+import type { NavigationTransitionProps } from 'react-navigation/src/TypeDefinitions'
+import type { CardRendererProps } from './TypeDefinitions'
 
 const NativeAnimatedModule = NativeModules && NativeModules.NativeAnimatedModule
 
@@ -26,9 +25,9 @@ const styles = StyleSheet.create({
 
 type SceneRendererProps = CardRendererProps & NavigationTransitionProps
 
-type Props = NavigationProps & {
-  renderScene: (props: SceneRendererProps & { scene: NavigationScene }) => ?React$Element<any>,
-  renderNavBar: (props: SceneRendererProps) => ?React$Element<any>,
+type Props = CardRendererProps & {
+  renderScene: (props: SceneRendererProps) => ?React$Element<any>,
+  renderHeader: (props: SceneRendererProps) => ?React$Element<any>,
 }
 
 type State = {
@@ -49,19 +48,13 @@ class Navigation extends Component<void, Props, State> {
     transitionProps: NavigationTransitionProps,
     prevTransitionProps: NavigationTransitionProps
   ) => {
-    const transitionSpec = {
+    return {
       ...this.getTransitionConfig(
         transitionProps,
         prevTransitionProps
       ).transitionSpec,
+      useNativeDriver: !!NativeAnimatedModule,
     }
-    if (
-       !!NativeAnimatedModule
-       && CardStackStyleInterpolator.canUseNativeDriver()
-    ) {
-      transitionSpec.useNativeDriver = true
-    }
-    return transitionSpec
   }
 
   getTransitionConfig = (
@@ -90,12 +83,15 @@ class Navigation extends Component<void, Props, State> {
       isTransitioning: this.state.isTransitioning,
     }
     // Render card
-    return (
-      <View style={{ flex: 1 }}>
-        {Platform.OS === 'android' && this.props.renderNavBar(props)}
-        {cloneElement(this.props.renderScene(props), cardState)}
-      </View>
-    )
+    if (Platform.OS === 'android') {
+      return (
+        <View style={{ flex: 1 }}>
+          {Platform.OS === 'android' && this.props.renderHeader(props)}
+          {cloneElement(this.props.renderScene(props), cardState)}
+        </View>
+      )
+    }
+    return cloneElement(this.props.renderScene(props), cardState)
   }
 
   renderCard = (props: SceneRendererProps): React$Element<any> => {
@@ -120,13 +116,22 @@ class Navigation extends Component<void, Props, State> {
   }
 
   renderView = (props: SceneRendererProps): React$Element<any> => {
+    // Build floatingHeader
     const floatingHeader = Platform.OS === 'ios'
-      ? this.props.renderNavBar(props)
+      ? this.props.renderHeader(props)
       : null
+    // (perf) Remove scenes with same index or staled scene
+    const scenes = props.scenes.filter((scene, i) => {
+      if (scene.isStale) return false
+      return !props.scenes.slice(i + 1).find(({ index }) => {
+        return scene.index === index
+      })
+    })
+    // Render all scenes with floatingHeader
     return (
       <View style={styles.container}>
         <View style={styles.scenes}>
-          {props.scenes.map((scene, index) => this.renderCard({
+          {scenes.map((scene, index) => this.renderCard({
             ...props,
             scene,
             index,
