@@ -1,6 +1,6 @@
 import React, { PropTypes, Component, createElement } from 'react'
 import { View, Text } from 'react-native'
-import { normalizeRoute } from './../utils'
+import normalizeRoute from './../normalizeRoute'
 
 export const componentFactory = (message) => ({ match: { params } }) => (
   <Text>{params.id || params.slug || message}</Text>

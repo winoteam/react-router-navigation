@@ -8,7 +8,10 @@ import { matchPath, withRouter } from 'react-router'
 import type { RouterHistory } from 'react-router'
 import isEqual from 'lodash.isequal'
 import type { CardRendererProps, NavigationState, Cards, CardProps } from './TypeDefinitions'
-import { getCurrentRoute, buildStack, normalizeRoute, shouldStackUpdate } from './utils'
+import getCurrentRoute from './getCurrentRoute'
+import buildStack from './buildStack'
+import normalizeRoute from './normalizeRoute'
+import shouldStackUpdate from './shouldStackUpdate'
 
 type State = {
   navigationState: NavigationState,

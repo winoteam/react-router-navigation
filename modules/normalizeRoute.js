@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { Route } from './../TypeDefinitions'
+import type { Route } from './TypeDefinitions'
 
 /**
  * Normalize route

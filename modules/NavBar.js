@@ -6,7 +6,7 @@ import HeaderTitle from 'react-navigation/src/views/HeaderTitle'
 import type { NavigationTransitionProps } from 'react-navigation/src/TypeDefinition'
 import type { CardRendererProps } from './TypeDefinitions'
 import BackButton from './BackButton'
-import { getCurrentCard } from './utils'
+import getCurrentCard from './getCurrentCard'
 
 type RendererProps = CardRendererProps & NavigationTransitionProps
 

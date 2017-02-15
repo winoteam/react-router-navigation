@@ -6,7 +6,9 @@ import { Component } from 'react'
 import { withRouter } from 'react-router'
 import type { RouterHistory } from 'react-router'
 import type { NavigationState, TabRendererProps, Tabs, TabProps } from './TypeDefinitions'
-import { getCurrentRoute, buildStack, normalizeRoute } from './utils'
+import getCurrentRoute from './getCurrentRoute'
+import buildStack from './buildStack'
+import normalizeRoute from './normalizeRoute'
 
 type Props = {
   children: Array<React$Element<TabProps>>,

@@ -3,7 +3,7 @@
 
 import { matchPath } from 'react-router'
 import type { Location } from 'react-router'
-import type { Route } from './../TypeDefinitions'
+import type { Route } from './TypeDefinitions'
 
 export default function getCurrentRoute(
   stack: Array<Object>,

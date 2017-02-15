@@ -8,7 +8,7 @@ import type { NavigationProps, CardRendererProps } from './TypeDefinitions'
 import CardStack from './CardStack'
 import DefaultRenderer from './DefaultRenderer'
 import NavBar from './NavBar'
-import { getCurrentCard } from './utils'
+import getCurrentCard from './getCurrentCard'
 
 type SceneRendererProps = CardRendererProps & NavigationTransitionProps
 
