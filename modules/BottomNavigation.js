@@ -11,7 +11,6 @@ import { TabViewAnimated, TabViewPagerPan, TabBarTop } from 'react-native-tab-vi
 import type { Scene, SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
 import TabStack from './TabStack'
-import TabViewPagerNavigator from './TabViewPagerNavigator'
 import BottomNavigationBar from './BottomNavigationBar'
 
 const styles = StyleSheet.create({
@@ -45,9 +44,12 @@ class BottomNavigation extends Component<void, Props, State> {
   }
 
   renderPager = (sceneRendererProps: SceneRendererProps): React$Element<any> => {
-    return Platform.OS === 'android'
-      ? <TabViewPagerNavigator {...sceneRendererProps} />
-      : <TabViewPagerPan {...sceneRendererProps} swipeEnabled={false} />
+    return (
+      <TabViewPagerPan
+        {...sceneRendererProps}
+        swipeEnabled={false}
+      />
+    )
   }
 
   renderNavigationBar = (props: TabBarProps & SceneRendererProps & TabRendererProps): React$Element<any> => {
