@@ -64,6 +64,7 @@ class NavBar extends Component<void, Props, void> {
     const navBarProps = { ...props, ...card }
     // Render cusqtom right component
     const { renderRightButton } = navBarProps
+    // $FlowFixMe
     if (renderRightButton) return renderRightButton(navBarProps)
     // Else return null =)
     return null
@@ -84,6 +85,7 @@ class NavBar extends Component<void, Props, void> {
     }
     // Return <ReactNavigation.Header /> component
     return (
+      // $FlowFixMe
       <Header
         {...navBarProps}
         mode={Platform.OS === 'ios' ? 'float' : 'screen'}

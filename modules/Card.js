@@ -29,7 +29,6 @@ class Card extends Component<void, Props, State> {
     if (this.state.pathname === pathname || !this.state.match) {
       this.state.match = match
     }
-    // Build props ($FlowFixMe)
     const { render, children, component, isTransitioning, isFocused } = this.props
     const routeProps = {
       ...props,

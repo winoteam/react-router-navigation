@@ -8,7 +8,7 @@ import Card from 'react-navigation/src/views/Card'
 import CardStackPanResponder from 'react-navigation/src/views/CardStackPanResponder'
 import TransitionConfigs from 'react-navigation/src/views/TransitionConfigs'
 import type { TransitionConfig } from 'react-navigation/src/views/TransitionConfigs'
-import type { NavigationTransitionProps } from 'react-navigation/src/TypeDefinitions'
+import type { NavigationTransitionProps } from 'react-navigation/src/TypeDefinition'
 import type { CardRendererProps } from './TypeDefinitions'
 
 const NativeAnimatedModule = NativeModules && NativeModules.NativeAnimatedModule
@@ -64,6 +64,7 @@ class Navigation extends Component<void, Props, State> {
     return TransitionConfigs.defaultTransitionConfig(
       transitionProps,
       prevTransitionProps,
+      false,
     )
   }
 
@@ -71,7 +72,7 @@ class Navigation extends Component<void, Props, State> {
     this.setState({ isTransitioning: false })
   }
 
-  renderInnerCard = (props: SceneRendererProps): React$Element<any> => {
+  renderInnerCard = (props: SceneRendererProps): ?React$Element<any> => {
     const { scene, index } = props
     // Get card state
     if (scene && scene.isActive && index !== this.state.index) {
@@ -82,19 +83,23 @@ class Navigation extends Component<void, Props, State> {
       isFocused: scene.isActive,
       isTransitioning: this.state.isTransitioning,
     }
+    // Build scene view
+    const SceneView = this.props.renderScene(props)
+    if (!SceneView) return null
     // Render card
     if (Platform.OS === 'android') {
       return (
         <View style={{ flex: 1 }}>
           {Platform.OS === 'android' && this.props.renderHeader(props)}
-          {cloneElement(this.props.renderScene(props), cardState)}
+          {cloneElement(SceneView, cardState)}
         </View>
       )
     }
-    return cloneElement(this.props.renderScene(props), cardState)
+    return cloneElement(SceneView, cardState)
   }
 
   renderCard = (props: SceneRendererProps): React$Element<any> => {
+    // @TODO $FlowFixMe
     const { screenInterpolator } = this.getTransitionConfig()
     const style = screenInterpolator && screenInterpolator(props)
     const panHandlersProps = {
@@ -122,7 +127,6 @@ class Navigation extends Component<void, Props, State> {
       : null
     // (perf) Remove scenes with same index or staled scene
     const scenes = props.scenes.filter((scene, i) => {
-      if (scene.isStale) return false
       return !props.scenes.slice(i + 1).find(({ index }) => {
         return scene.index === index
       })

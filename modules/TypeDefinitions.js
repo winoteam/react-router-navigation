@@ -1,30 +1,36 @@
 /* @flow */
 /* eslint no-use-before-define: 0 */
 
-import type { ContextRouter } from 'react-router'
 import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
+import type { NavigationParams, NavigationSceneRendererProps } from 'react-navigation/src/TypeDefinition'
 
 export type Route = {
   key: string,
 }
 
-export type NavigationState = {
+export type NavigationState<ExtraRoute> = {
   index: number,
-  routes: Array<Route>,
+  routes: Array<Route & ExtraRoute>
 }
 
 export type RouteProps = {
   component?: ReactClass<any>,
-  render?: (router: ContextRouter) => React$Element<any>,
-  children?: (router: ContextRouter) => React$Element<any>,
+  render?: (props: any) => React$Element<any>,
+  children?: (props: any) => React$Element<any>,
   path: string,
-  exact?: bool,
-  strict?: bool,
+  exact?: boolean,
+  strict?: boolean
 }
 
 /**
  * Navigation
  */
+
+export type CardRoute = {
+  routeName: string,
+  path?: string,
+  params?: NavigationParams,
+}
 
 export type CardState = {
   isFocused: boolean,
@@ -40,7 +46,7 @@ export type NavBarProps = {
   navBarStyle?: StyleSheet,
   // Left button
   hideBackButton?: boolean,
-  backButtonStyle: "default" | "light" | "dark",
+  backButtonStyle: 'default' | 'light' | 'dark',
   renderLeftButton: (
     props: CardRendererProps & NavigationSceneRendererProps
   ) => React$Element<any>,
@@ -62,17 +68,21 @@ export type Card =
   & RouteProps
   & NavBarProps
   & {
-    key: string
+    key: string,
+    component?: ReactClass<any>,
+    render?: (props: NavigationSceneRendererProps & CardRendererProps) => React$Element<any>,
+    children?: (props: NavigationSceneRendererProps & CardRendererProps) => React$Element<any>,
   }
 
 export type Cards = Array<Card>
 
 export type CardRendererProps = {
-  +onNavigateBack: Function,
-  +navigationState: NavigationState,
-  +cards: Cards
+  onNavigateBack: Function,
+  navigationState: NavigationState<CardRoute>,
+  cards: Cards
 }
 
+/**
 export type TabBarProps = {
   renderTabBar: (
     props: TabBarProps & SceneRendererProps & TabRendererProps

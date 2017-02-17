@@ -3,9 +3,8 @@
 
 import { Children, cloneElement } from 'react'
 import { Platform } from 'react-native'
-import type { CardProps, TabProps } from './TypeDefinitions'
 
-export default function buildStack<Item: CardProps | TabProps>(
+export default function buildStack<Item>(
   children: Array<React$Element<Item>>
 ): Array<Item & { key: string }> {
   return Children.toArray(children).reduce((stack, child) => {

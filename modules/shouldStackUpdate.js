@@ -12,20 +12,21 @@ export default function (
   nextRouterHistory: RouterHistory,
 ): boolean {
   const { location: currentLocation } = currentRouterHistory
-  const { entries, location: nextLocation, index } = nextRouterHistory
+  const { entries, index, location: nextLocation } = nextRouterHistory
   if (entries === undefined || index === undefined) return false
+  // Get entries and matchers
   const previousEntry = entries[index - 1]
   const currentEntry = entries[index]
   const nextEntry = entries[index + 1]
   const matchCurrentRoute = matchPath(nextLocation.pathname, currentCard.path, currentCard)
   const matchNextRoute = matchPath(nextLocation.pathname, nextCard.path, nextCard)
   return (
-    // URL changes
+    // Test if pathame are different
     (currentLocation.pathname !== nextLocation.pathname) &&
     // case 1) basic pathname
     ((currentCard.key !== nextCard.key) ||
     // case 2) Pathname with query params
-    // Ex: with same path article/:id,
+    // ex: with same path article/:id,
     //     pathname article/2 !== article/3
     (matchCurrentRoute !== null && matchNextRoute !== null &&
      Object.keys(matchCurrentRoute.params).length !== 0 &&

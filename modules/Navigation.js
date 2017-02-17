@@ -3,7 +3,7 @@
 /* eslint react/no-children-prop: 0 */
 
 import React, { Component, createElement } from 'react'
-import type { NavigationSceneRendererProps } from 'react-navigation/src/TypeDefinitions'
+import type { NavigationSceneRendererProps } from 'react-navigation/src/TypeDefinition'
 import type { NavBarProps, CardRendererProps } from './TypeDefinitions'
 import CardStack from './CardStack'
 import DefaultRenderer from './DefaultRenderer'
@@ -14,6 +14,7 @@ type SceneRendererProps = CardRendererProps & NavigationSceneRendererProps
 
 type Props = NavBarProps & {
   children: Array<React$Element<any>>,
+  render: (props: SceneRendererProps) => React$Element<any>,
 }
 
 class Navigation extends Component<void, Props, void> {
@@ -21,6 +22,7 @@ class Navigation extends Component<void, Props, void> {
   props: Props
 
   renderHeader = (props: SceneRendererProps): ?React$Element<any> => {
+    // $FlowFixMe
     return <NavBar {...props} />
   }
 
