@@ -1,8 +1,7 @@
 import React from 'react'
-import { StatusBar, View, Text } from 'react-native'
+import { View, Text } from 'react-native'
 import { Route, Redirect } from 'react-router'
 import { Tabs, Tab } from 'react-router-navigation'
-import { BRAND_COLOR_60 } from '@ressources/theme'
 import styles from './styles'
 
 const Profile = () => (
@@ -16,10 +15,6 @@ const Profile = () => (
       path="/app/profile/(likes|bookmarks)"
       render={() => (
         <View style={styles.container}>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor={BRAND_COLOR_60}
-          />
           <Tabs
             tabBarStyle={styles.tabBar}
             tabBarIndicatorStyle={styles.indicatorStyle}

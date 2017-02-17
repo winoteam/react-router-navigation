@@ -1,17 +1,12 @@
 import React from 'react'
-import { StatusBar, View } from 'react-native'
+import { View } from 'react-native'
 import { Navigation, Card } from 'react-router-navigation'
-import { BRAND_COLOR_60 } from '@ressources/theme'
 import List from './components/List'
 import Article from './components/Article'
 import styles from './styles'
 
 const Feed = () => (
   <View style={styles.container}>
-    <StatusBar
-      barStyle="light-content"
-      backgroundColor={BRAND_COLOR_60}
-    />
     <Navigation>
       <Card
         exact
