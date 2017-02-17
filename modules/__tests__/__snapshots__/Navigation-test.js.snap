@@ -23,6 +23,8 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "go" action is 
           Index
         </Text>
       </Card>
+      <Card />
+      <Card />
     </View>
   </View>
 </View>
@@ -52,6 +54,7 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "goBack" action
           Index
         </Text>
       </Card>
+      <Card />
     </View>
   </View>
 </View>

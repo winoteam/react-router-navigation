@@ -24,7 +24,7 @@ export default function (
     // Test if pathame are different
     (currentLocation.pathname !== nextLocation.pathname) &&
     // case 1) basic pathname
-    ((currentCard.key !== nextCard.key) ||
+    ((currentCard.path !== nextCard.path) ||
     // case 2) Pathname with query params
     // ex: with same path article/:id,
     //     pathname article/2 !== article/3

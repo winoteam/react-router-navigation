@@ -97,7 +97,7 @@ export type TabBarProps = {
   ) => React$Element<any>,
   label?: string,
   labelStyle?:
-    | ((props: Tab & { isActive: boolean, pathname: string }) => StyleSheet)
+    ((props: Tab & { isActive: boolean, pathname: string }) => StyleSheet)
     | StyleSheet,
   // <BottomNavigation /> only
   renderTabIcon?: (

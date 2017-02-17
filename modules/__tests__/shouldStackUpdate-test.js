@@ -3,8 +3,8 @@ import shouldStackUpdate from './../shouldStackUpdate'
 
 describe('shouldStackUpdate() util', () => {
   it('shouldStackUpdate() returns true when paths are different', () => {
-    const currentCard = { key: '/foo' }
-    const nextCard = { key: '/bar' }
+    const currentCard = { path: '/foo' }
+    const nextCard = { path: '/bar' }
     const currentRouterHistory = createHistory({
       initialEntries: ['/foo'],
     })
@@ -16,8 +16,8 @@ describe('shouldStackUpdate() util', () => {
     expect(input).toBeTruthy()
   })
   it('shouldStackUpdate() returns false when paths are equal', () => {
-    const currentCard = { key: '/foo' }
-    const nextCard = { key: '/foo' }
+    const currentCard = { path: '/foo' }
+    const nextCard = { path: '/foo' }
     const currentRouterHistory = createHistory({
       initialEntries: ['/foo'],
     })
@@ -29,8 +29,8 @@ describe('shouldStackUpdate() util', () => {
     expect(input).toBeFalsy()
   })
   it('shouldStackUpdate() returns true when paths (with params) are equal and pathnames are different (1)', () => {
-    const currentCard = { key: '/article/:id' }
-    const nextCard = { key: '/article/:id' }
+    const currentCard = { path: '/article/:id' }
+    const nextCard = { path: '/article/:id' }
     const currentRouterHistory = createHistory({
       initialIndex: 1,
       initialEntries: ['/article/1', '/article/2'],
@@ -42,8 +42,8 @@ describe('shouldStackUpdate() util', () => {
     expect(input).toBeTruthy()
   })
   it('shouldStackUpdate() returns true when paths (with params) are equal and pathnames are different (2)', () => {
-    const currentCard = { key: '/article/:id' }
-    const nextCard = { key: '/article/:id' }
+    const currentCard = { path: '/article/:id' }
+    const nextCard = { path: '/article/:id' }
     const currentRouterHistory = createHistory({
       initialEntries: ['/article1'],
     })
@@ -55,8 +55,8 @@ describe('shouldStackUpdate() util', () => {
     expect(input).toBeTruthy()
   })
   it('shouldStackUpdate() returns false when paths (without params) are equal and pathname are different', () => {
-    const currentCard = { key: '/app' }
-    const nextCard = { key: '/app' }
+    const currentCard = { path: '/app' }
+    const nextCard = { path: '/app' }
     const currentRouterHistory = createHistory({
       initialEntries: ['/app'],
     })
