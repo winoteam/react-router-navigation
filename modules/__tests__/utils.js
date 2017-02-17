@@ -1,6 +1,5 @@
 import React, { PropTypes, Component, createElement } from 'react'
 import { View, Text } from 'react-native'
-import normalizeRoute from './../normalizeRoute'
 
 export const componentFactory = (message) => ({ match: { params } }) => (
   <Text>{params.id || params.slug || message}</Text>
@@ -8,12 +7,12 @@ export const componentFactory = (message) => ({ match: { params } }) => (
 
 export const CardView = ({ navigationState, cards }) => {
   const route = navigationState.routes[navigationState.index]
-  const card = cards.find(({ key }) => key === normalizeRoute(route).key)
+  const card = cards.find(({ path }) => path === route.routeName)
   return createElement(card.render, { key: route.key })
 }
 
 export const TabView = ({ navigationState, tabs, onRequestChangeTab }) => {
   const route = navigationState.routes[navigationState.index]
-  const tab = tabs.find(({ key }) => key === route.key)
+  const tab = tabs.find(({ path }) => path === route.routeName)
   return createElement(tab.render, { key: route.key })
 }

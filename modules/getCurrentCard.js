@@ -1,10 +1,9 @@
 /* @flow */
 
-import type { Route, Cards, Card } from './TypeDefinitions'
-import normalizeRoute from './normalizeRoute'
+import type { Route, Cards, Card, CardRoute } from './TypeDefinitions'
 
-export default function getCurrentCard(cards: Cards, route: Route): ?Card {
+export default function getCurrentCard(cards: Cards, route: Route & CardRoute): ?Card {
   return cards.find((card) => {
-    return normalizeRoute(route).key === card.key
+    return route.routeName === card.key
   })
 }

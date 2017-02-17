@@ -2,7 +2,7 @@ import getCurrentCard from './../getCurrentCard'
 
 describe('getCurrentCard() util', () => {
   it('getCurrentCard() works correctly', () => {
-    const route = { key: '/index@@h9208990' }
+    const route = { key: '/index@@h9208990', routeName: '/index' }
     const currentCard = {
       key: '/index',
       title: 'Index',

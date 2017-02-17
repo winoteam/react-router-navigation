@@ -6,14 +6,13 @@ import { BackAndroid } from 'react-native'
 import { StateUtils } from 'react-navigation'
 import { matchPath, withRouter } from 'react-router'
 import type { RouterHistory } from 'react-router'
-import type { CardRendererProps, NavigationState, Cards, CardProps } from './TypeDefinitions'
+import type { CardRendererProps, NavigationState, Cards, CardProps, CardRoute } from './TypeDefinitions'
 import getCurrentRoute from './getCurrentRoute'
 import buildStack from './buildStack'
-import normalizeRoute from './normalizeRoute'
 import shouldStackUpdate from './shouldStackUpdate'
 
 type State = {
-  navigationState: NavigationState,
+  navigationState: NavigationState<CardRoute>,
   cards: Cards,
 }
 
@@ -45,7 +44,10 @@ class CardStack extends Component<void, Props, State> {
         index: matchPath(location.pathname, card.path, card)
           ? state.routes.length
           : state.index,
-        routes: [...state.routes, { key: card.key }],
+        routes: [
+          ...state.routes,
+          { key: card.key, routeName: card.path },
+        ],
       }
     }, { index: -1, routes: [] })
     // Save everything in component state
@@ -67,8 +69,8 @@ class CardStack extends Component<void, Props, State> {
     const { cards, navigationState } = this.state
     const { action, location, index } = nextProps
     // Get current card
-    const currentRoute = normalizeRoute(navigationState.routes[navigationState.index])
-    const currentCard = cards.find(({ key }) => key === currentRoute.key)
+    const currentRoute = navigationState.routes[navigationState.index]
+    const currentCard = cards.find(({ key }) => key === currentRoute.routeName)
     // Get next card
     const nextRoute = getCurrentRoute(cards, location)
     if (!nextRoute) return
@@ -79,12 +81,13 @@ class CardStack extends Component<void, Props, State> {
       shouldStackUpdate(currentCard, nextCard, this.props, nextProps)
     ) {
       const key = `${nextRoute.key}@@${Date.now()}`
+      const routeName = nextRoute.key
       switch (action) {
         case 'PUSH': {
           this.setState({
             navigationState: StateUtils.push(
               navigationState,
-              { key },
+              { key, routeName },
             ),
           })
           break
@@ -115,7 +118,7 @@ class CardStack extends Component<void, Props, State> {
             navigationState: StateUtils.replaceAtIndex(
               navigationState,
               navigationState.index,
-              { key },
+              { key, routeName },
             ),
           })
           break

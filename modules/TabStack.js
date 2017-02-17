@@ -8,7 +8,6 @@ import type { RouterHistory } from 'react-router'
 import type { NavigationState, TabRendererProps, Tabs, TabProps } from './TypeDefinitions'
 import getCurrentRoute from './getCurrentRoute'
 import buildStack from './buildStack'
-import normalizeRoute from './normalizeRoute'
 
 type Props = {
   children: Array<React$Element<TabProps>>,
@@ -37,7 +36,10 @@ class TabStack extends Component<void, Props, State> {
     const currentRoute = getCurrentRoute(tabs, location)
     if (!currentRoute) throw new Error('No route found !')
     // Build navigation state
-    const routes = tabs.map(({ key }) => ({ key }))
+    const routes = tabs.map((route) => ({
+      key: route.key,
+      routeName: route.path,
+    }))
     const index = routes.findIndex(({ key }) => currentRoute.key === key)
     const navigationState = { index, routes }
     // Save everything
@@ -48,9 +50,9 @@ class TabStack extends Component<void, Props, State> {
   componentWillReceiveProps(nextProps): void {
     // Get current route
     const { action, location } = nextProps
-    const { navigationState, tabs } = this.state
+    const { navigationState: { routes, index }, tabs } = this.state
     // Get current tab
-    const currentRoute = normalizeRoute(navigationState.routes[navigationState.index])
+    const currentRoute = routes[index]
     const currentTab = tabs.find(({ key }) => key === currentRoute.key)
     // Get next tab
     const nextRoute = getCurrentRoute(tabs, location)
@@ -58,13 +60,13 @@ class TabStack extends Component<void, Props, State> {
     const nextTab = tabs.find(({ key }) => key === nextRoute.key)
     // Update navigation state
     if (currentTab && nextTab && (currentTab.key !== nextTab.key) && action === 'REPLACE') {
-      const index = navigationState.routes.findIndex(({ key }) => key === nextRoute.key)
-      this.setState({
+      const nextIndex = routes.findIndex(({ key }) => key === nextRoute.key)
+      this.setState(({ navigationState }) => ({
         navigationState: {
           ...navigationState,
-          index,
+          index: nextIndex,
         },
-      })
+      }))
     }
   }
 
