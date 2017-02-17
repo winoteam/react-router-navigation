@@ -21,6 +21,4 @@ const Tab = (props: Props) => {
   )
 }
 
-Tab.displayName = 'Tab'
-
 export default Tab

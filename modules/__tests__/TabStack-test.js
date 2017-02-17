@@ -1,5 +1,6 @@
+import './mocks'
 import React from 'react'
-import { View } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Router, Switch, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
@@ -59,9 +60,9 @@ it('<TabStack /> re-renders correctly when onRequestChangeTab() method is called
   const component = renderer.create(
     <Router history={history}>
       <TabStack render={({ navigationState, onRequestChangeTab, tabs }) => (
-        <View onPress={onRequestChangeTab}>
+        <TouchableOpacity onPress={onRequestChangeTab}>
           {TabView({ navigationState, onRequestChangeTab, tabs })}
-        </View>
+        </TouchableOpacity>
       )}>
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />

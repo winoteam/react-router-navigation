@@ -83,31 +83,44 @@ export type CardRendererProps = {
 }
 
 /**
+ * Tabs
+ */
+
+export type TabRoute = {
+  title?: string,
+  testID?: string,
+}
+
 export type TabBarProps = {
   renderTabBar: (
     props: TabBarProps & SceneRendererProps & TabRendererProps
   ) => React$Element<any>,
   label?: string,
-  labelStyle?: ((props: Tab & { isActive: boolean, pathname: string, }) => StyleSheet) | StyleSheet,
+  labelStyle?:
+    | ((props: Tab & { isActive: boolean, pathname: string }) => StyleSheet)
+    | StyleSheet,
   // <BottomNavigation /> only
   renderTabIcon?: (
-    props: TabBarProps & SceneRendererProps & TabRendererProps,
+    props: TabBarProps & SceneRendererProps & TabRendererProps
   ) => React$Element<any>,
   // <Tabs /> only
-  tabBarIndicatorStyle?: StyleSheet,
+  tabBarIndicatorStyle?: StyleSheet
 }
 
 export type TabProps = RouteProps & TabBarProps
 
-export type Tab = TabProps & {
-  key: string,
-}
+export type Tab =
+  & RouteProps
+  & TabBarProps
+  & TabProps
+  & {
+    key: string
+  }
 
 export type Tabs = Array<Tab>
 
 export type TabRendererProps = {
   onRequestChangeTab: (index: number) => void,
-  navigationState: NavigationState,
-  tabs: Tabs,
-  tab: Tab,
+  navigationState: NavigationState<TabRoute>,
+  tabs: Tabs
 }

@@ -87,7 +87,7 @@ class BottomNavigationBar extends Component<void, Props, State> {
 
   onRequestChangeTab = (index: number): void => {
     const { tabItems } = this.state
-    const { navigationState, location, replace, onResetTab } = this.props
+    const { navigationState, location, replace } = this.props
     // Get current tab and update its pathname
     const currentTab = tabItems[navigationState.index]
     currentTab.pathname = location.pathname
@@ -96,8 +96,6 @@ class BottomNavigationBar extends Component<void, Props, State> {
     const tab = tabItems[index]
     // Update history
     replace(tab.pathname)
-    // Reset tab
-    if (navigationState.index === index && onResetTab) onResetTab(index)
     // Update state
     const nextTabItems = tabItems.map((tabItem, i) => ({
       ...tabItem,
@@ -129,7 +127,8 @@ class BottomNavigationBar extends Component<void, Props, State> {
             >
               <View style={styles.item}>
                 {(this.props.renderTabIcon || item.renderTabIcon) && (
-                  this.props.renderTabIcon(item) || item.renderTabIcon(item)
+                  // $FlowFixMe
+                  item && (this.props.renderTabIcon(item) || item.renderTabIcon(item))
                 )}
                 {(this.props.label || item.label) &&
                   <Text style={[styles.label, item.isActive && styles.activeLabel, tabsLabelStyle, tabLabelStyle]}>

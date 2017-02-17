@@ -9,7 +9,7 @@ import React, { PropTypes, Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Platform, View, Text } from 'react-native'
 import { TabViewAnimated, TabViewPagerPan, TabBarTop } from 'react-native-tab-view'
 import type { Scene, SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
+import type { TabProps, TabBarProps, TabRendererProps } from './TypeDefinitions'
 import TabStack from './TabStack'
 import BottomNavigationBar from './BottomNavigationBar'
 
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 })
 
 type Props = TabBarProps & {
-  children: Array<React$Element<any>>,
+  children: Array<React$Element<TabProps>>,
   containerStyle?: StyleSheet,
   style?: StyleSheet,
 }
@@ -57,9 +57,9 @@ class BottomNavigation extends Component<void, Props, State> {
     const route = routes[index]
     const tab = tabs.find(({ key }) => key === route.key)
     // Custom tab bar
-    if (props.renderTabBar || tab.renderTabBar) {
+    if (props.renderTabBar || (tab && tab.renderTabBar)) {
       return createElement(
-        props.renderTabBar || tab.renderTabBar,
+        props.renderTabBar || (tab && tab.renderTabBar),
         props,
       )
     }
@@ -72,6 +72,7 @@ class BottomNavigation extends Component<void, Props, State> {
     )
   }
 
+  // $FlowFixMe
   renderScene = (props: TabBarProps & SceneRendererProps & TabRendererProps & Scene): ?React$Element<any> => {
     const { tabs, navigationState, route } = props
     const { scenesRendered } = this.state

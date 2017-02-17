@@ -5,17 +5,17 @@
 import { Component } from 'react'
 import { withRouter } from 'react-router'
 import type { RouterHistory } from 'react-router'
-import type { NavigationState, TabRendererProps, Tabs, TabProps } from './TypeDefinitions'
+import type { NavigationState, TabRendererProps, Tabs, TabRoute, TabProps } from './TypeDefinitions'
 import getCurrentRoute from './getCurrentRoute'
 import buildStack from './buildStack'
 
-type Props = {
+type Props = RouterHistory & {
   children: Array<React$Element<TabProps>>,
   render: (props: TabRendererProps) => React$Element<any>,
-} & RouterHistory
+}
 
 type State = {
-  navigationState: NavigationState,
+  navigationState: NavigationState<TabRoute>,
   tabs: Tabs,
 }
 
@@ -24,12 +24,10 @@ class TabStack extends Component<void, Props, State> {
   props: Props
   state: State
 
-  static displayName = 'TabStack'
-
   // Initialyze navigation state with initial history
   constructor(props: Props): void {
     super(props)
-    // Build the tab stack
+    // Build the tab stack ($FlowFixMe)
     const { children, location } = props
     const tabs = buildStack(children)
     // Get initial route

@@ -5,7 +5,7 @@
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
-import type { SceneRendererProps, Scene } from 'react-native-tab-view/src/TabViewTypeDefinitions'
+import type { SceneRendererProps as TabSceneRendererProps, Scene } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
 import TabStack from './TabStack'
 
@@ -23,38 +23,44 @@ const styles = StyleSheet.create({
   },
 })
 
+type SceneRendererProps = TabSceneRendererProps & TabRendererProps
+
 type Props = TabBarProps & {
   children: Array<React$Element<any>>,
-  containerStyle?: StyleSheet,
-  style?: StyleSheet,
-  tabBarStyle?: StyleSheet,
-  tabBarIndicatorStyle?: StyleSheet,
 }
 
 class Tabs extends Component<void, Props, void> {
 
   props: Props
 
-  renderHeader = (props: TabBarProps & SceneRendererProps & TabRendererProps): React$Element<any> => {
+  renderHeader = (props: SceneRendererProps): React$Element<any> => {
     const { tabs, navigationState: { routes, index } } = props
     // Get current tab
     const tab = tabs.find(({ key }) => routes[index].key === key)
+    // Get tab bar props
+    const tabBarProps = { ...this.props, ...props, ...tab }
     // Custom tab bar
-    if (props.renderTabBar || (tab && tab.renderTabBar)) {
+    if (tabBarProps.renderTabBar) {
       return createElement(
-        props.renderTabBar || tab.renderTabBar,
-        props,
+        tabBarProps.renderTabBar,
+        tabBarProps,
       )
     }
     return (
       <TabBar
-        {...props}
-        style={props.tabBarStyle}
-        indicatorStyle={props.tabBarIndicatorStyle || (tab && tab.renderTabBar)}
+        {...tabBarProps}
+        style={tabBarProps.tabBarStyle}
+        indicatorStyle={tabBarProps.tabBarIndicatorStyle}
         renderLabel={({ route }) => {
           const currentTab = tabs.find(({ key }) => route.key === key)
           return (
-            <Text style={[styles.tabLabel, props.labelStyle, currentTab && currentTab.labelStyle]}>
+            <Text
+              style={[
+                styles.tabLabel,
+                tabBarProps.labelStyle,
+                currentTab && currentTab.labelStyle,
+              ]}
+            >
               {currentTab && currentTab.label}
             </Text>
           )
@@ -63,25 +69,30 @@ class Tabs extends Component<void, Props, void> {
     )
   }
 
-  renderScene = (props: TabBarProps & SceneRendererProps & TabRendererProps & { scene: Scene }): ?React$Element<any> => {
+  renderScene = (props: SceneRendererProps & Scene): ?React$Element<any> => {
+    // Get tab
     const { tabs, route } = props
-    const currentTab = tabs.find((tab) => tab.key === route.key)
-    if (!currentTab) return null
-    return createElement(currentTab.component || currentTab.render)
+    const tab = tabs.find(({ key }) => key === route.key)
+    if (!tab) return null
+    // Render view
+    if (tab.render) return tab.render(props)
+    else if (tab.children) return tab.children(props)
+    else if (tab.component) return createElement(tab.component, props)
+    return null
   }
 
   render(): React$Element<any> {
     return (
       <TabStack
         {...this.props}
-        style={[styles.container, this.props.containerStyle]}
+        style={styles.container}
         render={(props) => (
           <TabViewAnimated
             {...props}
-            style={[styles.container, this.props.style]}
+            style={styles.container}
             initialLayout={Dimensions.get('window')}
-            renderHeader={(ownProps) => this.renderHeader({ ...this.props, ...props, ...ownProps })}
-            renderScene={(ownProps) => this.renderScene({ ...this.props, ...props, ...ownProps })}
+            renderHeader={(ownProps) => this.renderHeader({ ...props, ...ownProps })}
+            renderScene={({ ...ownProps }) => this.renderScene({ ...props, ...ownProps })}
           />
         )}
       />

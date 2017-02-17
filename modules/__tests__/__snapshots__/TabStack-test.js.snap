@@ -1,59 +1,41 @@
 exports[`test <TabStack /> re-renders correctly when "replace" action is called 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Index
 </Text>
 `;
 
 exports[`test <TabStack /> re-renders correctly when "replace" action is called 2`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Hello
 </Text>
 `;
 
 exports[`test <TabStack /> re-renders correctly when onRequestChangeTab() method is called 1`] = `
-<View
+<TouchableOpacity
   onPress={[Function]}>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail">
+  <Text>
     Index
   </Text>
-</View>
+</TouchableOpacity>
 `;
 
 exports[`test <TabStack /> re-renders correctly when onRequestChangeTab() method is called 2`] = `
-<View
+<TouchableOpacity
   onPress={[Function]}>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail">
+  <Text>
     Goodbye
   </Text>
-</View>
+</TouchableOpacity>
 `;
 
 exports[`test <TabStack /> renders correctly 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Index
 </Text>
 `;
 
 exports[`test <TabStack /> renders correctly with initialEntries prop  1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail">
+<Text>
   Hello
 </Text>
 `;
