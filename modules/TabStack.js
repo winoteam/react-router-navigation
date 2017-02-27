@@ -1,6 +1,5 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
-/* eslint no-lonely-if: 0 */
 
 import { Component } from 'react'
 import { withRouter } from 'react-router'

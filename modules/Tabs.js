@@ -1,6 +1,4 @@
 /* @flow */
-/* eslint max-len: 0 */
-/* eslint react/no-unused-prop-types: 0 */
 
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'

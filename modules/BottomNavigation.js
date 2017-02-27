@@ -1,9 +1,4 @@
 /* @flow */
-/* eslint react/no-unused-prop-types: 0 */
-/* eslint no-unused-vars: 0 */
-/* eslint max-len: 0 */
-/* eslint object-property-newline: 0 */
-/* eslint no-confusing-arrow: 0 */
 
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Platform, View, Text } from 'react-native'

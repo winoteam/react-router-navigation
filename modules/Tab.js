@@ -1,5 +1,4 @@
 /* @flow */
-/* eslint react/no-unused-prop-types: 0 */
 
 import React from 'react'
 import { Route } from 'react-router'

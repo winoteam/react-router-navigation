@@ -1,7 +1,5 @@
 /* @flow */
 /* eslint new-cap: 0 */
-/* eslint max-len: 0 */
-/* eslint no-duplicate-imports: 0 */
 
 import React from 'react'
 import { TouchableWithoutFeedback, TouchableNativeFeedback, StyleSheet, Platform, Dimensions, PixelRatio, View, Text } from 'react-native'
