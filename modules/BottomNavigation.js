@@ -1,10 +1,10 @@
 /* @flow */
 
 import React, { Component, createElement } from 'react'
-import { StyleSheet, Dimensions, Platform, View, Text } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { withRouter } from 'react-router'
-import { TabViewAnimated, TabViewPagerPan, TabBarTop } from 'react-native-tab-view'
-import type { Scene, SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
+import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
+import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type { TabProps, TabBarProps, TabRendererProps } from './TypeDefinitions'
 import StackUtils from './StackUtils'
 import TabStack from './TabStack'
@@ -38,13 +38,6 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
     lazy: true,
   }
 
-  onRequestChangeTab = (index: number): void => {
-    // Reset
-    // const { history } = this.context
-    // const { params, pathname } = history.location
-    // history.replace(pathname, { ...params, reset: true })
-  }
-
   renderPager = (sceneRendererProps: SceneRendererProps): React$Element<any> => (
     <TabViewPagerPan
       {...sceneRendererProps}
@@ -54,7 +47,7 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
 
   renderNavigationBar = (props: TabSceneRendererProps): React$Element<any> => {
     // $FlowFixMe
-    const { tabs, navigationState: { routes, index }, ...sceneRendererProps } = props
+    const { tabs, navigationState: { routes, index }, onRequestChangeTab } = props
     const route = routes[index]
     const tab = StackUtils.get(tabs, route)
     const tabBarProps = { ...this.props, ...props, ...tab }
@@ -69,7 +62,7 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
     return (
       <BottomNavigationBar
         {...tabBarProps}
-        onRequestChangeTab={this.onRequestChangeTab}
+        onRequestChangeTab={onRequestChangeTab}
       />
     )
   }
