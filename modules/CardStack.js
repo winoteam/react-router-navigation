@@ -3,13 +3,11 @@
 
 import { Component } from 'react'
 import { BackAndroid } from 'react-native'
-import { StateUtils } from 'react-navigation'
 import { matchPath, withRouter } from 'react-router'
+import { StateUtils } from 'react-navigation'
 import type { RouterHistory } from 'react-router'
 import type { CardRendererProps, NavigationState, Cards, CardProps, CardRoute } from './TypeDefinitions'
-import getCurrentRoute from './getCurrentRoute'
-import buildStack from './buildStack'
-import shouldStackUpdate from './shouldStackUpdate'
+import StackUtils from './StackUtils'
 
 type State = {
   navigationState: NavigationState<CardRoute>,
@@ -31,7 +29,7 @@ class CardStack extends Component<void, Props, State> {
     super(props)
     // Build the card stack ($FlowFixMe
     const { children, entries, location } = props
-    const cards = children && buildStack(children)
+    const cards = children && StackUtils.build(children)
     // Get initial route of navigation state
     if (!entries) throw new Error('No history entries found')
     // Build navigation state
@@ -66,19 +64,20 @@ class CardStack extends Component<void, Props, State> {
 
   // Listen all history events
   componentWillReceiveProps(nextProps: Props): void {
+    // $FlowFixMe
+    const { location, action } = nextProps
     const { cards, navigationState } = this.state
-    const { action, location, index } = nextProps
     // Get current card
     const currentRoute = navigationState.routes[navigationState.index]
     const currentCard = cards.find(({ key }) => key === currentRoute.routeName)
     // Get next card
-    const nextRoute = getCurrentRoute(cards, location)
+    const nextRoute = StackUtils.getRoute(cards, location)
     if (!nextRoute) return
     const nextCard = cards.find(({ key }) => key === nextRoute.key)
     // Local state must be updated ?
     if (
-      (currentCard && nextCard && index !== undefined) &&
-      shouldStackUpdate(currentCard, nextCard, this.props, nextProps)
+      currentCard && nextCard &&
+      StackUtils.shouldUpdate(currentCard, nextCard, this.props, nextProps)
     ) {
       const key = `${nextRoute.key}@@${Date.now()}`
       const routeName = nextRoute.key

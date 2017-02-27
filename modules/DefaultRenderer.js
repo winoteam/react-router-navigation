@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
   },
 })
 
-type SceneRendererProps = CardRendererProps & NavigationTransitionProps
+type SceneRendererProps =
+  & CardRendererProps
+  & NavigationTransitionProps
 
 type Props = CardRendererProps & {
   renderScene: (props: SceneRendererProps) => ?React$Element<any>,

@@ -8,7 +8,7 @@ import type { NavBarProps, CardRendererProps } from './TypeDefinitions'
 import CardStack from './CardStack'
 import DefaultRenderer from './DefaultRenderer'
 import NavBar from './NavBar'
-import getCurrentCard from './getCurrentCard'
+import StackUtils from './StackUtils'
 
 type SceneRendererProps = CardRendererProps & NavigationSceneRendererProps
 
@@ -22,14 +22,26 @@ class Navigation extends Component<void, Props, void> {
   props: Props
 
   renderHeader = (props: SceneRendererProps): ?React$Element<any> => {
-    // $FlowFixMe
-    return <NavBar {...props} />
+    // Get current card $FlowFixMe
+    const { cards, scene: { route } } = props
+    const card = StackUtils.get(cards, route)
+    if (!card) return null
+    // Get nav bar props
+    const navBarProps = { ...this.props, ...card }
+    // Hide nav bar
+    if (navBarProps.hideNavBar) return null
+    // Render custom nav bar
+    if (navBarProps.renderNavBar) {
+      return navBarProps.renderNavBar(navBarProps)
+    }
+    // Else return default <NavBar /> component
+    return <NavBar {...navBarProps} />
   }
 
   renderScene = (props: SceneRendererProps): ?React$Element<any> => {
-    // Get card
+    // Get card $FlowFixMe
     const { cards, scene: { route } } = props
-    const card = getCurrentCard(cards, route)
+    const card = StackUtils.get(cards, route)
     if (!card) return null
     // Render view
     if (card.render) return card.render(props)

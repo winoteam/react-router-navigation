@@ -7,9 +7,11 @@ import HeaderTitle from 'react-navigation/src/views/HeaderTitle'
 import type { NavigationSceneRendererProps } from 'react-navigation/src/TypeDefinition'
 import type { CardRendererProps } from './TypeDefinitions'
 import BackButton from './BackButton'
-import getCurrentCard from './getCurrentCard'
+import StackUtils from './StackUtils'
 
-type RendererProps = CardRendererProps & NavigationSceneRendererProps
+type RendererProps =
+  & CardRendererProps
+  & NavigationSceneRendererProps
 
 type Props = RendererProps
 
@@ -18,9 +20,9 @@ class NavBar extends Component<void, Props, void> {
   props: Props
 
   renderLeftComponent = (props: RendererProps): ?React$Element<any> => {
-    // Get current card
+    // Get current card ($FlowFixMe)
     const { onNavigateBack, cards, scene: { index, route } } = props
-    const card = getCurrentCard(cards, route)
+    const card = StackUtils.get(cards, route)
     // Get nav bar props
     const navBarProps = { ...props, ...card }
     // Custom left component
@@ -39,9 +41,9 @@ class NavBar extends Component<void, Props, void> {
   }
 
   renderTitleComponent= (props: RendererProps): ?React$Element<any> => {
-    // Get current card
+    // Get current card ($FlowFixMe)
     const { cards, scene: { route } } = props
-    const card = getCurrentCard(cards, route)
+    const card = StackUtils.get(cards, route)
     if (!card) return null
     // Get nav bar props
     const navBarProps = { ...props, ...card }
@@ -56,33 +58,26 @@ class NavBar extends Component<void, Props, void> {
   }
 
   renderRightComponent = (props: RendererProps): ?React$Element<any> => {
-    // Get current card
+    // Get current card ($FlowFixMe)
     const { cards, scene: { route } } = props
-    const card = getCurrentCard(cards, route)
+    const card = StackUtils.get(cards, route)
     if (!card) return null
     // Get nav bar props
     const navBarProps = { ...props, ...card }
     // Render cusqtom right component
     const { renderRightButton } = navBarProps
-    // $FlowFixMe
     if (renderRightButton) return renderRightButton(navBarProps)
     // Else return null =)
     return null
   }
 
   render(): ?React$Element<any> {
-    // Get current card
+    // Get current card $FlowFixMe
     const { cards, scene: { route } } = this.props
-    const card = getCurrentCard(cards, route)
+    const card = StackUtils.get(cards, route)
     if (!card) return null
     // Get nav bar props
     const navBarProps = { ...this.props, ...card }
-    // Hide nav bar
-    if (navBarProps.hideNavBar) return null
-    // Render custom nav bar
-    if (navBarProps.renderNavBar) {
-      return navBarProps.renderNavBar(navBarProps)
-    }
     // Return <ReactNavigation.Header /> component
     return (
       // $FlowFixMe

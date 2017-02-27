@@ -40,16 +40,16 @@ export default () => (
       <Card
         path="/hello"
         title="Hello"
-        render={() => (
+        render={({ match: { url } }) => (
           <Switch>
             <Route
               exact
-              path="/hello"
-              render={() => <Redirect to="/hello/one" />}
+              path={url}
+              render={() => <Redirect to={`${url}/one`} />}
             />
             <Tabs style={styles.container}>
               <Tab
-                path="/hello/one"
+                path={`${url}/one`}
                 label="One"
                 render={() => (
                   <View style={styles.container}>
@@ -58,7 +58,7 @@ export default () => (
                 )}
               />
               <Tab
-                path="/hello/two"
+                path={`${url}/two`}
                 label="Two"
                 render={() => (
                   <View style={styles.container}>
@@ -67,7 +67,7 @@ export default () => (
                 )}
               />
               <Tab
-                path="/hello/three"
+                path={`${url}/three`}
                 label="Three"
                 render={() => (
                   <View style={styles.container}>

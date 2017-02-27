@@ -1,13 +1,15 @@
 {
   "name": "react-router-navigation",
-  "version": "1.0.0-alpha.5",
+  "description": "A complete navigation library for React Native",
+  "version": "1.0.0-beta.1",
   "main": "index.js",
   "keywords": [
     "react-native",
     "ios",
     "android",
     "router",
-    "navigation"
+    "navigation",
+    "navigator"
   ],
   "repository": {
     "type": "git",
@@ -26,11 +28,10 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-router": "4.0.0-beta.5"
+    "react-router": "4.0.0-beta.6"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^1.2.0",
-    "react-native-tab-view": "0.0.52",
+    "react-native-tab-view": "0.0.56",
     "react-navigation": "1.0.0-beta.5"
   },
   "devDependencies": {

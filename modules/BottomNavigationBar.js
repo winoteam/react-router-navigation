@@ -3,12 +3,20 @@
 /* eslint max-len: 0 */
 /* eslint no-duplicate-imports: 0 */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { TouchableWithoutFeedback, TouchableNativeFeedback, StyleSheet, Platform, Dimensions, PixelRatio, View, Text } from 'react-native'
-import { withRouter } from 'react-router'
-import type { RouterHistory } from 'react-router'
+import { Route } from 'react-router'
 import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { TabBarProps, TabRendererProps, Tab } from './TypeDefinitions'
+import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
+
+const isAndroid = Platform.OS === 'android'
+
+const Touchable = isAndroid
+  ? TouchableNativeFeedback
+  : TouchableWithoutFeedback
+
+const DEFAULT_ANDROID_COLOR = '#008f8d'
+const DEFAULT_IOS_COLOR = '#0075ff'
 
 const styles = StyleSheet.create({
   container: {
@@ -50,99 +58,60 @@ const styles = StyleSheet.create({
   activeLabel: {
     ...Platform.select({
       android: {
-        color: '#008f8d',
+        color: DEFAULT_ANDROID_COLOR,
       },
       ios: {
-        color: '#0075ff',
+        color: DEFAULT_IOS_COLOR,
       },
     }),
   },
 })
 
-type Props = RouterHistory & TabBarProps & SceneRendererProps & TabRendererProps
+type Props =
+  & TabBarProps
+  & SceneRendererProps
+  & TabRendererProps
 
-type State = {
-  tabItems: Array<Tab & {
-    isActive: boolean,
-    pathname: string,
-  }>,
-}
-
-class BottomNavigationBar extends Component<void, Props, State> {
-
-  props: Props
-  state: State
-
-  constructor(props: Props) {
-    super(props)
-    const { navigationState, tabs } = props
-    this.state = {
-      tabItems: tabs.map((tab, index) => ({
-        ...tab,
-        pathname: tab.path,
-        isActive: navigationState.index === index,
-      })),
-    }
-  }
-
-  onRequestChangeTab = (index: number): void => {
-    const { tabItems } = this.state
-    const { navigationState, location, replace } = this.props
-    // Get current tab and update its pathname
-    const currentTab = tabItems[navigationState.index]
-    currentTab.pathname = location.pathname
-    currentTab.isActive = true
-    // Get new tab to switch
-    const tab = tabItems[index]
-    // Update history
-    replace(tab.pathname)
-    // Update state
-    const nextTabItems = tabItems.map((tabItem, i) => ({
-      ...tabItem,
-      isActive: i === index,
-    }))
-    this.setState({ tabItems: nextTabItems })
-  }
-
-  render(): React$Element<any> {
-    const { tabItems } = this.state
-    const Touchable = Platform.OS === 'ios'
-      ? TouchableWithoutFeedback
-      : TouchableNativeFeedback
-    const isAndroid = Platform.OS === 'android'
-    return (
-      <View style={styles.container}>
-        {tabItems.map((item, index) => {
-          const tabsLabelStyle = this.props.labelStyle && typeof this.props.labelStyle === 'function'
-            ? this.props.labelStyle(item)
-            : this.props.labelStyle
-          const tabLabelStyle = item.labelStyle && typeof item.labelStyle === 'function'
-            ? item.labelStyle(item)
-            : item.labelStyle
+const BottomNavigationBar = (props: Props): React$Element<any> => (
+  <View style={styles.container}>
+    {props.tabs.map((tab, index) => (
+      <Route {...tab}>
+        {({ match }) => {
+          const isActive = !!match
+          const tabbBarProps = { ...props, ...tab, isActive, key: tab.key }
           return (
             <Touchable
               key={index}
-              background={isAndroid && TouchableNativeFeedback.Ripple('#008f8d', true)}
-              onPress={() => this.onRequestChangeTab(index)}
+              onPress={() => props.onRequestChangeTab(index)}
+              background={isAndroid &&
+                TouchableNativeFeedback.Ripple(
+                  tabbBarProps.rippleColor || DEFAULT_ANDROID_COLOR,
+                  true,
+                )
+              }
             >
-              <View style={styles.item}>
-                {(this.props.renderTabIcon || item.renderTabIcon) && (
-                  // $FlowFixMe
-                  item && (this.props.renderTabIcon(item) || item.renderTabIcon(item))
-                )}
-                {(this.props.label || item.label) &&
-                  <Text style={[styles.label, item.isActive && styles.activeLabel, tabsLabelStyle, tabLabelStyle]}>
-                    {(this.props.label || item.label)}
+              <View style={styles.tabbBarProps}>
+                {tabbBarProps.renderTabIcon || tabbBarProps.renderTabIcon(tabbBarProps)}
+                {tabbBarProps.label &&
+                  <Text
+                    style={[
+                      styles.label,
+                      isActive && styles.activeLabel,
+                      typeof tabbBarProps.labelStyle === 'function'
+                        ? tabbBarProps.labelStyle(tabbBarProps)
+                        : tabbBarProps.labelStyle,
+                    ]}
+                  >
+                    {tabbBarProps.label}
                   </Text>
                 }
               </View>
             </Touchable>
           )
-        })}
-      </View>
-    )
-  }
+        }}
+      </Route>
+    ))}
+  </View>
+)
 
-}
-
-export default withRouter(BottomNavigationBar)
+export default BottomNavigationBar

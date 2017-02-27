@@ -4,10 +4,10 @@
 
 import { Component } from 'react'
 import { withRouter } from 'react-router'
+import { StateUtils } from 'react-navigation'
 import type { RouterHistory } from 'react-router'
 import type { NavigationState, TabRendererProps, Tabs, TabRoute, TabProps } from './TypeDefinitions'
-import getCurrentRoute from './getCurrentRoute'
-import buildStack from './buildStack'
+import StackUtils from './StackUtils'
 
 type Props = RouterHistory & {
   children: Array<React$Element<TabProps>>,
@@ -29,9 +29,9 @@ class TabStack extends Component<void, Props, State> {
     super(props)
     // Build the tab stack ($FlowFixMe)
     const { children, location } = props
-    const tabs = buildStack(children)
+    const tabs = StackUtils.build(children)
     // Get initial route
-    const currentRoute = getCurrentRoute(tabs, location)
+    const currentRoute = StackUtils.getRoute(tabs, location)
     if (!currentRoute) throw new Error('No route found !')
     // Build navigation state
     const routes = tabs.map((route) => ({
@@ -46,24 +46,27 @@ class TabStack extends Component<void, Props, State> {
 
   // Listen all history events
   componentWillReceiveProps(nextProps): void {
-    // Get current route
-    const { action, location } = nextProps
+    // Get current route ($FlowFixMe)
+    const { location } = nextProps
     const { navigationState: { routes, index }, tabs } = this.state
     // Get current tab
     const currentRoute = routes[index]
     const currentTab = tabs.find(({ key }) => key === currentRoute.key)
     // Get next tab
-    const nextRoute = getCurrentRoute(tabs, location)
+    const nextRoute = StackUtils.getRoute(tabs, location)
     if (!nextRoute) return
     const nextTab = tabs.find(({ key }) => key === nextRoute.key)
     // Update navigation state
-    if (currentTab && nextTab && (currentTab.key !== nextTab.key) && action === 'REPLACE') {
+    if (
+      currentTab && nextTab &&
+      StackUtils.shouldUpdate(currentTab, nextTab, this.props, nextProps)
+    ) {
       const nextIndex = routes.findIndex(({ key }) => key === nextRoute.key)
-      this.setState(({ navigationState }) => ({
-        navigationState: {
-          ...navigationState,
-          index: nextIndex,
-        },
+      this.setState((state) => ({
+        navigationState: StateUtils.jumpToIndex(
+          state.navigationState,
+          nextIndex,
+        ),
       }))
     }
   }

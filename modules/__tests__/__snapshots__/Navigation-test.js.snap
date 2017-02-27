@@ -1,4 +1,4 @@
-exports[`<Navigation /> <Navigation /> re-renders correctly when "go" action is called 1`] = `
+exports[`test <Navigation /> re-renders correctly when "go" action is called 1`] = `
 <View>
   <View>
     <View>
@@ -14,7 +14,7 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "go" action is 
 </View>
 `;
 
-exports[`<Navigation /> <Navigation /> re-renders correctly when "go" action is called 2`] = `
+exports[`test <Navigation /> re-renders correctly when "go" action is called 2`] = `
 <View>
   <View>
     <View>
@@ -30,7 +30,7 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "go" action is 
 </View>
 `;
 
-exports[`<Navigation /> <Navigation /> re-renders correctly when "goBack" action is called 1`] = `
+exports[`test <Navigation /> re-renders correctly when "goBack" action is called 1`] = `
 <View>
   <View>
     <View>
@@ -45,7 +45,7 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "goBack" action
 </View>
 `;
 
-exports[`<Navigation /> <Navigation /> re-renders correctly when "goBack" action is called 2`] = `
+exports[`test <Navigation /> re-renders correctly when "goBack" action is called 2`] = `
 <View>
   <View>
     <View>
@@ -60,7 +60,7 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "goBack" action
 </View>
 `;
 
-exports[`<Navigation /> <Navigation /> re-renders correctly when "push" action is called 1`] = `
+exports[`test <Navigation /> re-renders correctly when "push" action is called 1`] = `
 <View>
   <View>
     <View>
@@ -74,7 +74,7 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "push" action i
 </View>
 `;
 
-exports[`<Navigation /> <Navigation /> re-renders correctly when "push" action is called 2`] = `
+exports[`test <Navigation /> re-renders correctly when "push" action is called 2`] = `
 <View>
   <View>
     <View>
@@ -89,7 +89,7 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "push" action i
 </View>
 `;
 
-exports[`<Navigation /> <Navigation /> re-renders correctly when "replace" action is called 1`] = `
+exports[`test <Navigation /> re-renders correctly when "replace" action is called 1`] = `
 <View>
   <View>
     <View>
@@ -104,7 +104,7 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "replace" actio
 </View>
 `;
 
-exports[`<Navigation /> <Navigation /> re-renders correctly when "replace" action is called 2`] = `
+exports[`test <Navigation /> re-renders correctly when "replace" action is called 2`] = `
 <View>
   <View>
     <View>
@@ -119,7 +119,7 @@ exports[`<Navigation /> <Navigation /> re-renders correctly when "replace" actio
 </View>
 `;
 
-exports[`<Navigation /> <Navigation /> renders correctly 1`] = `
+exports[`test <Navigation /> renders correctly 1`] = `
 <View>
   <View>
     <View>
@@ -133,7 +133,7 @@ exports[`<Navigation /> <Navigation /> renders correctly 1`] = `
 </View>
 `;
 
-exports[`<Navigation /> <Navigation /> renders correctly with initialIndex and initialEntries prop  1`] = `
+exports[`test <Navigation /> renders correctly with initialIndex and initialEntries prop  1`] = `
 <View>
   <View>
     <View>

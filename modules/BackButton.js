@@ -34,7 +34,7 @@ const Touchable = isAndroid
 const arrows = {
   default: isAndroid
     ? require('./assets/back-dark.png')
-    : require('./assets/back-default.png'),
+    : require('./assets/back-default.ios.png'),
   light: isAndroid
     ? require('./assets/back-light.png')
     : require('./assets/back-light.png'),

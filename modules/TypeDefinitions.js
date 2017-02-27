@@ -92,17 +92,16 @@ export type TabRoute = {
 }
 
 export type TabBarProps = {
-  renderTabBar: (
+  renderTabBar?: (
     props: TabBarProps & SceneRendererProps & TabRendererProps
   ) => React$Element<any>,
   label?: string,
-  labelStyle?:
-    ((props: Tab & { isActive: boolean, pathname: string }) => StyleSheet)
-    | StyleSheet,
+  labelStyle?: ((props: Tab & { isActive: boolean }) => StyleSheet) | StyleSheet,
   // <BottomNavigation /> only
   renderTabIcon?: (
     props: TabBarProps & SceneRendererProps & TabRendererProps
   ) => React$Element<any>,
+  rippleColor?: string,
   // <Tabs /> only
   tabBarIndicatorStyle?: StyleSheet
 }
@@ -113,9 +112,7 @@ export type Tab =
   & RouteProps
   & TabBarProps
   & TabProps
-  & {
-    key: string
-  }
+  & { key: string }
 
 export type Tabs = Array<Tab>
 

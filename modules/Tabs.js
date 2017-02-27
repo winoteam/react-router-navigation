@@ -7,6 +7,7 @@ import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
 import type { SceneRendererProps as TabSceneRendererProps, Scene } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
+import StackUtils from './StackUtils'
 import TabStack from './TabStack'
 
 const styles = StyleSheet.create({
@@ -23,7 +24,9 @@ const styles = StyleSheet.create({
   },
 })
 
-type SceneRendererProps = TabSceneRendererProps & TabRendererProps
+type SceneRendererProps =
+  & TabSceneRendererProps
+  & TabRendererProps
 
 type Props = TabBarProps & {
   children: Array<React$Element<any>>,
@@ -34,9 +37,10 @@ class Tabs extends Component<void, Props, void> {
   props: Props
 
   renderHeader = (props: SceneRendererProps): React$Element<any> => {
+    // $FlowFixMe
     const { tabs, navigationState: { routes, index } } = props
     // Get current tab
-    const tab = tabs.find(({ key }) => routes[index].key === key)
+    const tab = StackUtils.get(tabs, routes[index])
     // Get tab bar props
     const tabBarProps = { ...this.props, ...props, ...tab }
     // Custom tab bar
@@ -46,13 +50,14 @@ class Tabs extends Component<void, Props, void> {
         tabBarProps,
       )
     }
+    // Render default tab bar
     return (
       <TabBar
         {...tabBarProps}
         style={tabBarProps.tabBarStyle}
         indicatorStyle={tabBarProps.tabBarIndicatorStyle}
         renderLabel={({ route }) => {
-          const currentTab = tabs.find(({ key }) => route.key === key)
+          const currentTab = StackUtils.get(tabs, route)
           return (
             <Text
               style={[
@@ -70,9 +75,9 @@ class Tabs extends Component<void, Props, void> {
   }
 
   renderScene = (props: SceneRendererProps & Scene): ?React$Element<any> => {
-    // Get tab
+    // Get tab ($FlowFixMe)
     const { tabs, route } = props
-    const tab = tabs.find(({ key }) => key === route.key)
+    const tab = StackUtils.get(tabs, route)
     if (!tab) return null
     // Render view
     if (tab.render) return tab.render(props)
