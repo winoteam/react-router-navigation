@@ -27,7 +27,7 @@ class Navigation extends Component<void, Props, void> {
     const card = StackUtils.get(cards, route)
     if (!card) return null
     // Get nav bar props
-    const navBarProps = { ...this.props, ...card }
+    const navBarProps = { ...this.props, ...props, ...card }
     // Hide nav bar
     if (navBarProps.hideNavBar) return null
     // Render custom nav bar
