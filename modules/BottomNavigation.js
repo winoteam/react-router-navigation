@@ -2,7 +2,6 @@
 
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions } from 'react-native'
-import { withRouter } from 'react-router'
 import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
 import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type { TabProps, TabBarProps, TabRendererProps } from './TypeDefinitions'
@@ -69,13 +68,14 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
 
   renderScene = (props: TabSceneRendererProps): ?React$Element<any> => {
     // Get tab $FlowFixMe
-    const { tabs, navigationState: { routes, index } } = props
-    const tab = StackUtils.get(tabs, routes[index])
+    const { tabs, route } = props
+    const tab = StackUtils.get(tabs, route)
     if (!tab) return null
     // Render view
-    if (tab.render) return tab.render(props)
-    else if (tab.children) return tab.children(props)
-    else if (tab.component) return createElement(tab.component, props)
+    const ownProps = { ...props, key: route.key }
+    if (tab.render) return tab.render(ownProps)
+    else if (tab.children) return tab.children(ownProps)
+    else if (tab.component) return createElement(tab.component, ownProps)
     return null
   }
 
@@ -84,6 +84,7 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
       <TabStack
         {...this.props}
         style={styles.container}
+        forceSync={true}
         render={(props) => (
           <TabViewAnimated
             {...props}
@@ -102,4 +103,4 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
 
 }
 
-export default withRouter(BottomNavigation)
+export default BottomNavigation
