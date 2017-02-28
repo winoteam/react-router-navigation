@@ -98,4 +98,12 @@ export default {
     return { key: item.key }
   },
 
+
+  /**
+   * Generate unique key
+   */
+  createKey: (route: Route): string => {
+    return `${route.key}@@${Math.random().toString(36).substr(2, 10)}`
+  },
+
 }

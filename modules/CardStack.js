@@ -44,7 +44,10 @@ class CardStack extends Component<void, Props, State> {
           : state.index,
         routes: [
           ...state.routes,
-          { key: card.key, routeName: card.path },
+          {
+            key: StackUtils.createKey(card),
+            routeName: card.path,
+          },
         ],
       }
     }, { index: -1, routes: [] })
@@ -79,7 +82,7 @@ class CardStack extends Component<void, Props, State> {
       currentCard && nextCard &&
       StackUtils.shouldUpdate(currentCard, nextCard, this.props, nextProps)
     ) {
-      const key = `${nextRoute.key}@@${Date.now()}`
+      const key = StackUtils.createKey(nextRoute)
       const routeName = nextRoute.key
       switch (action) {
         case 'PUSH': {

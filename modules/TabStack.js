@@ -34,7 +34,7 @@ class TabStack extends Component<void, Props, State> {
     if (!currentRoute) throw new Error('No route found !')
     // Build navigation state
     const routes = tabs.map((route) => ({
-      key: route.key,
+      key: StackUtils.createKey(route),
       routeName: route.path,
     }))
     const index = routes.findIndex(({ key }) => currentRoute.key === key)

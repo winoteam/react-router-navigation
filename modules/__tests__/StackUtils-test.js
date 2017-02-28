@@ -5,7 +5,7 @@ import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
 import StackUtils from './../StackUtils'
 
-const { build, shouldUpdate, get, getRoute } = StackUtils
+const { build, shouldUpdate, get, getRoute, createKey } = StackUtils
 
 describe('StackUtils.build() util', () => {
   it('build() works correctly', () => {
@@ -141,5 +141,12 @@ describe('StackUtils.getRoute() util', () => {
     const history = createHistory({ initialEntries: ['/bar'] })
     const currentRoute = { key: '/bar' }
     expect(getRoute(stack, history.location)).toEqual(currentRoute)
+  })
+})
+
+describe('StackUtils.createKey() util', () => {
+  it('createKey() works correctly', () => {
+    const key = createKey({ key: '/foo' })
+    expect(key.slice(0, 4)).toEqual('/foo')
   })
 })
