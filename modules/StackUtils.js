@@ -76,11 +76,11 @@ export default {
   /**
    * Get stack item from a specific route
    */
-  get: <Item>(items: Array<Item>, route: Route & { routeName?: string }): ?Item => {
+  get: <Item>(items: Array<Item>, route: Route & { routeName: string }): ?Item => {
     return items.find((item) => {
       return (
         item && item.key &&
-        (route.routeName === item.key || route.key === item.key)
+        route.routeName === item.key
       )
     })
   },
@@ -95,7 +95,7 @@ export default {
       return matchPath(location.pathname, stackItem.path, stackItem)
     })
     if (!item || !item.key || typeof item.key !== 'string') return null
-    return { key: item.key }
+    return { key: item.key, routeName: item.key }
   },
 
 

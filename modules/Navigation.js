@@ -22,7 +22,7 @@ class Navigation extends Component<void, Props, void> {
   props: Props
 
   renderHeader = (props: SceneRendererProps): ?React$Element<any> => {
-    // Get current card $FlowFixMe
+    // Get current card
     const { cards, scene: { route } } = props
     const card = StackUtils.get(cards, route)
     if (!card) return null
@@ -39,7 +39,7 @@ class Navigation extends Component<void, Props, void> {
   }
 
   renderScene = (props: SceneRendererProps): ?React$Element<any> => {
-    // Get card $FlowFixMe
+    // Get card
     const { cards, scene: { route } } = props
     const card = StackUtils.get(cards, route)
     if (!card) return null

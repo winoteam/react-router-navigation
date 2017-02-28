@@ -6,6 +6,7 @@ import type { NavigationParams, NavigationSceneRendererProps } from 'react-navig
 
 export type Route = {
   key: string,
+  routeName: string,
 }
 
 export type NavigationState<ExtraRoute> = {
@@ -27,7 +28,6 @@ export type RouteProps = {
  */
 
 export type CardRoute = {
-  routeName: string,
   path?: string,
   params?: NavigationParams,
 }

@@ -20,7 +20,7 @@ class NavBar extends Component<void, Props, void> {
   props: Props
 
   renderLeftComponent = (props: RendererProps): ?React$Element<any> => {
-    // Get current card ($FlowFixMe)
+    // Get current card
     const { onNavigateBack, cards, scene: { index, route } } = props
     const card = StackUtils.get(cards, route)
     // Get nav bar props
@@ -41,7 +41,7 @@ class NavBar extends Component<void, Props, void> {
   }
 
   renderTitleComponent= (props: RendererProps): ?React$Element<any> => {
-    // Get current card ($FlowFixMe)
+    // Get current card
     const { cards, scene: { route } } = props
     const card = StackUtils.get(cards, route)
     if (!card) return null
@@ -58,7 +58,7 @@ class NavBar extends Component<void, Props, void> {
   }
 
   renderRightComponent = (props: RendererProps): ?React$Element<any> => {
-    // Get current card ($FlowFixMe)
+    // Get current card
     const { cards, scene: { route } } = props
     const card = StackUtils.get(cards, route)
     if (!card) return null
@@ -72,7 +72,7 @@ class NavBar extends Component<void, Props, void> {
   }
 
   render(): ?React$Element<any> {
-    // Get current card $FlowFixMe
+    // Get current card
     const { cards, scene: { route } } = this.props
     const card = StackUtils.get(cards, route)
     if (!card) return null

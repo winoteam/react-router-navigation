@@ -72,6 +72,7 @@ type Props =
 
 const BottomNavigationBar = (props: Props): React$Element<any> => (
   <View style={styles.container}>
+    {/* $FlowFixMe */}
     {props.tabs.map((tab, index) => (
       <Route
         key={index}

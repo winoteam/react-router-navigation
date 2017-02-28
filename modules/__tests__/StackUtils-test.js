@@ -139,7 +139,7 @@ describe('StackUtils.getRoute() util', () => {
   it('getRoute() works correctly', () => {
     const stack = [{ key: '/foo', path: '/foo' }, { key: '/bar', path: '/bar' }]
     const history = createHistory({ initialEntries: ['/bar'] })
-    const currentRoute = { key: '/bar' }
+    const currentRoute = { key: '/bar', routeName: '/bar' }
     expect(getRoute(stack, history.location)).toEqual(currentRoute)
   })
 })

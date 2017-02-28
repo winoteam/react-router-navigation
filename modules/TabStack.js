@@ -18,7 +18,7 @@ type State = {
   navigationState: NavigationState<TabRoute>,
   tabs: Tabs,
   rootIndex: number,
-  history: Array<Array<Location>>,
+  history: { [key: number]: Array<Location> },
 }
 
 class TabStack extends Component<void, Props, State> {
@@ -36,16 +36,18 @@ class TabStack extends Component<void, Props, State> {
     const currentRoute = StackUtils.getRoute(tabs, location)
     if (!currentRoute) throw new Error('No route found !')
     // Build navigation state
-    const routes = tabs.map((route) => ({
-      key: StackUtils.createKey(route),
-      routeName: route.path,
+    const routes = tabs.map((tab) => ({
+      // $FlowFixMe
+      key: StackUtils.createKey({ key: tab.key }),
+      routeName: tab.path,
     }))
-    const index = routes.findIndex(({ key }) => currentRoute.key === key)
+    const index = routes.findIndex(({ routeName }) => currentRoute.key === routeName)
     const navigationState = { index, routes }
     const rootIndex = props.index || 0
     // Initialyze cached history
-    const history = []
-    history[index] = entries.slice(location.index)
+    const history = {
+      [index]: entries.slice(location.index),
+    }
     // Save everything
     this.state = { navigationState, tabs, rootIndex, history }
   }
@@ -57,12 +59,12 @@ class TabStack extends Component<void, Props, State> {
     const { navigationState: { routes, index }, tabs, rootIndex } = this.state
     // Get current tab
     const currentRoute = routes[index]
-    const currentTab = tabs.find(({ key }) => key === currentRoute.key)
+    const currentTab = StackUtils.get(tabs, currentRoute)
     // Get next tab
     const nextRoute = StackUtils.getRoute(tabs, location)
     if (!nextRoute) return
-    const nextTab = tabs.find(({ key }) => key === nextRoute.key)
-    const nextIndex = routes.findIndex(({ key }) => key === nextRoute.key)
+    const nextTab = StackUtils.get(tabs, nextRoute)
+    const nextIndex = routes.findIndex(({ routeName }) => routeName === nextRoute.key)
     // Update navigation state
     if (
       currentTab && nextTab &&

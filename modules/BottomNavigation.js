@@ -45,7 +45,6 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
   )
 
   renderNavigationBar = (props: TabSceneRendererProps): React$Element<any> => {
-    // $FlowFixMe
     const { tabs, navigationState: { routes, index }, onRequestChangeTab } = props
     const route = routes[index]
     const tab = StackUtils.get(tabs, route)
@@ -87,6 +86,7 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
         forceSync={true}
         render={(props) => (
           <TabViewAnimated
+            // $FlowFixMe
             {...props}
             style={[styles.container, this.props.style]}
             initialLayout={Dimensions.get('window')}

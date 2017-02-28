@@ -44,7 +44,6 @@ class Tabs extends Component<void, Props, void> {
   }
 
   renderHeader = (props: SceneRendererProps): React$Element<any> => {
-    // $FlowFixMe
     const { tabs, navigationState: { routes, index } } = props
     // Get current tab
     const tab = StackUtils.get(tabs, routes[index])
@@ -64,6 +63,7 @@ class Tabs extends Component<void, Props, void> {
         style={tabBarProps.tabBarStyle}
         indicatorStyle={tabBarProps.tabBarIndicatorStyle}
         onRequestChangeTab={() => true}
+        // $FlowFixMe
         onTabPress={(route) => this.onRequestChangeTab({ ...props, route })}
         renderLabel={({ route }) => {
           const currentTab = StackUtils.get(tabs, route)
