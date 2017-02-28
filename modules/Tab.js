@@ -7,9 +7,9 @@ import type { TabProps } from './TypeDefinitions'
 type Props = TabProps
 
 const Tab = (props: Props) => {
-  const { path, exact, render, children, component: Component } = props
+  const { path, exact, strict, render, children, component: Component } = props
   return (
-    <Route path={path} exact={exact}>
+    <Route path={path} exact={exact} strict={strict}>
       {(routeProps) => {
         if (render) return render(routeProps)
         else if (children) return children(routeProps)

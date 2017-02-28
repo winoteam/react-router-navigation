@@ -73,13 +73,17 @@ type Props =
 const BottomNavigationBar = (props: Props): React$Element<any> => (
   <View style={styles.container}>
     {props.tabs.map((tab, index) => (
-      <Route {...tab}>
+      <Route
+        key={index}
+        path={tab.path}
+        exact={tab.exact}
+        strict={tab.strict}
+      >
         {({ match }) => {
           const isActive = !!match
           const tabbBarProps = { ...props, ...tab, isActive, key: tab.key }
           return (
             <Touchable
-              key={index}
               onPress={() => props.onRequestChangeTab(index)}
               background={isAndroid &&
                 TouchableNativeFeedback.Ripple(
@@ -88,8 +92,8 @@ const BottomNavigationBar = (props: Props): React$Element<any> => (
                 )
               }
             >
-              <View style={styles.tabbBarProps}>
-                {tabbBarProps.renderTabIcon || tabbBarProps.renderTabIcon(tabbBarProps)}
+              <View style={[styles.item, styles.tabbBarProps]}>
+                {tabbBarProps.renderTabIcon && tabbBarProps.renderTabIcon(tabbBarProps)}
                 {tabbBarProps.label &&
                   <Text
                     style={[
