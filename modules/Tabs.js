@@ -5,7 +5,7 @@ import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
 import { matchPath } from 'react-router'
 import type { SceneRendererProps as TabSceneRendererProps, Scene } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { TabBarProps, TabRendererProps, Route } from './TypeDefinitions'
+import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
 import StackUtils from './StackUtils'
 import TabStack from './TabStack'
 
@@ -35,11 +35,12 @@ class Tabs extends Component<void, Props, void> {
 
   props: Props
 
-  onRequestChangeTab = (props: SceneRendererProps & { route: Route }): void => {
-    const index = props.tabs.findIndex(({ path, ...tab }) => {
-      return matchPath(props.route.routeName, path, tab)
+  onRequestChangeTab = (props: SceneRendererProps & { route: any }): void => {
+    const { route, tabs, onRequestChangeTab } = props
+    const index = tabs.findIndex(({ path, ...tab }) => {
+      return matchPath(route.routeName, path, tab)
     })
-    if (index) props.onRequestChangeTab(index)
+    if (index) onRequestChangeTab(index)
   }
 
   renderHeader = (props: SceneRendererProps): React$Element<any> => {
