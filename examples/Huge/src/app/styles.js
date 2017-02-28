@@ -1,13 +1,12 @@
 import { StyleSheet } from 'react-native'
+import { BRAND_COLOR_60 } from '@ressources/theme'
 
 const styles = StyleSheet.create({
-  container: {
+  tabs: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  loader: {
-    marginBottom: 14,
+  activeLabel: {
+    color: BRAND_COLOR_60,
   },
 })
 

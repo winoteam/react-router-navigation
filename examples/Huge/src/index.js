@@ -1,13 +1,13 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import Router from '@helpers/Router'
-import Root from '@app/Root'
+import App from '@app'
 import store from '@store'
 
 const Huge = () => (
   <Provider store={store}>
     <Router initialEntries={['/app/feed']}>
-      <Root />
+      <App />
     </Router>
   </Provider>
 )

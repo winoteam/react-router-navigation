@@ -20,10 +20,6 @@ const Feed = () => (
         title="Feed"
         navBarStyle={styles.navBar}
         titleStyle={styles.title}
-        onResetCard={(callback) => {
-          if (this.listView) this.listView.scrollTo(0)
-          callback()
-        }}
       />
       <Card
         path="/app/feed/article/:id"
