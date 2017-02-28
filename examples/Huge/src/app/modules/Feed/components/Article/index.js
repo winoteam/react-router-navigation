@@ -17,14 +17,15 @@ class Article extends Component {
   }
 
   render() {
-    const { match: { params } } = this.props
+    const { match } = this.props
+    if (!match) return null
     return (
       <View style={styles.scene}>
-        <Text>Item {params.id}</Text>
+        <Text>Item {match.params.id}</Text>
         <Link
           style={styles.link}
           component={TouchableOpacity}
-          to={`/app/feed/article/${parseInt(params.id) + 1}`}
+          to={`/app/feed/article/${parseInt(match.params.id) + 1}`}
         >
           <Text>Next item</Text>
         </Link>
