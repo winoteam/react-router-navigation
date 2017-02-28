@@ -3,8 +3,9 @@
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
+import { matchPath } from 'react-router'
 import type { SceneRendererProps as TabSceneRendererProps, Scene } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
+import type { TabBarProps, TabRendererProps, Route } from './TypeDefinitions'
 import StackUtils from './StackUtils'
 import TabStack from './TabStack'
 
@@ -34,6 +35,13 @@ class Tabs extends Component<void, Props, void> {
 
   props: Props
 
+  onRequestChangeTab = (props: SceneRendererProps & { route: Route }): void => {
+    const index = props.tabs.findIndex(({ path, ...tab }) => {
+      return matchPath(props.route.routeName, path, tab)
+    })
+    if (index) props.onRequestChangeTab(index)
+  }
+
   renderHeader = (props: SceneRendererProps): React$Element<any> => {
     // $FlowFixMe
     const { tabs, navigationState: { routes, index } } = props
@@ -54,6 +62,8 @@ class Tabs extends Component<void, Props, void> {
         {...tabBarProps}
         style={tabBarProps.tabBarStyle}
         indicatorStyle={tabBarProps.tabBarIndicatorStyle}
+        onRequestChangeTab={() => true}
+        onTabPress={(route) => this.onRequestChangeTab({ ...props, route })}
         renderLabel={({ route }) => {
           const currentTab = StackUtils.get(tabs, route)
           return (
