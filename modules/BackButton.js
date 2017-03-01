@@ -12,7 +12,8 @@ type Props = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: 24,
+    width: 24,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
   img: {
     height: 24,
     width: 24,
+    borderWidth: 3,
     resizeMode: 'contain',
   },
 })
@@ -34,7 +36,7 @@ const Touchable = isAndroid
 const arrows = {
   default: isAndroid
     ? require('./assets/back-dark.png')
-    : require('./assets/back-default.ios.png'),
+    : require('./assets/back-default.png'),
   light: isAndroid
     ? require('./assets/back-light.png')
     : require('./assets/back-light.png'),

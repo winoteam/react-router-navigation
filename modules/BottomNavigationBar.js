@@ -2,16 +2,10 @@
 /* eslint new-cap: 0 */
 
 import React from 'react'
-import { TouchableWithoutFeedback, TouchableNativeFeedback, StyleSheet, Platform, Dimensions, PixelRatio, View, Text } from 'react-native'
+import { TouchableWithoutFeedback, StyleSheet, Platform, Dimensions, PixelRatio, View, Text } from 'react-native'
 import { Route } from 'react-router'
 import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
-
-const isAndroid = Platform.OS === 'android'
-
-const Touchable = isAndroid
-  ? TouchableNativeFeedback
-  : TouchableWithoutFeedback
 
 const DEFAULT_ANDROID_COLOR = '#008f8d'
 const DEFAULT_IOS_COLOR = '#0075ff'
@@ -84,15 +78,7 @@ const BottomNavigationBar = (props: Props): React$Element<any> => (
           const isActive = !!match
           const tabbBarProps = { ...props, ...tab, isActive, key: tab.key }
           return (
-            <Touchable
-              onPress={() => props.onRequestChangeTab(index)}
-              background={isAndroid &&
-                TouchableNativeFeedback.Ripple(
-                  tabbBarProps.rippleColor || DEFAULT_ANDROID_COLOR,
-                  true,
-                )
-              }
-            >
+            <TouchableWithoutFeedback onPress={() => props.onRequestChangeTab(index)}>
               <View style={[styles.item, styles.tabbBarProps]}>
                 {tabbBarProps.renderTabIcon && tabbBarProps.renderTabIcon(tabbBarProps)}
                 {tabbBarProps.label &&
@@ -109,7 +95,7 @@ const BottomNavigationBar = (props: Props): React$Element<any> => (
                   </Text>
                 }
               </View>
-            </Touchable>
+            </TouchableWithoutFeedback>
           )
         }}
       </Route>

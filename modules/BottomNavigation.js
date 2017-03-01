@@ -10,8 +10,9 @@ import TabStack from './TabStack'
 import BottomNavigationBar from './BottomNavigationBar'
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  wrapper: { flex: 1 },
+  container: {
+    flex: 1,
+  },
 })
 
 type TabSceneRendererProps =

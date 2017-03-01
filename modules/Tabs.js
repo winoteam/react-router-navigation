@@ -13,9 +13,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  wrapper: {
-    flex: 1,
-  },
   tabLabel: {
     backgroundColor: 'transparent',
     color: 'white',
@@ -59,7 +56,7 @@ class Tabs extends Component<void, Props, void> {
     // Render default tab bar
     return (
       <TabBar
-        {...tabBarProps}
+        {...props}
         style={tabBarProps.tabBarStyle}
         indicatorStyle={tabBarProps.tabBarIndicatorStyle}
         onRequestChangeTab={() => true}

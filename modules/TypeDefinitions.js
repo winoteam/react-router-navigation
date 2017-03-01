@@ -101,7 +101,6 @@ export type TabBarProps = {
   renderTabIcon?: (
     props: TabBarProps & SceneRendererProps & TabRendererProps
   ) => React$Element<any>,
-  rippleColor?: string,
   // <Tabs /> only
   tabBarIndicatorStyle?: StyleSheet
 }
