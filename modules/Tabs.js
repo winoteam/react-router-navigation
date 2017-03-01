@@ -56,14 +56,18 @@ class Tabs extends Component<void, Props, void> {
     // Render default tab bar
     return (
       <TabBar
+        // $FlowFixMe
         {...props}
         style={tabBarProps.tabBarStyle}
         indicatorStyle={tabBarProps.tabBarIndicatorStyle}
-        onRequestChangeTab={() => true}
+        onRequestChangeTab={(i: number) => i}
         // $FlowFixMe
         onTabPress={(route) => this.onRequestChangeTab({ ...props, route })}
         renderLabel={({ route }) => {
-          const currentTab = StackUtils.get(tabs, route)
+          const currentTab = StackUtils.get(
+            tabs,
+            { ...route, routeName: route.key },
+          )
           return (
             <Text
               style={[

@@ -24,10 +24,11 @@ exports[`test <BackButton /> renders correctly 1`] = `
     style={
       Object {
         "alignItems": "center",
-        "flex": 1,
         "flexDirection": "row",
+        "height": 24,
         "justifyContent": "center",
         "margin": 10,
+        "width": 24,
       }
     }>
     <Image

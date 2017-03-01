@@ -76,7 +76,7 @@ export default {
   /**
    * Get stack item from a specific route
    */
-  get: <Item>(items: Array<Item>, route: Route & { routeName: string }): ?Item => {
+  get: <Item>(items: Array<Item>, route: Route): ?Item => {
     return items.find((item) => {
       return (
         item && item.key &&
