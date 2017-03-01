@@ -1,13 +1,15 @@
 {
   "name": "react-router-navigation",
-  "version": "1.0.0-alpha.5",
+  "description": "A complete navigation library for React Native",
+  "version": "1.0.0-beta.1",
   "main": "index.js",
   "keywords": [
     "react-native",
     "ios",
     "android",
     "router",
-    "navigation"
+    "navigation",
+    "navigator"
   ],
   "repository": {
     "type": "git",
@@ -24,32 +26,29 @@
   },
   "homepage": "https://github.com/LeoLeBras/react-router-navigation#readme",
   "peerDependencies": {
-    "react": "15.4.1",
-    "react-native": "0.40.0",
-    "react-router": "4.0.0-alpha.5"
+    "react": "*",
+    "react-native": "*",
+    "react-router": "4.0.0-beta.6"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^1.2.0",
-    "react-native-tab-view": "0.0.52"
+    "react-native-tab-view": "0.0.56",
+    "react-navigation": "1.0.0-beta.5"
   },
   "devDependencies": {
     "babel-eslint": "7.1.0",
     "babel-jest": "18.0.0",
     "babel-preset-react-native": "1.9.1",
-    "enzyme": "^2.7.0",
     "eslint": "3.9.0",
     "eslint-config-airbnb": "12.0.0",
     "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-import": "1.16.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.4.1",
-    "flow-bin": "0.36.0",
+    "flow-bin": "^0.37.4",
     "jest": "18.0.0",
     "react": "15.4.1",
-    "react-addons-test-utils": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "react-native": "0.40.0",
-    "react-router": "4.0.0-alpha.5",
+    "react-native": "0.41.1",
+    "react-router": "4.0.0-beta.5",
     "react-test-renderer": "15.4.1"
   }
 }

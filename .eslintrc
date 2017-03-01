@@ -16,6 +16,7 @@
   },
   "globals": {
     "React$Element": true,
+    "ReactClass": true,
     "__DEV__": true,
     "describe": true,
     "expect": true,

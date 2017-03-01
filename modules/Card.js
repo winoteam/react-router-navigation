@@ -1,24 +1,15 @@
 /* @flow */
-/* eslint react/no-unused-prop-types: 0 */
+/* eslint no-duplicate-imports: 0 */
 
 import React, { Component, createElement } from 'react'
-import { Match } from 'react-router'
-import type { CardProps, CardState } from './CardTypeDefinitions'
+import { Route } from 'react-router'
+import type { RouterHistory, Match } from 'react-router'
+import type { CardProps, CardState } from './TypeDefinitions'
 
 type Props = CardProps & CardState
 
-type MatchProps = {
-  pattern: string,
-  pathname: string,
-  location: { pathname: string },
-  isExact: boolean,
-  pararms: Object,
-}
-
-type RendererProps = MatchProps & CardState
-
 type State = {
-  matchProps: ?MatchProps,
+  match: ?Match,
   pathname: ?string,
 }
 
@@ -28,41 +19,36 @@ class Card extends Component<void, Props, State> {
 
   state: State = {
     pathname: null,
-    matchProps: null,
+    match: null,
   }
 
-  static displayName = 'Card'
-
-  renderMatchView = (matchProps: MatchProps): ?React$Element<RendererProps> => {
+  renderView = (props: Props & RouterHistory & { match: Match }): ?React$Element<any> => {
+    const { match, location: { pathname } } = props
     // Set match props
-    if (!this.state.pathname) this.state.pathname = matchProps.pathname
-    if (
-      this.state.pathname === matchProps.pathname ||
-      !this.state.matchProps
-    ) {
-      this.state.matchProps = matchProps
+    if (!this.state.pathname) this.state.pathname = pathname
+    if (this.state.pathname === pathname || !this.state.match) {
+      this.state.match = match
     }
-    // Render view with props
-    const { render, component, isTransitioning, isFocused } = this.props
-    const props = {
-      ...this.state.matchProps,
+    const { render, children, component, isTransitioning, isFocused } = this.props
+    const routeProps = {
+      ...props,
+      match: this.state.match,
       isTransitioning,
       isFocused,
     }
-    if (render) return render(props)
-    else if (component) return createElement(component, props)
+    // Render view
+    if (render) return render(routeProps)
+    else if (children) return children(routeProps)
+    else if (component) return createElement(component, routeProps)
     return null
   }
 
-  shouldComponentUpdate() {
-    return false
-  }
-
   render(): React$Element<any> {
+    const { path, exact, strict } = this.props
     return (
-      <Match {...this.props}>
-        {this.renderMatchView}
-      </Match>
+      <Route path={path} exact={exact} strict={strict}>
+        {this.renderView}
+      </Route>
     )
   }
 

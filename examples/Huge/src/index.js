@@ -1,11 +1,15 @@
 import React from 'react'
-import { MemoryRouter } from 'react-router'
-import App from './bundles'
+import { Provider } from 'react-redux'
+import Router from '@helpers/Router'
+import App from '@app'
+import store from '@store'
 
 const Huge = () => (
-  <MemoryRouter initialEntries={['/launch']}>
-    <App />
-  </MemoryRouter>
+  <Provider store={store}>
+    <Router initialEntries={['/app/feed']}>
+      <App />
+    </Router>
+  </Provider>
 )
 
 export default Huge

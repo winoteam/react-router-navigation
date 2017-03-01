@@ -5,6 +5,7 @@ exports[`test <BackButton /> renders correctly 1`] = `
   accessibilityTraits={undefined}
   accessible={true}
   hitSlop={undefined}
+  isTVSelectable={true}
   onLayout={undefined}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -14,25 +15,25 @@ exports[`test <BackButton /> renders correctly 1`] = `
   onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "alignItems": "center",
-      "flex": 1,
-      "flexDirection": "row",
-      "justifyContent": "center",
       "opacity": 1,
     }
   }
-  testID={undefined}>
-  <View>
+  testID={undefined}
+  tvParallaxProperties={undefined}>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "height": 24,
+        "justifyContent": "center",
+        "margin": 10,
+        "width": 24,
+      }
+    }>
     <Image
       source={1}
-      style={
-        Object {
-          "height": 24,
-          "margin": 10,
-          "resizeMode": "contain",
-          "width": 24,
-        }
-      } />
+      style={undefined} />
   </View>
 </View>
 `;

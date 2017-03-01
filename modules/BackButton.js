@@ -7,19 +7,22 @@ import { StyleSheet, Platform, View, TouchableNativeFeedback, TouchableOpacity, 
 
 type Props = {
   onPress: Function,
+  backButtonStyle?: 'default' | 'light' | 'dark',
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: 24,
+    width: 24,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    margin: Platform.OS === 'ios' ? 10 : 16,
   },
-  main: {
+  img: {
     height: 24,
     width: 24,
-    margin: Platform.OS === 'ios' ? 10 : 16,
+    borderWidth: 3,
     resizeMode: 'contain',
   },
 })
@@ -35,23 +38,22 @@ const arrows = {
     ? require('./assets/back-dark.png')
     : require('./assets/back-default.png'),
   light: isAndroid
-    ? require('./assets/back-dark.png')
-    : require('./assets/back-default.png'),
+    ? require('./assets/back-light.png')
+    : require('./assets/back-light.png'),
   dark: isAndroid
     ? require('./assets/back-dark.png')
-    : require('./assets/back-default.png'),
+    : require('./assets/back-dark.png'),
 }
 
-const BackButton = ({ onPress }: Props): React$Element<any> => {
-  const Arrow = arrows.default
-  const background = Platform.OS === 'android' && TouchableNativeFeedback.Ripple('white', true)
+const BackButton = ({ onPress, backButtonStyle = 'default' }: Props): React$Element<any> => {
+  const Arrow = arrows[backButtonStyle]
+  const background = isAndroid && TouchableNativeFeedback.Ripple('white', true)
   return (
     <Touchable
-      style={styles.container}
       background={background}
       onPress={onPress}
     >
-      <View>
+      <View style={styles.container}>
         <Image
           style={styles.main}
           source={Arrow}

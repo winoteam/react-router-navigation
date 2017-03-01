@@ -1,92 +1,84 @@
 import React from 'react'
-import { StyleSheet, Platform, View, Text } from 'react-native'
-import { MemoryRouter, Match, Redirect } from 'react-router'
-import { Navigation, Card, Tabs, Tab, Link } from 'react-router-navigation'
+import { StyleSheet, View, Text } from 'react-native'
+import { Switch, Route, Redirect } from 'react-router'
+import { NativeRouter, Link } from 'react-router-native'
+import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
 
 const styles = StyleSheet.create({
-  navigation: {
-    flex: 1,
-  },
-  tabs: {
-    flex: 1,
-  },
-  scene: {
-    flex: 1,
-    marginTop: Platform.OS === 'ios' ? 64 : 54,
-  },
-  tab: {
+  container: {
     flex: 1,
   },
 })
 
 export default () => (
-  <MemoryRouter>
-    <Navigation style={styles.container}>
+  <NativeRouter>
+    <Navigation>
       <Card
-        exactly
-        pattern="/"
+        exact
+        path="/"
         render={() => (
-          <View style={styles.scene}>
+          <View style={styles.container}>
             <Text>Index</Text>
-            <Link to="/yolo">Push to a new scene</Link>
+            <Link to="/yolo">
+              <Text>Push to a new scene</Text>
+            </Link>
           </View>
         )}
       />
       <Card
-        pattern="/yolo"
+        path="/yolo"
         component={() => (
-          <View style={styles.scene}>
+          <View style={styles.container}>
             <Text>Yolo</Text>
-            <Link to="/hello/one">Push to tabs</Link>
+            <Link to="/hello/one">
+              <Text>Push to tabs</Text>
+            </Link>
           </View>
         )}
         title="Yolo"
       />
       <Card
-        pattern="/hello"
+        path="/hello"
         title="Hello"
-        render={() => (
-          <View style={{ flex: 1 }}>
-            <Match
-              exactly
-              pattern="/hello"
-              render={() => <Redirect to="/hello/one" />}
+        render={({ match: { url } }) => (
+          <Switch>
+            <Route
+              exact
+              path={url}
+              render={() => <Redirect to={`${url}/one`} />}
             />
-            <Tabs
-              style={styles.scene}
-              containerStyle={styles.tabs}
-            >
+            <Tabs style={styles.container}>
               <Tab
-                pattern="/hello/one"
+                path={`${url}/one`}
                 label="One"
                 render={() => (
-                  <View style={styles.tab}>
+                  <View style={styles.container}>
                     <Text>One</Text>
                   </View>
                 )}
               />
               <Tab
-                pattern="/hello/two"
+                path={`${url}/two`}
                 label="Two"
                 render={() => (
-                  <View style={styles.tab}>
+                  <View style={styles.container}>
                     <Text>Two</Text>
                   </View>
                 )}
               />
               <Tab
-                pattern="/hello/three"
+                path={`${url}/three`}
                 label="Three"
                 render={() => (
-                  <View style={styles.tab}>
+                  <View style={styles.container}>
                     <Text>Three</Text>
                   </View>
                 )}
               />
             </Tabs>
-          </View>
+          </Switch>
         )}
       />
     </Navigation>
-  </MemoryRouter>
+  </NativeRouter>
 )

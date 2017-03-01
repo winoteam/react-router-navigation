@@ -1,25 +1,23 @@
 /* @flow */
-/* eslint react/no-unused-prop-types: 0 */
 
 import React from 'react'
-import { Match } from 'react-router'
-import type { TabProps } from './TabTypeDefinitions'
+import { Route } from 'react-router'
+import type { TabProps } from './TypeDefinitions'
 
 type Props = TabProps
 
 const Tab = (props: Props) => {
-  const { render, component: Component } = props
+  const { path, exact, strict, render, children, component: Component } = props
   return (
-    <Match {...props}>
-      {(matchProps) => {
-        if (render) return render(matchProps)
-        else if (Component) return <Component {...matchProps} />
+    <Route path={path} exact={exact} strict={strict}>
+      {(routeProps) => {
+        if (render) return render(routeProps)
+        else if (children) return children(routeProps)
+        else if (Component) return <Component {...routeProps} />
         return null
       }}
-    </Match>
+    </Route>
   )
 }
-
-Tab.displayName = 'Tab'
 
 export default Tab

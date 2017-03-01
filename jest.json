@@ -1,5 +1,8 @@
 {
   "preset": "react-native",
   "testRegex": "./__tests__/.*-test.js$",
-  "rootDir": "."
+  "rootDir": ".",
+  "transformIgnorePatterns": [
+    "node_modules/(?!react-native|react-navigation)"
+  ]
 }

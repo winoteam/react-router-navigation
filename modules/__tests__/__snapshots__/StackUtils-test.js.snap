@@ -1,0 +1,8 @@
+exports[`StackUtils.build() util build() creates correctly render method 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail">
+  /
+</Text>
+`;

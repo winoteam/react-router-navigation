@@ -1,173 +1,124 @@
 /* @flow */
-/* eslint no-lonely-if: 0 */
+/* eslint no-duplicate-imports: 0 */
 
-import React, { PropTypes, Component } from 'react'
-import { Dimensions } from 'react-native'
-import { TabViewTransitioner } from 'react-native-tab-view'
-import _ from 'lodash'
-import type { SceneRendererProps, NavigationState } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { Tabs, TabProps } from './TabTypeDefinitions'
-import type { Match, History, Entries } from './HistoryTypeDefinitions'
-import { getCurrentRoute, buildTabs, getCleanedHistory } from './utils'
+import { Component } from 'react'
+import { withRouter } from 'react-router'
+import { StateUtils } from 'react-navigation'
+import type { RouterHistory, Location } from 'react-router'
+import type { NavigationState, TabRendererProps, Tabs, TabRoute, TabProps } from './TypeDefinitions'
+import StackUtils from './StackUtils'
 
-type Props = {
-  style?: StyleSheet | Array<?StyleSheet>,
+type Props = RouterHistory & {
   children: Array<React$Element<TabProps>>,
-  render: (
-    props: SceneRendererProps & {
-      tabs: Tabs,
-      onRequestChangeTab: (index: number) => void,
-    }) => React$Element<any>,
-}
-
-type DefaultProps = {}
-
-type Context = {
-  match: Match,
-  history: History,
+  render: (props: TabRendererProps) => React$Element<any>,
+  forceSync?: boolean,
 }
 
 type State = {
-  navigationState: NavigationState,
+  navigationState: NavigationState<TabRoute>,
   tabs: Tabs,
-  tabsEntries: {
-    [key: number]: Entries,
-  },
-  firstEntryIndex: number,
+  rootIndex: number,
+  history: { [key: number]: Array<Location> },
 }
 
-class TabStack extends Component<DefaultProps, Props, State> {
+class TabStack extends Component<void, Props, State> {
 
   props: Props
   state: State
-  context: Context
 
-  static defaultProps: DefaultProps = {
-    syncHistoryEntries: false,
-  }
-
-  static contextTypes = {
-    history: PropTypes.object,
-    match: PropTypes.object,
-  }
-
-  unlistenHistory: Function
-
-  // Initialyze navigation state with
-  // initial history
-  constructor(props: Props, context: Context): void {
-    super(props, context)
-    // Build the tab stack
-    const { children } = props
-    const tabs = buildTabs(children)
+  // Initialyze navigation state with initial history
+  constructor(props: Props): void {
+    super(props)
+    // Build the tab stack ($FlowFixMe)
+    const { children, entries, location } = props
+    const tabs = StackUtils.build(children)
     // Get initial route
-    const { match, history } = context
-    const { location, entries } = history
-    const parent = match && match.parent
-    const currentRoute = getCurrentRoute(tabs, parent, location)
+    const currentRoute = StackUtils.getRoute(tabs, location)
+    if (!currentRoute) throw new Error('No route found !')
     // Build navigation state
-    const routes = tabs.map(({ key }) => ({ key }))
-    const index = routes.findIndex((route) => {
-      if (!currentRoute) return false
-      return currentRoute.key === route.key
-    })
+    const routes = tabs.map((tab) => ({
+      // $FlowFixMe
+      key: StackUtils.createKey({ key: tab.key }),
+      routeName: tab.path,
+    }))
+    const index = routes.findIndex(({ routeName }) => currentRoute.key === routeName)
     const navigationState = { index, routes }
-    // Link history entries to current tab
-    const tabsEntries = {}
-    tabsEntries[index] = [...entries]
-    const firstEntryIndex = entries.length - 1
-    // Save everything in state
-    this.state = { navigationState, tabs, tabsEntries, firstEntryIndex }
-  }
-
-  // Listen history from <MemoryRouter />
-  componentDidMount(): void {
-    const { history } = this.context
-    // @TODO $FlowFixMe
-    this.unlistenHistory = history.listen(this.onListenHistory)
-  }
-
-  // Remove all listeners
-  componentWillUnmount(): void {
-    this.unlistenHistory()
+    const rootIndex = props.index || 0
+    // Initialyze cached history
+    const history = {
+      [index]: entries.slice(location.index),
+    }
+    // Save everything
+    this.state = { navigationState, tabs, rootIndex, history }
   }
 
   // Listen all history events
-  onListenHistory = (): void => {
-    // Get current route
-    const { navigationState, tabs, firstEntryIndex, tabsEntries } = this.state
-    const route = navigationState.routes[navigationState.index]
-    const currentTab = tabs.find((tab) => route && tab.key === route.key)
-    // Get next route
-    const { history, match } = this.context
-    const { action, location } = history
-    const parent = match && match.parent
-    const nextRoute = getCurrentRoute(tabs, parent, location)
-    const currentTabIndex = navigationState.routes
-      .findIndex(({ key }) => nextRoute && key === nextRoute.key)
+  componentWillReceiveProps(nextProps): void {
+    // Get current route ($FlowFixMe)
+    const { location, entries } = nextProps
+    const { navigationState: { routes, index }, tabs, rootIndex } = this.state
+    // Get current tab
+    const currentRoute = routes[index]
+    const currentTab = StackUtils.get(tabs, currentRoute)
+    // Get next tab
+    const nextRoute = StackUtils.getRoute(tabs, location)
+    if (!nextRoute) return
+    const nextTab = StackUtils.get(tabs, nextRoute)
+    const nextIndex = routes.findIndex(({ routeName }) => routeName === nextRoute.key)
+    // Update navigation state
+    if (
+      currentTab && nextTab &&
+      StackUtils.shouldUpdate(currentTab, nextTab, this.props, nextProps)
+    ) {
+      this.setState((state) => ({
+        navigationState: StateUtils.jumpToIndex(
+          state.navigationState,
+          nextIndex,
+        ),
+      }))
+    }
+    // Update history
     if (nextRoute) {
-      // Save tab entries
-      const nextHistory = getCleanedHistory(
-        history,
-        { tabs, tabsEntries, currentTabIndex, firstEntryIndex }
+      this.state.history[nextIndex] = entries.slice(
+        rootIndex,
+        nextProps.index + 1,
       )
-      this.state.tabsEntries = {
-        ...tabsEntries,
-        [currentTabIndex]: [...nextHistory.entries],
-      }
-      // Local state must be updated ?
-      if ((currentTab && currentTab.key !== nextRoute.key) || !currentTab) {
-        if (action === 'REPLACE') {
-          // Sync history entries
-          Object.assign(this.context.history, nextHistory)
-          // Update navigation state and tabsEntries
-          this.setState({
-            navigationState: {
-              ...navigationState,
-              index: currentTabIndex,
-            },
-          })
-        }
-      }
     }
   }
 
   // Callback for when the current tab changes
   onRequestChangeTab = (index: number): void => {
-    const tab = this.state.tabs[Math.round(index)]
-    if (tab) this.context.history.replace(tab.key)
+    const entries = this.state.history[index]
+    const tab = this.state.tabs[index]
+    if (tab) {
+      const n = this.state.rootIndex - (this.props.index || 0)
+      if (this.props.forceSync) {
+        this.props.go(n)
+        this.props.replace(tab.path)
+        if (entries) {
+          entries
+            .slice(this.state.rootIndex + 1)
+            .forEach(({ pathname }) => {
+              this.props.push(pathname)
+            })
+          this.props.replace(
+            entries[Math.max(0, parseInt(entries.length - 1))].pathname
+          )
+        }
+      } else {
+        this.props.replace(tab.path)
+      }
+    }
   }
 
-  // Render when index is updated or when
-  // one route is updated
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    return !_.isEqual(
-      this.state.navigationState,
-      nextState.navigationState,
-    )
-  }
-
-  // Render into <TabViewTransitioner /> with
-  // custom render() prop
-  // !! Warning: transitions are disabled by default !!
+  // Render view
   render(): React$Element<any> {
-    const { width, height } = Dimensions.get('window')
-    return (
-      <TabViewTransitioner
-        style={this.props.style}
-        initialLayout={{ width, height }}
-        navigationState={this.state.navigationState}
-        configureTransition={() => null}
-        onRequestChangeTab={this.onRequestChangeTab}
-        render={(props: SceneRendererProps) => this.props.render({
-          ...this.state,
-          ...props,
-          onRequestChangeTab: this.onRequestChangeTab,
-        })}
-      />
-    )
+    return this.props.render({
+      ...this.state,
+      onRequestChangeTab: this.onRequestChangeTab,
+    })
   }
 
 }
 
-export default TabStack
+export default withRouter(TabStack)
