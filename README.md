@@ -6,8 +6,6 @@
 navigators or tab views. This library is based on `react-router`, `react-navigation`,
 and `react-native-tab-view`.
 
-**Note:** This library is experimental.
-
 ## How to use
 Install:
 ```shell
