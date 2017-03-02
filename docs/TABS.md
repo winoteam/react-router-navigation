@@ -1,6 +1,5 @@
 # ```<Tabs />```
-Bottom navigation bars make it easy to explore and switch between top-level views in a single tap.
-
+Tabs make it easy to explore and switch between different views.
 
 ## Example
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/tabs.gif" width="250">
