@@ -28,15 +28,7 @@ const App = () => (
 * **labelStyle** ```?(StyleSheet | Function)``` styling text item
 
 #### ```<Tab />``` props
-[```<Route />``` props](https://reacttraining.com/react-router/#route) :
-* **path** ```string``` any valid URL path that [`path-to-regexp`](https://www.npmjs.com/package/path-to-regexp) understands.
-* **exact** ```?boolean``` when true, will only match if the path matches the location.pathname exactly
-* **strict** ```?boolean``` when true, a path that has a trailing slash will only match a location.pathname with a trailing slash
-* **children** ```?Function``` function children prop
-* **render** ```?Function```  function to be called when the location matches
-* **component** ```?ReactComponent``` a React component to render only when the location matches
-
-Custom props :
+* [```... <Route />``` props](https://reacttraining.com/react-router/#route)
 * **label** ```?string``` text that appears on each item
 * **labelStyle** ```?(StyleSheet | Function)``` styling text item
 * **renderTabIcon** ```?Function``` optional callback which receives the current scene and returns a React Element to be used as a icon
