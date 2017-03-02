@@ -64,7 +64,7 @@ const App = () => (
 An example can be found [here](https://github.com/LeoLeBras/react-router-navigation/blob/master/examples/Huge/src/helpers/Router.js).
 
 ## Contributing
-Want to hack on ```react-router-navigation``? Awesome! We welcome contributions from anyone and everyone. :rocket:
+Want to hack on ```react-router-navigation```? Awesome! We welcome contributions from anyone and everyone. :rocket:
 
 ## Questions
 If you have any questions, feel free to get in touch on Twitter, [@Leo_LeBras](https://twitter.com/Leo_LeBras).
