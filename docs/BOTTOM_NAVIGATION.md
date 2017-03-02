@@ -3,8 +3,7 @@ Bottom navigation bars make it easy to explore and switch between top-level view
 
 
 ## Example
-
-![<BottomNavigation />](https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/bottom-navigation.gif =450x)
+<img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/bottom-navigation.gif" width="250">
 
 ```js
 import React from 'react'
