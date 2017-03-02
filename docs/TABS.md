@@ -23,6 +23,7 @@ const App = () => (
 * **renderTabBar** ```?Function``` : callback which renders a bottom tab bar
 * **label** ```?string``` text that appears on each item
 * **labelStyle** ```?(StyleSheet | Function)``` styling text item
+* **tabBarStyle** ```?StyleSheet``` styling tab bar
 * **tabBarIndicatorStyle** ```?StyleSheet``` style object for the tab indicator
 
 #### ```<Tab />``` props

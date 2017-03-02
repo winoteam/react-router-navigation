@@ -102,6 +102,7 @@ export type TabBarProps = {
     props: TabBarProps & SceneRendererProps & TabRendererProps
   ) => React$Element<any>,
   // <Tabs /> only
+  tabBarStyle: ?StyleSheet,
   tabBarIndicatorStyle?: StyleSheet
 }
 
