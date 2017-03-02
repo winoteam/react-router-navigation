@@ -32,7 +32,7 @@ export default () => (
           component={() => (
             <View style={styles.container}>
               <Text>Yolo</Text>
-              <Link to="/hello/one">
+              <Link to="/hello">
                 <Text>Push to tabs</Text>
               </Link>
             </View>
