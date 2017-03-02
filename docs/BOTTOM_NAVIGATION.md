@@ -1,7 +1,7 @@
 # ```<BottomNavigation />```
 Bottom navigation bars make it easy to explore and switch between top-level views in a single tap. (from [material.io](https://material.io/guidelines/components/bottom-navigation.html#))
 
-![<BottomNavigation />](https://github.com/LeoLeBras/react-router-navigation/tree/dev/docs/bottom-navigation.gif)
+![<BottomNavigation />](https://github.com/LeoLeBras/react-router-navigation/tree/master/docs/bottom-navigation.gif)
 
 ```js
 import React from 'react'
