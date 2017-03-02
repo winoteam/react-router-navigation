@@ -12,8 +12,8 @@ import { BottomNavigation, Tab } from 'react-router-navigation'
 const App = () => (
   <BottomNavigation>
     <Tab path="/one" component={require('./One')} />
-    <Tab path="/two" component={require('./One')} />
-    <Tab path="/three" component={require('./Two')} />
+    <Tab path="/two" component={require('./Two')} />
+    <Tab path="/three" component={require('./Three')} />
   </BottomNavigation>
 )
 ```
