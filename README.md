@@ -8,6 +8,18 @@ and `react-native-tab-view`.
 
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/bottom-navigation.gif" width="250">
 
+## Highlights
+* Just an add-on to ```react-router```
+* Declarative composability.
+* Allow you to call transitions anywhere in your code with simple components
+* Dynamic Routing
+* URL Driven Development
+* Easy-to-use navigation solution
+* Tab Bar Support using ```react-native-tab-view```
+* Cross-platform
+* First class deep linking support
+* Nested Navigators
+
 ## How to use
 Install:
 ```shell
