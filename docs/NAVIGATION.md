@@ -33,4 +33,4 @@ const App = () => (
 
 #### ```<Card />``` props
 * [```... <Route />``` props](https://reacttraining.com/react-router/#route)
-* [```... <Navigation />``` props](https://reacttraining.com/react-router/#route)
+* [```... <Navigation />``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navigation--props)
