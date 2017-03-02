@@ -44,6 +44,16 @@ const App = () => (
 * [```<Tabs />```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/TABS.md) make it easy to explore and switch between different views.
 * [```<BottomNavigation />```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md) make it easy to explore and switch between top-level views in a single tap.
 
+## Advanced
+#### Platform Support
+React Router Native is cross-platform. It supports all platforms that [`react-navigation`](https://github.com/react-community/react-navigation/) and[`react-native-tab-view`](https://github.com/react-native-community/react-native-tab-view)  supports (Android and iOS).
+
+#### Redux integration
+An example can be found [here](https://github.com/LeoLeBras/react-router-navigation/blob/master/examples/Huge/src/helpers/Router.js).
+
+## Contributing
+Want to hack on ```react-router-navigation``? Awesome! We welcome contributions from anyone and everyone. :rocket:
+
 ## Questions
 If you have any questions, feel free to get in touch on Twitter, [@Leo_LeBras](https://twitter.com/Leo_LeBras).
 
