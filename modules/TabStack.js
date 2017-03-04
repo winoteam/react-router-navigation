@@ -91,8 +91,8 @@ class TabStack extends Component<void, Props, State> {
     const entries = this.state.history[index]
     const tab = this.state.tabs[index]
     if (tab) {
-      const n = this.state.rootIndex - (this.props.index || 0)
       if (this.props.forceSync) {
+        const n = this.state.rootIndex - (this.props.index || 0)
         this.props.go(n)
         this.props.replace(tab.path)
         if (entries) {
