@@ -25,7 +25,7 @@ type SceneRendererProps =
   & TabRendererProps
 
 type Props = TabBarProps & {
-  children: Array<React$Element<any>>,
+  children?: Array<React$Element<any>>,
 }
 
 class Tabs extends Component<void, Props, void> {
@@ -34,8 +34,8 @@ class Tabs extends Component<void, Props, void> {
 
   onRequestChangeTab = (props: SceneRendererProps & { route: any }): void => {
     const { route, tabs, onRequestChangeTab } = props
-    const index = tabs.findIndex(({ path, ...tab }) => {
-      return matchPath(route.routeName, path, tab)
+    const index = tabs.findIndex((tab) => {
+      return matchPath(route.routeName, tab)
     })
     if (index) onRequestChangeTab(index)
   }

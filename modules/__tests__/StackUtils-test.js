@@ -5,7 +5,7 @@ import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
 import StackUtils from './../StackUtils'
 
-const { build, shouldUpdate, get, getRoute, createKey } = StackUtils
+const { build, shouldUpdate, get, getRoute, createKey, withRouter } = StackUtils
 
 describe('StackUtils.build() util', () => {
   it('build() works correctly', () => {
@@ -37,7 +37,7 @@ describe('StackUtils.build() util', () => {
     const children = [
       <Route
         path="/"
-        render={({ path }) => <Text>{path}</Text>}
+        render={({ location }) => <Text>{location.pathname}</Text>}
       />
     ]
     const stack = build(children)
@@ -63,7 +63,11 @@ describe('StackUtils.shouldUpdate() util', () => {
       initialIndex: 1,
       initialEntries: ['/foo', '/bar'],
     })
-    const input = shouldUpdate(currentCard, nextCard, currentRouterHistory, nextRouterHistory)
+    const input = shouldUpdate(
+      currentCard, nextCard,
+      { history: currentRouterHistory, location: currentRouterHistory.location },
+      { history: nextRouterHistory, location: nextRouterHistory.location },
+    )
     expect(input).toBeTruthy()
   })
   it('shouldUpdate() returns false when paths are equal', () => {
@@ -76,7 +80,11 @@ describe('StackUtils.shouldUpdate() util', () => {
       initialIndex: 0,
       initialEntries: ['/foo'],
     })
-    const input = shouldUpdate(currentCard, nextCard, currentRouterHistory, nextRouterHistory)
+    const input = shouldUpdate(
+      currentCard, nextCard,
+      { history: currentRouterHistory, location: currentRouterHistory.location },
+      { history: nextRouterHistory, location: nextRouterHistory.location },
+    )
     expect(input).toBeFalsy()
   })
   it('shouldUpdate() returns true when paths (with params) are equal and pathnames are different (1)', () => {
@@ -89,7 +97,11 @@ describe('StackUtils.shouldUpdate() util', () => {
     const nextRouterHistory = createHistory({
       initialEntries: ['/article/1', '/article/2'],
     })
-    const input = shouldUpdate(currentCard, nextCard, currentRouterHistory, nextRouterHistory)
+    const input = shouldUpdate(
+      currentCard, nextCard,
+      { history: currentRouterHistory, location: currentRouterHistory.location },
+      { history: nextRouterHistory, location: nextRouterHistory.location },
+    )
     expect(input).toBeTruthy()
   })
   it('shouldUpdate() returns true when paths (with params) are equal and pathnames are different (2)', () => {
@@ -102,7 +114,11 @@ describe('StackUtils.shouldUpdate() util', () => {
       initialIndex: 1,
       initialEntries: ['/article/1', '/article/2'],
     })
-    const input = shouldUpdate(currentCard, nextCard, currentRouterHistory, nextRouterHistory)
+    const input = shouldUpdate(
+      currentCard, nextCard,
+      { history: currentRouterHistory, location: currentRouterHistory.location },
+      { history: nextRouterHistory, location: nextRouterHistory.location },
+    )
     expect(input).toBeTruthy()
   })
   it('shouldUpdate() returns false when paths (without params) are equal and pathname are different', () => {
@@ -115,7 +131,11 @@ describe('StackUtils.shouldUpdate() util', () => {
       initialIndex: 1,
       initialEntries: ['/app', '/app/article'],
     })
-    const input = shouldUpdate(currentCard, nextCard, currentRouterHistory, nextRouterHistory)
+    const input = shouldUpdate(
+      currentCard, nextCard,
+      { history: currentRouterHistory, location: currentRouterHistory.location },
+      { history: nextRouterHistory, location: nextRouterHistory.location },
+    )
     expect(input).toBeFalsy()
   })
 })
@@ -148,5 +168,23 @@ describe('StackUtils.createKey() util', () => {
   it('createKey() works correctly', () => {
     const key = createKey({ key: '/foo' })
     expect(key.slice(0, 4)).toEqual('/foo')
+  })
+})
+
+describe('StackUtils.withRouter() util', () => {
+  it('withRouter() renders without crashing', () => {
+    const history = createHistory()
+    const component = renderer.create(
+      <Router history={history}>
+        <Route
+          path="/"
+          render={withRouter(() => (
+            <Text>=)</Text>
+          ))}
+        />
+      </Router>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

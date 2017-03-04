@@ -2,14 +2,13 @@
 /* eslint no-duplicate-imports: 0 */
 
 import { Component } from 'react'
-import { withRouter } from 'react-router'
 import { StateUtils } from 'react-navigation'
-import type { RouterHistory, Location } from 'react-router'
+import type { ContextRouter, Location } from 'react-router'
 import type { NavigationState, TabRendererProps, Tabs, TabRoute, TabProps } from './TypeDefinitions'
 import StackUtils from './StackUtils'
 
-type Props = RouterHistory & {
-  children: Array<React$Element<TabProps>>,
+type Props = ContextRouter & {
+  children?: Array<React$Element<TabProps>>,
   render: (props: TabRendererProps) => React$Element<any>,
   forceSync?: boolean,
 }
@@ -30,7 +29,7 @@ class TabStack extends Component<void, Props, State> {
   constructor(props: Props): void {
     super(props)
     // Build the tab stack ($FlowFixMe)
-    const { children, entries, location } = props
+    const { children, history: { entries, location } } = props
     const tabs = StackUtils.build(children)
     // Get initial route
     const currentRoute = StackUtils.getRoute(tabs, location)
@@ -43,7 +42,7 @@ class TabStack extends Component<void, Props, State> {
     }))
     const index = routes.findIndex(({ routeName }) => currentRoute.key === routeName)
     const navigationState = { index, routes }
-    const rootIndex = props.index || 0
+    const rootIndex = props.history.index || 0
     // Initialyze cached history
     const history = {
       [index]: entries.slice(location.index),
@@ -55,7 +54,7 @@ class TabStack extends Component<void, Props, State> {
   // Listen all history events
   componentWillReceiveProps(nextProps): void {
     // Get current route ($FlowFixMe)
-    const { location, entries } = nextProps
+    const { location, history: { entries } } = nextProps
     const { navigationState: { routes, index }, tabs, rootIndex } = this.state
     // Get current tab
     const currentRoute = routes[index]
@@ -81,7 +80,7 @@ class TabStack extends Component<void, Props, State> {
     if (nextRoute) {
       this.state.history[nextIndex] = entries.slice(
         rootIndex,
-        nextProps.index + 1,
+        nextProps.history.index + 1,
       )
     }
   }
@@ -93,27 +92,27 @@ class TabStack extends Component<void, Props, State> {
     if (index !== this.state.navigationState.index) {
       if (tab) {
         if (this.props.forceSync) {
-          const n = this.state.rootIndex - (this.props.index || 0)
-          this.props.go(n)
-          this.props.replace(tab.path)
+          const n = this.state.rootIndex - (this.props.history.index || 0)
+          this.props.history.go(n)
+          this.props.history.replace(tab.path)
           if (entries) {
             entries
               .slice(this.state.rootIndex + 1)
               .forEach(({ pathname }) => {
-                this.props.push(pathname)
+                this.props.history.push(pathname)
               })
-            this.props.replace(
+            this.props.history.replace(
               entries[Math.max(0, parseInt(entries.length - 1))].pathname
             )
           }
         } else {
-          this.props.replace(tab.path)
+          this.props.history.replace(tab.path)
         }
       }
     } else {
-      const n = this.state.rootIndex - (this.props.index || 0)
+      const n = this.state.rootIndex - (this.props.history.index || 0)
       if (n < 0) {
-        this.props.go(n)
+        this.props.history.go(n)
       } else {
         const props = { ...this.props, ...tab }
         if (props.onReset) props.onReset(props)
@@ -131,4 +130,4 @@ class TabStack extends Component<void, Props, State> {
 
 }
 
-export default withRouter(TabStack)
+export default StackUtils.withRouter(TabStack)

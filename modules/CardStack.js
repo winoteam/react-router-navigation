@@ -3,9 +3,9 @@
 
 import { Component } from 'react'
 import { BackAndroid } from 'react-native'
-import { matchPath, withRouter } from 'react-router'
+import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
-import type { RouterHistory } from 'react-router'
+import type { ContextRouter } from 'react-router'
 import type { CardRendererProps, NavigationState, Cards, CardProps, CardRoute } from './TypeDefinitions'
 import StackUtils from './StackUtils'
 
@@ -14,8 +14,8 @@ type State = {
   cards: Cards,
 }
 
-type Props = RouterHistory & {
-  children: Array<React$Element<CardProps>>,
+type Props = ContextRouter & {
+  children?: Array<React$Element<CardProps>>,
   render: (props: CardRendererProps) => React$Element<any>,
 }
 
@@ -27,19 +27,19 @@ class CardStack extends Component<void, Props, State> {
   // Initialyze navigation state with initial history
   constructor(props: Props): void {
     super(props)
-    // Build the card stack ($FlowFixMe
-    const { children, entries, location } = props
+    // Build the card stack ($FlowFixMe)
+    const { children, history: { entries, location } } = props
     const cards = children && StackUtils.build(children)
     // Get initial route of navigation state
     if (!entries) throw new Error('No history entries found')
     // Build navigation state
     const navigationState = entries.reduce((state, { pathname }) => {
       const card = cards.find(({ path, exact, strict }) => {
-        return matchPath(pathname, path, { exact, strict })
+        return matchPath(pathname, { path, exact, strict })
       })
       if (!card || !card.path) return state
       return {
-        index: matchPath(location.pathname, card.path, card)
+        index: matchPath(location.pathname, card)
           ? state.routes.length
           : state.index,
         routes: [
@@ -67,8 +67,7 @@ class CardStack extends Component<void, Props, State> {
 
   // Listen all history events
   componentWillReceiveProps(nextProps: Props): void {
-    // $FlowFixMe
-    const { location, action } = nextProps
+    const { location, history: { action } } = nextProps
     const { cards, navigationState } = this.state
     // Get current card
     const currentRoute = navigationState.routes[navigationState.index]
@@ -95,8 +94,10 @@ class CardStack extends Component<void, Props, State> {
           break
         }
         case 'POP': {
-          if (this.props.index === undefined || nextProps.index === undefined) return
-          const n = this.props.index - nextProps.index
+          if (this.props.history.index === undefined || nextProps.history.index === undefined) {
+            return
+          }
+          const n = this.props.history.index - nextProps.history.index
           if (n > 1) {
             this.setState({
               navigationState: StateUtils.reset(
@@ -133,7 +134,7 @@ class CardStack extends Component<void, Props, State> {
   // Pop to previous scene (n-1)
   onNavigateBack = (): boolean => {
     if (this.state.navigationState.index > 0) {
-      this.props.goBack()
+      this.props.history.goBack()
       return true
     }
     return false
@@ -149,4 +150,4 @@ class CardStack extends Component<void, Props, State> {
 
 }
 
-export default withRouter(CardStack)
+export default StackUtils.withRouter(CardStack)

@@ -21,7 +21,7 @@ type TabSceneRendererProps =
   & TabBarProps
 
 type Props = TabBarProps & {
-  children: Array<React$Element<TabProps>>,
+  children?: Array<React$Element<TabProps>>,
   lazy?: boolean,
   style?: StyleSheet,
 }
@@ -52,6 +52,7 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
     const tabBarProps = { ...this.props, ...props, ...tab }
     // Custom tab bar
     if (tabBarProps.renderTabBar) {
+      // $FlowFixMe
       return createElement(
         tabBarProps.renderTabBar,
         tabBarProps,
@@ -87,7 +88,6 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
         forceSync={true}
         render={(props) => (
           <TabViewAnimated
-            // $FlowFixMe
             {...props}
             style={[styles.container, this.props.style]}
             initialLayout={Dimensions.get('window')}

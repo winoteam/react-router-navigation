@@ -1,9 +1,9 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
 
-import { Children, cloneElement } from 'react'
+import React, { PropTypes, Children, cloneElement } from 'react'
 import { matchPath } from 'react-router'
-import type { RouterHistory } from 'react-router'
+import type { RouterHistory, Location } from 'react-router'
 import type { Route } from './TypeDefinitions'
 
 export default {
@@ -43,18 +43,18 @@ export default {
   shouldUpdate: (
     currentItem: { path: string, exact?: boolean, strict?: boolean },
     nextItem: { path: string, exact?: boolean, strict?: boolean },
-    currentRouterHistory: RouterHistory,
-    nextRouterHistory: RouterHistory,
+    currentContext: { location: Location, history: RouterHistory },
+    nextContext: { location: Location, history: RouterHistory },
   ): boolean => {
-    const { location: currentLocation } = currentRouterHistory
-    const { entries, index, location: nextLocation } = nextRouterHistory
+    const { location: currentLocation } = currentContext
+    const { history: { entries, index }, location: nextLocation } = nextContext
     if (entries === undefined || index === undefined) return false
     // Get entries and matchs
     const previousEntry = entries[index - 1]
     const currentEntry = entries[index]
     const nextEntry = entries[index + 1]
-    const matchCurrentRoute = matchPath(nextLocation.pathname, currentItem.path, currentItem)
-    const matchNextRoute = matchPath(nextLocation.pathname, nextItem.path, nextItem)
+    const matchCurrentRoute = matchPath(nextLocation.pathname, currentItem)
+    const matchNextRoute = matchPath(nextLocation.pathname, nextItem)
     return (
       // Test if pathames are different
       (currentLocation.pathname !== nextLocation.pathname) &&
@@ -92,7 +92,7 @@ export default {
   getRoute: <Item>(stack: Array<Item>, location: Location): ?Route => {
     const item = stack.find((stackItem) => {
       // $FlowFixMe
-      return matchPath(location.pathname, stackItem.path, stackItem)
+      return matchPath(location.pathname, stackItem)
     })
     if (!item || !item.key || typeof item.key !== 'string') return null
     return { key: item.key, routeName: item.key }
@@ -104,6 +104,24 @@ export default {
    */
   createKey: (route: Route): string => {
     return `${route.key}@@${Math.random().toString(36).substr(2, 10)}`
+  },
+
+
+  /**
+   * Get history from context
+   * @TODO remove this util in favor of ReactRouter.withRouter
+   */
+  withRouter: (Component: ReactClass<any>): ((props: any, context: any) => React$Element<any>) => {
+    const WithRouter = (props: any, context: any): React$Element<any> => (
+      <Component
+        {...props}
+        history={context && { ...context.history }}
+        location={context && context.history.location}
+      />
+    )
+    WithRouter.contextTypes = { history: PropTypes.object.isRequired }
+    WithRouter.displayName = `withRouter(${Component.displayName || Component.name})`
+    return WithRouter
   },
 
 }

@@ -13,8 +13,7 @@ import StackUtils from './StackUtils'
 type SceneRendererProps = CardRendererProps & NavigationSceneRendererProps
 
 type Props = NavBarProps & {
-  children: Array<React$Element<any>>,
-  render: (props: SceneRendererProps) => React$Element<any>,
+  children?: Array<React$Element<any>>,
 }
 
 class Navigation extends Component<void, Props, void> {
