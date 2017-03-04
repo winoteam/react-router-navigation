@@ -40,24 +40,24 @@ export type CardState = {
 export type NavBarProps = {
   // General
   hideNavBar?: boolean,
-  renderNavBar: (
+  renderNavBar?: (
     props: CardRendererProps & NavigationSceneRendererProps
   ) => React$Element<any>,
   navBarStyle?: StyleSheet,
   // Left button
   hideBackButton?: boolean,
-  backButtonStyle: 'default' | 'light' | 'dark',
-  renderLeftButton: (
+  backButtonStyle?: 'default' | 'light' | 'dark',
+  renderLeftButton?: (
     props: CardRendererProps & NavigationSceneRendererProps
   ) => React$Element<any>,
   // Title
   title?: string,
   titleStyle?: StyleSheet,
-  renderTitle: (
+  renderTitle?: (
     props: CardRendererProps & NavigationSceneRendererProps
   ) => React$Element<any>,
   // Right button
-  renderRightButton: (
+  renderRightButton?: (
     props: CardRendererProps & NavigationSceneRendererProps
   ) => React$Element<any>
 }
