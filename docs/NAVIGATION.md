@@ -9,10 +9,19 @@ import React from 'react'
 import { Navigation, Card } from 'react-router-navigation'
 
 const App = () => (
-  <Navigation>
-    <Card path="/one" component={require('./One')} />
-    <Card path="/two" component={require('./Two')} />
-    <Card path="/three" component={require('./Three')} />
+  <Navigation
+    navBarStyle={{ background: 'purple' }}
+    titleStyle={{ color: 'white' }}
+  >
+    <Card
+      exact path="/feed"
+      component={require('./Feed')}
+    />
+    <Card
+      backButtonStyle="light"
+      path="/feed/article/:id"
+      component={require('./Article')}
+    />
   </Navigation>
 )
 ```

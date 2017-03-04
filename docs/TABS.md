@@ -9,7 +9,11 @@ import React from 'react'
 import { Tabs, Tab } from 'react-router-navigation'
 
 const App = () => (
-  <Tabs>
+  <Tabs
+    labelStyle={{ color: 'white' }}
+    tabBarStyle={{ backgroundColor: 'purple' }}
+    tabBarIndicatorStyle={{ background: 'white' }}
+  >
     <Tab path="/one" component={require('./One')} />
     <Tab path="/two" component={require('./Two')} />
     <Tab path="/three" component={require('./Three')} />

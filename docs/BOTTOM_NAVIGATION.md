@@ -10,10 +10,13 @@ import React from 'react'
 import { BottomNavigation, Tab } from 'react-router-navigation'
 
 const App = () => (
-  <BottomNavigation>
-    <Tab path="/one" component={require('./One')} />
-    <Tab path="/two" component={require('./Two')} />
-    <Tab path="/three" component={require('./Three')} />
+  <BottomNavigation
+    lazy={false}
+    labelStyle={({ isActive }) => isActive && { color: 'purple' }}
+  >
+    <Tab label="Feed" path="/feed" component={require('./Feed')} />
+    <Tab label="Search" path="/search" component={require('./Search')} />
+    <Tab label="Profile" path="/profile" component={require('./Profile')} />
   </BottomNavigation>
 )
 ```
