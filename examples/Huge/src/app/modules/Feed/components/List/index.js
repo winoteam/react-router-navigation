@@ -24,6 +24,10 @@ class List extends Component {
     }
   }
 
+  scrollTo = (options: Object): void => {
+    if (this.listView) this.listView.scrollTo(options)
+  }
+
   shouldComponentUpdate(nextProps) {
     return nextProps.isFocused && !nextProps.isTransitioning
   }

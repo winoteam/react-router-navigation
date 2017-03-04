@@ -90,23 +90,33 @@ class TabStack extends Component<void, Props, State> {
   onRequestChangeTab = (index: number): void => {
     const entries = this.state.history[index]
     const tab = this.state.tabs[index]
-    if (tab) {
-      if (this.props.forceSync) {
-        const n = this.state.rootIndex - (this.props.index || 0)
-        this.props.go(n)
-        this.props.replace(tab.path)
-        if (entries) {
-          entries
-            .slice(this.state.rootIndex + 1)
-            .forEach(({ pathname }) => {
-              this.props.push(pathname)
-            })
-          this.props.replace(
-            entries[Math.max(0, parseInt(entries.length - 1))].pathname
-          )
+    if (index !== this.state.navigationState.index) {
+      if (tab) {
+        if (this.props.forceSync) {
+          const n = this.state.rootIndex - (this.props.index || 0)
+          this.props.go(n)
+          this.props.replace(tab.path)
+          if (entries) {
+            entries
+              .slice(this.state.rootIndex + 1)
+              .forEach(({ pathname }) => {
+                this.props.push(pathname)
+              })
+            this.props.replace(
+              entries[Math.max(0, parseInt(entries.length - 1))].pathname
+            )
+          }
+        } else {
+          this.props.replace(tab.path)
         }
+      }
+    } else {
+      const n = this.state.rootIndex - (this.props.index || 0)
+      if (n < 0) {
+        this.props.go(n)
       } else {
-        this.props.replace(tab.path)
+        const props = { ...this.props, ...tab }
+        if (props.onReset) props.onReset(props)
       }
     }
   }

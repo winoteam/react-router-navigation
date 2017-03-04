@@ -34,8 +34,18 @@ const App = () => (
           >
             <Tab
               path={`${match.url}/feed`}
-              component={Feed}
+              render={(props) => (
+                <Feed
+                  {...props}
+                  ref={(c) => this.feed = c}
+                />
+              )}
               label="Feed"
+              onReset={() => {
+                if (this.feed && this.feed.listView) {
+                  this.feed.listView.scrollTo({ y: 0 })
+                }
+              }}
             />
             <Tab
               path={`${match.url}/search`}
