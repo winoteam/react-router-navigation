@@ -35,3 +35,4 @@ const App = () => (
 * **label** ```?string``` text that appears on each item
 * **labelStyle** ```?(StyleSheet | Function)``` styling text item
 * **renderTabIcon** ```?Function``` optional callback which receives the current scene and returns a React Element to be used as a icon
+* **onReset** ```?Function``` callback which resets the current tab

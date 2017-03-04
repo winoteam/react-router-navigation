@@ -34,3 +34,4 @@ const App = () => (
 * [```... <Route />``` props](https://reacttraining.com/react-router/#route)
 * **label** ```?string``` text that appears on each item
 * **labelStyle** ```?(StyleSheet | Function)``` styling text item
+* **onReset** ```?Function``` callback which resets the current tab
