@@ -6,8 +6,8 @@ import Header from 'react-navigation/src/views/Header'
 import HeaderTitle from 'react-navigation/src/views/HeaderTitle'
 import type { NavigationSceneRendererProps } from 'react-navigation/src/TypeDefinition'
 import type { CardRendererProps } from './TypeDefinitions'
-import BackButton from './BackButton'
 import StackUtils from './StackUtils'
+import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton'
 
 type RendererProps =
   & CardRendererProps
@@ -33,9 +33,9 @@ class NavBar extends Component<void, Props, void> {
     if (index === 0 || !onNavigateBack || navBarProps.hideBackButton) return null
     // Return default <BackButton /> component
     return (
-      <BackButton
-        {...navBarProps}
-        onPress={onNavigateBack}
+      <HeaderBackButton
+        {...props}
+        onPress={props.onNavigateBack}
       />
     )
   }
