@@ -1,7 +1,6 @@
 /* @flow */
 
 // High-level wrappers
-export { default as BackButton } from './modules/BackButton'
 export { default as BottomNavigation } from './modules/BottomNavigation'
 export { default as BottomNavigationBar } from './modules/BottomNavigationBar'
 export { default as Card } from './modules/Card'

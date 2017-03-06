@@ -4,8 +4,7 @@
 import React from 'react'
 import { TouchableWithoutFeedback, StyleSheet, Platform, Dimensions, PixelRatio, View, Text } from 'react-native'
 import { Route } from 'react-router'
-import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { TabBarProps, TabRendererProps } from './TypeDefinitions'
+import type { TabSubViewProps } from './TypeDefinitions'
 
 const DEFAULT_ANDROID_COLOR = '#008f8d'
 const DEFAULT_IOS_COLOR = '#0075ff'
@@ -59,14 +58,8 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props =
-  & TabBarProps
-  & SceneRendererProps
-  & TabRendererProps
-
-const BottomNavigationBar = (props: Props): React$Element<any> => (
+const BottomNavigationBar = (props: TabSubViewProps): React$Element<any> => (
   <View style={styles.container}>
-    {/* $FlowFixMe */}
     {props.tabs.map((tab, index) => (
       <Route
         key={index}

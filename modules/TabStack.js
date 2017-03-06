@@ -2,20 +2,23 @@
 /* eslint no-duplicate-imports: 0 */
 
 import { Component } from 'react'
-import { StateUtils } from 'react-navigation'
+import { matchPath } from 'react-router'
 import type { ContextRouter, Location } from 'react-router'
-import type { NavigationState, TabRendererProps, Tabs, TabRoute, TabProps } from './TypeDefinitions'
-import StackUtils from './StackUtils'
+import type { NavigationState, Route, TabsRendererProps, Tab, TabProps } from './TypeDefinitions'
+import * as StackUtils from './StackUtils'
 
 type Props = ContextRouter & {
   children?: Array<React$Element<TabProps>>,
-  render: (props: TabRendererProps) => React$Element<any>,
+  render: (props: TabsRendererProps) => React$Element<any>,
   forceSync?: boolean,
 }
 
 type State = {
-  navigationState: NavigationState<TabRoute>,
-  tabs: Tabs,
+  navigationState: NavigationState<Route & {
+    title?: string,
+    testID?: string,
+  }>,
+  tabs: Array<Tab>,
   rootIndex: number,
   history: { [key: number]: Array<Location> },
 }
@@ -28,19 +31,25 @@ class TabStack extends Component<void, Props, State> {
   // Initialyze navigation state with initial history
   constructor(props: Props): void {
     super(props)
-    // Build the tab stack ($FlowFixMe)
+    // Build the tab stack $FlowFixMe
     const { children, history: { entries, location } } = props
     const tabs = StackUtils.build(children)
     // Get initial route
     const currentRoute = StackUtils.getRoute(tabs, location)
     if (!currentRoute) throw new Error('No route found !')
     // Build navigation state
-    const routes = tabs.map((tab) => ({
-      // $FlowFixMe
-      key: StackUtils.createKey({ key: tab.key }),
-      routeName: tab.path,
-    }))
-    const index = routes.findIndex(({ routeName }) => currentRoute.key === routeName)
+    const routes = tabs.map((tab) => {
+      const route = {
+        key: tab.key,
+        routeName: tab.path,
+        match: matchPath(location.pathname, tab),
+      }
+      return {
+        ...route,
+        key: StackUtils.createKey(route),
+      }
+    })
+    const index = routes.findIndex(({ routeName }) => currentRoute.routeName === routeName)
     const navigationState = { index, routes }
     const rootIndex = props.history.index || 0
     // Initialyze cached history
@@ -53,7 +62,7 @@ class TabStack extends Component<void, Props, State> {
 
   // Listen all history events
   componentWillReceiveProps(nextProps): void {
-    // Get current route ($FlowFixMe)
+    // Get current route $FlowFixMe
     const { location, history: { entries } } = nextProps
     const { navigationState: { routes, index }, tabs, rootIndex } = this.state
     // Get current tab
@@ -63,17 +72,22 @@ class TabStack extends Component<void, Props, State> {
     const nextRoute = StackUtils.getRoute(tabs, location)
     if (!nextRoute) return
     const nextTab = StackUtils.get(tabs, nextRoute)
-    const nextIndex = routes.findIndex(({ routeName }) => routeName === nextRoute.key)
+    const nextIndex = routes.findIndex(({ routeName }) => routeName === nextRoute.routeName)
     // Update navigation state
     if (
       currentTab && nextTab &&
       StackUtils.shouldUpdate(currentTab, nextTab, this.props, nextProps)
     ) {
-      this.setState((state) => ({
-        navigationState: StateUtils.jumpToIndex(
-          state.navigationState,
-          nextIndex,
-        ),
+      this.setState(({ navigationState }) => ({
+        navigationState: {
+          index: nextIndex,
+          routes: navigationState.routes.map((route, i) => {
+            if (i === nextIndex) {
+              return nextRoute
+            }
+            return route
+          }),
+        },
       }))
     }
     // Update history

@@ -1,7 +1,7 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
 
-import React, { Component, cloneElement } from 'react'
+import React, { cloneElement, Component } from 'react'
 import { NativeModules, StyleSheet, Platform, View } from 'react-native'
 import { Transitioner } from 'react-navigation'
 import Card from 'react-navigation/src/views/Card'
@@ -9,7 +9,7 @@ import CardStackPanResponder from 'react-navigation/src/views/CardStackPanRespon
 import TransitionConfigs from 'react-navigation/src/views/TransitionConfigs'
 import type { TransitionConfig } from 'react-navigation/src/views/TransitionConfigs'
 import type { NavigationTransitionProps } from 'react-navigation/src/TypeDefinition'
-import type { CardRendererProps } from './TypeDefinitions'
+import type { CardsRendererProps } from './TypeDefinitions'
 
 const NativeAnimatedModule = NativeModules && NativeModules.NativeAnimatedModule
 
@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
 })
 
 type SceneRendererProps =
-  & CardRendererProps
+  & CardsRendererProps
   & NavigationTransitionProps
 
-type Props = CardRendererProps & {
+type Props = CardsRendererProps & {
   renderScene: (props: SceneRendererProps) => ?React$Element<any>,
   renderHeader: (props: SceneRendererProps) => ?React$Element<any>,
 }
@@ -82,7 +82,7 @@ class Navigation extends Component<void, Props, State> {
       this.state.index = index
       this.state.isTransitioning = true
     }
-    const cardState = {
+    const state = {
       isFocused: scene.isActive,
       isTransitioning: this.state.isTransitioning,
     }
@@ -94,11 +94,11 @@ class Navigation extends Component<void, Props, State> {
       return (
         <View style={{ flex: 1 }}>
           {Platform.OS === 'android' && this.props.renderHeader(props)}
-          {cloneElement(SceneView, cardState)}
+          {cloneElement(SceneView, { state })}
         </View>
       )
     }
-    return cloneElement(SceneView, cardState)
+    return cloneElement(SceneView, { state })
   }
 
   renderCard = (props: SceneRendererProps): React$Element<any> => {

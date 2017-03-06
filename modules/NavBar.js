@@ -4,33 +4,29 @@ import React, { Component } from 'react'
 import { Platform } from 'react-native'
 import Header from 'react-navigation/src/views/Header'
 import HeaderTitle from 'react-navigation/src/views/HeaderTitle'
-import type { NavigationSceneRendererProps } from 'react-navigation/src/TypeDefinition'
-import type { CardRendererProps } from './TypeDefinitions'
-import StackUtils from './StackUtils'
 import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton'
+import type { CardSubViewProps } from './TypeDefinitions'
+import * as StackUtils from './StackUtils'
 
-type RendererProps =
-  & CardRendererProps
-  & NavigationSceneRendererProps
-
-type Props = RendererProps
+type Props = CardSubViewProps
 
 class NavBar extends Component<void, Props, void> {
 
   props: Props
 
-  renderLeftComponent = (props: RendererProps): ?React$Element<any> => {
-    // Get current card
-    const { onNavigateBack, cards, scene: { index, route } } = props
-    const card = StackUtils.get(cards, route)
-    // Get nav bar props
-    const navBarProps = { ...props, ...card }
+  renderLeftComponent = (props: CardSubViewProps): ?React$Element<any> => {
     // Custom left component
-    if (navBarProps.renderLeftButton) {
-      return navBarProps.renderLeftButton(props)
+    if (props.renderLeftButton) {
+      return props.renderLeftButton(props)
     }
     // Hide back button
-    if (index === 0 || !onNavigateBack || navBarProps.hideBackButton) return null
+    if (
+      props.navigationState.index === 0 ||
+      !props.onNavigateBack ||
+      props.hideBackButton
+    ) {
+      return null
+    }
     // Return default <BackButton /> component
     return (
       <HeaderBackButton
@@ -40,54 +36,37 @@ class NavBar extends Component<void, Props, void> {
     )
   }
 
-  renderTitleComponent= (props: RendererProps): ?React$Element<any> => {
-    // Get current card
-    const { cards, scene: { route } } = props
-    const card = StackUtils.get(cards, route)
-    if (!card) return null
-    // Get nav bar props
-    const navBarProps = { ...props, ...card }
+  renderTitleComponent= (props: CardSubViewProps): ?React$Element<any> => {
     // Render custom title component
-    if (navBarProps.renderTitle) return navBarProps.renderTitle(navBarProps)
+    if (props.renderTitle) {
+      return props.renderTitle(props)
+    }
     // Return <ReactNavigation.HeaderTitle /> component
     return (
-      <HeaderTitle style={navBarProps.titleStyle}>
-        {navBarProps.title}
+      <HeaderTitle style={props.titleStyle}>
+        {props.title}
       </HeaderTitle>
     )
   }
 
-  renderRightComponent = (props: RendererProps): ?React$Element<any> => {
-    // Get current card
-    const { cards, scene: { route } } = props
-    const card = StackUtils.get(cards, route)
-    if (!card) return null
-    // Get nav bar props
-    const navBarProps = { ...props, ...card }
+  renderRightComponent = (props: CardSubViewProps): ?React$Element<any> => {
     // Render cusqtom right component
-    const { renderRightButton } = navBarProps
-    if (renderRightButton) return renderRightButton(navBarProps)
+    if (props.renderRightButton) {
+      return props.renderRightButton(props)
+    }
     // Else return null =)
     return null
   }
 
   render(): ?React$Element<any> {
-    // Get current card
-    const { cards, scene: { route } } = this.props
-    const card = StackUtils.get(cards, route)
-    if (!card) return null
-    // Get nav bar props
-    const navBarProps = { ...this.props, ...card }
-    // Return <ReactNavigation.Header /> component
     return (
-      // $FlowFixMe
       <Header
-        {...navBarProps}
+        {...this.props}
         mode={Platform.OS === 'ios' ? 'float' : 'screen'}
-        style={navBarProps.navBarStyle}
-        renderLeftComponent={(props) => this.renderLeftComponent({ ...navBarProps, ...props })}
-        renderTitleComponent={(props) => this.renderTitleComponent({ ...navBarProps, ...props })}
-        renderRightComponent={(props) => this.renderRightComponent({ ...navBarProps, ...props })}
+        style={this.props.navBarStyle}
+        renderLeftComponent={StackUtils.renderSubView(this.renderLeftComponent, this.props)}
+        renderTitleComponent={StackUtils.renderSubView(this.renderTitleComponent, this.props)}
+        renderRightComponent={StackUtils.renderSubView(this.renderRightComponent, this.props)}
       />
     )
   }

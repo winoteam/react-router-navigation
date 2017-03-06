@@ -3,10 +3,10 @@
 
 import React, { Component, createElement } from 'react'
 import { Route } from 'react-router'
-import type { RouterHistory, Match } from 'react-router'
-import type { CardProps, CardState } from './TypeDefinitions'
+import type { ContextRouter, Match } from 'react-router'
+import type { CardProps } from './TypeDefinitions'
 
-type Props = CardProps & CardState
+type Props = CardProps
 
 type State = {
   match: ?Match,
@@ -22,23 +22,22 @@ class Card extends Component<void, Props, State> {
     match: null,
   }
 
-  renderView = (props: Props & RouterHistory & { match: Match }): ?React$Element<any> => {
+  renderView = (props: ContextRouter): ?React$Element<any> => {
     const { match, location: { pathname } } = props
     // Set match props
     if (!this.state.pathname) this.state.pathname = pathname
     if (this.state.pathname === pathname || !this.state.match) {
       this.state.match = match
     }
-    const { render, children, component, isTransitioning, isFocused } = this.props
+    const { render, children, component } = this.props
     const routeProps = {
+      ...this.props,
       ...props,
       match: this.state.match,
-      isTransitioning,
-      isFocused,
     }
     // Render view
     if (render) return render(routeProps)
-    else if (children) return children(routeProps)
+    else if (children && typeof children === 'function') return children(routeProps)
     else if (component) return createElement(component, routeProps)
     return null
   }

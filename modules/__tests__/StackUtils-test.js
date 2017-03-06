@@ -3,7 +3,7 @@ import { Text } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
-import StackUtils from './../StackUtils'
+import * as StackUtils from './../StackUtils'
 
 const { build, shouldUpdate, get, getRoute, createKey, withRouter } = StackUtils
 
@@ -145,6 +145,7 @@ describe('StackUtils.get() util', () => {
     const route = { key: '/index@@h9208990', routeName: '/index' }
     const currentCard = {
       key: '/index',
+      routeName: '/index',
       title: 'Index',
     }
     const cards = [{
@@ -159,8 +160,7 @@ describe('StackUtils.getRoute() util', () => {
   it('getRoute() works correctly', () => {
     const stack = [{ key: '/foo', path: '/foo' }, { key: '/bar', path: '/bar' }]
     const history = createHistory({ initialEntries: ['/bar'] })
-    const currentRoute = { key: '/bar', routeName: '/bar' }
-    expect(getRoute(stack, history.location)).toEqual(currentRoute)
+    expect(getRoute(stack, history.location).routeName).toEqual('/bar')
   })
 })
 
