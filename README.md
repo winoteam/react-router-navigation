@@ -9,8 +9,8 @@ and `react-native-tab-view`.
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/bottom-navigation.gif" width="250">
 
 ## Highlights
-* Just an add-on to ```react-router```
-* Declarative composability.
+* *Just an add-on to ```react-router```*
+* Declarative composability
 * Allow you to call transitions anywhere in your code with simple components
 * Dynamic Routing
 * URL Driven Development
