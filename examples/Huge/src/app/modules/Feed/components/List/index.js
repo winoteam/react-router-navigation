@@ -6,8 +6,10 @@ import styles from './styles'
 class List extends Component {
 
   static propTypes = {
-    isFocused: PropTypes.bool.isRequired,
-    isTransitioning: PropTypes.bool.isRequired,
+    state: PropTypes.shape({
+      isFocused: PropTypes.bool.isRequired,
+      isTransitioning: PropTypes.bool.isRequired,
+    }),
   }
 
   constructor(props) {
@@ -29,7 +31,10 @@ class List extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.isFocused && !nextProps.isTransitioning
+    return (
+      nextProps.state.isFocused &&
+      !nextProps.state.isTransitioning
+    )
   }
 
   render() {

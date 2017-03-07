@@ -6,7 +6,7 @@ import store from '@store'
 
 const Huge = () => (
   <Provider store={store}>
-    <Router initialEntries={['/app/feed']}>
+    <Router initialEntries={['/app']}>
       <App />
     </Router>
   </Provider>

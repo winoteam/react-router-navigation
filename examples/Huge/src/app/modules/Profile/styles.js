@@ -17,6 +17,21 @@ const styles = StyleSheet.create({
   indicatorStyle: {
     backgroundColor: 'white',
   },
+  link: {
+    marginTop: 20,
+    marginLeft: -8,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderWidth: 1,
+    borderColor: BRAND_COLOR_50,
+    borderRadius: 3,
+  },
+  span: {
+    color: BRAND_COLOR_50,
+  },
+  strong: {
+    fontWeight: '700',
+  },
 })
 
 export default styles

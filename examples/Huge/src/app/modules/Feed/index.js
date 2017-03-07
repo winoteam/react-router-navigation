@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
+import { Link } from 'react-router-native'
 import { Navigation, Card } from 'react-router-navigation'
+import HeaderTitle from 'react-navigation/src/views/HeaderTitle'
 import List from './components/List'
 import Article from './components/Article'
 import styles from './styles'
@@ -10,7 +12,11 @@ class Feed extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Navigation>
+        <Navigation
+          navBarStyle={styles.navBar}
+          titleStyle={styles.title}
+          backButtonTintColor="white"
+        >
           <Card
             exact
             path="/app/feed"
@@ -20,17 +26,22 @@ class Feed extends Component {
                 {...props}
               />
             )}
+            renderRightButton={() => (
+              <Link to="/app/feed/new">
+                <Text>New</Text>
+              </Link>
+            )}
             title="Feed"
-            navBarStyle={styles.navBar}
-            titleStyle={styles.title}
           />
           <Card
             path="/app/feed/article/:id"
             component={Article}
             title="Item"
-            navBarStyle={styles.navBar}
-            backButtonStyle="light"
-            titleStyle={styles.title}
+            renderTitle={({ title, match }) => (
+              <HeaderTitle style={styles.title}>
+                {title} {match && match.params.id}
+              </HeaderTitle>
+            )}
           />
         </Navigation>
       </View>
