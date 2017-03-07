@@ -3379,6 +3379,10 @@ react-native-drawer-layout@^1.1.0:
     autobind-decorator "^1.3.2"
     react-native-dismiss-keyboard "1.0.0"
 
+react-native-material-bottom-navigation@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-material-bottom-navigation/-/react-native-material-bottom-navigation-0.4.0.tgz#42a8cff37e0b25bbe5e99fd7c726d7eb0450c23c"
+
 react-native-tab-view@0.0.56, react-native-tab-view@^0.0.56:
   version "0.0.56"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.56.tgz#7417a1f6502deef49abf58ba76a1cde213abbbf1"
