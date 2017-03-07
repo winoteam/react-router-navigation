@@ -3,18 +3,20 @@
 
 import { Component } from 'react'
 import { matchPath } from 'react-router'
-import type { ContextRouter, Location } from 'react-router'
-import type { NavigationState, Route, TabsRendererProps, Tab, TabProps } from './TypeDefinitions'
+import type { RouterHistory, Location } from 'react-router'
+import withRouter from './withRouter'
+import type { NavigationState, TabsRendererProps, Tab, TabProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
-type Props = ContextRouter & {
+type Props = {
+  history: RouterHistory,
   children?: Array<React$Element<TabProps>>,
   render: (props: TabsRendererProps) => React$Element<any>,
   forceSync?: boolean,
 }
 
 type State = {
-  navigationState: NavigationState<Route & {
+  navigationState: NavigationState<{
     title?: string,
     testID?: string,
   }>,
@@ -63,7 +65,7 @@ class TabStack extends Component<void, Props, State> {
   // Listen all history events
   componentWillReceiveProps(nextProps): void {
     // Get current route $FlowFixMe
-    const { location, history: { entries } } = nextProps
+    const { history: { location, entries } } = nextProps
     const { navigationState: { routes, index }, tabs, rootIndex } = this.state
     // Get current tab
     const currentRoute = routes[index]
@@ -76,17 +78,12 @@ class TabStack extends Component<void, Props, State> {
     // Update navigation state
     if (
       currentTab && nextTab &&
-      StackUtils.shouldUpdate(currentTab, nextTab, this.props, nextProps)
+      StackUtils.shouldUpdate(currentTab, nextTab, this.props.history, nextProps.history)
     ) {
       this.setState(({ navigationState }) => ({
         navigationState: {
           index: nextIndex,
-          routes: navigationState.routes.map((route, i) => {
-            if (i === nextIndex) {
-              return nextRoute
-            }
-            return route
-          }),
+          routes: navigationState.routes,
         },
       }))
     }
@@ -134,6 +131,13 @@ class TabStack extends Component<void, Props, State> {
     }
   }
 
+  // Should update
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    const { index, routes } = this.state.navigationState
+    const { index: nextIndex, routes: nextRoutes } = nextState.navigationState
+    return routes[index].key !== nextRoutes[nextIndex].key
+  }
+
   // Render view
   render(): React$Element<any> {
     return this.props.render({
@@ -144,4 +148,4 @@ class TabStack extends Component<void, Props, State> {
 
 }
 
-export default StackUtils.withRouter(TabStack)
+export default withRouter(TabStack)

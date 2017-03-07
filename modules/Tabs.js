@@ -33,7 +33,9 @@ class Tabs extends Component<void, Props, State> {
 
   state: State = { key: Math.random().toString(10) }
 
-  renderHeader = (props: TabSubViewProps): React$Element<any> => {
+  renderHeader = (props: TabSubViewProps): ?React$Element<any> => {
+    // Hide tab bar
+    if (props.hideTabBar) return null
     // Custom tab bar
     if (props.renderTabBar) {
       return createElement(
@@ -58,15 +60,17 @@ class Tabs extends Component<void, Props, State> {
         }}
         renderLabel={({ route }) => {
           const currentTab = StackUtils.get(props.tabs, route)
+          const ownProps = { ...props, ...currentTab }
+          if (ownProps.renderLabel) return ownProps.renderLabel(ownProps)
           return (
             <Text
               style={[
                 styles.tabLabel,
                 props.labelStyle,
-                currentTab && currentTab.labelStyle,
+                ownProps && ownProps.labelStyle,
               ]}
             >
-              {currentTab && currentTab.label}
+              {ownProps && ownProps.label}
             </Text>
           )
         }}
