@@ -3,15 +3,13 @@
 
 import type { ContextRouter, Match } from 'react-router'
 
-export type Route = {
-  key: string,
-  routeName: string,
-  match: ?Match,
-}
-
 export type NavigationState<OwnRoute> = {
   index: number,
-  routes: Array<OwnRoute>
+  routes: Array<{
+    key: string,
+    routeName: string,
+    match: ?Match,
+  } & OwnRoute>
 }
 
 export type RouteState = {
@@ -44,7 +42,7 @@ export type NavBarProps = {
   navBarStyle?: StyleSheet,
   // Left button
   hideBackButton?: boolean,
-  backButtonStyle?: 'default' | 'light' | 'dark',
+  backButtonTintColor?: string,
   renderLeftButton?: (props: CardSubViewProps) => React$Element<any>,
   // Title
   title?: string,
@@ -64,7 +62,7 @@ export type Card =
 
 export type CardsRendererProps = {
   onNavigateBack: Function, // $FlowFixMe
-  navigationState: NavigationState<Route & {
+  navigationState: NavigationState<{
     path?: string,
     params?: Object,
   }>,
@@ -83,6 +81,7 @@ export type CardSubViewProps = any
 
 export type TabBarProps = {
   onReset?: Function,
+  hideTabBar?: boolean,
   renderTabBar?: (props: TabSubViewProps) => React$Element<any>,
   label?: string,
   labelStyle?: StyleSheet,
@@ -104,7 +103,7 @@ export type Tab =
 
 export type TabsRendererProps = {
   onRequestChangeTab: (index: number) => void,
-  navigationState: NavigationState<Route & {
+  navigationState: NavigationState<{
     title?: string,
     testID?: string,
   }>,

@@ -124,6 +124,7 @@ class Navigation extends Component<void, Props, State> {
   }
 
   renderView = (props: SceneRendererProps): React$Element<any> => {
+    console.log('<DefaultRenderer /> renderView')
     // Build floatingHeader
     const floatingHeader = Platform.OS === 'ios'
       ? this.props.renderHeader(props)

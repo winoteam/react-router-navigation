@@ -21,7 +21,7 @@ class NavBar extends Component<void, Props, void> {
     }
     // Hide back button
     if (
-      props.navigationState.index === 0 ||
+      props.index === 0 ||
       !props.onNavigateBack ||
       props.hideBackButton
     ) {
@@ -31,6 +31,7 @@ class NavBar extends Component<void, Props, void> {
     return (
       <HeaderBackButton
         {...props}
+        tintColor={props.backButtonTintColor}
         onPress={props.onNavigateBack}
       />
     )

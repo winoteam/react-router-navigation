@@ -1,8 +1,8 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
 
-import React, { Component, createElement } from 'react'
-import { Route } from 'react-router'
+import React, { PropTypes, Component, createElement } from 'react'
+import { Route, matchPath } from 'react-router'
 import type { ContextRouter, Match } from 'react-router'
 import type { CardProps } from './TypeDefinitions'
 
@@ -23,8 +23,7 @@ class Card extends Component<void, Props, State> {
   }
 
   renderView = (props: ContextRouter): ?React$Element<any> => {
-    const { match, location: { pathname } } = props
-    // Set match props
+    const { location: { pathname }, match } = props
     if (!this.state.pathname) this.state.pathname = pathname
     if (this.state.pathname === pathname || !this.state.match) {
       this.state.match = match

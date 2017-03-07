@@ -5,19 +5,21 @@ import { Component } from 'react'
 import { BackAndroid } from 'react-native'
 import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
-import type { ContextRouter } from 'react-router'
-import type { CardsRendererProps, NavigationState, Card, CardProps, Route } from './TypeDefinitions'
+import type { RouterHistory } from 'react-router'
+import type { CardsRendererProps, NavigationState, Card, CardProps } from './TypeDefinitions'
+import withRouter from './withRouter'
 import * as StackUtils from './StackUtils'
 
 type State = {
-  navigationState: NavigationState<Route & {
+  navigationState: NavigationState<{
     path?: string,
     params?: Object,
   }>,
   cards: Array<Card>,
 }
 
-type Props = ContextRouter & {
+type Props = {
+  history: RouterHistory,
   children?: Array<React$Element<CardProps>>,
   render: (props: CardsRendererProps) => React$Element<any>,
 }
@@ -68,7 +70,7 @@ class CardStack extends Component<void, Props, State> {
 
   // Listen all history events
   componentWillReceiveProps(nextProps: Props): void {
-    const { location, history: { action } } = nextProps
+    const { history: { location, action } } = nextProps
     const { cards, navigationState } = this.state
     // Get current card
     const currentRoute = navigationState.routes[navigationState.index]
@@ -80,7 +82,7 @@ class CardStack extends Component<void, Props, State> {
     // Local state must be updated ?
     if (
       currentCard && nextCard &&
-      StackUtils.shouldUpdate(currentCard, nextCard, this.props, nextProps)
+      StackUtils.shouldUpdate(currentCard, nextCard, this.props.history, nextProps.history)
     ) {
       const key = StackUtils.createKey(nextRoute)
       switch (action) {
@@ -140,6 +142,13 @@ class CardStack extends Component<void, Props, State> {
     return false
   }
 
+  // Should update
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    const { index, routes } = this.state.navigationState
+    const { index: nextIndex, routes: nextRoutes } = nextState.navigationState
+    return routes[index].key !== nextRoutes[nextIndex].key
+  }
+
   // Render view
   render(): React$Element<any> {
     return this.props.render({
@@ -150,4 +159,4 @@ class CardStack extends Component<void, Props, State> {
 
 }
 
-export default StackUtils.withRouter(CardStack)
+export default withRouter(CardStack)

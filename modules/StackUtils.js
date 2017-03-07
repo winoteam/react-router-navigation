@@ -2,7 +2,7 @@
 /* eslint no-duplicate-imports: 0 */
 /* eslint no-param-reassign: 0 */
 
-import React, { PropTypes, Children, cloneElement } from 'react'
+import { Children, cloneElement } from 'react'
 import { matchPath } from 'react-router'
 import type { RouterHistory, Location } from 'react-router'
 import type { Route } from './TypeDefinitions'
@@ -50,11 +50,11 @@ export const build = <Item>(
 export const shouldUpdate = (
   currentItem: { path: string, exact?: boolean, strict?: boolean },
   nextItem: { path: string, exact?: boolean, strict?: boolean },
-  currentContext: { location: Location, history: RouterHistory },
-  nextContext: { location: Location, history: RouterHistory },
+  currentHistory: RouterHistory,
+  nextHistory: RouterHistory,
 ): boolean => {
-  const { location: currentLocation } = currentContext
-  const { history: { entries, index }, location: nextLocation } = nextContext
+  const { location: currentLocation } = currentHistory
+  const { entries, index, location: nextLocation } = nextHistory
   if (entries === undefined || index === undefined) return false
   // Get entries and matchs
   const previousEntry = entries[index - 1]
@@ -117,24 +117,6 @@ export const getRoute = (stack: Array<Object>, location: Location): ?Route => {
     routeName: item.key,
     match: matchPath(pathname, item),
   }
-}
-
-
-/**
- * Get history from context
- * @TODO remove this util in favor of ReactRouter.withRouter
- */
-export const withRouter = (Component: ReactClass<any>) => {
-  const WithRouter = (props: any, context: any): React$Element<any> => (
-    <Component
-      {...props}
-      history={context && { ...context.history }}
-      location={context && context.history.location}
-    />
-  )
-  WithRouter.contextTypes = { history: PropTypes.object.isRequired }
-  WithRouter.displayName = `withRouter(${Component.displayName || Component.name})`
-  return WithRouter
 }
 
 
