@@ -170,21 +170,3 @@ describe('StackUtils.createKey() util', () => {
     expect(key.slice(0, 4)).toEqual('/foo')
   })
 })
-
-describe('StackUtils.withRouter() util', () => {
-  it('withRouter() renders without crashing', () => {
-    const history = createHistory()
-    const component = renderer.create(
-      <Router history={history}>
-        <Route
-          path="/"
-          render={withRouter(() => (
-            <Text>=)</Text>
-          ))}
-        />
-      </Router>
-    )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-})

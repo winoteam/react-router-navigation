@@ -17,12 +17,16 @@ class Article extends Component {
   state = { time: 0 }
 
   componentDidMount() {
-    setInterval(() => {
+    this.timer = setInterval(() => {
       if (!this.props.state.isFocused) return
       this.setState((state) => ({
         time: state.time + 250,
       }))
     }, 250)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer)
   }
 
   shouldComponentUpdate(nextProps) {

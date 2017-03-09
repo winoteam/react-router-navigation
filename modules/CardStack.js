@@ -3,11 +3,10 @@
 
 import { Component } from 'react'
 import { BackAndroid } from 'react-native'
-import { matchPath } from 'react-router'
+import { withRouter, matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
-import type { RouterHistory } from 'react-router'
+import type { ContextRouter } from 'react-router'
 import type { CardsRendererProps, NavigationState, Card, CardProps } from './TypeDefinitions'
-import withRouter from './withRouter'
 import * as StackUtils from './StackUtils'
 
 type State = {
@@ -18,8 +17,7 @@ type State = {
   cards: Array<Card>,
 }
 
-type Props = {
-  history: RouterHistory,
+type Props = ContextRouter & {
   children?: Array<React$Element<CardProps>>,
   render: (props: CardsRendererProps) => React$Element<any>,
 }
@@ -33,7 +31,7 @@ class CardStack extends Component<void, Props, State> {
   constructor(props: Props): void {
     super(props)
     // Build the card stack $FlowFixMe
-    const { children, history: { entries, location } } = props
+    const { children, history: { entries }, location } = props
     const cards = children && StackUtils.build(children)
     // Get initial route of navigation state
     if (!entries) throw new Error('No history entries found')
@@ -69,11 +67,11 @@ class CardStack extends Component<void, Props, State> {
   }
 
   // Listen all history events
-  componentWillReceiveProps(nextProps: Props): void {
-    const { history: { location, action } } = nextProps
-    const { cards, navigationState } = this.state
+  componentWillReceiveProps(nextProps: ContextRouter): void {
+    const { history: { action, entries }, location } = nextProps
+    const { cards, navigationState: { routes, index } } = this.state
     // Get current card
-    const currentRoute = navigationState.routes[navigationState.index]
+    const currentRoute = routes[index]
     const currentCard = cards.find(({ key }) => key === currentRoute.routeName)
     // Get next card
     const nextRoute = StackUtils.getRoute(cards, location)
@@ -82,50 +80,55 @@ class CardStack extends Component<void, Props, State> {
     // Local state must be updated ?
     if (
       currentCard && nextCard &&
-      StackUtils.shouldUpdate(currentCard, nextCard, this.props.history, nextProps.history)
+      StackUtils.shouldUpdate(currentCard, nextCard, this.props, nextProps)
     ) {
       const key = StackUtils.createKey(nextRoute)
       switch (action) {
         case 'PUSH': {
-          this.setState({
+          this.setState((state) => ({
             navigationState: StateUtils.push(
-              navigationState,
+              state.navigationState,
               { ...nextRoute, key },
             ),
-          })
+          }))
           break
         }
         case 'POP': {
-          if (this.props.history.index === undefined || nextProps.history.index === undefined) {
+          if (
+            this.props.history.index === undefined ||
+            nextProps.history.index === undefined ||
+            entries === undefined
+          ) {
             return
           }
-          const n = this.props.history.index - nextProps.history.index
+          const currentIndex = entries.findIndex(({ pathname }) => matchPath(pathname, currentCard))
+          const n = currentIndex - parseInt(nextProps.history.index)
           if (n > 1) {
-            this.setState({
+            this.setState((state) => ({
               navigationState: StateUtils.reset(
-                navigationState,
-                navigationState.routes.slice(
+                state.navigationState,
+                state.navigationState.routes.slice(
                   0,
-                  (navigationState.index - n) + 1,
+                  (state.navigationState.index - n) + 1,
                 ),
-                navigationState.index - n,
+                state.navigationState.index - n,
               ),
-            })
+            }))
           } else {
-            this.setState({
-              navigationState: StateUtils.pop(navigationState),
-            })
+            this.setState((state) => ({
+              navigationState: StateUtils.pop(state.navigationState),
+            }))
           }
           break
         }
         case 'REPLACE': {
-          this.setState({
+          this.setState((state) => ({
             navigationState: StateUtils.replaceAtIndex(
-              navigationState,
-              navigationState.index,
+              state.navigationState,
+              state.navigationState.index,
               { ...nextRoute, key },
             ),
-          })
+          }))
           break
         }
         default:
@@ -140,13 +143,6 @@ class CardStack extends Component<void, Props, State> {
       return true
     }
     return false
-  }
-
-  // Should update
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    const { index, routes } = this.state.navigationState
-    const { index: nextIndex, routes: nextRoutes } = nextState.navigationState
-    return routes[index].key !== nextRoutes[nextIndex].key
   }
 
   // Render view

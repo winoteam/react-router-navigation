@@ -2,14 +2,12 @@
 /* eslint no-duplicate-imports: 0 */
 
 import { Component } from 'react'
-import { matchPath } from 'react-router'
-import type { RouterHistory, Location } from 'react-router'
-import withRouter from './withRouter'
+import { withRouter, matchPath } from 'react-router'
+import type { ContextRouter, Location } from 'react-router'
 import type { NavigationState, TabsRendererProps, Tab, TabProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
-type Props = {
-  history: RouterHistory,
+type Props = ContextRouter & {
   children?: Array<React$Element<TabProps>>,
   render: (props: TabsRendererProps) => React$Element<any>,
   forceSync?: boolean,
@@ -65,7 +63,7 @@ class TabStack extends Component<void, Props, State> {
   // Listen all history events
   componentWillReceiveProps(nextProps): void {
     // Get current route $FlowFixMe
-    const { history: { location, entries } } = nextProps
+    const { history: { entries }, location } = nextProps
     const { navigationState: { routes, index }, tabs, rootIndex } = this.state
     // Get current tab
     const currentRoute = routes[index]
@@ -78,7 +76,7 @@ class TabStack extends Component<void, Props, State> {
     // Update navigation state
     if (
       currentTab && nextTab &&
-      StackUtils.shouldUpdate(currentTab, nextTab, this.props.history, nextProps.history)
+      StackUtils.shouldUpdate(currentTab, nextTab, this.props, nextProps)
     ) {
       this.setState(({ navigationState }) => ({
         navigationState: {
@@ -129,13 +127,6 @@ class TabStack extends Component<void, Props, State> {
         if (props.onReset) props.onReset(props)
       }
     }
-  }
-
-  // Should update
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    const { index, routes } = this.state.navigationState
-    const { index: nextIndex, routes: nextRoutes } = nextState.navigationState
-    return routes[index].key !== nextRoutes[nextIndex].key
   }
 
   // Render view

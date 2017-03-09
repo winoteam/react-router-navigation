@@ -114,6 +114,7 @@ it('<CardStack /> re-renders correctly when "goBack" action is called with same 
 })
 
 it('<CardStack /> re-renders correctly when "go" action is called', () => {
+  console.log('(start)');
   const history = createHistory({
     initialIndex: 2,
     initialEntries: ['/', '/hello', '/goodbye'],
@@ -131,6 +132,7 @@ it('<CardStack /> re-renders correctly when "go" action is called', () => {
   expect(tree).toMatchSnapshot()
   history.go(-2)
   tree = component.toJSON()
+  console.log('(end)');
   expect(tree).toMatchSnapshot()
 })
 

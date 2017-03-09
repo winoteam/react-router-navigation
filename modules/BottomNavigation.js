@@ -122,7 +122,7 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
         render={(props) => {
           const ownProps = { ...this.props, ...props }
           return (
-            <TabViewAnimated
+            <TabViewAnimated // $FlowFixMe
               {...props}
               key={`transitioner_${this.state.key}`}
               style={[styles.container, this.props.style]}

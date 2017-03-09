@@ -4,7 +4,7 @@
 
 import { Children, cloneElement } from 'react'
 import { matchPath } from 'react-router'
-import type { RouterHistory, Location } from 'react-router'
+import type { ContextRouter, Location } from 'react-router'
 import type { Route } from './TypeDefinitions'
 
 
@@ -48,13 +48,13 @@ export const build = <Item>(
  * Test if current stack item should be updated
  */
 export const shouldUpdate = (
-  currentItem: { path: string, exact?: boolean, strict?: boolean },
-  nextItem: { path: string, exact?: boolean, strict?: boolean },
-  currentHistory: RouterHistory,
-  nextHistory: RouterHistory,
-): boolean => {
-  const { location: currentLocation } = currentHistory
-  const { entries, index, location: nextLocation } = nextHistory
+   currentItem: { path: string, exact?: boolean, strict?: boolean },
+   nextItem: { path: string, exact?: boolean, strict?: boolean },
+   currentContext: ContextRouter,
+   nextContext: ContextRouter,
+ ): boolean => {
+  const { location: currentLocation } = currentContext
+  const { history: { entries, index }, location: nextLocation } = nextContext
   if (entries === undefined || index === undefined) return false
   // Get entries and matchs
   const previousEntry = entries[index - 1]

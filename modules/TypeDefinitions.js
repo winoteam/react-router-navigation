@@ -3,13 +3,15 @@
 
 import type { ContextRouter, Match } from 'react-router'
 
+export type Route = {
+  key: string,
+  routeName: string,
+  match: ?Match,
+}
+
 export type NavigationState<OwnRoute> = {
-  index: number,
-  routes: Array<{
-    key: string,
-    routeName: string,
-    match: ?Match,
-  } & OwnRoute>
+  index: number, // $FlowFixMe
+  routes: Array<Route & OwnRoute>,
 }
 
 export type RouteState = {
@@ -61,7 +63,7 @@ export type Card =
   & { key: string }
 
 export type CardsRendererProps = {
-  onNavigateBack: Function, // $FlowFixMe
+  onNavigateBack: Function,
   navigationState: NavigationState<{
     path?: string,
     params?: Object,

@@ -1,8 +1,8 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
 
-import React, { PropTypes, Component, createElement } from 'react'
-import { Route, matchPath } from 'react-router'
+import React, { Component, createElement } from 'react'
+import { Route } from 'react-router'
 import type { ContextRouter, Match } from 'react-router'
 import type { CardProps } from './TypeDefinitions'
 
