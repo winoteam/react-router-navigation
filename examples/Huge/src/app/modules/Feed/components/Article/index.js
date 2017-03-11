@@ -1,24 +1,16 @@
 /* eslint react/no-unused-prop-types: 0 */
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { Link } from 'react-router-native'
 import styles from './styles'
 
 class Article extends Component {
 
-  static propTypes = {
-    state: PropTypes.shape({
-      isFocused: PropTypes.bool.isRequired,
-      isTransitioning: PropTypes.bool.isRequired,
-    }),
-  }
-
   state = { time: 0 }
 
   componentDidMount() {
     this.timer = setInterval(() => {
-      if (!this.props.state.isFocused) return
       this.setState((state) => ({
         time: state.time + 250,
       }))
@@ -30,15 +22,11 @@ class Article extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.state.isFocused &&
-      !nextProps.state.isTransitioning
-    )
+    return nextProps.match
   }
 
   render() {
-    const { match } = this.props
-    if (!match) return null
+    const { staticMatch: { params } } = this.props
     return (
       <View style={styles.scene}>
         <Text>
@@ -52,10 +40,10 @@ class Article extends Component {
         <Link
           style={styles.link}
           component={TouchableOpacity}
-          to={`/app/feed/article/${parseInt(match.params.id) + 1}`}
+          to={`/app/feed/article/${parseInt(params.id) + 1}`}
         >
           <Text style={styles.span}>
-            See item {parseInt(match.params.id) + 1}
+            See item {parseInt(params.id) + 1}
           </Text>
         </Link>
       </View>
