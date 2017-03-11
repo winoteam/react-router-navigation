@@ -11,6 +11,8 @@ import * as StackUtils from './StackUtils'
 
 type Props = NavBarProps & {
   children?: Array<React$Element<any>>,
+  onTransitionStart?: Function,
+  onTransitionEnd?: Function,
 }
 
 class Navigation extends Component<void, Props, void> {

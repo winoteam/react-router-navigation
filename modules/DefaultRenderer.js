@@ -1,7 +1,7 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
 
-import React, { cloneElement, Component } from 'react'
+import React, { Component } from 'react'
 import { NativeModules, StyleSheet, Platform, View } from 'react-native'
 import { Transitioner } from 'react-navigation'
 import Card from 'react-navigation/src/views/Card'
@@ -29,23 +29,16 @@ type SceneRendererProps =
   & NavigationTransitionProps
 
 type Props = CardsRendererProps & {
+  onTransitionStart?: Function,
+  onTransitionEnd?: Function,
   renderScene: (props: SceneRendererProps) => ?React$Element<any>,
   renderHeader: (props: SceneRendererProps) => ?React$Element<any>,
 }
 
-type State = {
-  isTransitioning: boolean,
-  index: number,
-}
 
-class Navigation extends Component<void, Props, State> {
+class Navigation extends Component<void, Props, void> {
 
   props: Props
-
-  state: State = {
-    isTransitioning: false,
-    index: 0,
-  }
 
   configureTransition = (
     transitionProps: NavigationTransitionProps,
@@ -71,21 +64,7 @@ class Navigation extends Component<void, Props, State> {
     )
   }
 
-  onTransitionEnd = (): void => {
-    this.setState({ isTransitioning: false })
-  }
-
   renderInnerCard = (props: SceneRendererProps): ?React$Element<any> => {
-    const { scene, index } = props
-    // Get card state
-    if (scene && scene.isActive && index !== this.state.index) {
-      this.state.index = index
-      this.state.isTransitioning = true
-    }
-    const state = {
-      isFocused: scene.isActive,
-      isTransitioning: this.state.isTransitioning,
-    }
     // Build scene view
     const SceneView = this.props.renderScene(props)
     if (!SceneView) return null
@@ -94,11 +73,11 @@ class Navigation extends Component<void, Props, State> {
       return (
         <View style={{ flex: 1 }}>
           {Platform.OS === 'android' && this.props.renderHeader(props)}
-          {cloneElement(SceneView, { state })}
+          {SceneView}
         </View>
       )
     }
-    return cloneElement(SceneView, { state })
+    return SceneView
   }
 
   renderCard = (props: SceneRendererProps): React$Element<any> => {
@@ -155,7 +134,8 @@ class Navigation extends Component<void, Props, State> {
       <Transitioner
         configureTransition={this.configureTransition}
         navigation={{ state: navigationState }}
-        onTransitionEnd={this.onTransitionEnd}
+        onTransitionStart={this.props.onTransitionStart}
+        onTransitionEnd={this.props.onTransitionEnd}
         render={(ownProps) => this.renderView({ ...this.props, ...ownProps })}
       />
     )

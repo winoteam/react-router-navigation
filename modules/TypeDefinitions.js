@@ -14,19 +14,10 @@ export type NavigationState<OwnRoute> = {
   routes: Array<Route & OwnRoute>,
 }
 
-export type RouteState = {
-  isFocused: boolean,
-  isTransitioning: boolean,
-}
-
-export type RouteRendererProps =
-  & ContextRouter
-  & { state?: RouteState }
-
 export type RouteProps = {
-  component?: ReactClass<RouteRendererProps>,
-  render?: (props: RouteRendererProps) => React$Element<any>,
-  children?: (props: RouteRendererProps) => React$Element<any>,
+  component?: ReactClass<ContextRouter>,
+  render?: (props: ContextRouter) => React$Element<any>,
+  children?: (props: ContextRouter) => React$Element<any>,
   path: string,
   exact?: boolean,
   strict?: boolean

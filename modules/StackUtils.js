@@ -25,12 +25,7 @@ export const build = <Item>(
       } else if (key === 'render' || key === 'component' || key === 'children') {
         return {
           ...props,
-          [key]: (ownProps) => {
-            return cloneElement(
-              child,
-              { state: ownProps && ownProps.state },
-            )
-          },
+          [key]: () => cloneElement(child),
         }
       }
       return {
