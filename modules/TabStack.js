@@ -1,13 +1,13 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
 
-import { Component } from 'react'
-import { withRouter, matchPath } from 'react-router'
+import React, { Component } from 'react'
+import { Route, matchPath } from 'react-router'
 import type { ContextRouter, Location } from 'react-router'
 import type { NavigationState, TabsRendererProps, Tab, TabProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
-type Props = ContextRouter & {
+type Props = {
   children?: Array<React$Element<TabProps>>,
   render: (props: TabsRendererProps) => React$Element<any>,
   forceSync?: boolean,
@@ -23,9 +23,9 @@ type State = {
   history: { [key: number]: Array<Location> },
 }
 
-class TabStack extends Component<void, Props, State> {
+class TabStack extends Component<void, (Props & ContextRouter), State> {
 
-  props: Props
+  props: (Props & ContextRouter)
   state: State
 
   // Initialyze navigation state with initial history
@@ -33,7 +33,8 @@ class TabStack extends Component<void, Props, State> {
     super(props)
     // Build the tab stack $FlowFixMe
     const { children, history: { entries, location } } = props
-    const tabs = StackUtils.build(children)
+    const tabs = children && StackUtils.build(children)
+    if (!tabs) throw new Error('No childre found')
     // Get initial route
     const currentRoute = StackUtils.getRoute(tabs, location)
     if (!currentRoute) throw new Error('No route found !')
@@ -76,7 +77,7 @@ class TabStack extends Component<void, Props, State> {
     // Update navigation state
     if (
       currentTab && nextTab &&
-      StackUtils.shouldUpdate(currentTab, nextTab, this.props, nextProps)
+      StackUtils.shouldUpdate(currentTab, nextTab, this.props.location, location)
     ) {
       this.setState(({ navigationState }) => ({
         navigationState: {
@@ -139,4 +140,13 @@ class TabStack extends Component<void, Props, State> {
 
 }
 
-export default withRouter(TabStack)
+export default (props: Props) => (
+  <Route>
+    {(ownProps) => (
+      <TabStack
+        {...props}
+        {...ownProps}
+      />
+    )}
+  </Route>
+)

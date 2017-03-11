@@ -4,7 +4,7 @@
 
 import { Children, cloneElement } from 'react'
 import { matchPath } from 'react-router'
-import type { ContextRouter, Location } from 'react-router'
+import type { Location } from 'react-router'
 import type { Route } from './TypeDefinitions'
 
 
@@ -45,17 +45,11 @@ export const build = <Item>(
 export const shouldUpdate = (
    currentItem: { path: string, exact?: boolean, strict?: boolean },
    nextItem: { path: string, exact?: boolean, strict?: boolean },
-   currentContext: ContextRouter,
-   nextContext: ContextRouter,
+   currentLocation: Location,
+   nextLocation: Location,
  ): boolean => {
-  const { location: currentLocation } = currentContext
-  const { history: { entries, index }, location: nextLocation } = nextContext
-  if (entries === undefined || index === undefined) return false
   // Get entries and matchs
-  const previousEntry = entries[index - 1]
-  const currentEntry = entries[index]
-  const nextEntry = entries[index + 1]
-  const matchCurrentRoute = matchPath(nextLocation.pathname, currentItem)
+  const matchCurrentRoute = matchPath(currentLocation.pathname, currentItem)
   const matchNextRoute = matchPath(nextLocation.pathname, nextItem)
   return (
     // Test if pathames are different
@@ -68,9 +62,7 @@ export const shouldUpdate = (
     (matchCurrentRoute !== null && matchNextRoute !== null &&
      Object.keys(matchCurrentRoute.params).length !== 0 &&
      Object.keys(matchNextRoute.params).length !== 0 &&
-     ((previousEntry && currentEntry.pathname !== previousEntry.pathname) ||
-      (nextEntry && currentEntry.pathname !== nextEntry.pathname))
-    ))
+     currentLocation.pathname !== nextLocation.pathname))
   )
 }
 

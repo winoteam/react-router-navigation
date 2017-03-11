@@ -9,8 +9,7 @@ import type { CardProps } from './TypeDefinitions'
 type Props = CardProps
 
 type State = {
-  match: ?Match,
-  pathname: ?string,
+  staticMatch: ?Match,
 }
 
 class Card extends Component<void, Props, State> {
@@ -18,26 +17,23 @@ class Card extends Component<void, Props, State> {
   props: Props
 
   state: State = {
-    pathname: null,
-    match: null,
+    staticMatch: null,
   }
 
   renderView = (props: ContextRouter): ?React$Element<any> => {
-    const { location: { pathname }, match } = props
-    if (!this.state.pathname) this.state.pathname = pathname
-    if (this.state.pathname === pathname || !this.state.match) {
-      this.state.match = match
+    // Initialyze own props
+    if (!this.state.staticMatch && props.match) {
+      this.state.staticMatch = props.match
     }
-    const { render, children, component } = this.props
-    const routeProps = {
-      ...this.props,
+    const ownProps = {
       ...props,
-      match: this.state.match,
+      ...this.state,
     }
     // Render view
-    if (render) return render(routeProps)
-    else if (children && typeof children === 'function') return children(routeProps)
-    else if (component) return createElement(component, routeProps)
+    const { render, children, component } = this.props
+    if (render) return render(ownProps)
+    else if (children && typeof children === 'function') return children(ownProps)
+    else if (component) return createElement(component, ownProps)
     return null
   }
 

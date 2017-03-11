@@ -64,9 +64,10 @@ describe('StackUtils.shouldUpdate() util', () => {
       initialEntries: ['/foo', '/bar'],
     })
     const input = shouldUpdate(
-      currentCard, nextCard,
-      { history: currentRouterHistory, location: currentRouterHistory.location },
-      { history: nextRouterHistory, location: nextRouterHistory.location },
+      currentCard,
+      nextCard,
+      currentRouterHistory.location,
+      nextRouterHistory.location,
     )
     expect(input).toBeTruthy()
   })
@@ -81,9 +82,10 @@ describe('StackUtils.shouldUpdate() util', () => {
       initialEntries: ['/foo'],
     })
     const input = shouldUpdate(
-      currentCard, nextCard,
-      { history: currentRouterHistory, location: currentRouterHistory.location },
-      { history: nextRouterHistory, location: nextRouterHistory.location },
+      currentCard,
+      nextCard,
+      currentRouterHistory.location,
+      nextRouterHistory.location,
     )
     expect(input).toBeFalsy()
   })
@@ -98,9 +100,10 @@ describe('StackUtils.shouldUpdate() util', () => {
       initialEntries: ['/article/1', '/article/2'],
     })
     const input = shouldUpdate(
-      currentCard, nextCard,
-      { history: currentRouterHistory, location: currentRouterHistory.location },
-      { history: nextRouterHistory, location: nextRouterHistory.location },
+      currentCard,
+      nextCard,
+      currentRouterHistory.location,
+      nextRouterHistory.location,
     )
     expect(input).toBeTruthy()
   })
@@ -108,16 +111,17 @@ describe('StackUtils.shouldUpdate() util', () => {
     const currentCard = { path: '/article/:id' }
     const nextCard = { path: '/article/:id' }
     const currentRouterHistory = createHistory({
-      initialEntries: ['/article1'],
+      initialEntries: ['/article/1'],
     })
     const nextRouterHistory = createHistory({
       initialIndex: 1,
       initialEntries: ['/article/1', '/article/2'],
     })
     const input = shouldUpdate(
-      currentCard, nextCard,
-      { history: currentRouterHistory, location: currentRouterHistory.location },
-      { history: nextRouterHistory, location: nextRouterHistory.location },
+      currentCard,
+      nextCard,
+      currentRouterHistory.location,
+      nextRouterHistory.location,
     )
     expect(input).toBeTruthy()
   })
@@ -132,9 +136,10 @@ describe('StackUtils.shouldUpdate() util', () => {
       initialEntries: ['/app', '/app/article'],
     })
     const input = shouldUpdate(
-      currentCard, nextCard,
-      { history: currentRouterHistory, location: currentRouterHistory.location },
-      { history: nextRouterHistory, location: nextRouterHistory.location },
+      currentCard,
+      nextCard,
+      currentRouterHistory.location,
+      nextRouterHistory.location,
     )
     expect(input).toBeFalsy()
   })

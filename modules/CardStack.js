@@ -1,15 +1,17 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
+/* eslint react/no-unused-prop-types: 0 */
 
-import { Component } from 'react'
+import React, { Component } from 'react'
 import { BackAndroid } from 'react-native'
-import { withRouter, matchPath } from 'react-router'
+import { Route, matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
 import type { ContextRouter } from 'react-router'
 import type { CardsRendererProps, NavigationState, Card, CardProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
 type State = {
+  location: Location,
   navigationState: NavigationState<{
     path?: string,
     params?: Object,
@@ -17,14 +19,14 @@ type State = {
   cards: Array<Card>,
 }
 
-type Props = ContextRouter & {
+type Props = {
   children?: Array<React$Element<CardProps>>,
   render: (props: CardsRendererProps) => React$Element<any>,
 }
 
-class CardStack extends Component<void, Props, State> {
+class CardStack extends Component<void, (Props & ContextRouter), State> {
 
-  props: Props
+  props: (Props & ContextRouter)
   state: State
 
   // Initialyze navigation state with initial history
@@ -33,6 +35,7 @@ class CardStack extends Component<void, Props, State> {
     // Build the card stack $FlowFixMe
     const { children, history: { entries }, location } = props
     const cards = children && StackUtils.build(children)
+    if (!cards) throw new Error('No childre found')
     // Get initial route of navigation state
     if (!entries) throw new Error('No history entries found')
     // Build navigation state
@@ -53,7 +56,7 @@ class CardStack extends Component<void, Props, State> {
       }
     }, { index: -1, routes: [] })
     // Save everything in component state
-    this.state = { navigationState, cards }
+    this.state = { navigationState, cards, location }
   }
 
   // Listen hardware BackAndroid event
@@ -80,12 +83,13 @@ class CardStack extends Component<void, Props, State> {
     // Local state must be updated ?
     if (
       currentCard && nextCard &&
-      StackUtils.shouldUpdate(currentCard, nextCard, this.props, nextProps)
+      StackUtils.shouldUpdate(currentCard, nextCard, this.state.location, location)
     ) {
       const key = StackUtils.createKey(nextRoute)
       switch (action) {
         case 'PUSH': {
           this.setState((state) => ({
+            location,
             navigationState: StateUtils.push(
               state.navigationState,
               { ...nextRoute, key },
@@ -105,6 +109,7 @@ class CardStack extends Component<void, Props, State> {
           const n = currentIndex - parseInt(nextProps.history.index)
           if (n > 1) {
             this.setState((state) => ({
+              location,
               navigationState: StateUtils.reset(
                 state.navigationState,
                 state.navigationState.routes.slice(
@@ -116,6 +121,7 @@ class CardStack extends Component<void, Props, State> {
             }))
           } else {
             this.setState((state) => ({
+              location,
               navigationState: StateUtils.pop(state.navigationState),
             }))
           }
@@ -123,6 +129,7 @@ class CardStack extends Component<void, Props, State> {
         }
         case 'REPLACE': {
           this.setState((state) => ({
+            location,
             navigationState: StateUtils.replaceAtIndex(
               state.navigationState,
               state.navigationState.index,
@@ -155,4 +162,13 @@ class CardStack extends Component<void, Props, State> {
 
 }
 
-export default withRouter(CardStack)
+export default (props: Props) => (
+  <Route>
+    {(ownProps) => (
+      <CardStack
+        {...props}
+        {...ownProps}
+      />
+    )}
+  </Route>
+)
