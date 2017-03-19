@@ -36,6 +36,7 @@ export type NavBarProps = {
   // Left button
   hideBackButton?: boolean,
   backButtonTintColor?: string,
+  backButtonTitle?: string,
   renderLeftButton?: (props: CardSubViewProps) => React$Element<any>,
   // Title
   title?: string,
@@ -45,9 +46,14 @@ export type NavBarProps = {
   renderRightButton?: (props: CardSubViewProps) => React$Element<any>,
 }
 
+export type NavigationProps = NavBarProps & {
+ onTransitionStart?: Function,
+ onTransitionEnd?: Function,
+}
+
 export type CardProps =
   & RouteProps
-  & NavBarProps
+  & NavigationProps
 
 export type Card =
   & CardProps

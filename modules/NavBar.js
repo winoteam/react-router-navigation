@@ -22,15 +22,23 @@ class NavBar extends Component<void, Props, void> {
     // Hide back button
     if (
       props.index === 0 ||
+      props.navigationState.index === 0 ||
       !props.onNavigateBack ||
       props.hideBackButton
     ) {
       return null
     }
+    // Get previous title
+    const previousRoute = StackUtils.get(
+      props.cards,
+      props.scenes[Math.max(0, props.scene.index - 1)].route,
+    )
+    const previousTitle = props.backButtonTitle || (previousRoute && previousRoute.title)
     // Return default <BackButton /> component
     return (
       <HeaderBackButton
         {...props}
+        title={previousTitle}
         tintColor={props.backButtonTintColor}
         onPress={props.onNavigateBack}
       />
@@ -60,11 +68,12 @@ class NavBar extends Component<void, Props, void> {
   }
 
   render(): ?React$Element<any> {
+    const ownProps = StackUtils.get(this.props.cards, this.props.scene.route)
     return (
       <Header
         {...this.props}
         mode={Platform.OS === 'ios' ? 'float' : 'screen'}
-        style={this.props.navBarStyle}
+        style={ownProps && ownProps.navBarStyle}
         renderLeftComponent={StackUtils.renderSubView(this.renderLeftComponent, this.props)}
         renderTitleComponent={StackUtils.renderSubView(this.renderTitleComponent, this.props)}
         renderRightComponent={StackUtils.renderSubView(this.renderRightComponent, this.props)}

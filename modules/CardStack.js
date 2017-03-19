@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import { BackAndroid } from 'react-native'
 import { Route, matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
-import type { ContextRouter } from 'react-router'
+import type { ContextRouter, Location } from 'react-router'
 import type { CardsRendererProps, NavigationState, Card, CardProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
@@ -24,13 +24,16 @@ type Props = {
   render: (props: CardsRendererProps) => React$Element<any>,
 }
 
-class CardStack extends Component<void, (Props & ContextRouter), State> {
+// $FlowFixMe
+type OwnProps = ContextRouter & Props
 
-  props: (Props & ContextRouter)
+class CardStack extends Component<void, OwnProps, State> {
+
+  props: OwnProps
   state: State
 
   // Initialyze navigation state with initial history
-  constructor(props: Props): void {
+  constructor(props: OwnProps): void {
     super(props)
     // Build the card stack $FlowFixMe
     const { children, history: { entries }, location } = props
@@ -70,7 +73,7 @@ class CardStack extends Component<void, (Props & ContextRouter), State> {
   }
 
   // Listen all history events
-  componentWillReceiveProps(nextProps: ContextRouter): void {
+  componentWillReceiveProps(nextProps: OwnProps): void {
     const { history: { action, entries }, location } = nextProps
     const { cards, navigationState: { routes, index } } = this.state
     // Get current card
@@ -164,7 +167,7 @@ class CardStack extends Component<void, (Props & ContextRouter), State> {
 
 export default (props: Props) => (
   <Route>
-    {(ownProps) => (
+    {(ownProps: ContextRouter) => (
       <CardStack
         {...props}
         {...ownProps}

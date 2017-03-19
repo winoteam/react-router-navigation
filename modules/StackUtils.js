@@ -114,12 +114,12 @@ export const renderSubView = (
   render: Function,
   ownProps?: any = {},
 ) => (props: any): ?React$Element<any> => {
-  const allProps = { ...ownProps, ...props }
-  const { cards, tabs, scene, route, navigationState: { routes, index } } = allProps
+  const initialProps = { ...ownProps, ...props }
+  const { cards, tabs, scene, route, navigationState: { routes, index } } = initialProps
   const item = get(
     cards || tabs,
     (scene && scene.route) || route || routes[index],
   )
   if (!item) return null
-  return render({ ...allProps, ...item })
+  return render({ ...initialProps, ...item }, initialProps)
 }
