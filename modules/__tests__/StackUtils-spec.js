@@ -45,7 +45,7 @@ describe('StackUtils', () => {
     const component = renderer.create(
       <Router history={history}>
         {stack[0].render()}
-      </Router>
+      </Router>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

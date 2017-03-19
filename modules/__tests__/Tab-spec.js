@@ -18,7 +18,7 @@ it('<Tab /> renders correctly', () => {
           <Text>{params.id}</Text>
         )}
       />
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()

@@ -17,22 +17,22 @@ class Navigation extends Component<void, Props, void> {
 
   props: Props
 
-  renderHeader = (props: CardSubViewProps, ownProps: CardSubViewProps): ?React$Element<any> => {
+  renderHeader = (sceneProps: CardSubViewProps, props: CardSubViewProps): ?React$Element<any> => {
     // Hide nav bar
-    if (props.hideNavBar) return null
+    if (sceneProps.hideNavBar) return null
     // Render custom nav bar
-    if (props.renderNavBar) {
-      return props.renderNavBar(props)
+    if (sceneProps.renderNavBar) {
+      return sceneProps.renderNavBar(sceneProps)
     }
     // Else return default <NavBar /> component
-    return <NavBar {...ownProps} />
+    return <NavBar {...props} />
   }
 
-  renderScene = (props: CardSubViewProps): ?React$Element<any> => {
-    const { render, children, component } = props
-    if (render) return render(props)
-    else if (children && typeof children === 'function') return children(props)
-    else if (component) return createElement(component, props)
+  renderScene = (sceneProps: CardSubViewProps): ?React$Element<any> => {
+    const { render, children, component } = sceneProps
+    if (render) return render(sceneProps)
+    else if (children && typeof children === 'function') return children(sceneProps)
+    else if (component) return createElement(component, sceneProps)
     return null
   }
 
@@ -42,7 +42,7 @@ class Navigation extends Component<void, Props, void> {
       <CardStack
         {...props}
         children={children}
-        render={(ownProps) => (
+        render={ownProps => (
           <DefaultRenderer
             {...props}
             {...ownProps}

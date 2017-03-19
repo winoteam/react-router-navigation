@@ -42,12 +42,12 @@ class Navigation extends Component<void, Props, void> {
 
   configureTransition = (
     transitionProps: NavigationTransitionProps,
-    prevTransitionProps: NavigationTransitionProps
+    prevTransitionProps: NavigationTransitionProps,
   ) => {
     return {
       ...this.getTransitionConfig(
         transitionProps,
-        prevTransitionProps
+        prevTransitionProps,
       ).transitionSpec,
       useNativeDriver: !!NativeAnimatedModule,
     }
@@ -55,7 +55,7 @@ class Navigation extends Component<void, Props, void> {
 
   getTransitionConfig = (
     transitionProps: NavigationTransitionProps,
-    prevTransitionProps: NavigationTransitionProps
+    prevTransitionProps: NavigationTransitionProps,
   ): TransitionConfig => {
     return TransitionConfigs.defaultTransitionConfig(
       transitionProps,
@@ -136,7 +136,7 @@ class Navigation extends Component<void, Props, void> {
         navigation={{ state: navigationState }}
         onTransitionStart={this.props.onTransitionStart}
         onTransitionEnd={this.props.onTransitionEnd}
-        render={(ownProps) => this.renderView({ ...this.props, ...ownProps })}
+        render={ownProps => this.renderView({ ...this.props, ...ownProps })}
       />
     )
   }

@@ -14,66 +14,66 @@ class NavBar extends Component<void, Props, void> {
 
   props: Props
 
-  renderLeftComponent = (props: CardSubViewProps): ?React$Element<any> => {
+  renderLeftComponent = (sceneProps: CardSubViewProps): ?React$Element<any> => {
     // Custom left component
-    if (props.renderLeftButton) {
-      return props.renderLeftButton(props)
+    if (sceneProps.renderLeftButton) {
+      return sceneProps.renderLeftButton(sceneProps)
     }
     // Hide back button
     if (
-      props.index === 0 ||
-      props.navigationState.index === 0 ||
-      !props.onNavigateBack ||
-      props.hideBackButton
+      sceneProps.index === 0 ||
+      sceneProps.navigationState.index === 0 ||
+      !sceneProps.onNavigateBack ||
+      sceneProps.hideBackButton
     ) {
       return null
     }
     // Get previous title
     const previousRoute = StackUtils.get(
-      props.cards,
-      props.scenes[Math.max(0, props.scene.index - 1)].route,
+      sceneProps.cards,
+      sceneProps.scenes[Math.max(0, sceneProps.scene.index - 1)].route,
     )
-    const previousTitle = props.backButtonTitle || (previousRoute && previousRoute.title)
+    const previousTitle = sceneProps.backButtonTitle || (previousRoute && previousRoute.title)
     // Return default <BackButton /> component
     return (
       <HeaderBackButton
-        {...props}
+        {...sceneProps}
         title={previousTitle}
-        tintColor={props.backButtonTintColor}
-        onPress={props.onNavigateBack}
+        tintColor={sceneProps.backButtonTintColor}
+        onPress={sceneProps.onNavigateBack}
       />
     )
   }
 
-  renderTitleComponent= (props: CardSubViewProps): ?React$Element<any> => {
+  renderTitleComponent= (sceneProps: CardSubViewProps): ?React$Element<any> => {
     // Render custom title component
-    if (props.renderTitle) {
-      return props.renderTitle(props)
+    if (sceneProps.renderTitle) {
+      return sceneProps.renderTitle(sceneProps)
     }
     // Return <ReactNavigation.HeaderTitle /> component
     return (
-      <HeaderTitle style={props.titleStyle}>
-        {props.title}
+      <HeaderTitle style={sceneProps.titleStyle}>
+        {sceneProps.title}
       </HeaderTitle>
     )
   }
 
-  renderRightComponent = (props: CardSubViewProps): ?React$Element<any> => {
+  renderRightComponent = (sceneProps: CardSubViewProps): ?React$Element<any> => {
     // Render cusqtom right component
-    if (props.renderRightButton) {
-      return props.renderRightButton(props)
+    if (sceneProps.renderRightButton) {
+      return sceneProps.renderRightButton(sceneProps)
     }
     // Else return null =)
     return null
   }
 
   render(): ?React$Element<any> {
-    const ownProps = StackUtils.get(this.props.cards, this.props.scene.route)
+    const sceneProps = StackUtils.get(this.props.cards, this.props.scene.route)
     return (
       <Header
         {...this.props}
         mode={Platform.OS === 'ios' ? 'float' : 'screen'}
-        style={ownProps && ownProps.navBarStyle}
+        style={sceneProps && sceneProps.navBarStyle}
         renderLeftComponent={StackUtils.renderSubView(this.renderLeftComponent, this.props)}
         renderTitleComponent={StackUtils.renderSubView(this.renderTitleComponent, this.props)}
         renderRightComponent={StackUtils.renderSubView(this.renderRightComponent, this.props)}

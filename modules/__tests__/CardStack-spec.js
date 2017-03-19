@@ -17,7 +17,7 @@ it('<CardStack /> renders correctly', () => {
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -35,7 +35,7 @@ it('<CardStack /> renders correctly with initialIndex and initialEntries prop ',
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -49,7 +49,7 @@ it('<CardStack /> re-renders correctly when "push" action is called', () => {
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -67,7 +67,7 @@ it('<CardStack /> re-renders correctly when "push" action is called with same pa
       <CardStack render={CardView}>
         <Route path="/article/:id" render={componentFactory()} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -87,7 +87,7 @@ it('<CardStack /> re-renders correctly when "goBack" action is called', () => {
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -106,7 +106,7 @@ it('<CardStack /> re-renders correctly when "goBack" action is called with same 
       <CardStack render={CardView}>
         <Route path="/article/:id" render={componentFactory()} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -127,7 +127,7 @@ it('<CardStack /> re-renders correctly when "go" action is called', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -146,7 +146,7 @@ it('<CardStack /> re-renders correctly when "go" action is called with same path
       <CardStack render={CardView}>
         <Route path="/article/:id" render={componentFactory('Article')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -167,7 +167,7 @@ it('<CardStack /> re-renders correctly when "replace" action is called', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -193,7 +193,7 @@ it('<CardStack /> re-renders correctly when onNavigateBack() method is called', 
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()

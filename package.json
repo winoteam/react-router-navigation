@@ -32,6 +32,7 @@
     "react-router-native": "4.0.x"
   },
   "dependencies": {
+    "eslint-plugin-flowtype": "^2.30.3",
     "react-native-material-bottom-navigation": "^0.4.0",
     "react-native-tab-view": "0.0.57",
     "react-navigation": "1.0.0-beta.7"
@@ -40,16 +41,19 @@
     "babel-eslint": "7.1.1",
     "babel-jest": "18.0.0",
     "babel-preset-react-native": "1.9.1",
-    "eslint": "3.11.1",
-    "eslint-config-airbnb": "13.0.0",
+    "eslint": "3.16.1",
+    "eslint-config-airbnb": "14.1.0",
+    "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "2.2.0",
-    "eslint-plugin-jsx-a11y": "2.2.3",
-    "eslint-plugin-react": "6.7.1",
+    "eslint-plugin-jsx-a11y": "4.0.0",
+    "eslint-plugin-react": "6.10.0",
     "flow-bin": "0.38",
+    "history": "4.6.0",
     "jest": "19.0.2",
     "react": "^15.4.2",
     "react-native": "^0.42.3",
     "react-router": "^4.0.0",
+    "react-router-native": "^4.0.0",
     "react-test-renderer": "^15.4.2"
   }
 }

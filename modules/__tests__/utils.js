@@ -1,8 +1,10 @@
+/* eslint react/prop-types: 0 */
+
 import React, { createElement } from 'react'
 import { Text } from 'react-native'
 import * as StackUtils from './../StackUtils'
 
-export const componentFactory = (message) => ({ match }) => (
+export const componentFactory = message => ({ match }) => (
   <Text>{(match && (match.params.id || match.params.slug)) || message}</Text>
 )
 

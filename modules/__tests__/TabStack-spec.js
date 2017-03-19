@@ -18,7 +18,7 @@ it('<TabStack /> renders correctly', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -33,7 +33,7 @@ it('<TabStack /> renders correctly with initialEntries prop ', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -48,7 +48,7 @@ it('<TabStack /> re-renders correctly when "replace" action is called', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -72,7 +72,7 @@ it('<TabStack /> re-renders correctly when onRequestChangeTab() method is called
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()

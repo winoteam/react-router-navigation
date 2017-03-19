@@ -14,7 +14,7 @@ it('<Navigation /> renders correctly', () => {
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </Navigation>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -32,7 +32,7 @@ it('<Navigation /> renders correctly with initialIndex and initialEntries prop '
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </Navigation>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -46,7 +46,7 @@ it('<Navigation /> re-renders correctly when "push" action is called', () => {
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </Navigation>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -66,7 +66,7 @@ it('<Navigation /> re-renders correctly when "goBack" action is called', () => {
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </Navigation>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -87,7 +87,7 @@ it('<Navigation /> re-renders correctly when "go" action is called', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </Navigation>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -108,7 +108,7 @@ it('<Navigation /> re-renders correctly when "replace" action is called', () => 
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </Navigation>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()

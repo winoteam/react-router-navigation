@@ -20,6 +20,7 @@ type State = {
 }
 
 type Props = {
+  // eslint-disable-next-line
   children?: Array<React$Element<CardProps>>,
   render: (props: CardsRendererProps) => React$Element<any>,
 }
@@ -91,7 +92,7 @@ class CardStack extends Component<void, OwnProps, State> {
       const key = StackUtils.createKey(nextRoute)
       switch (action) {
         case 'PUSH': {
-          this.setState((state) => ({
+          this.setState(state => ({
             location,
             navigationState: StateUtils.push(
               state.navigationState,
@@ -109,9 +110,9 @@ class CardStack extends Component<void, OwnProps, State> {
             return
           }
           const currentIndex = entries.findIndex(({ pathname }) => matchPath(pathname, currentCard))
-          const n = currentIndex - parseInt(nextProps.history.index)
+          const n = currentIndex - parseInt(nextProps.history.index, 10)
           if (n > 1) {
-            this.setState((state) => ({
+            this.setState(state => ({
               location,
               navigationState: StateUtils.reset(
                 state.navigationState,
@@ -123,7 +124,7 @@ class CardStack extends Component<void, OwnProps, State> {
               ),
             }))
           } else {
-            this.setState((state) => ({
+            this.setState(state => ({
               location,
               navigationState: StateUtils.pop(state.navigationState),
             }))
@@ -131,7 +132,7 @@ class CardStack extends Component<void, OwnProps, State> {
           break
         }
         case 'REPLACE': {
-          this.setState((state) => ({
+          this.setState(state => ({
             location,
             navigationState: StateUtils.replaceAtIndex(
               state.navigationState,

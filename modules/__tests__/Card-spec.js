@@ -18,7 +18,7 @@ it('<Card /> renders correctly', () => {
           <Text>{params.id}</Text>
         )}
       />
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -36,7 +36,7 @@ it('<Card /> renders correctly with staticMatch prop when route doesn\'t match',
           <Text>{params.id}</Text>
         )}
       />
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()

@@ -1,6 +1,5 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
-/* eslint no-param-reassign: 0 */
 
 import { Children, cloneElement } from 'react'
 import { matchPath } from 'react-router'
@@ -11,8 +10,9 @@ import type { Route } from './TypeDefinitions'
 /**
  * Build stack with React elements
  */
+// eslint-disable-next-line
 export const build = <Item>(
-  children: Array<React$Element<Item>>
+  children: Array<React$Element<Item>>,
 ): Array<Item & { key: string }> => {
   return Children.toArray(children).reduce((stack, child) => {
     const item = Object.keys(child.props).reduce((props, key) => {
@@ -112,14 +112,14 @@ export const getRoute = (stack: Array<Object>, location: Location): ?Route => {
  */
 export const renderSubView = (
   render: Function,
-  ownProps?: any = {},
-) => (props: any): ?React$Element<any> => {
-  const initialProps = { ...ownProps, ...props }
-  const { cards, tabs, scene, route, navigationState: { routes, index } } = initialProps
+  additionalProps?: any = {},
+) => (ownProps: any): ?React$Element<any> => {
+  const props = { ...additionalProps, ...ownProps }
+  const { cards, tabs, scene, route, navigationState: { routes, index } } = props
   const item = get(
     cards || tabs,
     (scene && scene.route) || route || routes[index],
   )
   if (!item) return null
-  return render({ ...initialProps, ...item }, initialProps)
+  return render({ ...props, ...item }, props)
 }
