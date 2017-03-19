@@ -32,7 +32,6 @@
     "react-router-native": "4.0.x"
   },
   "dependencies": {
-    "eslint-plugin-flowtype": "^2.30.3",
     "react-native-material-bottom-navigation": "^0.4.0",
     "react-native-tab-view": "0.0.57",
     "react-navigation": "1.0.0-beta.7"
@@ -44,6 +43,7 @@
     "eslint": "3.16.1",
     "eslint-config-airbnb": "14.1.0",
     "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-flowtype": "^2.30.3",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
     "eslint-plugin-react": "6.10.0",
