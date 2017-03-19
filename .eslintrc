@@ -1,22 +1,14 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
-  "ecmaFeatures": {
-    "jsx": true,
-    "modules": true
-  },
   "plugins": [
     "babel",
     "react"
   ],
-  "env": {
-    "browser": true,
-    "node": true,
-    "mocha": true
-  },
   "globals": {
     "React$Element": true,
     "ReactClass": true,
+    "StyleSheet": true,
     "__DEV__": true,
     "describe": true,
     "expect": true,
