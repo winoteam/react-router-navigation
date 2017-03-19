@@ -28,13 +28,13 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-router": "4.0.0-beta.8",
-    "react-router-dom": "4.0.0-beta.8"
+    "react-router": "4.0.x",
+    "react-router-native": "4.0.x"
   },
   "dependencies": {
     "react-native-material-bottom-navigation": "^0.4.0",
-    "react-native-tab-view": "0.0.56",
-    "react-navigation": "1.0.0-beta.6"
+    "react-native-tab-view": "0.0.57",
+    "react-navigation": "1.0.0-beta.7"
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",
@@ -44,12 +44,12 @@
     "eslint-config-airbnb": "13.0.0",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
-    "flow-bin": "^0.37.4",
-    "react": "15.4.1",
-    "react-native": "0.41.1",
-    "react-router": "4.0.0-beta.8",
-    "react-test-renderer": "15.4.1"
     "eslint-plugin-react": "6.7.1",
+    "flow-bin": "0.38",
     "jest": "19.0.2",
+    "react": "^15.4.2",
+    "react-native": "^0.42.3",
+    "react-router": "^4.0.0",
+    "react-test-renderer": "^15.4.2"
   }
 }
