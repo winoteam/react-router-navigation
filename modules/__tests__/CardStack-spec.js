@@ -1,11 +1,13 @@
-import './__mocks__'
+/* eslint new-cap: 0 */
+
 import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
+import renderer from 'react-test-renderer'
 import { componentFactory, CardView } from './utils'
 import CardStack from './../CardStack'
-import renderer from 'react-test-renderer'
+import './__mocks__'
 
 it('<CardStack /> renders correctly', () => {
   const history = createHistory()
@@ -181,11 +183,13 @@ it('<CardStack /> re-renders correctly when onNavigateBack() method is called', 
   })
   const component = renderer.create(
     <Router history={history}>
-      <CardStack render={({ navigationState, onNavigateBack, cards }) => (
-        <TouchableOpacity onPress={onNavigateBack}>
-          {CardView({ navigationState, onNavigateBack, cards })}
-        </TouchableOpacity>
-      )}>
+      <CardStack
+        render={({ navigationState, onNavigateBack, cards }) => (
+          <TouchableOpacity onPress={onNavigateBack}>
+            {CardView({ navigationState, onNavigateBack, cards })}
+          </TouchableOpacity>
+        )}
+      >
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </CardStack>

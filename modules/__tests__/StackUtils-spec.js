@@ -1,13 +1,13 @@
-import React, { createElement, cloneElement } from 'react'
+import React from 'react'
 import { Text } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
 import * as StackUtils from './../StackUtils'
 
-const { build, shouldUpdate, get, getRoute, createKey, withRouter } = StackUtils
+const { build, shouldUpdate, get, getRoute, createKey } = StackUtils
 
-describe('StackUtils.build() util', () => {
+describe('StackUtils', () => {
   it('build() works correctly', () => {
     const children = [
       <Route
@@ -18,12 +18,12 @@ describe('StackUtils.build() util', () => {
         path="hello"
         component={() => null}
         title="Hello"
-      />
+      />,
     ]
     const results = [{
       path: 'hey',
       key: 'hey',
-      render: () => nulll,
+      render: () => null,
     }, {
       path: 'hello',
       key: 'hello',
@@ -38,7 +38,7 @@ describe('StackUtils.build() util', () => {
       <Route
         path="/"
         render={({ location }) => <Text>{location.pathname}</Text>}
-      />
+      />,
     ]
     const stack = build(children)
     const history = createHistory()

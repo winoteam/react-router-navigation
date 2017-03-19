@@ -1,11 +1,10 @@
-import './__mocks__'
 import React from 'react'
-import { View } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
-import { componentFactory } from './utils'
-import Navigation from './../Navigation'
 import renderer from 'react-test-renderer'
+import { componentFactory } from './utils'
+import './__mocks__'
+import Navigation from './../Navigation'
 
 it('<Navigation /> renders correctly', () => {
   const history = createHistory()

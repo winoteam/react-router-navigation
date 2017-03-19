@@ -1,5 +1,5 @@
-import React, { PropTypes, Component, createElement } from 'react'
-import { View, Text } from 'react-native'
+import React, { createElement } from 'react'
+import { Text } from 'react-native'
 import * as StackUtils from './../StackUtils'
 
 export const componentFactory = (message) => ({ match }) => (

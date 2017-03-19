@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardStack /> re-renders correctly when "go" action is called 1`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "go" action is called 2`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "go" action is called with same path 1`] = `
+<Text>
+  3
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "go" action is called with same path 2`] = `
+<Text>
+  1
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "goBack" action is called 1`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "goBack" action is called 2`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "goBack" action is called with same path 1`] = `
+<Text>
+  2
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "goBack" action is called with same path 2`] = `
+<Text>
+  1
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "push" action is called 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "push" action is called 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "push" action is called with same path 1`] = `
+<Text>
+  1
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "push" action is called with same path 2`] = `
+<Text>
+  2
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "replace" action is called 1`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when "replace" action is called 2`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<CardStack /> re-renders correctly when onNavigateBack() method is called 1`] = `
+<TouchableOpacity
+  onPress={[Function]}
+>
+  <Text>
+    Hello
+  </Text>
+</TouchableOpacity>
+`;
+
+exports[`<CardStack /> re-renders correctly when onNavigateBack() method is called 2`] = `
+<TouchableOpacity
+  onPress={[Function]}
+>
+  <Text>
+    Index
+  </Text>
+</TouchableOpacity>
+`;
+
+exports[`<CardStack /> renders correctly 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> renders correctly with initialIndex and initialEntries prop  1`] = `
+<Text>
+  Hello
+</Text>
+`;
