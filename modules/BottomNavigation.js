@@ -1,4 +1,5 @@
-/* @flow */
+/* @noflow */
+/* error: https://github.com/react-community/react-navigation/blob/master/src/views/TabView/TabView.js#L193 */
 
 import React, { Component, createElement } from 'react'
 import { Platform, StyleSheet, Dimensions } from 'react-native'
@@ -39,32 +40,37 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
 
   state: State = { key: Math.random().toString(10) }
 
-  renderPager = (props: TabSubViewProps): React$Element<any> => (
+  renderPager = (sceneProps: TabSubViewProps): React$Element<any> => (
     <TabViewPagerPan
-      {...props}
+      {...sceneProps}
       key={`pager_${this.state.key}`}
       swipeEnabled={false}
     />
   )
 
-  renderNavigationBar = (props: TabSubViewProps): ?React$Element<any> => {
+  renderNavigationBar = (
+    sceneProps: TabSubViewProps,
+    props: TabSubViewProps,
+  ): ?React$Element<any> => {
     // Hide tab bar
-    if (props.hideTabBar) return null
+    if (sceneProps.hideTabBar) return null
     // Custom tab bar
-    if (props.renderTabBar) {
+    if (sceneProps.renderTabBar) {
       return createElement(
-        props.renderTabBar,
-        props,
+        sceneProps.renderTabBar,
+        sceneProps,
       )
     }
     // Default tab bar
     if (Platform.OS === 'ios') {
       return (
         <TabBarBottom
-          {...props}
+          {...sceneProps}
           key={`tabbar_${this.state.key}`}
-          jumpToIndex={props.onRequestChangeTab}
-          labelStyle={props.labelStyle}
+          jumpToIndex={sceneProps.onRequestChangeTab}
+          labelStyle={sceneProps.labelStyle}
+          inactiveTintColor={sceneProps.tabTintColor}
+          activeTintColor={sceneProps.tabActiveTintColor}
           getLabel={({ route: { routeName } }) => {
             const tab = props.tabs.find(({ key }) => key === routeName)
             const ownProps = { ...props, ...tab }
@@ -82,19 +88,20 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
     }
     return (
       <BottomNavigationBar
+        {...sceneProps}
         key={`tabbar_${this.state.key}`}
         labelColor="white"
         rippleColor="white"
         style={{ height: 56, elevation: 8, position: 'absolute', left: 0, bottom: 0, right: 0 }}
-        activeTab={props.navigationState.index}
-        onTabChange={props.onRequestChangeTab}
+        activeTab={sceneProps.navigationState.index}
+        onTabChange={sceneProps.onRequestChangeTab}
       >
-        {props.navigationState.routes.map(({ routeName }, index) => {
+        {sceneProps.navigationState.routes.map(({ routeName }) => {
           const tab = props.tabs.find(({ key }) => key === routeName)
           const ownProps = { ...props, ...tab }
           return (
             <Tab
-              key={index}
+              key={`tabitem_${tab.key}`}
               barBackgroundColor="#37474F"
               label={ownProps.label}
               icon={ownProps.renderIcon()}
@@ -105,11 +112,11 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
     )
   }
 
-  renderScene = (props: TabSubViewProps): ?React$Element<any> => {
-    const { render, children, component } = props
-    if (render) return render(props)
-    else if (children && typeof children === 'function') return children(props)
-    else if (component) return createElement(component, props)
+  renderScene = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+    const { render, children, component } = sceneProps
+    if (render) return render(sceneProps)
+    else if (children && typeof children === 'function') return children(sceneProps)
+    else if (component) return createElement(component, sceneProps)
     return null
   }
 
@@ -118,11 +125,11 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
       <TabStack
         {...this.props}
         style={styles.container}
-        forceSync={true}
+        forceSync
         render={(props) => {
           const ownProps = { ...this.props, ...props }
           return (
-            <TabViewAnimated // $FlowFixMe
+            <TabViewAnimated
               {...props}
               key={`transitioner_${this.state.key}`}
               style={[styles.container, this.props.style]}

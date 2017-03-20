@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
+/* eslint react/no-unused-prop-types:0 */
 
 import React, { Component } from 'react'
 import { Route, matchPath } from 'react-router'
@@ -8,9 +9,18 @@ import type { NavigationState, TabsRendererProps, Tab, TabProps } from './TypeDe
 import * as StackUtils from './StackUtils'
 
 type Props = {
+  // eslint-disable-next-line
   children?: Array<React$Element<TabProps>>,
   render: (props: TabsRendererProps) => React$Element<any>,
+  // eslint-disable-next-line
   forceSync?: boolean,
+}
+
+// $FlowFixMe
+type OwnProps = ContextRouter & Props
+
+type DefaultProps = {
+  forceSync: boolean,
 }
 
 type State = {
@@ -23,18 +33,22 @@ type State = {
   history: { [key: number]: Array<Location> },
 }
 
-class TabStack extends Component<void, (Props & ContextRouter), State> {
+class TabStack extends Component<DefaultProps, OwnProps, State> {
 
-  props: (Props & ContextRouter)
+  props: OwnProps
   state: State
 
+  static defaultProps = {
+    forceSync: false,
+  }
+
   // Initialyze navigation state with initial history
-  constructor(props: Props): void {
+  constructor(props: OwnProps): void {
     super(props)
     // Build the tab stack $FlowFixMe
     const { children, history: { entries, location } } = props
     const tabs = children && StackUtils.build(children)
-    if (!tabs) throw new Error('No childre found')
+    if (!tabs) throw new Error('No children found')
     // Get initial route
     const currentRoute = StackUtils.getRoute(tabs, location)
     if (!currentRoute) throw new Error('No route found !')
@@ -62,7 +76,7 @@ class TabStack extends Component<void, (Props & ContextRouter), State> {
   }
 
   // Listen all history events
-  componentWillReceiveProps(nextProps): void {
+  componentWillReceiveProps(nextProps: OwnProps): void {
     // Get current route $FlowFixMe
     const { history: { entries }, location } = nextProps
     const { navigationState: { routes, index }, tabs, rootIndex } = this.state
@@ -112,7 +126,7 @@ class TabStack extends Component<void, (Props & ContextRouter), State> {
                 this.props.history.push(pathname)
               })
             this.props.history.replace(
-              entries[Math.max(0, parseInt(entries.length - 1))].pathname
+              entries[Math.max(0, parseInt(entries.length - 1, 10))].pathname,
             )
           }
         } else {
@@ -145,7 +159,7 @@ class TabStack extends Component<void, (Props & ContextRouter), State> {
 
 export default (props: Props) => (
   <Route>
-    {(ownProps) => (
+    {(ownProps: ContextRouter) => (
       <TabStack
         {...props}
         {...ownProps}

@@ -79,22 +79,35 @@ export type CardSubViewProps = any
  */
 
 export type TabBarProps = {
-  onReset?: Function,
   hideTabBar?: boolean,
-  renderTabBar?: (props: TabSubViewProps) => React$Element<any>,
+  renderTabBar?: (props: TabSubViewProps) => ?React$Element<any>,
+  tabBarStyle?: StyleSheet,
   label?: string,
   labelStyle?: StyleSheet,
-  renderLabel?: (props: TabSubViewProps) => React$Element<any>,
-  // <BottomNavigation /> only
-  renderTabIcon?: (props: TabSubViewProps) => React$Element<any>,
-  // <Tabs /> only
-  tabBarStyle?: StyleSheet,
-  tabBarIndicatorStyle?: StyleSheet
+  renderLabel?: (props: TabSubViewProps) => ?React$Element<any>,
+  tabTintColor?: string,
+  tabActiveTintColor?: string,
+  // <BottomNavigation /> only:
+  renderTabIcon?: (props: TabSubViewProps) => ?React$Element<any>,
+  // <Tabs /> only:
+  tabBarPosition?: 'top' | 'bottom',
+  tabBarIndicatorStyle?: StyleSheet,
+}
+
+export type TabsProps = TabBarProps & {
+  // <Tabs /> only:
+  initialLayout?: { width?: number, height?: number },
+  renderPager?: (props: TabSubViewProps) => ?React$Element<any>,
+  configureTransition: ?Function,
 }
 
 export type TabProps =
   & RouteProps
   & TabBarProps
+  & {
+    tabStyle?: StyleSheet, // uncheck
+    onReset?: Function, // uncheck
+  }
 
 export type Tab =
   & TabProps

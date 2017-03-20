@@ -33,44 +33,60 @@ class Tabs extends Component<void, Props, State> {
 
   state: State = { key: Math.random().toString(10) }
 
-  renderHeader = (props: TabSubViewProps): ?React$Element<any> => {
+  renderHeader = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+    if (sceneProps.tabBarPosition !== 'bottom') {
+      return this.renderTabBar(sceneProps)
+    }
+    return null
+  }
+
+  renderFooter = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+    if (sceneProps.tabBarPosition === 'bottom') {
+      return this.renderTabBar(sceneProps)
+    }
+    return null
+  }
+
+  renderTabBar = (sceneProps: TabSubViewProps, props: TabSubViewProps): ?React$Element<any> => {
     // Hide tab bar
-    if (props.hideTabBar) return null
+    if (sceneProps.hideTabBar) return null
     // Custom tab bar
-    if (props.renderTabBar) {
+    if (sceneProps.renderTabBar) {
       return createElement(
-        props.renderTabBar,
-        props,
+        sceneProps.renderTabBar,
+        sceneProps,
       )
     }
     // Render default tab bar
     return (
       <TabBar
-        {...props}
+        {...sceneProps}
         key={`tabbar_${this.state.key}`}
-        style={props.tabBarStyle}
-        indicatorStyle={props.tabBarIndicatorStyle}
+        style={sceneProps.tabBarStyle}
+        indicatorStyle={sceneProps.tabBarIndicatorStyle}
         onRequestChangeTab={(i: number) => i}
         onTabPress={(route) => {
-          const { tabs, onRequestChangeTab } = props
+          const { tabs, onRequestChangeTab } = sceneProps
           const index = tabs.findIndex((tab) => {
             return matchPath(route.routeName, tab)
           })
           if (index) onRequestChangeTab(index)
         }}
-        renderLabel={({ route }) => {
-          const currentTab = StackUtils.get(props.tabs, route)
-          const ownProps = { ...props, ...currentTab }
-          if (ownProps.renderLabel) return ownProps.renderLabel(ownProps)
+        renderLabel={({ route, focused }) => {
+          const currentTab = StackUtils.get(sceneProps.tabs, route)
+          const labelProps = { ...this.props, ...props, ...currentTab }
+          const { tabTintColor, tabActiveTintColor } = labelProps
+          if (labelProps.renderLabel) return labelProps.renderLabel(labelProps)
           return (
             <Text
               style={[
                 styles.tabLabel,
-                props.labelStyle,
-                ownProps && ownProps.labelStyle,
+                labelProps.labelStyle,
+                (!focused && tabTintColor) && { color: tabTintColor },
+                (focused && tabActiveTintColor) && { color: tabActiveTintColor },
               ]}
             >
-              {ownProps && ownProps.label}
+              {labelProps && labelProps.label}
             </Text>
           )
         }}
@@ -78,11 +94,11 @@ class Tabs extends Component<void, Props, State> {
     )
   }
 
-  renderScene = (props: TabSubViewProps): ?React$Element<any> => {
-    const { render, children, component } = props
-    if (render) return render(props)
-    else if (children && typeof children === 'function') return children(props)
-    else if (component) return createElement(component, props)
+  renderScene = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+    const { render, children, component } = sceneProps
+    if (render) return render(sceneProps)
+    else if (children && typeof children === 'function') return children(sceneProps)
+    else if (component) return createElement(component, sceneProps)
     return null
   }
 
@@ -95,10 +111,11 @@ class Tabs extends Component<void, Props, State> {
           const ownProps = { ...this.props, ...props }
           return (
             <TabViewAnimated
-              {...props}
+              {...ownProps}
               style={styles.container}
               initialLayout={Dimensions.get('window')}
               renderHeader={StackUtils.renderSubView(this.renderHeader, ownProps)}
+              renderFooter={StackUtils.renderSubView(this.renderFooter, ownProps)}
               renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
             />
           )
