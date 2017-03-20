@@ -26,17 +26,13 @@ class Feed extends Component {
                 {...props}
               />
             )}
-            renderRightButton={() => (
-              <Link to="/app/feed/new">
-                <Text>New</Text>
-              </Link>
-            )}
             title="Feed"
           />
           <Card
             path="/app/feed/article/:id"
             component={Article}
             title="Item"
+            backButtonTitle="Back"
             renderTitle={({ title, match }) => (
               <HeaderTitle style={styles.title}>
                 {title} {match && match.params.id}

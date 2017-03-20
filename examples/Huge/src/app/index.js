@@ -7,7 +7,6 @@ import { BottomNavigation, Tab } from 'react-router-navigation'
 import { BRAND_COLOR_60 } from '@ressources/theme'
 import Feed from './modules/Feed'
 import Profile from './modules/Profile'
-import Search from './modules/Search'
 import Modal from './components/Modal'
 import styles from './styles'
 
@@ -40,6 +39,7 @@ const App = (props) => (
           />
           <BottomNavigation
             labelStyle={({ isActive }) => isActive && styles.activeLabel}
+            tabActiveTintColor={BRAND_COLOR_60}
           >
             <Tab
               path={`${url}/feed`}
@@ -59,17 +59,6 @@ const App = (props) => (
                 <Image
                   source={require('./assets/feed.png')}
                   style={{ top: 1.5, width: 22.5, height: 22.5, tintColor: 'white' }}
-                />
-              )}
-            />
-            <Tab
-              path={`${url}/search`}
-              component={Search}
-              label="Search"
-              renderIcon={() => (
-                <Image
-                  source={require('./assets/search.png')}
-                  style={{ top: .25, width: 26.5, height: 26.5, tintColor: 'white' }}
                 />
               )}
             />

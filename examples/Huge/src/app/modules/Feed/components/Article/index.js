@@ -11,9 +11,11 @@ class Article extends Component {
 
   componentDidMount() {
     this.timer = setInterval(() => {
-      this.setState((state) => ({
-        time: state.time + 250,
-      }))
+      if (this.props.match && this.props.match.url === this.props.staticMatch.url) {
+        this.setState((state) => ({
+          time: state.time + 250,
+        }))
+      }
     }, 250)
   }
 
@@ -21,8 +23,8 @@ class Article extends Component {
     clearInterval(this.timer)
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.match
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.time !== nextState.time
   }
 
   render() {
