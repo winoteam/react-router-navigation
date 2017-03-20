@@ -1,13 +1,14 @@
-/* @flow */
+/* @noflow */
+/* error: https://github.com/react-community/react-navigation/blob/master/src/views/TabView/TabView.js#L193 */
 
 import React, { Component, createElement } from 'react'
-import { StyleSheet, Dimensions } from 'react-native'
+import { Platform, StyleSheet, Dimensions } from 'react-native'
 import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
-import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { TabProps, TabBarProps, TabRendererProps } from './TypeDefinitions'
-import StackUtils from './StackUtils'
+import BottomNavigationBar, { Tab } from 'react-native-material-bottom-navigation'
+import TabBarBottom from 'react-navigation/src/views/TabView/TabBarBottom'
+import type { TabProps, TabBarProps, TabSubViewProps } from './TypeDefinitions'
+import * as StackUtils from './StackUtils'
 import TabStack from './TabStack'
-import BottomNavigationBar from './BottomNavigationBar'
 
 const styles = StyleSheet.create({
   container: {
@@ -15,13 +16,8 @@ const styles = StyleSheet.create({
   },
 })
 
-type TabSceneRendererProps =
-  & SceneRendererProps
-  & TabRendererProps
-  & TabBarProps
-
 type Props = TabBarProps & {
-  children: Array<React$Element<TabProps>>,
+  children?: Array<React$Element<TabProps>>,
   lazy?: boolean,
   style?: StyleSheet,
 }
@@ -30,7 +26,11 @@ type DefaultProps = {
   lazy: boolean,
 }
 
-class BottomNavigation extends Component<DefaultProps, Props, void> {
+type State = {
+  key: string,
+}
+
+class BottomNavigation extends Component<DefaultProps, Props, State> {
 
   props: Props
 
@@ -38,44 +38,85 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
     lazy: true,
   }
 
-  renderPager = (sceneRendererProps: SceneRendererProps): React$Element<any> => (
+  state: State = { key: Math.random().toString(10) }
+
+  renderPager = (sceneProps: TabSubViewProps): React$Element<any> => (
     <TabViewPagerPan
-      {...sceneRendererProps}
+      {...sceneProps}
+      key={`pager_${this.state.key}`}
       swipeEnabled={false}
     />
   )
 
-  renderNavigationBar = (props: TabSceneRendererProps): React$Element<any> => {
-    const { tabs, navigationState: { routes, index }, onRequestChangeTab } = props
-    const route = routes[index]
-    const tab = StackUtils.get(tabs, route)
-    const tabBarProps = { ...this.props, ...props, ...tab }
+  renderNavigationBar = (
+    sceneProps: TabSubViewProps,
+    props: TabSubViewProps,
+  ): ?React$Element<any> => {
+    // Hide tab bar
+    if (sceneProps.hideTabBar) return null
     // Custom tab bar
-    if (tabBarProps.renderTabBar) {
+    if (sceneProps.renderTabBar) {
       return createElement(
-        tabBarProps.renderTabBar,
-        tabBarProps,
+        sceneProps.renderTabBar,
+        sceneProps,
       )
     }
     // Default tab bar
+    if (Platform.OS === 'ios') {
+      return (
+        <TabBarBottom
+          {...sceneProps}
+          key={`tabbar_${this.state.key}`}
+          jumpToIndex={sceneProps.onRequestChangeTab}
+          labelStyle={sceneProps.labelStyle}
+          inactiveTintColor={sceneProps.tabTintColor}
+          activeTintColor={sceneProps.tabActiveTintColor}
+          getLabel={({ route: { routeName } }) => {
+            const tab = props.tabs.find(({ key }) => key === routeName)
+            const ownProps = { ...props, ...tab }
+            if (ownProps.renderLabel) return ownProps.renderLabel(ownProps)
+            return ownProps.label
+          }}
+          renderIcon={({ route: { routeName } }) => {
+            const tab = props.tabs.find(({ key }) => key === routeName)
+            const ownProps = { ...props, ...tab }
+            if (!ownProps.renderIcon) return null
+            return ownProps.renderIcon(ownProps)
+          }}
+        />
+      )
+    }
     return (
       <BottomNavigationBar
-        {...tabBarProps}
-        onRequestChangeTab={onRequestChangeTab}
-      />
+        {...sceneProps}
+        key={`tabbar_${this.state.key}`}
+        labelColor="white"
+        rippleColor="white"
+        style={{ height: 56, elevation: 8, position: 'absolute', left: 0, bottom: 0, right: 0 }}
+        activeTab={sceneProps.navigationState.index}
+        onTabChange={sceneProps.onRequestChangeTab}
+      >
+        {sceneProps.navigationState.routes.map(({ routeName }) => {
+          const tab = props.tabs.find(({ key }) => key === routeName)
+          const ownProps = { ...props, ...tab }
+          return (
+            <Tab
+              key={`tabitem_${tab.key}`}
+              barBackgroundColor="#37474F"
+              label={ownProps.label}
+              icon={ownProps.renderIcon()}
+            />
+          )
+        })}
+      </BottomNavigationBar>
     )
   }
 
-  renderScene = (props: TabSceneRendererProps): ?React$Element<any> => {
-    // Get tab $FlowFixMe
-    const { tabs, route } = props
-    const tab = StackUtils.get(tabs, route)
-    if (!tab) return null
-    // Render view
-    const ownProps = { ...props, key: route.key }
-    if (tab.render) return tab.render(ownProps)
-    else if (tab.children) return tab.children(ownProps)
-    else if (tab.component) return createElement(tab.component, ownProps)
+  renderScene = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+    const { render, children, component } = sceneProps
+    if (render) return render(sceneProps)
+    else if (children && typeof children === 'function') return children(sceneProps)
+    else if (component) return createElement(component, sceneProps)
     return null
   }
 
@@ -84,20 +125,23 @@ class BottomNavigation extends Component<DefaultProps, Props, void> {
       <TabStack
         {...this.props}
         style={styles.container}
-        forceSync={true}
-        render={(props) => (
-          <TabViewAnimated
-            // $FlowFixMe
-            {...props}
-            style={[styles.container, this.props.style]}
-            initialLayout={Dimensions.get('window')}
-            lazy={this.props.lazy}
-            configureTransition={() => null}
-            renderPager={(ownProps) => this.renderPager({ ...props, ...ownProps })}
-            renderFooter={(ownProps) => this.renderNavigationBar({ ...props, ...ownProps })}
-            renderScene={(ownProps) => this.renderScene({ ...props, ...ownProps })}
-          />
-        )}
+        forceSync
+        render={(props) => {
+          const ownProps = { ...this.props, ...props }
+          return (
+            <TabViewAnimated
+              {...props}
+              key={`transitioner_${this.state.key}`}
+              style={[styles.container, this.props.style]}
+              initialLayout={Dimensions.get('window')}
+              lazy={this.props.lazy}
+              configureTransition={() => null}
+              renderPager={StackUtils.renderSubView(this.renderPager, ownProps)}
+              renderFooter={StackUtils.renderSubView(this.renderNavigationBar, ownProps)}
+              renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
+            />
+          )
+        }}
       />
     )
   }

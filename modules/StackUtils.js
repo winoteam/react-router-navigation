@@ -3,107 +3,123 @@
 
 import { Children, cloneElement } from 'react'
 import { matchPath } from 'react-router'
-import type { RouterHistory } from 'react-router'
+import type { Location } from 'react-router'
 import type { Route } from './TypeDefinitions'
 
-export default {
 
-  /**
-   * Build stack with React elements
-   */
-  build: <Item>(children: Array<React$Element<Item>>): Array<Item & { key: string }> => {
-    return Children.toArray(children).reduce((stack, child) => {
-      const item = Object.keys(child.props).reduce((props, key) => {
-        if (key === 'path') {
-          return {
-            ...props,
-            [key]: child.props[key],
-            key: child.props[key],
-          }
-        } else if (key === 'render' || key === 'component' || key === 'children') {
-          return {
-            ...props,
-            [key]: (ownProps: any) => cloneElement(child, ownProps),
-          }
-        }
+/**
+ * Build stack with React elements
+ */
+// eslint-disable-next-line
+export const build = <Item>(
+  children: Array<React$Element<Item>>,
+): Array<Item & { key: string }> => {
+  return Children.toArray(children).reduce((stack, child) => {
+    const item = Object.keys(child.props).reduce((props, key) => {
+      if (key === 'path') {
         return {
           ...props,
           [key]: child.props[key],
+          key: child.props[key],
         }
-      }, {})
-      if (!item.key) return stack
-      return [...stack, item]
-    }, [])
-  },
+      } else if (key === 'render' || key === 'component' || key === 'children') {
+        return {
+          ...props,
+          [key]: () => cloneElement(child),
+        }
+      }
+      return {
+        ...props,
+        [key]: child.props[key],
+      }
+    }, {})
+    if (!item.key) return stack
+    return [...stack, item]
+  }, [])
+}
 
 
-  /**
-   * Test if current stack item should be updated
-   */
-  shouldUpdate: (
-    currentItem: { path: string, exact?: boolean, strict?: boolean },
-    nextItem: { path: string, exact?: boolean, strict?: boolean },
-    currentRouterHistory: RouterHistory,
-    nextRouterHistory: RouterHistory,
-  ): boolean => {
-    const { location: currentLocation } = currentRouterHistory
-    const { entries, index, location: nextLocation } = nextRouterHistory
-    if (entries === undefined || index === undefined) return false
-    // Get entries and matchs
-    const previousEntry = entries[index - 1]
-    const currentEntry = entries[index]
-    const nextEntry = entries[index + 1]
-    const matchCurrentRoute = matchPath(nextLocation.pathname, currentItem.path, currentItem)
-    const matchNextRoute = matchPath(nextLocation.pathname, nextItem.path, nextItem)
+/**
+ * Test if current stack item should be updated
+ */
+export const shouldUpdate = (
+   currentItem: { path: string, exact?: boolean, strict?: boolean },
+   nextItem: { path: string, exact?: boolean, strict?: boolean },
+   currentLocation: Location,
+   nextLocation: Location,
+ ): boolean => {
+  // Get entries and matchs
+  const matchCurrentRoute = matchPath(currentLocation.pathname, currentItem)
+  const matchNextRoute = matchPath(nextLocation.pathname, nextItem)
+  return (
+    // Test if pathames are different
+    (currentLocation.pathname !== nextLocation.pathname) &&
+    // case 1) basic pathname
+    ((currentItem.path !== nextItem.path) ||
+    // case 2) pathname with query params
+    // ex: with same path article/:id,
+    //     pathname article/2 !== article/3
+    (matchCurrentRoute !== null && matchNextRoute !== null &&
+     Object.keys(matchCurrentRoute.params).length !== 0 &&
+     Object.keys(matchNextRoute.params).length !== 0 &&
+     currentLocation.pathname !== nextLocation.pathname))
+  )
+}
+
+
+/**
+ * Get stack item from a specific route
+ * $FlowFixMe
+ */
+export const get = <Item>(items: Array<Item>, route: Route): ?Item => ({
+  ...route,
+  ...items.find((item) => {
     return (
-      // Test if pathames are different
-      (currentLocation.pathname !== nextLocation.pathname) &&
-      // case 1) basic pathname
-      ((currentItem.path !== nextItem.path) ||
-      // case 2) pathname with query params
-      // ex: with same path article/:id,
-      //     pathname article/2 !== article/3
-      (matchCurrentRoute !== null && matchNextRoute !== null &&
-       Object.keys(matchCurrentRoute.params).length !== 0 &&
-       Object.keys(matchNextRoute.params).length !== 0 &&
-       ((previousEntry && currentEntry.pathname !== previousEntry.pathname) ||
-        (nextEntry && currentEntry.pathname !== nextEntry.pathname))
-      ))
+      item && item.key &&
+      route.routeName === item.key
     )
-  },
+  }),
+})
 
 
-  /**
-   * Get stack item from a specific route
-   */
-  get: <Item>(items: Array<Item>, route: Route): ?Item => {
-    return items.find((item) => {
-      return (
-        item && item.key &&
-        route.routeName === item.key
-      )
-    })
-  },
+/**
+ * Generate unique key
+ */
+export const createKey = (route: Route): string => {
+  return `${route.key}@@${Math.random().toString(10)}`
+}
 
 
-  /**
-   * Get current route from a specific history location
-   */
-  getRoute: <Item>(stack: Array<Item>, location: Location): ?Route => {
-    const item = stack.find((stackItem) => {
-      // $FlowFixMe
-      return matchPath(location.pathname, stackItem.path, stackItem)
-    })
-    if (!item || !item.key || typeof item.key !== 'string') return null
-    return { key: item.key, routeName: item.key }
-  },
+/**
+ * Get current route from a specific history location
+ */
+export const getRoute = (stack: Array<Object>, location: Location): ?Route => {
+  const { pathname } = location
+  const item = stack.find((stackItem) => {
+    return matchPath(pathname, stackItem)
+  })
+  if (!item || !item.key) return null
+  return {
+    key: createKey(item),
+    routeName: item.key,
+    match: matchPath(pathname, item),
+  }
+}
 
 
-  /**
-   * Generate unique key
-   */
-  createKey: (route: Route): string => {
-    return `${route.key}@@${Math.random().toString(36).substr(2, 10)}`
-  },
-
+/**
+ * Render a subview with props
+ */
+export const renderSubView = (
+  render: Function,
+  additionalProps?: any = {},
+) => (ownProps: any): ?React$Element<any> => {
+  const props = { ...additionalProps, ...ownProps }
+  const { cards, tabs, scene, route, navigationState: { routes, index } } = props
+  const item = get(
+    cards || tabs,
+    (scene && scene.route) || route || routes[index],
+  )
+  if (!item) return null
+  return render({ ...props, ...item }, props)
 }

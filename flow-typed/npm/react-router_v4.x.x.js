@@ -46,7 +46,9 @@ declare module 'react-router' {
     url: string,
   }
 
-  declare export type ContextRouter = RouterHistory & {
+  declare export type ContextRouter = {
+    location: Location,
+    history: RouterHistory,
     match: Match,
   }
 
@@ -119,8 +121,9 @@ declare module 'react-router' {
   declare export function withRouter<P, S>(Component: ClassComponent<void, P, S> | FunctionComponent<P>): ClassComponent<void, $Diff<P, ContextRouter>, S>;
 
   declare type MatchPathOptions = {
+    path: string,
     exact?: boolean,
     strict?: boolean,
   }
-  declare export function matchPath(pathname: string, path: string, options?: MatchPathOptions): null | Match
+  declare export function matchPath(pathname: string, options?: MatchPathOptions): null | Match
 }

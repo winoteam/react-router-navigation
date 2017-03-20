@@ -1,4 +1,6 @@
-exports[`test <Navigation /> re-renders correctly when "go" action is called 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Navigation /> re-renders correctly when "go" action is called 1`] = `
 <View>
   <View>
     <View>
@@ -14,7 +16,7 @@ exports[`test <Navigation /> re-renders correctly when "go" action is called 1`]
 </View>
 `;
 
-exports[`test <Navigation /> re-renders correctly when "go" action is called 2`] = `
+exports[`<Navigation /> re-renders correctly when "go" action is called 2`] = `
 <View>
   <View>
     <View>
@@ -30,7 +32,7 @@ exports[`test <Navigation /> re-renders correctly when "go" action is called 2`]
 </View>
 `;
 
-exports[`test <Navigation /> re-renders correctly when "goBack" action is called 1`] = `
+exports[`<Navigation /> re-renders correctly when "goBack" action is called 1`] = `
 <View>
   <View>
     <View>
@@ -45,7 +47,7 @@ exports[`test <Navigation /> re-renders correctly when "goBack" action is called
 </View>
 `;
 
-exports[`test <Navigation /> re-renders correctly when "goBack" action is called 2`] = `
+exports[`<Navigation /> re-renders correctly when "goBack" action is called 2`] = `
 <View>
   <View>
     <View>
@@ -60,7 +62,7 @@ exports[`test <Navigation /> re-renders correctly when "goBack" action is called
 </View>
 `;
 
-exports[`test <Navigation /> re-renders correctly when "push" action is called 1`] = `
+exports[`<Navigation /> re-renders correctly when "push" action is called 1`] = `
 <View>
   <View>
     <View>
@@ -74,7 +76,7 @@ exports[`test <Navigation /> re-renders correctly when "push" action is called 1
 </View>
 `;
 
-exports[`test <Navigation /> re-renders correctly when "push" action is called 2`] = `
+exports[`<Navigation /> re-renders correctly when "push" action is called 2`] = `
 <View>
   <View>
     <View>
@@ -89,7 +91,7 @@ exports[`test <Navigation /> re-renders correctly when "push" action is called 2
 </View>
 `;
 
-exports[`test <Navigation /> re-renders correctly when "replace" action is called 1`] = `
+exports[`<Navigation /> re-renders correctly when "replace" action is called 1`] = `
 <View>
   <View>
     <View>
@@ -104,7 +106,7 @@ exports[`test <Navigation /> re-renders correctly when "replace" action is calle
 </View>
 `;
 
-exports[`test <Navigation /> re-renders correctly when "replace" action is called 2`] = `
+exports[`<Navigation /> re-renders correctly when "replace" action is called 2`] = `
 <View>
   <View>
     <View>
@@ -119,7 +121,7 @@ exports[`test <Navigation /> re-renders correctly when "replace" action is calle
 </View>
 `;
 
-exports[`test <Navigation /> renders correctly 1`] = `
+exports[`<Navigation /> renders correctly 1`] = `
 <View>
   <View>
     <View>
@@ -133,7 +135,7 @@ exports[`test <Navigation /> renders correctly 1`] = `
 </View>
 `;
 
-exports[`test <Navigation /> renders correctly with initialIndex and initialEntries prop  1`] = `
+exports[`<Navigation /> renders correctly with initialIndex and initialEntries prop  1`] = `
 <View>
   <View>
     <View>

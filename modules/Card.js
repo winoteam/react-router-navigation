@@ -3,14 +3,13 @@
 
 import React, { Component, createElement } from 'react'
 import { Route } from 'react-router'
-import type { RouterHistory, Match } from 'react-router'
-import type { CardProps, CardState } from './TypeDefinitions'
+import type { ContextRouter, Match } from 'react-router'
+import type { CardProps } from './TypeDefinitions'
 
-type Props = CardProps & CardState
+type Props = CardProps
 
 type State = {
-  match: ?Match,
-  pathname: ?string,
+  staticMatch: ?Match,
 }
 
 class Card extends Component<void, Props, State> {
@@ -18,28 +17,23 @@ class Card extends Component<void, Props, State> {
   props: Props
 
   state: State = {
-    pathname: null,
-    match: null,
+    staticMatch: null,
   }
 
-  renderView = (props: Props & RouterHistory & { match: Match }): ?React$Element<any> => {
-    const { match, location: { pathname } } = props
-    // Set match props
-    if (!this.state.pathname) this.state.pathname = pathname
-    if (this.state.pathname === pathname || !this.state.match) {
-      this.state.match = match
+  renderView = (props: ContextRouter): ?React$Element<any> => {
+    // Initialyze own props
+    if (!this.state.staticMatch && props.match) {
+      this.state.staticMatch = props.match
     }
-    const { render, children, component, isTransitioning, isFocused } = this.props
-    const routeProps = {
+    const ownProps = {
       ...props,
-      match: this.state.match,
-      isTransitioning,
-      isFocused,
+      ...this.state,
     }
     // Render view
-    if (render) return render(routeProps)
-    else if (children) return children(routeProps)
-    else if (component) return createElement(component, routeProps)
+    const { render, children, component } = this.props
+    if (render) return render(ownProps)
+    else if (children && typeof children === 'function') return children(ownProps)
+    else if (component) return createElement(component, ownProps)
     return null
   }
 

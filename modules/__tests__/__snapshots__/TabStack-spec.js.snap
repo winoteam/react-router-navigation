@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TabStack /> re-renders correctly when "replace" action is called 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> re-renders correctly when "replace" action is called 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> re-renders correctly when onRequestChangeTab() method is called 1`] = `
+<TouchableOpacity
+  onPress={[Function]}
+>
+  <Text>
+    Index
+  </Text>
+</TouchableOpacity>
+`;
+
+exports[`<TabStack /> re-renders correctly when onRequestChangeTab() method is called 2`] = `
+<TouchableOpacity
+  onPress={[Function]}
+>
+  <Text>
+    Goodbye
+  </Text>
+</TouchableOpacity>
+`;
+
+exports[`<TabStack /> renders correctly 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> renders correctly with initialEntries prop  1`] = `
+<Text>
+  Hello
+</Text>
+`;

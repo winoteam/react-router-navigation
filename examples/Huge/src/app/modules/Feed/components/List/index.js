@@ -1,14 +1,9 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { ListView, View, Text } from 'react-native'
 import { Link } from 'react-router-native'
 import styles from './styles'
 
 class List extends Component {
-
-  static propTypes = {
-    isFocused: PropTypes.bool.isRequired,
-    isTransitioning: PropTypes.bool.isRequired,
-  }
 
   constructor(props) {
     super(props)
@@ -26,10 +21,6 @@ class List extends Component {
 
   scrollTo = (options: Object): void => {
     if (this.listView) this.listView.scrollTo(options)
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.isFocused && !nextProps.isTransitioning
   }
 
   render() {

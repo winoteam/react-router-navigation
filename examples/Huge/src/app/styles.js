@@ -8,6 +8,13 @@ const styles = StyleSheet.create({
   activeLabel: {
     color: BRAND_COLOR_60,
   },
+  modal: {
+    marginTop: 12.5,
+    marginBottom: 20,
+    textAlign: 'center',
+    fontSize: 17,
+    fontWeight: '700',
+  },
 })
 
 export default styles

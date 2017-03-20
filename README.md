@@ -9,12 +9,12 @@ and `react-native-tab-view`.
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/bottom-navigation.gif" width="250">
 
 ## Highlights
-* Just an add-on to ```react-router```
-* Declarative composability.
+* **Just an add-on to ```react-router```**
+* Declarative composability
 * Allow you to call transitions anywhere in your code with simple components
 * Dynamic Routing
 * URL Driven Development
-* Easy-to-use navigation solution
+* Easy-to-use navigation solution using ```react-navigation```
 * Tab Bar Support using ```react-native-tab-view```
 * Cross-platform
 * First class deep linking support
@@ -23,26 +23,25 @@ and `react-native-tab-view`.
 ## How to use
 Install:
 ```shell
-$ yarn add react-router@4.0.0-beta.5 react-router-native@4.0.0-beta.5 react-router-navigation
+$ yarn add react-router react-router-native react-router-navigation
 ```
 
 And then, enjoy it:
 ```js
 import React from 'react'
 import { Text } from 'react-native'
-import { Route } from 'react-router'
 import { NativeRouter, Link } from 'react-router-native'
-import { Navigation } from 'react-router-navigation'
+import { Navigation, Card } from 'react-router-navigation'
 
 const App = () => (
   <NativeRouter>
     <Navigation>
-      <Route
+      <Card
         exact
         path="/"
         render={() => <Link to="/hello">Press it</Link>}
       />
-      <Route
+      <Card
         path="/hello"
         render={() => <Text>Hello</Text>}
       />

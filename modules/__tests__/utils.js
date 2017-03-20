@@ -1,9 +1,11 @@
-import React, { PropTypes, Component, createElement } from 'react'
-import { View, Text } from 'react-native'
-import StackUtils from './../StackUtils'
+/* eslint react/prop-types: 0 */
 
-export const componentFactory = (message) => ({ match: { params } }) => (
-  <Text>{params.id || params.slug || message}</Text>
+import React, { createElement } from 'react'
+import { Text } from 'react-native'
+import * as StackUtils from './../StackUtils'
+
+export const componentFactory = message => ({ match }) => (
+  <Text>{(match && (match.params.id || match.params.slug)) || message}</Text>
 )
 
 export const CardView = ({ navigationState: { routes, index }, cards }) => {

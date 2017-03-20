@@ -1,11 +1,13 @@
-import './__mocks__'
+/* eslint new-cap: 0 */
+
 import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
+import renderer from 'react-test-renderer'
 import { componentFactory, CardView } from './utils'
 import CardStack from './../CardStack'
-import renderer from 'react-test-renderer'
+import './__mocks__'
 
 it('<CardStack /> renders correctly', () => {
   const history = createHistory()
@@ -15,7 +17,7 @@ it('<CardStack /> renders correctly', () => {
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -33,7 +35,7 @@ it('<CardStack /> renders correctly with initialIndex and initialEntries prop ',
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -47,7 +49,7 @@ it('<CardStack /> re-renders correctly when "push" action is called', () => {
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -65,7 +67,7 @@ it('<CardStack /> re-renders correctly when "push" action is called with same pa
       <CardStack render={CardView}>
         <Route path="/article/:id" render={componentFactory()} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -85,7 +87,7 @@ it('<CardStack /> re-renders correctly when "goBack" action is called', () => {
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -104,7 +106,7 @@ it('<CardStack /> re-renders correctly when "goBack" action is called with same 
       <CardStack render={CardView}>
         <Route path="/article/:id" render={componentFactory()} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -125,7 +127,7 @@ it('<CardStack /> re-renders correctly when "go" action is called', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -144,7 +146,7 @@ it('<CardStack /> re-renders correctly when "go" action is called with same path
       <CardStack render={CardView}>
         <Route path="/article/:id" render={componentFactory('Article')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -165,7 +167,7 @@ it('<CardStack /> re-renders correctly when "replace" action is called', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -181,15 +183,17 @@ it('<CardStack /> re-renders correctly when onNavigateBack() method is called', 
   })
   const component = renderer.create(
     <Router history={history}>
-      <CardStack render={({ navigationState, onNavigateBack, cards }) => (
-        <TouchableOpacity onPress={onNavigateBack}>
-          {CardView({ navigationState, onNavigateBack, cards })}
-        </TouchableOpacity>
-      )}>
+      <CardStack
+        render={({ navigationState, onNavigateBack, cards }) => (
+          <TouchableOpacity onPress={onNavigateBack}>
+            {CardView({ navigationState, onNavigateBack, cards })}
+          </TouchableOpacity>
+        )}
+      >
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
       </CardStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()

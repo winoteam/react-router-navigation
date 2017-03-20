@@ -1,124 +1,128 @@
 /* @flow */
 /* eslint no-use-before-define: 0 */
 
-import type { SceneRendererProps } from 'react-native-tab-view/src/TabViewTypeDefinitions'
-import type { NavigationParams, NavigationSceneRendererProps } from 'react-navigation/src/TypeDefinition'
+import type { ContextRouter, Match } from 'react-router'
 
 export type Route = {
   key: string,
   routeName: string,
+  match: ?Match,
 }
 
-export type NavigationState<ExtraRoute> = {
-  index: number,
-  routes: Array<Route & ExtraRoute>
+export type NavigationState<OwnRoute> = {
+  index: number, // $FlowFixMe
+  routes: Array<Route & OwnRoute>,
 }
 
 export type RouteProps = {
-  component?: ReactClass<any>,
-  render?: (props: any) => React$Element<any>,
-  children?: (props: any) => React$Element<any>,
+  component?: ReactClass<ContextRouter>,
+  render?: (props: ContextRouter) => React$Element<any>,
+  children?: (props: ContextRouter) => React$Element<any>,
   path: string,
   exact?: boolean,
   strict?: boolean
 }
 
+
 /**
  * Navigation
  */
 
-export type CardRoute = {
-  path?: string,
-  params?: NavigationParams,
-}
-
-export type CardState = {
-  isFocused: boolean,
-  isTransitioning: boolean
-}
-
 export type NavBarProps = {
   // General
   hideNavBar?: boolean,
-  renderNavBar: (
-    props: CardRendererProps & NavigationSceneRendererProps
-  ) => React$Element<any>,
+  renderNavBar?: (props: CardSubViewProps) => React$Element<any>,
   navBarStyle?: StyleSheet,
   // Left button
   hideBackButton?: boolean,
-  backButtonStyle: 'default' | 'light' | 'dark',
-  renderLeftButton: (
-    props: CardRendererProps & NavigationSceneRendererProps
-  ) => React$Element<any>,
+  backButtonTintColor?: string,
+  backButtonTitle?: string,
+  renderLeftButton?: (props: CardSubViewProps) => React$Element<any>,
   // Title
   title?: string,
   titleStyle?: StyleSheet,
-  renderTitle: (
-    props: CardRendererProps & NavigationSceneRendererProps
-  ) => React$Element<any>,
+  renderTitle?: (props: CardSubViewProps) => React$Element<any>,
   // Right button
-  renderRightButton: (
-    props: CardRendererProps & NavigationSceneRendererProps
-  ) => React$Element<any>
+  renderRightButton?: (props: CardSubViewProps) => React$Element<any>,
 }
 
-export type CardProps = RouteProps & NavBarProps
+export type NavigationProps = NavBarProps & {
+ onTransitionStart?: Function,
+ onTransitionEnd?: Function,
+}
+
+export type CardProps =
+  & RouteProps
+  & NavigationProps
 
 export type Card =
-  & RouteProps
-  & NavBarProps
-  & {
-    key: string,
-    component?: ReactClass<any>,
-    render?: (props: NavigationSceneRendererProps & CardRendererProps) => React$Element<any>,
-    children?: (props: NavigationSceneRendererProps & CardRendererProps) => React$Element<any>,
-  }
+  & CardProps
+  & { key: string }
 
-export type Cards = Array<Card>
-
-export type CardRendererProps = {
+export type CardsRendererProps = {
   onNavigateBack: Function,
-  navigationState: NavigationState<CardRoute>,
-  cards: Cards
+  navigationState: NavigationState<{
+    path?: string,
+    params?: Object,
+  }>,
+  cards: Array<Card>,
 }
+
+export type CardSubViewProps = any
+  // & NavigationSceneRendererProps
+  // & CardsRendererProps
+  // & CardProps
+
 
 /**
  * Tabs
  */
 
-export type TabRoute = {
-  title?: string,
-  testID?: string,
-}
-
 export type TabBarProps = {
-  renderTabBar?: (
-    props: TabBarProps & SceneRendererProps & TabRendererProps
-  ) => React$Element<any>,
-  label?: string,
-  labelStyle?: ((props: Tab & { isActive: boolean }) => StyleSheet) | StyleSheet,
-  onReset?: Function,
-  // <BottomNavigation /> only
-  renderTabIcon?: (
-    props: TabBarProps & SceneRendererProps & TabRendererProps
-  ) => React$Element<any>,
-  // <Tabs /> only
+  hideTabBar?: boolean,
+  renderTabBar?: (props: TabSubViewProps) => ?React$Element<any>,
   tabBarStyle?: StyleSheet,
-  tabBarIndicatorStyle?: StyleSheet
+  label?: string,
+  labelStyle?: StyleSheet,
+  renderLabel?: (props: TabSubViewProps) => ?React$Element<any>,
+  tabTintColor?: string,
+  tabActiveTintColor?: string,
+  // <BottomNavigation /> only:
+  renderTabIcon?: (props: TabSubViewProps) => ?React$Element<any>,
+  // <Tabs /> only:
+  tabBarPosition?: 'top' | 'bottom',
+  tabBarIndicatorStyle?: StyleSheet,
 }
 
-export type TabProps = RouteProps & TabBarProps
+export type TabsProps = TabBarProps & {
+  // <Tabs /> only:
+  initialLayout?: { width?: number, height?: number },
+  renderPager?: (props: TabSubViewProps) => ?React$Element<any>,
+  configureTransition: ?Function,
+}
 
-export type Tab =
+export type TabProps =
   & RouteProps
   & TabBarProps
+  & {
+    tabStyle?: StyleSheet, // uncheck
+    onReset?: Function, // uncheck
+  }
+
+export type Tab =
   & TabProps
   & { key: string }
 
-export type Tabs = Array<Tab>
-
-export type TabRendererProps = {
+export type TabsRendererProps = {
   onRequestChangeTab: (index: number) => void,
-  navigationState: NavigationState<TabRoute>,
-  tabs: Tabs
+  navigationState: NavigationState<{
+    title?: string,
+    testID?: string,
+  }>,
+  tabs: Array<Tab>,
 }
+
+export type TabSubViewProps = any
+  // & SceneRendererProps
+  // & TabsRendererProps
+  // & TabBarProps

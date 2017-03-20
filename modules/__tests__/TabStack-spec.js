@@ -1,10 +1,12 @@
-import './__mocks__'
+/* eslint new-cap: 0 */
+
 import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
-import { Router, Switch, Route } from 'react-router'
+import { TouchableOpacity } from 'react-native'
+import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
-import { TestRouter, componentFactory, TabView } from './utils'
+import './__mocks__'
+import { componentFactory, TabView } from './utils'
 import TabStack from './../TabStack'
 
 it('<TabStack /> renders correctly', () => {
@@ -16,7 +18,7 @@ it('<TabStack /> renders correctly', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -31,7 +33,7 @@ it('<TabStack /> renders correctly with initialEntries prop ', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </Router>
+    </Router>,
   )
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -46,7 +48,7 @@ it('<TabStack /> re-renders correctly when "replace" action is called', () => {
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
@@ -59,16 +61,18 @@ it('<TabStack /> re-renders correctly when onRequestChangeTab() method is called
   const history = createHistory()
   const component = renderer.create(
     <Router history={history}>
-      <TabStack render={({ navigationState, onRequestChangeTab, tabs }) => (
-        <TouchableOpacity onPress={onRequestChangeTab}>
-          {TabView({ navigationState, onRequestChangeTab, tabs })}
-        </TouchableOpacity>
-      )}>
+      <TabStack
+        render={({ navigationState, onRequestChangeTab, tabs }) => (
+          <TouchableOpacity onPress={onRequestChangeTab}>
+            {TabView({ navigationState, onRequestChangeTab, tabs })}
+          </TouchableOpacity>
+        )}
+      >
         <Route exact path="/" render={componentFactory('Index')} />
         <Route path="/hello" render={componentFactory('Hello')} />
         <Route path="/goodbye" render={componentFactory('Goodbye')} />
       </TabStack>
-    </Router>
+    </Router>,
   )
   let tree = component.toJSON()
   expect(tree).toMatchSnapshot()
