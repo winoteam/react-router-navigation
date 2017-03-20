@@ -59,7 +59,7 @@ export type Card =
   & CardProps
   & { key: string }
 
-export type CardsRendererProps = ContextRouter & {
+export type CardsRendererProps = {
   onNavigateBack: Function,
   navigationState: NavigationState<{
     path?: string,
@@ -113,7 +113,7 @@ export type Tab =
   & TabProps
   & { key: string }
 
-export type TabsRendererProps = ContextRouter & {
+export type TabsRendererProps = {
   onRequestChangeTab: (index: number) => void,
   navigationState: NavigationState<{
     title?: string,
