@@ -160,6 +160,9 @@ class CardStack extends Component<void, OwnProps, State> {
   render(): React$Element<any> {
     return this.props.render({
       ...this.state,
+      match: this.props.match,
+      location: this.props.location,
+      history: this.props.history,
       onNavigateBack: this.onNavigateBack,
     })
   }

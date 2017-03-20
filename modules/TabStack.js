@@ -134,6 +134,9 @@ class TabStack extends Component<void, (Props & ContextRouter), State> {
   render(): React$Element<any> {
     return this.props.render({
       ...this.state,
+      match: this.props.match,
+      location: this.props.location,
+      history: this.props.history,
       onRequestChangeTab: this.onRequestChangeTab,
     })
   }
