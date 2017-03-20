@@ -104,10 +104,7 @@ export type TabsProps = TabBarProps & {
 export type TabProps =
   & RouteProps
   & TabBarProps
-  & {
-    tabStyle?: StyleSheet, // uncheck
-    onReset?: Function, // uncheck
-  }
+  & { onReset?: Function }
 
 export type Tab =
   & TabProps
