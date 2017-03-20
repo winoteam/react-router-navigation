@@ -73,7 +73,7 @@ class NavBar extends Component<void, Props, void> {
       <Header
         {...this.props}
         mode={Platform.OS === 'ios' ? 'float' : 'screen'}
-        style={sceneProps && sceneProps.navBarStyle}
+        style={(sceneProps && sceneProps.navBarStyle) || this.props.navBarStyle}
         renderLeftComponent={StackUtils.renderSubView(this.renderLeftComponent, this.props)}
         renderTitleComponent={StackUtils.renderSubView(this.renderTitleComponent, this.props)}
         renderRightComponent={StackUtils.renderSubView(this.renderRightComponent, this.props)}
