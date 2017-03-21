@@ -1,7 +1,7 @@
 /* eslint global-require: 0 */
 
 import React from 'react'
-import { StatusBar, View, Image, Text } from 'react-native'
+import { StatusBar, Platform, View, Image, Text } from 'react-native'
 import { withRouter, Switch, Route, Redirect } from 'react-router'
 import { BottomNavigation, Tab } from 'react-router-navigation'
 import { BRAND_COLOR_60 } from '@ressources/theme'
@@ -39,7 +39,8 @@ const App = (props) => (
           />
           <BottomNavigation
             labelStyle={({ isActive }) => isActive && styles.activeLabel}
-            tabActiveTintColor={BRAND_COLOR_60}
+            tabTintColor={Platform.OS === 'android' ? 'white' : '#a5aaB2'}
+            tabActiveTintColor={Platform.OS === 'android' ? 'white' : BRAND_COLOR_60}
           >
             <Tab
               path={`${url}/feed`}
@@ -55,10 +56,15 @@ const App = (props) => (
                 }
               }}
               label="Feed"
-              renderIcon={() => (
+              renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) => (
                 <Image
                   source={require('./assets/feed.png')}
-                  style={{ top: 1.5, width: 22.5, height: 22.5, tintColor: 'white' }}
+                  style={[{
+                    top: Platform.OS === 'android' ? 1.5 : 2.5,
+                    width: Platform.OS === 'android' ? 22.5 : 25,
+                    height: Platform.OS === 'android' ? 22.5 : 25,
+                    tintColor: focused ? tabActiveTintColor : tabTintColor,
+                  }]}
                 />
               )}
             />
@@ -67,10 +73,15 @@ const App = (props) => (
               component={Profile}
               onReset={() => props.history.replace(`${url}/profile/likes`)}
               label="Profile"
-              renderIcon={() => (
+              renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) => (
                 <Image
                   source={require('./assets/profile.png')}
-                  style={{ top: -.75, width: 27.5, height: 27.5, tintColor: 'white' }}
+                  style={{
+                    top: Platform.OS === 'android' ? -.75 : 2.25,
+                    width: Platform.OS === 'android' ? 27.5 : 30,
+                    height: Platform.OS === 'android' ? 27.5 : 30,
+                    tintColor: focused ? tabActiveTintColor : tabTintColor,
+                  }}
                 />
               )}
             />

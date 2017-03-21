@@ -73,13 +73,13 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
           activeTintColor={sceneProps.tabActiveTintColor}
           getLabel={({ route: { routeName } }) => {
             const tab = props.tabs.find(({ key }) => key === routeName)
-            const ownProps = { ...props, ...tab }
+            const ownProps = { ...sceneProps, ...tab }
             if (ownProps.renderLabel) return ownProps.renderLabel(ownProps)
             return ownProps.label
           }}
-          renderIcon={({ route: { routeName } }) => {
-            const tab = props.tabs.find(({ key }) => key === routeName)
-            const ownProps = { ...props, ...tab }
+          renderIcon={({ route, ...otherProps }) => {
+            const tab = props.tabs.find(({ key }) => key === route.routeName)
+            const ownProps = { ...sceneProps, ...tab, ...otherProps }
             if (!ownProps.renderTabIcon) return null
             return ownProps.renderTabIcon(ownProps)
           }}
@@ -96,15 +96,15 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
         activeTab={sceneProps.navigationState.index}
         onTabChange={sceneProps.onRequestChangeTab}
       >
-        {sceneProps.navigationState.routes.map(({ routeName }) => {
-          const tab = props.tabs.find(({ key }) => key === routeName)
-          const ownProps = { ...props, ...tab }
+        {sceneProps.navigationState.routes.map((route) => {
+          const tab = props.tabs.find(({ key }) => key === route.routeName)
+          const ownProps = { ...props, ...tab, route }
           return (
             <Tab
               key={`tabitem_${tab.key}`}
               barBackgroundColor="#37474F"
               label={ownProps.label}
-              icon={ownProps.renderTabIcon()}
+              icon={ownProps.renderTabIcon(ownProps)}
             />
           )
         })}
