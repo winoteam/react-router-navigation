@@ -80,8 +80,8 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
           renderIcon={({ route: { routeName } }) => {
             const tab = props.tabs.find(({ key }) => key === routeName)
             const ownProps = { ...props, ...tab }
-            if (!ownProps.renderIcon) return null
-            return ownProps.renderIcon(ownProps)
+            if (!ownProps.renderTabIcon) return null
+            return ownProps.renderTabIcon(ownProps)
           }}
         />
       )
@@ -104,7 +104,7 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
               key={`tabitem_${tab.key}`}
               barBackgroundColor="#37474F"
               label={ownProps.label}
-              icon={ownProps.renderIcon()}
+              icon={ownProps.renderTabIcon()}
             />
           )
         })}
