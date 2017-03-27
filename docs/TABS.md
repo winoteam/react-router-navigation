@@ -24,22 +24,22 @@ const App = () => (
 ## Options
 
 ### TabBar Props
-* **hideTabBar** ```?boolean``` : whether to display tab bar
+* **hideTabBar** ```?boolean``` whether to display tab bar
 * **tabBarPosition** ```?('top' | 'bottom')``` sets the position of the tab bar
-* **tabBarStyle** ```?StyleSheet``` : style override for the tab bar
-* **tabBarIndicatorStyle** ```?StyleSheet``` : style object for the tab indicator
-* **renderTabBar** ```?Function``` : callback which renders a bottom tab bar
+* **tabBarStyle** ```?StyleSheet``` style override for the tab bar
+* **tabBarIndicatorStyle** ```?StyleSheet``` style object for the tab indicator
+* **renderTabBar** ```?Function``` callback which renders a bottom tab bar
 * **tabTintColor** ```?string``` label and icon color of the tab
 * **tabActiveTintColor** ```?string``` label and icon color of the active tab
 * **label** ```?string``` text that appears on each item
 * **labelStyle** ```?(StyleSheet | Function)``` styling text item
-* **renderLabel** ```?Function``` : callback which renders a label
+* **renderLabel** ```?Function``` callback which renders a label
 
 #### ```<Tabs />``` Props
 * [```... TarBar Props``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
-* **style** ```?StyleSheet``` : override or extend the default style for ```<View />``` container
-* **lazy** ```?boolean``` : whether to load tabs lazily when you start switching
-* **configureTransition** ```:?Function``` : callback which returns a configuration for the transition, return null to disable animation
+* **style** ```?StyleSheet``` override or extend the default style for ```<View />``` container
+* **lazy** ```?boolean``` whether to load tabs lazily when you start switching
+* **configureTransition** ```:?Function``` callback which returns a configuration for the transition, return null to disable animation
 
 #### ```<Tab />``` Props
 * [```... <Route />``` props](https://reacttraining.com/react-router/#route)

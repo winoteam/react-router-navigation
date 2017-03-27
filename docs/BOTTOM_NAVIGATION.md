@@ -24,20 +24,20 @@ const App = () => (
 ## Options
 
 ### TabBar Props
-* **hideTabBar** ```?boolean``` : whether to display tab bar
-* **tabBarStyle** ```?StyleSheet``` : style override for the tab bar
-* **renderTabBar** ```?Function``` : callback which renders a bottom tab bar
+* **hideTabBar** ```?boolean``` whether to display tab bar
+* **tabBarStyle** ```?StyleSheet``` style override for the tab bar
+* **renderTabBar** ```?Function``` callback which renders a bottom tab bar
 * **tabTintColor** ```?string``` label and icon color of the tab
 * **tabActiveTintColor** ```?string``` label and icon color of the active tab
 * **label** ```?string``` text that appears on each item
 * **labelStyle** ```?(StyleSheet | Function)``` styling text item
-* **renderLabel** ```?Function``` : callback which renders a label
+* **renderLabel** ```?Function``` callback which renders a label
 * **renderTabIcon** ```?Function``` optional callback which receives the current scene and returns a React Element to be used as a icon
 
 #### ```<BottomNavigation />``` Props
 * [```... TarBar Props``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
-* **style** ```?StyleSheet``` : override or extend the default style for ```<View />``` container
-* **lazy** ```?boolean``` : whether to load tabs lazily when you start switching
+* **style** ```?StyleSheet``` override or extend the default style for ```<View />``` container
+* **lazy** ```?boolean``` whether to load tabs lazily when you start switching
 
 #### ```<Tab />``` Props
 * [```... <Route />``` props](https://reacttraining.com/react-router/#route)
