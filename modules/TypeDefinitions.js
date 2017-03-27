@@ -105,7 +105,6 @@ export type TabBarProps = {
 export type TabsProps = TabBarProps & {
   // <Tabs /> only:
   initialLayout?: { width?: number, height?: number },
-  renderPager?: (props: TabSubViewProps) => ?React$Element<any>,
   configureTransition: ?Function,
 }
 
