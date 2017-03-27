@@ -43,7 +43,9 @@ const App = () => (
 
 #### ```<Navigation />``` Props
 * [... NavBar Props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navbar-props)
-* **cardStyle** ```?StyleSheet``` : style override for the card component
+* **onTransitionStart** ```?Function``` function invoked when the card transition animation is about to start
+* **onTransitionEnd** ```?Function``` function invoked once the card transition animation completes.
+* **cardStyle** ```?StyleSheet``` style override for the card component
 
 #### ```<Card />``` Props
 * [```...<Route />``` props](https://reacttraining.com/react-router/#route)
