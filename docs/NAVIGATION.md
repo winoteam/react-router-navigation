@@ -10,7 +10,7 @@ import { Navigation, Card } from 'react-router-navigation'
 
 const App = () => (
   <Navigation
-    navBarStyle={{ background: 'purple' }}
+    navBarStyle={{ backgroundColor: 'purple' }}
     titleStyle={{ color: 'white' }}
   >
     <Card
@@ -18,7 +18,7 @@ const App = () => (
       component={require('./Feed')}
     />
     <Card
-      backButtonStyle="light"
+      backButtonTintColor="white"
       path="/feed/article/:id"
       component={require('./Article')}
     />
@@ -33,7 +33,7 @@ const App = () => (
 * **renderNavBar** ```?string``` callback which renders a custom navigation bar
 * **navBarStyle** ```?StyleSheet``` style override for the navigation bar
 * **hideBackButton** ```?boolean``` whether to display default back button
-* **backButtonStyle** ```?string``` sets the color of the back button
+* **backButtonTintColor** ```?string``` sets the color of the back button
 * **renderLeftButton** ```?Function``` callback which renders a custom left button
 * **title** ```?string``` string to be displayed in the navigation bar
 * **titleStyle** ```?StyleSheet``` style override for the title element
