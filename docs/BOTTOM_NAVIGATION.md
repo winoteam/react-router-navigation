@@ -12,7 +12,7 @@ import { BottomNavigation, Tab } from 'react-router-navigation'
 const App = () => (
   <BottomNavigation
     lazy={false}
-    labelStyle={({ isActive }) => isActive && { color: 'purple' }}
+    tabActiveTintColor="purple"
   >
     <Tab label="Feed" path="/feed" component={require('./Feed')} />
     <Tab label="Search" path="/search" component={require('./Search')} />
