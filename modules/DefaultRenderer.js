@@ -119,17 +119,11 @@ class Navigation extends Component<void, Props, void> {
     const floatingHeader = Platform.OS === 'ios'
       ? this.props.renderHeader(props)
       : null
-    // (perf) Remove scenes with same index or staled scene
-    const scenes = props.scenes.filter((scene, i) => {
-      return !props.scenes.slice(i + 1).find(({ index }) => {
-        return scene.index === index
-      })
-    })
     // Render all scenes with floatingHeader
     return (
       <View style={styles.container}>
         <View style={styles.scenes}>
-          {scenes.map((scene, index) => this.renderCard({
+          {props.scenes.map((scene, index) => this.renderCard({
             ...props,
             scene,
             index,
