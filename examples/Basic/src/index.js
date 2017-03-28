@@ -1,8 +1,10 @@
-import React from 'react'
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
+import React, { Component } from 'react'
+import { StatusBar, StyleSheet, View, TouchableOpacity, Button, Text } from 'react-native'
 import { Switch, Route, Redirect } from 'react-router'
 import { NativeRouter, Link, DeepLinking } from 'react-router-native'
 import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
+
+const PRIMARY_COLOR = 'rgb(226, 68, 68)'
 
 const styles = StyleSheet.create({
   container: {
@@ -13,19 +15,30 @@ const styles = StyleSheet.create({
     padding: 18,
   },
   tabs: {
-    backgroundColor: 'rgb(226, 68, 68)',
+    backgroundColor: PRIMARY_COLOR,
   },
   indicator: {
     backgroundColor: 'white',
   },
+  button: {
+    marginTop: 10,
+  },
 })
 
-export default () => (
-  <NativeRouter>
-    <View style={styles.container}>
-      <DeepLinking>
+class App extends Component {
+
+  state = {}
+
+  render() {
+    const { setNavigationState } = this.props
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle={this.state.barStyle} />
         <Navigation
           backButtonTintColor="red"
+          navBarStyle={this.state.navBarStyle}
+          titleStyle={this.state.titleStyle}
+          backButtonTintColor={this.state.backButtonTintColor}
         >
           <Card
             exact
@@ -36,6 +49,19 @@ export default () => (
                 <Link component={TouchableOpacity} to="/yolo">
                   <Text>Push a new scene</Text>
                 </Link>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => {
+                    this.setState({
+                      navBarStyle: { backgroundColor: PRIMARY_COLOR },
+                      titleStyle: { color: 'white' },
+                      barStyle: 'light-content',
+                      backButtonTintColor: 'white',
+                    })
+                  }}
+                >
+                  <Text>Change navbar style</Text>
+                </TouchableOpacity>
               </View>
             )}
           />
@@ -101,7 +127,16 @@ export default () => (
             )}
           />
         </Navigation>
-      </DeepLinking>
-    </View>
+      </View>
+    )
+  }
+
+}
+
+export default () => (
+  <NativeRouter>
+    <DeepLinking>
+      <App />
+    </DeepLinking>
   </NativeRouter>
 )
