@@ -21,8 +21,7 @@ class NavBar extends Component<void, Props, void> {
     }
     // Hide back button
     if (
-      sceneProps.index === 0 ||
-      sceneProps.navigationState.index === 0 ||
+      sceneProps.scene.index === 0 ||
       !sceneProps.onNavigateBack ||
       sceneProps.hideBackButton
     ) {
