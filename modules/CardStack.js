@@ -12,6 +12,7 @@ import * as StackUtils from './StackUtils'
 
 type State = {
   location: Location,
+  historyIndex: number,
   navigationState: NavigationState<{
     path?: string,
     params?: Object,
@@ -37,7 +38,7 @@ class CardStack extends Component<void, OwnProps, State> {
   constructor(props: OwnProps): void {
     super(props)
     // Build the card stack $FlowFixMe
-    const { children, history: { entries }, location } = props
+    const { children, history: { entries, index }, location } = props
     const cards = children && StackUtils.build(children)
     if (!cards) throw new Error('No childre found')
     // Get initial route of navigation state
@@ -59,8 +60,10 @@ class CardStack extends Component<void, OwnProps, State> {
         ],
       }
     }, { index: -1, routes: [] })
+    // Get history index
+    const historyIndex = index || 0
     // Save everything in component state
-    this.state = { navigationState, cards, location }
+    this.state = { navigationState, cards, location, historyIndex }
   }
 
   // Listen hardware BackAndroid event
@@ -94,6 +97,7 @@ class CardStack extends Component<void, OwnProps, State> {
         case 'PUSH': {
           this.setState(state => ({
             location,
+            historyIndex: nextProps.history.index,
             navigationState: StateUtils.push(
               state.navigationState,
               { ...nextRoute, key },
@@ -109,11 +113,11 @@ class CardStack extends Component<void, OwnProps, State> {
           ) {
             return
           }
-          const currentIndex = entries.findIndex(({ pathname }) => matchPath(pathname, currentCard))
-          const n = currentIndex - parseInt(nextProps.history.index, 10)
+          const n = this.state.historyIndex - nextProps.history.index
           if (n > 1) {
             this.setState(state => ({
               location,
+              historyIndex: nextProps.history.index,
               navigationState: StateUtils.reset(
                 state.navigationState,
                 state.navigationState.routes.slice(
@@ -126,6 +130,7 @@ class CardStack extends Component<void, OwnProps, State> {
           } else {
             this.setState(state => ({
               location,
+              historyIndex: nextProps.history.index,
               navigationState: StateUtils.pop(state.navigationState),
             }))
           }
@@ -134,6 +139,7 @@ class CardStack extends Component<void, OwnProps, State> {
         case 'REPLACE': {
           this.setState(state => ({
             location,
+            historyIndex: nextProps.history.index,
             navigationState: StateUtils.replaceAtIndex(
               state.navigationState,
               state.navigationState.index,
