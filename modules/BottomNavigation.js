@@ -1,13 +1,12 @@
-/* @noflow */
+/* @flow */
 /* error: https://github.com/react-community/react-navigation/blob/master/src/views/TabView/TabView.js#L193 */
 
 import React, { Component, createElement } from 'react'
-import { Platform, StyleSheet, Dimensions } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
-import BottomNavigationBar, { Tab } from 'react-native-material-bottom-navigation'
-import TabBarBottom from 'react-navigation/src/views/TabView/TabBarBottom'
 import type { TabProps, TabBarProps, TabSubViewProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
+import BottomNavigationBar from './BottomNavigationBar'
 import TabStack from './TabStack'
 
 const styles = StyleSheet.create({
@@ -62,53 +61,12 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
       )
     }
     // Default tab bar
-    if (Platform.OS === 'ios') {
-      return (
-        <TabBarBottom
-          {...sceneProps}
-          key={`tabbar_${this.state.key}`}
-          jumpToIndex={sceneProps.onRequestChangeTab}
-          labelStyle={sceneProps.labelStyle}
-          inactiveTintColor={sceneProps.tabTintColor}
-          activeTintColor={sceneProps.tabActiveTintColor}
-          getLabel={({ route: { routeName } }) => {
-            const tab = props.tabs.find(({ key }) => key === routeName)
-            const ownProps = { ...sceneProps, ...tab }
-            if (ownProps.renderLabel) return ownProps.renderLabel(ownProps)
-            return ownProps.label
-          }}
-          renderIcon={({ route, ...otherProps }) => {
-            const tab = props.tabs.find(({ key }) => key === route.routeName)
-            const ownProps = { ...sceneProps, ...tab, ...otherProps }
-            if (!ownProps.renderTabIcon) return null
-            return ownProps.renderTabIcon(ownProps)
-          }}
-        />
-      )
-    }
     return (
       <BottomNavigationBar
-        {...sceneProps}
-        key={`tabbar_${this.state.key}`}
-        labelColor="white"
-        rippleColor="white"
-        style={{ height: 56, elevation: 8, position: 'absolute', left: 0, bottom: 0, right: 0 }}
-        activeTab={sceneProps.navigationState.index}
-        onTabChange={sceneProps.onRequestChangeTab}
-      >
-        {sceneProps.navigationState.routes.map((route) => {
-          const tab = props.tabs.find(({ key }) => key === route.routeName)
-          const ownProps = { ...props, ...tab, route }
-          return (
-            <Tab
-              key={`tabitem_${tab.key}`}
-              barBackgroundColor="#37474F"
-              label={ownProps.label}
-              icon={ownProps.renderTabIcon(ownProps)}
-            />
-          )
-        })}
-      </BottomNavigationBar>
+        {...props}
+        sceneProps={sceneProps}
+        state={this.state}
+      />
     )
   }
 
