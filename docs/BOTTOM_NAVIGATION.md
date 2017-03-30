@@ -26,7 +26,8 @@ const App = () => (
 ### TabBar Props
 * **hideTabBar** ```?boolean``` whether to display tab bar
 * **tabBarStyle** ```?StyleSheet``` style override for the tab bar
-* **renderTabBar** ```?Function``` callback which renders a bottom tab bar
+* **renderTabBar** ```?Function``` callback which renders a tab bar
+* **tabStyle** ```?StyleSheet``` style override for the tab item
 * **tabTintColor** ```?string``` label and icon color of the tab
 * **tabActiveTintColor** ```?string``` label and icon color of the active tab
 * **label** ```?string``` text that appears on each item
