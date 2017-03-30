@@ -4,7 +4,7 @@ import React from 'react'
 import { StatusBar, Platform, View, Image, Text } from 'react-native'
 import { withRouter, Switch, Route, Redirect } from 'react-router'
 import { BottomNavigation, Tab } from 'react-router-navigation'
-import { BRAND_COLOR_60 } from '@ressources/theme'
+import { BRAND_COLOR_50, BRAND_COLOR_60 } from '@ressources/theme'
 import Feed from './modules/Feed'
 import Profile from './modules/Profile'
 import Modal from './components/Modal'
@@ -38,9 +38,9 @@ const App = (props) => (
             }
           />
           <BottomNavigation
-            labelStyle={({ isActive }) => isActive && styles.activeLabel}
-            tabTintColor={Platform.OS === 'android' ? 'white' : '#a5aaB2'}
-            tabActiveTintColor={Platform.OS === 'android' ? 'white' : BRAND_COLOR_60}
+            labelStyle={styles.activeLabel}
+            tabTintColor={'#a5aaB2'}
+            tabActiveTintColor={BRAND_COLOR_60}
           >
             <Tab
               path={`${url}/feed`}
@@ -60,7 +60,7 @@ const App = (props) => (
                 <Image
                   source={require('./assets/feed.png')}
                   style={[{
-                    top: Platform.OS === 'android' ? 1.5 : 2.5,
+                    marginBottom: Platform.OS === 'android' ? 2.5 : 1,
                     width: Platform.OS === 'android' ? 22.5 : 25,
                     height: Platform.OS === 'android' ? 22.5 : 25,
                     tintColor: focused ? tabActiveTintColor : tabTintColor,
@@ -77,9 +77,9 @@ const App = (props) => (
                 <Image
                   source={require('./assets/profile.png')}
                   style={{
-                    top: Platform.OS === 'android' ? -.75 : 2.25,
-                    width: Platform.OS === 'android' ? 27.5 : 30,
-                    height: Platform.OS === 'android' ? 27.5 : 30,
+                    marginBottom: Platform.OS === 'android' ? 0 : -2,
+                    width: Platform.OS === 'android' ? 27.5 : 31,
+                    height: Platform.OS === 'android' ? 27.5 : 31,
                     tintColor: focused ? tabActiveTintColor : tabTintColor,
                   }}
                 />
