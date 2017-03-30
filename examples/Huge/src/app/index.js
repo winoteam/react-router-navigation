@@ -38,7 +38,6 @@ const App = (props) => (
             }
           />
           <BottomNavigation
-            labelStyle={styles.activeLabel}
             tabTintColor={'#a5aaB2'}
             tabActiveTintColor={BRAND_COLOR_60}
           >
