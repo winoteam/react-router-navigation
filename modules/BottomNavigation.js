@@ -1,12 +1,11 @@
 /* @flow */
-/* error: https://github.com/react-community/react-navigation/blob/master/src/views/TabView/TabView.js#L193 */
 
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions } from 'react-native'
 import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
 import type { TabProps, TabBarProps, TabSubViewProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
-import BottomNavigationBar from './BottomNavigationBar'
+import TabBarBottom from './TabBarBottom'
 import TabStack from './TabStack'
 
 const styles = StyleSheet.create({
@@ -62,10 +61,9 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
     }
     // Default tab bar
     return (
-      <BottomNavigationBar
-        {...props}
+      <TabBarBottom
         sceneProps={sceneProps}
-        state={this.state}
+        {...props}
       />
     )
   }
