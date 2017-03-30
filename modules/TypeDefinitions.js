@@ -90,6 +90,7 @@ export type TabBarProps = {
   hideTabBar?: boolean,
   renderTabBar?: (props: TabSubViewProps) => ?React$Element<any>,
   tabBarStyle?: StyleSheet,
+  tabStyle?: StyleSheet,
   label?: string,
   labelStyle?: StyleSheet,
   renderLabel?: (props: TabSubViewProps) => ?React$Element<any>,

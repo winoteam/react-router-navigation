@@ -63,6 +63,7 @@ class Tabs extends Component<void, Props, State> {
         {...sceneProps}
         key={`tabbar_${this.state.key}`}
         style={sceneProps.tabBarStyle}
+        tabStyle={sceneProps.tabStyle}
         indicatorStyle={sceneProps.tabBarIndicatorStyle}
         onRequestChangeTab={(i: number) => i}
         onTabPress={(route) => {

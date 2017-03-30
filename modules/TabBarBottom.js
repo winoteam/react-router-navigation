@@ -66,15 +66,17 @@ class TabBarBottom extends Component<DefaultProps, Props, void> {
   }
 
   // Render tab label
-  renderLabel = (sceneProps: TabSubViewProps): React$Element<any> => {
+  renderLabel = (sceneProps: TabSubViewProps): ?React$Element<any> => {
     // Custom label component
     if (sceneProps.renderLabel) return sceneProps.renderLabel(sceneProps)
     // Default label
     const { label, focused, tabTintColor, tabActiveTintColor } = sceneProps
+    if (!label) return null
     return (
       <Text
         style={[
           styles.label,
+          sceneProps.labelStyle,
           !focused && { color: tabTintColor },
           focused && { color: tabActiveTintColor },
         ]}
@@ -102,7 +104,7 @@ class TabBarBottom extends Component<DefaultProps, Props, void> {
       <TabBar
         {...this.props}
         style={[styles.tabBar, this.props.sceneProps.tabBarStyle]}
-        tabStyle={styles.tab}
+        tabStyle={[styles.tab, this.props.sceneProps.tabStyle]}
         jumpToIndex={this.props.onRequestChangeTab}
         onRequestChangeTab={() => null}
         pressOpacity={1}
