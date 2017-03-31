@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   tab: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     paddingVertical: 4,
     height: TAB_HEIGHT,
   },
