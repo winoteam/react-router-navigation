@@ -113,6 +113,13 @@ class TabStack extends Component<DefaultProps, OwnProps, State> {
   onRequestChangeTab = (index: number): void => {
     const entries = this.state.history[index]
     if (index !== this.state.navigationState.index) {
+      // Update navigation state
+      this.setState(prevState => ({
+        navigationState: {
+          ...prevState.navigationState,
+          index,
+        },
+      }))
       if (this.props.forceSync) {
         // Go back to root index
         const n = this.state.rootIndex - (this.props.history.index || 0)
