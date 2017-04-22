@@ -48,5 +48,5 @@ const App = () => (
 * **cardStyle** ```?StyleSheet``` override style for the card component
 
 #### ```<Card />``` Props
-* [```... <Route />``` props](https://reacttraining.com/react-router/#route)
+* [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
 * [```... <Navigation />``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navigation--props)

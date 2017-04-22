@@ -12,10 +12,9 @@ import { BottomNavigation, Tab } from 'react-router-navigation'
 const App = () => (
   <BottomNavigation
     lazy={false}
-    tabActiveTintColor="purple"
+    tabActiveTintColor="blue"
   >
     <Tab label="Feed" path="/feed" component={require('./Feed')} />
-    <Tab label="Search" path="/search" component={require('./Search')} />
     <Tab label="Profile" path="/profile" component={require('./Profile')} />
   </BottomNavigation>
 )
@@ -41,6 +40,6 @@ const App = () => (
 * **lazy** ```?boolean``` whether to load tabs lazily when you start switching
 
 #### ```<Tab />``` Props
-* [```... <Route />``` props](https://reacttraining.com/react-router/#route)
+* [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
 * [```... <TabBar /> ``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **onReset** ```?Function``` callback which resets the current tab

@@ -12,7 +12,7 @@ const App = () => (
   <Tabs
     labelStyle={{ color: 'white' }}
     tabBarStyle={{ backgroundColor: 'purple' }}
-    tabBarIndicatorStyle={{ background: 'white' }}
+    tabBarIndicatorStyle={{ backgroundColor: 'white' }}
   >
     <Tab path="/one" component={require('./One')} />
     <Tab path="/two" component={require('./Two')} />
@@ -43,6 +43,6 @@ const App = () => (
 * **configureTransition** ```:?Function``` callback which returns a configuration for the transition, return null to disable animation
 
 #### ```<Tab />``` Props
-* [```... <Route />``` props](https://reacttraining.com/react-router/#route)
+* [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
 * [```... <TabBar />``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **onReset** ```?Function``` callback which resets the current tab
