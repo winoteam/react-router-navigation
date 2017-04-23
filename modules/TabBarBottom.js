@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
   },
   tab: {
     flex: 1,
-    justifyContent: 'center',
     paddingVertical: 4,
     height: TAB_HEIGHT,
   },
@@ -58,6 +57,13 @@ class TabBarBottom extends Component<DefaultProps, Props, void> {
   static defaultProps: DefaultProps = {
     tabTintColor: '#929292',
     tabActiveTintColor: '#3478f6',
+  }
+
+  // Align tab icon & label
+  alignTabBarContent = (): Object => {
+    const { label, renderTabIcon } = this.props
+    if (label && renderTabIcon) return { justifyContent: 'flex-end' }
+    return { justifyContent: 'center' }
   }
 
   // Disable indicator
@@ -103,7 +109,7 @@ class TabBarBottom extends Component<DefaultProps, Props, void> {
     return ( // $FlowFixMe
       <TabBar
         {...this.props}
-        style={[styles.tabBar, this.props.sceneProps.tabBarStyle]}
+        style={[styles.tabBar, this.alignTabBarContent, this.props.sceneProps.tabBarStyle]}
         tabStyle={[styles.tab, this.props.sceneProps.tabStyle]}
         jumpToIndex={this.props.onRequestChangeTab}
         onRequestChangeTab={() => null}
