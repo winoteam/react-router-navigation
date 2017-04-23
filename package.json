@@ -28,8 +28,8 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-router": "4.0.x",
-    "react-router-native": "4.0.x"
+    "react-router": "4.1.x",
+    "react-router-native": "4.1.x"
   },
   "dependencies": {
     "react-native-tab-view": "0.0.59",
