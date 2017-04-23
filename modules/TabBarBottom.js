@@ -63,7 +63,7 @@ class TabBarBottom extends Component<DefaultProps, Props, void> {
   alignTabBarContent = (): Object => {
     const { label, renderTabIcon } = this.props
     if (label && renderTabIcon) return { justifyContent: 'flex-end' }
-    return { justifyContent: 'center' }
+    return { justifyContent: 'center' }
   }
 
   // Disable indicator
