@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { NativeModules, StyleSheet, Platform, View } from 'react-native'
 import { Transitioner } from 'react-navigation'
 import Card from 'react-navigation/src/views/Card'
-import CardStackPanResponder from 'react-navigation/src/views/CardStackPanResponder'
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator'
 import TransitionConfigs from 'react-navigation/src/views/TransitionConfigs'
 import type { TransitionConfig } from 'react-navigation/src/views/TransitionConfigs'
 import type { NavigationScene, NavigationTransitionProps } from 'react-navigation/src/TypeDefinition'
@@ -91,7 +91,7 @@ class Navigation extends Component<void, Props, void> {
       onNavigateBack: props.onNavigateBack,
     }
     const panHandlers = Platform.OS === 'ios'
-      ? CardStackPanResponder.forHorizontal(panHandlersProps)
+      ? CardStackStyleInterpolator.forHorizontal(panHandlersProps)
       : null
     // Get cardStyle prop
     const ownProps = StackUtils.get(
