@@ -138,11 +138,11 @@ class Navigation extends Component<void, Props, void> {
     const { navigationState } = this.props
     return (
       <Transitioner
-        configureTransition={this.configureTransition}
+        configureTransition={this.props.configureTransition || this.configureTransition}
         navigation={{ state: navigationState }}
         onTransitionStart={this.props.onTransitionStart}
         onTransitionEnd={this.props.onTransitionEnd}
-        render={ownProps => this.renderView({ ...this.props, ...ownProps })}
+        render={this.props.render || ownProps => this.renderView({ ...this.props, ...ownProps })}
       />
     )
   }
