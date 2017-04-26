@@ -8,8 +8,8 @@
   "dependencies": {
     "react": "^15.4.1",
     "react-native": "^0.41.1",
-    "react-router": "4.0.0",
-    "react-router-native": "4.0.0",
+    "react-router": "4.1.1",
+    "react-router-native": "4.1.1",
     "react-router-navigation": "file:./../../"
   }
 }
