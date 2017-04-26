@@ -35,11 +35,11 @@ const App = () => (
 * **renderTabIcon** ```?Function``` optional callback which receives the current scene and returns a React Element to be used as an icon
 
 #### ```<BottomNavigation />``` Props
-* [```... <TabBar /> ``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+* [```... TabBar props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **style** ```?StyleSheet``` override or extend the default style for ```<View />``` container
 * **lazy** ```?boolean``` whether to load tabs lazily when you start switching
 
 #### ```<Tab />``` Props
 * [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
-* [```... <TabBar /> ``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+* [```... TabBar props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **onReset** ```?Function``` callback which resets the current tab

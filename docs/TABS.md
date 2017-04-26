@@ -37,12 +37,12 @@ const App = () => (
 * **renderLabel** ```?Function``` callback which renders a label
 
 #### ```<Tabs />``` Props
-* [```... <TabBar />``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+* [```... TabBar props``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **style** ```?StyleSheet``` override or extend the default style for ```<View />``` container
 * **lazy** ```?boolean``` whether to load tabs lazily when you start switching
 * **configureTransition** ```:?Function``` callback which returns a configuration for the transition, return null to disable animation
 
 #### ```<Tab />``` Props
 * [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
-* [```... <TabBar />``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+* [```... TabBar props``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **onReset** ```?Function``` callback which resets the current tab
