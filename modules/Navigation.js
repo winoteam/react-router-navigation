@@ -2,7 +2,7 @@
 /* eslint no-duplicate-imports: 0 */
 /* eslint react/no-children-prop: 0 */
 
-import React, { Component, createElement } from 'react'
+import React, { Component } from 'react'
 import type { NavigationProps, CardSubViewProps } from './TypeDefinitions'
 import CardStack from './CardStack'
 import DefaultRenderer from './DefaultRenderer'
@@ -28,11 +28,11 @@ class Navigation extends Component<void, Props, void> {
     return <NavBar {...props} />
   }
 
-  renderScene = (sceneProps: CardSubViewProps): ?React$Element<any> => {
+  renderScene = (sceneProps: CardSubViewProps): ?ReactClass<any> => {
     const { render, children, component } = sceneProps
-    if (render) return render(sceneProps)
-    else if (children && typeof children === 'function') return children(sceneProps)
-    else if (component) return createElement(component, sceneProps)
+    if (render) return render
+    else if (children && typeof children === 'function') return children
+    else if (component) return component
     return null
   }
 

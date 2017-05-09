@@ -21,12 +21,6 @@ const App = (props) => (
       path="/app"
       render={({ location, match: { state, url } }) => (
         <View style={styles.tabs}>
-          <Modal
-            isOpen={state && state.modal.isOpen}
-            renderContent={() => (
-              <Text style={styles.modal}>My modal</Text>
-            )}
-          />
           <StatusBar
             barStyle={location.pathname.startsWith(`${url}/search`)
               ? 'dark-content'

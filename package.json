@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "react-native-tab-view": "0.0.57",
-    "react-navigation": "1.0.0-beta.7"
+    "react-navigation": "v1.0.0-beta.9"
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",

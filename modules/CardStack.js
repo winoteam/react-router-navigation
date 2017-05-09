@@ -40,7 +40,7 @@ class CardStack extends Component<void, OwnProps, State> {
     // Build the card stack $FlowFixMe
     const { children, history: { entries, index }, location } = props
     const cards = children && StackUtils.build(children)
-    if (!cards) throw new Error('No childre found')
+    if (!cards) throw new Error('No cards found')
     // Get initial route of navigation state
     if (!entries) throw new Error('No history entries found')
     // Build navigation state
@@ -76,10 +76,13 @@ class CardStack extends Component<void, OwnProps, State> {
     BackAndroid.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
-  // Listen all history events
+  // Listen all history events + update card props
   componentWillReceiveProps(nextProps: OwnProps): void {
-    const { history: { action, entries }, location } = nextProps
-    const { cards, navigationState: { routes, index } } = this.state
+    // $FlowFixMe
+    const { children, history: { action, entries }, location } = nextProps
+    const { navigationState: { routes, index } } = this.state
+    // Re-build cards
+    const cards = children && StackUtils.build(children)
     // Get current card
     const currentRoute = routes[index]
     const currentCard = cards.find(({ key }) => key === currentRoute.routeName)
@@ -96,6 +99,7 @@ class CardStack extends Component<void, OwnProps, State> {
       switch (action) {
         case 'PUSH': {
           this.setState(state => ({
+            cards,
             location,
             historyIndex: nextProps.history.index,
             navigationState: StateUtils.push(
@@ -138,6 +142,7 @@ class CardStack extends Component<void, OwnProps, State> {
         }
         case 'REPLACE': {
           this.setState(state => ({
+            cards,
             location,
             historyIndex: nextProps.history.index,
             navigationState: StateUtils.replaceAtIndex(
@@ -150,6 +155,10 @@ class CardStack extends Component<void, OwnProps, State> {
         }
         default:
       }
+    } else {
+      this.setState({
+        cards,
+      })
     }
   }
 

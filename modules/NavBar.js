@@ -32,7 +32,10 @@ class NavBar extends Component<void, Props, void> {
       sceneProps.cards,
       sceneProps.scenes[Math.max(0, sceneProps.scene.index - 1)].route,
     )
-    const previousTitle = sceneProps.backButtonTitle || (previousRoute && previousRoute.title)
+    const previousTitle = (
+      sceneProps.backButtonTitle ||
+      (previousRoute && previousRoute.title)
+    )
     // Return default <BackButton /> component
     return (
       <HeaderBackButton
@@ -67,15 +70,22 @@ class NavBar extends Component<void, Props, void> {
   }
 
   render(): ?React$Element<any> {
-    const sceneProps = StackUtils.get(this.props.cards, this.props.scene.route)
     return (
       <Header
         {...this.props}
         mode={Platform.OS === 'ios' ? 'float' : 'screen'}
-        style={(sceneProps && sceneProps.navBarStyle) || this.props.navBarStyle}
-        renderLeftComponent={StackUtils.renderSubView(this.renderLeftComponent, this.props)}
-        renderTitleComponent={StackUtils.renderSubView(this.renderTitleComponent, this.props)}
-        renderRightComponent={StackUtils.renderSubView(this.renderRightComponent, this.props)}
+        getScreenDetails={(scene) => {
+          const sceneProps = StackUtils.get(this.props.cards, scene.route)
+          const props = { ...this.props, scene }
+          return {
+            options: {
+              headerStyle: (sceneProps && sceneProps.navBarStyle) || this.props.navBarStyle,
+              headerLeft: StackUtils.renderSubView(this.renderLeftComponent, props)(),
+              headerTitle: StackUtils.renderSubView(this.renderTitleComponent, props)(),
+              headerRight: StackUtils.renderSubView(this.renderRightComponent, props)(),
+            },
+          }
+        }}
       />
     )
   }
