@@ -29,7 +29,6 @@ class Article extends Component {
 
   render() {
     const { match } = this.props
-    if (!match) return null
     return (
       <View style={styles.scene}>
         <Text>
