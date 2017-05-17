@@ -3,6 +3,8 @@
 /* eslint react/no-children-prop: 0 */
 
 import React, { Component } from 'react'
+import { Route } from 'react-router'
+import type { ContextRouter } from 'react-router'
 import type { NavigationProps, CardSubViewProps } from './TypeDefinitions'
 import CardStack from './CardStack'
 import DefaultRenderer from './DefaultRenderer'
@@ -39,15 +41,22 @@ class Navigation extends Component<void, Props, void> {
   render(): React$Element<any> {
     const { children, ...props } = this.props
     return (
-      <CardStack
-        {...props}
-        children={children}
-        render={ownProps => (
-          <DefaultRenderer
+      <Route
+        render={({ history, location, match }: ContextRouter) => (
+          <CardStack
             {...props}
-            {...ownProps}
-            renderScene={StackUtils.renderSubView(this.renderScene)}
-            renderHeader={StackUtils.renderSubView(this.renderHeader)}
+            history={history}
+            location={location}
+            match={match}
+            children={children}
+            render={ownProps => (
+              <DefaultRenderer
+                {...props}
+                {...ownProps}
+                renderScene={StackUtils.renderSubView(this.renderScene)}
+                renderHeader={StackUtils.renderSubView(this.renderHeader)}
+              />
+            )}
           />
         )}
       />

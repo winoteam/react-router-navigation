@@ -2,11 +2,12 @@
 /* eslint no-duplicate-imports: 0 */
 /* eslint react/no-unused-prop-types: 0 */
 
-import React, { Component } from 'react'
-import { BackAndroid } from 'react-native'
-import { Route, matchPath } from 'react-router'
+import { Component } from 'react'
+import { BackHandler } from 'react-native'
+import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
-import type { ContextRouter, Location } from 'react-router'
+import type { ContextRouter, Location, HistoryAction } from 'react-router'
+import isEqual from 'lodash.isequal'
 import type { CardsRendererProps, NavigationState, Card, CardProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
@@ -20,25 +21,24 @@ type State = {
   cards: Array<Card>,
 }
 
-type Props = {
+type Props = ContextRouter & {
   // eslint-disable-next-line
   children?: Array<React$Element<CardProps>>,
   render: (props: CardsRendererProps) => React$Element<any>,
 }
 
-// $FlowFixMe
-type OwnProps = ContextRouter & Props
+class CardStack extends Component<void, Props, State> {
 
-class CardStack extends Component<void, OwnProps, State> {
-
-  props: OwnProps
+  props: Props
   state: State
 
+  unlistenHistory: Function
+
   // Initialyze navigation state with initial history
-  constructor(props: OwnProps): void {
+  constructor(props: Props): void {
     super(props)
     // Build the card stack $FlowFixMe
-    const { children, history: { entries, index }, location } = props
+    const { children, history: { entries, index, location } } = props
     const cards = children && StackUtils.build(children)
     if (!cards) throw new Error('No cards found')
     // Get initial route of navigation state
@@ -66,23 +66,24 @@ class CardStack extends Component<void, OwnProps, State> {
     this.state = { navigationState, cards, location, historyIndex }
   }
 
-  // Listen hardware BackAndroid event
+  // Listen hardware BackHandler event
   componentDidMount(): void {
-    BackAndroid.addEventListener('hardwareBackPress', this.onNavigateBack)
+    const { history } = this.props
+    BackHandler.addEventListener('hardwareBackPress', this.onNavigateBack)
+    this.unlistenHistory = history.listen(this.onChangeHistory)
   }
 
   // Remove all listeners
   componentWillUnmount(): void {
-    BackAndroid.removeEventListener('hardwareBackPress', this.onNavigateBack)
+    BackHandler.removeEventListener('hardwareBackPress', this.onNavigateBack)
+    this.unlistenHistory()
   }
 
-  // Listen all history events + update card props
-  componentWillReceiveProps(nextProps: OwnProps): void {
-    // $FlowFixMe
-    const { children, history: { action, entries }, location } = nextProps
-    const { navigationState: { routes, index } } = this.state
+  // Listen all history events
+  onChangeHistory = (location: Location, action: HistoryAction): void => {
+    const { history: { entries, index: indexHistory } } = this.props
+    const { cards, navigationState: { routes, index } } = this.state
     // Re-build cards
-    const cards = children && StackUtils.build(children)
     // Get current card
     const currentRoute = routes[index]
     const currentCard = cards.find(({ key }) => key === currentRoute.routeName)
@@ -99,9 +100,8 @@ class CardStack extends Component<void, OwnProps, State> {
       switch (action) {
         case 'PUSH': {
           this.setState(state => ({
-            cards,
             location,
-            historyIndex: nextProps.history.index,
+            historyIndex: indexHistory,
             navigationState: StateUtils.push(
               state.navigationState,
               { ...nextRoute, key },
@@ -111,17 +111,17 @@ class CardStack extends Component<void, OwnProps, State> {
         }
         case 'POP': {
           if (
-            this.props.history.index === undefined ||
-            nextProps.history.index === undefined ||
+            indexHistory === undefined ||
+            indexHistory === undefined ||
             entries === undefined
           ) {
             return
           }
-          const n = this.state.historyIndex - nextProps.history.index
+          const n = this.state.historyIndex - indexHistory
           if (n > 1) {
             this.setState(state => ({
               location,
-              historyIndex: nextProps.history.index,
+              historyIndex: indexHistory,
               navigationState: StateUtils.reset(
                 state.navigationState,
                 state.navigationState.routes.slice(
@@ -134,7 +134,7 @@ class CardStack extends Component<void, OwnProps, State> {
           } else {
             this.setState(state => ({
               location,
-              historyIndex: nextProps.history.index,
+              historyIndex: indexHistory,
               navigationState: StateUtils.pop(state.navigationState),
             }))
           }
@@ -142,9 +142,8 @@ class CardStack extends Component<void, OwnProps, State> {
         }
         case 'REPLACE': {
           this.setState(state => ({
-            cards,
             location,
-            historyIndex: nextProps.history.index,
+            historyIndex: indexHistory,
             navigationState: StateUtils.replaceAtIndex(
               state.navigationState,
               state.navigationState.index,
@@ -155,11 +154,20 @@ class CardStack extends Component<void, OwnProps, State> {
         }
         default:
       }
-    } else {
-      this.setState({
-        cards,
-      })
     }
+  }
+
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    return !isEqual(
+      this.state.navigationState.routes
+        .map(({ match }) => {
+          return match.url
+        }),
+      nextState.navigationState.routes
+        .map(({ match }) => {
+          return match.url
+        }),
+    )
   }
 
   // Pop to previous scene (n-1)
@@ -184,13 +192,4 @@ class CardStack extends Component<void, OwnProps, State> {
 
 }
 
-export default (props: Props) => (
-  <Route>
-    {(ownProps: ContextRouter) => (
-      <CardStack
-        {...props}
-        {...ownProps}
-      />
-    )}
-  </Route>
-)
+export default CardStack

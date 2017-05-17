@@ -3,6 +3,8 @@
 
 import React from 'react'
 import { CardStack, Transitioner } from 'react-navigation'
+import type { NavigationTransitionProps } from 'react-navigation/src/TypeDefinition'
+import type { NavigationProps, CardsRendererProps } from './TypeDefinitions'
 
 type SceneRendererProps =
   & CardsRendererProps
@@ -54,7 +56,7 @@ class DefaultRenderer extends React.Component<void, Props, void> {
     const scene = sceneProps.scenes.find(({ route }) => {
       return route.routeName === routeName
     })
-    // Return scene component
+    // Return scene component $FlowFixMe
     return this.props.renderScene({
       ...this.props,
       ...sceneProps,
@@ -71,7 +73,7 @@ class DefaultRenderer extends React.Component<void, Props, void> {
         getComponentForRouteName: routeName => this.getSceenComponent(routeName, ownProps),
       }}
       navigation={{
-        goBack: this.props.onNavigateBack,
+        goBack: this.props.onNavigateBack, // $FlowFixMe
         state: this.props.navigationState,
         dispatch: (action) => {
           if (action.type === 'Navigation/BACK') {
