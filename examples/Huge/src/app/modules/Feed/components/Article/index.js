@@ -11,7 +11,7 @@ class Article extends Component {
 
   componentDidMount() {
     this.timer = setInterval(() => {
-      if (this.props.match && this.props.match.url === this.props.staticMatch.url) {
+      if (this.props.match && this.props.match.url === this.props.location.pathname) {
         this.setState((state) => ({
           time: state.time + 250,
         }))
@@ -28,7 +28,8 @@ class Article extends Component {
   }
 
   render() {
-    const { staticMatch: { params } } = this.props
+    const { match } = this.props
+    if (!match) return null
     return (
       <View style={styles.scene}>
         <Text>
@@ -42,10 +43,10 @@ class Article extends Component {
         <Link
           style={styles.link}
           component={TouchableOpacity}
-          to={`/app/feed/article/${parseInt(params.id) + 1}`}
+          to={`/app/feed/article/${parseInt(match.params.id) + 1}`}
         >
           <Text style={styles.span}>
-            See item {parseInt(params.id) + 1}
+            See item {parseInt(match.params.id) + 1}
           </Text>
         </Link>
       </View>
