@@ -41,8 +41,8 @@ class Navigation extends Component<void, Props, void> {
   render(): React$Element<any> {
     const { children, ...props } = this.props
     return (
-      <Route
-        render={({ history, location, match }: ContextRouter) => (
+      <Route>
+        {({ history, location, match }: ContextRouter) => (
           <CardStack
             {...props}
             history={history}
@@ -59,7 +59,7 @@ class Navigation extends Component<void, Props, void> {
             )}
           />
         )}
-      />
+      </Route>
     )
   }
 
