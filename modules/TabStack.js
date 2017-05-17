@@ -28,6 +28,7 @@ type State = {
   tabs: Array<Tab>,
   rootIndex: number,
   isPending: boolean,
+  location: Location,
   history: { [key: number]: Array<Location> },
 }
 
@@ -74,7 +75,7 @@ class TabStack extends Component<DefaultProps, Props, State> {
     // Set isPending
     const isPending = false
     // Save everything
-    this.state = { navigationState, tabs, rootIndex, history, isPending }
+    this.state = { navigationState, tabs, rootIndex, history, location, isPending }
   }
 
   componentDidMount(): void {
@@ -102,7 +103,7 @@ class TabStack extends Component<DefaultProps, Props, State> {
     // Update navigation state
     if (
       currentTab && nextTab &&
-      StackUtils.shouldUpdate(currentTab, nextTab, this.props.location, location)
+      StackUtils.shouldUpdate(currentTab, nextTab, this.state.location, location)
     ) {
       this.setState(({ navigationState }) => ({
         navigationState: {
@@ -118,6 +119,8 @@ class TabStack extends Component<DefaultProps, Props, State> {
         this.props.history.index + 1,
       )
     }
+    // Save location
+    this.state.location = location
   }
 
   // Callback for when the current tab changes

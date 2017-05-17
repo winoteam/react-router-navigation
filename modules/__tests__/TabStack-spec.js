@@ -13,11 +13,15 @@ it('<TabStack /> renders correctly', () => {
   const history = createHistory()
   const component = renderer.create(
     <Router history={history}>
-      <TabStack render={TabView}>
-        <Route exact path="/" render={componentFactory('Index')} />
-        <Route path="/hello" render={componentFactory('Hello')} />
-        <Route path="/goodbye" render={componentFactory('Goodbye')} />
-      </TabStack>
+      <Route>
+        {routeProps => (
+          <TabStack {...routeProps} render={TabView}>
+            <Route exact path="/" render={componentFactory('Index')} />
+            <Route path="/hello" render={componentFactory('Hello')} />
+            <Route path="/goodbye" render={componentFactory('Goodbye')} />
+          </TabStack>
+        )}
+      </Route>
     </Router>,
   )
   const tree = component.toJSON()
@@ -28,11 +32,15 @@ it('<TabStack /> renders correctly with initialEntries prop ', () => {
   const history = createHistory({ initialEntries: ['/hello'] })
   const component = renderer.create(
     <Router history={history}>
-      <TabStack render={TabView}>
-        <Route exact path="/" render={componentFactory('Index')} />
-        <Route path="/hello" render={componentFactory('Hello')} />
-        <Route path="/goodbye" render={componentFactory('Goodbye')} />
-      </TabStack>
+      <Route>
+        {routeProps => (
+          <TabStack {...routeProps} render={TabView}>
+            <Route exact path="/" render={componentFactory('Index')} />
+            <Route path="/hello" render={componentFactory('Hello')} />
+            <Route path="/goodbye" render={componentFactory('Goodbye')} />
+          </TabStack>
+        )}
+      </Route>
     </Router>,
   )
   const tree = component.toJSON()
@@ -43,11 +51,15 @@ it('<TabStack /> re-renders correctly when "replace" action is called', () => {
   const history = createHistory()
   const component = renderer.create(
     <Router history={history}>
-      <TabStack render={TabView}>
-        <Route exact path="/" render={componentFactory('Index')} />
-        <Route path="/hello" render={componentFactory('Hello')} />
-        <Route path="/goodbye" render={componentFactory('Goodbye')} />
-      </TabStack>
+      <Route>
+        {routeProps => (
+          <TabStack {...routeProps} render={TabView}>
+            <Route exact path="/" render={componentFactory('Index')} />
+            <Route path="/hello" render={componentFactory('Hello')} />
+            <Route path="/goodbye" render={componentFactory('Goodbye')} />
+          </TabStack>
+        )}
+      </Route>
     </Router>,
   )
   let tree = component.toJSON()
@@ -61,17 +73,22 @@ it('<TabStack /> re-renders correctly when onRequestChangeTab() method is called
   const history = createHistory()
   const component = renderer.create(
     <Router history={history}>
-      <TabStack
-        render={({ navigationState, onRequestChangeTab, tabs }) => (
-          <TouchableOpacity onPress={onRequestChangeTab}>
-            {TabView({ navigationState, onRequestChangeTab, tabs })}
-          </TouchableOpacity>
+      <Route>
+        {routeProps => (
+          <TabStack
+            {...routeProps}
+            render={({ navigationState, onRequestChangeTab, tabs }) => (
+              <TouchableOpacity onPress={onRequestChangeTab}>
+                {TabView({ navigationState, onRequestChangeTab, tabs })}
+              </TouchableOpacity>
+            )}
+          >
+            <Route exact path="/" render={componentFactory('Index')} />
+            <Route path="/hello" render={componentFactory('Hello')} />
+            <Route path="/goodbye" render={componentFactory('Goodbye')} />
+          </TabStack>
         )}
-      >
-        <Route exact path="/" render={componentFactory('Index')} />
-        <Route path="/hello" render={componentFactory('Hello')} />
-        <Route path="/goodbye" render={componentFactory('Goodbye')} />
-      </TabStack>
+      </Route>
     </Router>,
   )
   let tree = component.toJSON()

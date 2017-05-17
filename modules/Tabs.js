@@ -116,7 +116,6 @@ class Tabs extends Component<void, Props, State> {
             style={styles.container}
             render={(props) => {
               const ownProps = { ...this.props, ...props }
-              console.log('<Tabs />', ownProps)
               return (
                 <TabViewAnimated
                   {...ownProps}
