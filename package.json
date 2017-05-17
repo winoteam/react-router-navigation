@@ -32,8 +32,9 @@
     "react-router-native": "4.0.x"
   },
   "dependencies": {
-    "react-native-tab-view": "0.0.57",
-    "react-navigation": "v1.0.0-beta.9"
+    "lodash.isequal": "^4.5.0",
+    "react-native-tab-view": "0.0.65",
+    "react-navigation": "1.0.0-beta.9"
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",
@@ -46,13 +47,13 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
     "eslint-plugin-react": "6.10.0",
-    "flow-bin": "0.38",
-    "history": "4.6.0",
-    "jest": "19.0.2",
-    "react": "^15.4.2",
-    "react-native": "^0.42.3",
-    "react-router": "^4.0.0",
-    "react-router-native": "^4.0.0",
-    "react-test-renderer": "^15.4.2"
+    "flow-bin": "0.42.0",
+    "history": "4.6.1",
+    "jest": "20.0.1",
+    "react": "16.0.0-alpha.6",
+    "react-native": "0.44.0",
+    "react-router": "4.1.1",
+    "react-router-native": "4.1.1",
+    "react-test-renderer": "16.0.0-alpha.6"
   }
 }
