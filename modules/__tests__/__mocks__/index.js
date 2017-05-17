@@ -41,10 +41,9 @@ jest.mock('TouchableOpacity', () => {
 
 jest.mock('react-navigation/src/views/Card', () => (props) => {
   const React = require('react')
-
   return React.createElement(
     'Card',
     {},
-    props.renderScene(props),
+    props.children,
   )
 })

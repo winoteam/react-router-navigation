@@ -1,67 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Navigation /> re-renders correctly when "go" action is called 1`] = `
-<View>
-  <View>
-    <View>
-      <Card />
-      <Card />
-      <Card>
-        <Text>
-          Goodbye
-        </Text>
-      </Card>
-    </View>
-  </View>
-</View>
-`;
-
-exports[`<Navigation /> re-renders correctly when "go" action is called 2`] = `
-<View>
-  <View>
-    <View>
-      <Card>
-        <Text>
-          Index
-        </Text>
-      </Card>
-      <Card />
-      <Card />
-    </View>
-  </View>
-</View>
-`;
-
-exports[`<Navigation /> re-renders correctly when "goBack" action is called 1`] = `
-<View>
-  <View>
-    <View>
-      <Card />
-      <Card>
-        <Text>
-          Hello
-        </Text>
-      </Card>
-    </View>
-  </View>
-</View>
-`;
-
-exports[`<Navigation /> re-renders correctly when "goBack" action is called 2`] = `
-<View>
-  <View>
-    <View>
-      <Card>
-        <Text>
-          Index
-        </Text>
-      </Card>
-      <Card />
-    </View>
-  </View>
-</View>
-`;
-
 exports[`<Navigation /> re-renders correctly when "push" action is called 1`] = `
 <View>
   <View>
@@ -80,7 +18,11 @@ exports[`<Navigation /> re-renders correctly when "push" action is called 2`] = 
 <View>
   <View>
     <View>
-      <Card />
+      <Card>
+        <Text>
+          Index
+        </Text>
+      </Card>
       <Card>
         <Text>
           Hello
