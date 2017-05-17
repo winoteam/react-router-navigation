@@ -30,7 +30,7 @@ class Navigation extends Component<void, Props, void> {
     return <NavBar {...props} />
   }
 
-  renderScene = (sceneProps: CardSubViewProps): ?ReactClass<any> => {
+  renderSceneComponent = (sceneProps: CardSubViewProps): ?ReactClass<any> => {
     const { render, children, component } = sceneProps
     if (render) return render
     else if (children && typeof children === 'function') return children
@@ -53,7 +53,7 @@ class Navigation extends Component<void, Props, void> {
               <DefaultRenderer
                 {...props}
                 {...ownProps}
-                renderScene={StackUtils.renderSubView(this.renderScene)}
+                renderSceneComponent={StackUtils.renderSubView(this.renderSceneComponent)}
                 renderHeader={StackUtils.renderSubView(this.renderHeader)}
               />
             )}

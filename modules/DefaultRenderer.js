@@ -20,7 +20,7 @@ type Props =
   & CardsRendererProps
   & NavigationProps
   & {
-  renderScene: (props: SceneRendererProps) => ?React$Element<any>,
+  renderSceneComponent: (props: SceneRendererProps) => ?React$Element<any>,
   renderHeader: (props: SceneRendererProps) => ?React$Element<any>,
 }
 
@@ -57,7 +57,7 @@ class DefaultRenderer extends React.Component<void, Props, void> {
       return route.routeName === routeName
     })
     // Return scene component $FlowFixMe
-    return this.props.renderScene({
+    return this.props.renderSceneComponent({
       ...this.props,
       ...sceneProps,
       scene,

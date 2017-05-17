@@ -7,7 +7,6 @@ import { BackHandler } from 'react-native'
 import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
 import type { ContextRouter, Location, HistoryAction } from 'react-router'
-import isEqual from 'lodash.isequal'
 import type { CardsRendererProps, NavigationState, Card, CardProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
@@ -155,19 +154,6 @@ class CardStack extends Component<void, Props, State> {
         default:
       }
     }
-  }
-
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    return !isEqual(
-      this.state.navigationState.routes
-        .map(({ match }) => {
-          return match.url
-        }),
-      nextState.navigationState.routes
-        .map(({ match }) => {
-          return match.url
-        }),
-    )
   }
 
   // Pop to previous scene (n-1)

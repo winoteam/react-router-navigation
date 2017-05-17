@@ -24,7 +24,7 @@ class SceneView extends React.Component<void, Props, State> {
     }
   }
 
-  componentDidMount(): void {
+  componentWillMount(): void {
     const { history } = this.props
     this.unlisten = history.listen(this.onChangeHistory)
   }
@@ -38,7 +38,8 @@ class SceneView extends React.Component<void, Props, State> {
   }
 
   render(): ?React$Element<any> {
-    const { render, children, component } = this.props
+    const { render, children, component, match } = this.props
+    if (!match) return null
     const ownProps = { ...this.props, ...this.state }
     if (render) return render(ownProps)
     else if (children && typeof children === 'function') return children(ownProps)
