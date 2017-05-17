@@ -67,9 +67,12 @@ class App extends Component {
           />
           <Card
             path="/yolo"
-            component={() => (
+            render={() => (
               <View style={styles.scene}>
-                <Link component={TouchableOpacity} to="/hello">
+                <Link
+                  component={TouchableOpacity}
+                  to="/hello"
+                >
                   <Text>Push tabs</Text>
                 </Link>
               </View>
@@ -79,12 +82,12 @@ class App extends Component {
           <Card
             path="/hello"
             title="Hello"
-            render={({ staticMatch: { url } }) => (
-              <Switch>
+            render={({ match, location }) => (
+              <Switch location={location}>
                 <Route
                   exact
-                  path={url}
-                  render={() => <Redirect to={`${url}/one`} />}
+                  path={match.url}
+                  render={() => <Redirect to={`${match.url}/one`} />}
                 />
                 <Route
                   render={() => (
@@ -94,7 +97,7 @@ class App extends Component {
                       tabBarIndicatorStyle={styles.indicator}
                     >
                       <Tab
-                        path={`${url}/one`}
+                        path={`${match.url}/one`}
                         label="One"
                         render={() => (
                           <View style={styles.scene}>
@@ -103,7 +106,7 @@ class App extends Component {
                         )}
                       />
                       <Tab
-                        path={`${url}/two`}
+                        path={`${match.url}/two`}
                         label="Two"
                         render={() => (
                           <View style={styles.scene}>
@@ -112,7 +115,7 @@ class App extends Component {
                         )}
                       />
                       <Tab
-                        path={`${url}/three`}
+                        path={`${match.url}/three`}
                         label="Three"
                         render={() => (
                           <View style={styles.scene}>
