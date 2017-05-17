@@ -3,7 +3,8 @@
 import React, { Component, createElement } from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
-import { matchPath } from 'react-router'
+import { Route, matchPath } from 'react-router'
+import type { ContextRouter } from 'react-router'
 import type { TabSubViewProps, TabBarProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import TabStack from './TabStack'
@@ -105,23 +106,31 @@ class Tabs extends Component<void, Props, State> {
 
   render(): React$Element<any> {
     return (
-      <TabStack
-        {...this.props}
-        style={styles.container}
-        render={(props) => {
-          const ownProps = { ...this.props, ...props }
-          return (
-            <TabViewAnimated
-              {...ownProps}
-              style={styles.container}
-              initialLayout={Dimensions.get('window')}
-              renderHeader={StackUtils.renderSubView(this.renderHeader, ownProps)}
-              renderFooter={StackUtils.renderSubView(this.renderFooter, ownProps)}
-              renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
-            />
-          )
-        }}
-      />
+      <Route>
+        {({ history, location, match }: ContextRouter) => (
+          <TabStack
+            {...this.props}
+            history={history}
+            location={location}
+            match={match}
+            style={styles.container}
+            render={(props) => {
+              const ownProps = { ...this.props, ...props }
+              console.log('<Tabs />', ownProps)
+              return (
+                <TabViewAnimated
+                  {...ownProps}
+                  style={styles.container}
+                  initialLayout={Dimensions.get('window')}
+                  renderHeader={StackUtils.renderSubView(this.renderHeader, ownProps)}
+                  renderFooter={StackUtils.renderSubView(this.renderFooter, ownProps)}
+                  renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
+                />
+              )
+            }}
+          />
+        )}
+      </Route>
     )
   }
 

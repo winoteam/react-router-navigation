@@ -2,22 +2,19 @@
 /* eslint no-duplicate-imports: 0 */
 /* eslint react/no-unused-prop-types:0 */
 
-import React, { Component } from 'react'
-import { Route, matchPath } from 'react-router'
+import { Component } from 'react'
+import { matchPath } from 'react-router'
 import type { ContextRouter, Location } from 'react-router'
 import type { NavigationState, TabsRendererProps, Tab, TabProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
-type Props = {
+type Props = ContextRouter & {
   // eslint-disable-next-line
   children?: Array<React$Element<TabProps>>,
   render: (props: TabsRendererProps) => React$Element<any>,
   // eslint-disable-next-line
   forceSync?: boolean,
 }
-
-// $FlowFixMe
-type OwnProps = ContextRouter & Props
 
 type DefaultProps = {
   forceSync: boolean,
@@ -30,20 +27,23 @@ type State = {
   }>,
   tabs: Array<Tab>,
   rootIndex: number,
+  isPending: boolean,
   history: { [key: number]: Array<Location> },
 }
 
-class TabStack extends Component<DefaultProps, OwnProps, State> {
+class TabStack extends Component<DefaultProps, Props, State> {
 
-  props: OwnProps
+  props: Props
   state: State
+
+  unlisten: Function
 
   static defaultProps = {
     forceSync: false,
   }
 
   // Initialyze navigation state with initial history
-  constructor(props: OwnProps): void {
+  constructor(props: Props): void {
     super(props)
     // Build the tab stack $FlowFixMe
     const { children, history: { entries, location } } = props
@@ -71,14 +71,25 @@ class TabStack extends Component<DefaultProps, OwnProps, State> {
     const history = {
       [index]: entries.slice(location.index),
     }
+    // Set isPending
+    const isPending = false
     // Save everything
-    this.state = { navigationState, tabs, rootIndex, history }
+    this.state = { navigationState, tabs, rootIndex, history, isPending }
   }
 
-  // Listen all history events
-  componentWillReceiveProps(nextProps: OwnProps): void {
+  componentDidMount(): void {
+    this.unlisten = this.props.history.listen(this.onChangeHistory)
+  }
+
+  componentWillUnmount(): void {
+    this.unlisten()
+  }
+
+  // Listen history events
+  onChangeHistory = (location: Location): void => {
+    if (this.state.isPending) return
     // Get current route $FlowFixMe
-    const { history: { entries }, location } = nextProps
+    const { history: { entries } } = this.props
     const { navigationState: { routes, index }, tabs, rootIndex } = this.state
     // Get current tab
     const currentRoute = routes[index]
@@ -104,13 +115,15 @@ class TabStack extends Component<DefaultProps, OwnProps, State> {
     if (nextRoute) {
       this.state.history[nextIndex] = entries.slice(
         rootIndex,
-        nextProps.history.index + 1,
+        this.props.history.index + 1,
       )
     }
   }
 
   // Callback for when the current tab changes
   onRequestChangeTab = (index: number): void => {
+    if (index < 0) return
+    this.state.isPending = true
     const entries = this.state.history[index]
     if (index !== this.state.navigationState.index) {
       // Update navigation state
@@ -120,26 +133,32 @@ class TabStack extends Component<DefaultProps, OwnProps, State> {
           index,
         },
       }))
+      // Force sync
       if (this.props.forceSync) {
         // Go back to root index
         const n = this.state.rootIndex - (this.props.history.index || 0)
         if (n !== 0) this.props.history.go(n)
         // Replace root entry
-        if (entries && entries[0]) this.props.history.replace(entries[0].pathname)
-        else this.props.history.replace(this.state.tabs[index].path)
+        if (entries && entries[0]) {
+          const entry = entries[0]
+          this.props.history.replace(entry.pathname, entry.state)
+        } else {
+          const entry = this.state.tabs[index] // $FlowFixMe
+          this.props.history.replace(entry.path, entry.state)
+        }
         // Push other entries
         if (entries && entries.length > 1) {
           entries
             .slice(this.state.rootIndex + 1)
-            .forEach(({ pathname }) => {
-              this.props.history.push(pathname)
+            .forEach(({ pathname, state }) => {
+              this.props.history.push(pathname, state)
             })
-          this.props.history.replace(
-            entries[Math.max(0, parseInt(entries.length - 1, 10))].pathname,
-          )
+          const entry = entries[Math.max(0, parseInt(entries.length - 1, 10))]
+          this.props.history.replace(entry.pathname, entry.state)
         }
       } else {
-        this.props.history.replace(this.state.tabs[index].path)
+        const entry = this.state.tabs[index] // $FlowFixMe
+        this.props.history.replace(entry.path, entry.state)
       }
     } else {
       const tab = this.state.tabs[index]
@@ -151,6 +170,7 @@ class TabStack extends Component<DefaultProps, OwnProps, State> {
         if (props.onReset) props.onReset(props)
       }
     }
+    this.state.isPending = false
   }
 
   // Render view
@@ -166,13 +186,4 @@ class TabStack extends Component<DefaultProps, OwnProps, State> {
 
 }
 
-export default (props: Props) => (
-  <Route>
-    {(ownProps: ContextRouter) => (
-      <TabStack
-        {...props}
-        {...ownProps}
-      />
-    )}
-  </Route>
-)
+export default TabStack
