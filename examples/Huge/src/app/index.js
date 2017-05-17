@@ -7,7 +7,6 @@ import { BottomNavigation, Tab } from 'react-router-navigation'
 import { BRAND_COLOR_50, BRAND_COLOR_60 } from '@ressources/theme'
 import Feed from './modules/Feed'
 import Profile from './modules/Profile'
-import Modal from './components/Modal'
 import styles from './styles'
 
 const App = (props) => (
