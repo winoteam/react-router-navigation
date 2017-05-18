@@ -2,12 +2,12 @@
 [![Build Status](https://travis-ci.org/LeoLeBras/react-router-navigation.svg?branch=master)](https://travis-ci.org/LeoLeBras/react-router-navigation)
 [![npm version](https://badge.fury.io/js/react-router-navigation.svg)](https://badge.fury.io/js/react-router-navigation)
 
+>### An update is coming (wip)
+> Check [next branch](https://github.com/LeoLeBras/react-router-navigation/tree/next) for RN 0.44.0 support
+
 `react-router-navigation` provides tools to navigate between multiple screens with
 navigators or tab views. This library is based on `react-router`, `react-navigation`,
 and `react-native-tab-view`.
-
->### An update is coming (wip)
-> Check [next branch](https://github.com/LeoLeBras/react-router-navigation/tree/next) for RN 0.44.0 support
 
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/demo.gif" width="250">
 
