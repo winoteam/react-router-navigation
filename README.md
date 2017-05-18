@@ -6,6 +6,9 @@
 navigators or tab views. This library is based on `react-router`, `react-navigation`,
 and `react-native-tab-view`.
 
+>### An update is coming (wip)
+> Check [next branch](https://github.com/LeoLeBras/react-router-navigation/tree/next) for RN 0.44.0 support
+
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/demo.gif" width="250">
 
 ## Highlights
