@@ -1,6 +1,7 @@
 # react-router-navigation
 [![Build Status](https://travis-ci.org/LeoLeBras/react-router-navigation.svg?branch=master)](https://travis-ci.org/LeoLeBras/react-router-navigation)
 [![npm version](https://badge.fury.io/js/react-router-navigation.svg)](https://badge.fury.io/js/react-router-navigation)
+[![Am I a cool kid ?](http://cool-kid.herokuapp.com/LeoLeBras/react-router-navigation)](https://github.com/awemakers/cool-kid)
 
 >### An update is coming (wip)
 > Check [next branch](https://github.com/LeoLeBras/react-router-navigation/tree/next) for RN 0.44.0 support
