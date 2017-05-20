@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/react-router-navigation.svg)](https://badge.fury.io/js/react-router-navigation)
 
 >### An update is coming (wip)
-> Check [next branch](https://github.com/LeoLeBras/react-router-navigation/tree/next) for RN 0.44.0 support
+> Check [next branch](https://github.com/LeoLeBras/react-router-navigation/tree/next) for RN 0.42.x+ support
 
 `react-router-navigation` provides tools to navigate between multiple screens with
 navigators or tab views. This library is based on `react-router`, `react-navigation`,
