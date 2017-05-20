@@ -4,7 +4,7 @@
 [![Am I a cool kid ?](http://cool-kid.herokuapp.com/LeoLeBras/react-router-navigation)](https://github.com/awemakers/cool-kid)
 
 >### An update is coming (wip)
-> Check [next branch](https://github.com/LeoLeBras/react-router-navigation/tree/next) for RN 0.42.x+ support
+> Check [next branch](https://github.com/LeoLeBras/react-router-navigation/tree/next) for RN 0.42+ support
 
 `react-router-navigation` provides tools to navigate between multiple screens with
 navigators or tab views. This library is based on `react-router`, `react-navigation`,
