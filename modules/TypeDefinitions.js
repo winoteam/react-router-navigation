@@ -21,10 +21,7 @@ export type RouteProps = {
   path: string,
   exact?: boolean,
   strict?: boolean,
-  state?: NavigationState<{
-    path?: string,
-    params?: Object,
-  }>,
+  state?: Object,
 }
 
 
