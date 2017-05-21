@@ -120,7 +120,6 @@ class TabStack extends Component<DefaultProps, OwnProps, State> {
           index,
         },
       }))
-      // Force sync
       if (this.props.forceSync) {
         // Go back to root index
         const n = this.state.rootIndex - (this.props.history.index || 0)
