@@ -2,17 +2,16 @@
 /* eslint no-duplicate-imports: 0 */
 /* eslint react/no-unused-prop-types: 0 */
 
-import { Component } from 'react'
+import React from 'react'
 import { BackHandler } from 'react-native'
+import isEqual from 'lodash.isequal'
 import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
-import type { ContextRouter, Location, HistoryAction } from 'react-router'
+import type { RouterHistory, Location } from 'react-router'
 import type { CardsRendererProps, NavigationState, Card, CardProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
 type State = {
-  location: Location,
-  historyIndex: number,
   navigationState: NavigationState<{
     path?: string,
     params?: Object,
@@ -20,18 +19,18 @@ type State = {
   cards: Array<Card>,
 }
 
-type Props = ContextRouter & {
+type Props = {
   // eslint-disable-next-line
+  location: Location,
+  history: RouterHistory,
   children?: Array<React$Element<CardProps>>,
   render: (props: CardsRendererProps) => React$Element<any>,
 }
 
-class CardStack extends Component<void, Props, State> {
+class CardStack extends React.Component<void, Props, State> {
 
   props: Props
   state: State
-
-  unlistenHistory: Function
 
   // Initialyze navigation state with initial history
   constructor(props: Props): void {
@@ -67,40 +66,36 @@ class CardStack extends Component<void, Props, State> {
 
   // Listen hardware BackHandler event
   componentDidMount(): void {
-    const { history } = this.props
     BackHandler.addEventListener('hardwareBackPress', this.onNavigateBack)
-    this.unlistenHistory = history.listen(this.onChangeHistory)
   }
 
   // Remove all listeners
   componentWillUnmount(): void {
     BackHandler.removeEventListener('hardwareBackPress', this.onNavigateBack)
-    this.unlistenHistory()
   }
 
   // Listen all history events
-  onChangeHistory = (location: Location, action: HistoryAction): void => {
-    const { history: { entries, index: indexHistory } } = this.props
+  componentWillReceiveProps(nextProps: Props): void {
+    const { location, history: { entries, index: indexHistory } } = this.props
+    const { location: nextLocation, history: { action, index: nextIndexHistory } } = nextProps
     const { cards, navigationState: { routes, index } } = this.state
     // Re-build cards
     // Get current card
     const currentRoute = routes[index]
     const currentCard = cards.find(({ key }) => key === currentRoute.routeName)
     // Get next card
-    const nextRoute = StackUtils.getRoute(cards, location)
+    const nextRoute = StackUtils.getRoute(cards, nextLocation)
     if (!nextRoute) return
     const nextCard = cards.find(({ key }) => key === nextRoute.routeName)
     // Local state must be updated ?
     if (
       currentCard && nextCard &&
-      StackUtils.shouldUpdate(currentCard, nextCard, this.state.location, location)
+      StackUtils.shouldUpdate(currentCard, nextCard, location, nextLocation)
     ) {
       const key = StackUtils.createKey(nextRoute)
       switch (action) {
         case 'PUSH': {
           this.setState(state => ({
-            location,
-            historyIndex: indexHistory,
             navigationState: StateUtils.push(
               state.navigationState,
               { ...nextRoute, key },
@@ -111,16 +106,14 @@ class CardStack extends Component<void, Props, State> {
         case 'POP': {
           if (
             indexHistory === undefined ||
-            indexHistory === undefined ||
+            nextIndexHistory === undefined ||
             entries === undefined
           ) {
             return
           }
-          const n = this.state.historyIndex - indexHistory
+          const n = indexHistory - nextIndexHistory
           if (n > 1) {
             this.setState(state => ({
-              location,
-              historyIndex: indexHistory,
               navigationState: StateUtils.reset(
                 state.navigationState,
                 state.navigationState.routes.slice(
@@ -132,8 +125,6 @@ class CardStack extends Component<void, Props, State> {
             }))
           } else {
             this.setState(state => ({
-              location,
-              historyIndex: indexHistory,
               navigationState: StateUtils.pop(state.navigationState),
             }))
           }
@@ -141,8 +132,6 @@ class CardStack extends Component<void, Props, State> {
         }
         case 'REPLACE': {
           this.setState(state => ({
-            location,
-            historyIndex: indexHistory,
             navigationState: StateUtils.replaceAtIndex(
               state.navigationState,
               state.navigationState.index,
@@ -165,12 +154,15 @@ class CardStack extends Component<void, Props, State> {
     return false
   }
 
+  // Diff navigation state
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    return !isEqual(this.state.navigationState, nextState.navigationState)
+  }
+
   // Render view
   render(): React$Element<any> {
     return this.props.render({
       ...this.state,
-      match: this.props.match,
-      location: this.props.location,
       history: this.props.history,
       onNavigateBack: this.onNavigateBack,
     })

@@ -1,21 +1,19 @@
 /* @flow */
-/* eslint no-duplicate-imports: 0 */
 /* eslint react/no-children-prop: 0 */
 
-import React, { Component } from 'react'
-import { Route } from 'react-router'
-import type { ContextRouter } from 'react-router'
+import React from 'react'
 import type { NavigationProps, CardSubViewProps } from './TypeDefinitions'
 import CardStack from './CardStack'
 import DefaultRenderer from './DefaultRenderer'
 import NavBar from './NavBar'
+import History from './History'
 import * as StackUtils from './StackUtils'
 
 type Props = NavigationProps & {
   children?: Array<React$Element<any>>,
 }
 
-class Navigation extends Component<void, Props, void> {
+class Navigation extends React.Component<void, Props, void> {
 
   props: Props
 
@@ -41,13 +39,12 @@ class Navigation extends Component<void, Props, void> {
   render(): React$Element<any> {
     const { children, ...props } = this.props
     return (
-      <Route>
-        {({ history, location, match }: ContextRouter) => (
+      <History>
+        {({ history, location }) => (
           <CardStack
             {...props}
-            history={history}
             location={location}
-            match={match}
+            history={history}
             children={children}
             render={ownProps => (
               <DefaultRenderer
@@ -59,7 +56,7 @@ class Navigation extends Component<void, Props, void> {
             )}
           />
         )}
-      </Route>
+      </History>
     )
   }
 

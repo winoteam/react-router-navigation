@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, Platform, Text } from 'react-native'
 import { TabBar } from 'react-native-tab-view'
 import type { TabSubViewProps } from './TypeDefinitions'
@@ -51,7 +51,7 @@ type DefaultProps = {
   tabActiveTintColor: string,
 }
 
-class TabBarBottom extends Component<DefaultProps, Props, void> {
+class TabBarBottom extends React.Component<DefaultProps, Props, void> {
 
   props: Props
 

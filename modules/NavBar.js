@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { Platform } from 'react-native'
 import Header from 'react-navigation/src/views/Header'
 import HeaderTitle from 'react-navigation/src/views/HeaderTitle'
@@ -10,7 +10,7 @@ import * as StackUtils from './StackUtils'
 
 type Props = CardSubViewProps
 
-class NavBar extends Component<void, Props, void> {
+class NavBar extends React.Component<void, Props, void> {
 
   props: Props
 

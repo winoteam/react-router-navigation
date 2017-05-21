@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react'
+import { matchPath } from 'react-router'
 import type { ContextRouter, Location } from 'react-router'
 import type { CardProps } from './TypeDefinitions'
 
@@ -19,28 +20,30 @@ class SceneView extends React.Component<void, Props, State> {
 
   constructor(props: Props) {
     super(props)
-    this.state = {
-      location: props.location,
+    // Build current match
+    const { location, path, exact, strict } = props
+    const match = matchPath(location.pathname, { path, exact, strict })
+    this.state = { match }
+  }
+
+  componentWillReceiveProps(nextProps: Props): void {
+    const { location, path, exact, strict } = nextProps
+    if (!this.state.match) {
+      const match = matchPath(location.pathname, { path, exact, strict })
+      this.setState({ match })
     }
   }
 
-  componentWillMount(): void {
-    const { history } = this.props
-    this.unlisten = history.listen(this.onChangeHistory)
-  }
-
-  componentWillUnmount(): void {
-    this.unlisten()
-  }
-
-  onChangeHistory = (location: Location): void => {
-    this.setState({ location })
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    // Only update when scene is focused
+    return !!nextState.match
   }
 
   render(): ?React$Element<any> {
-    const { render, children, component, match } = this.props
-    if (!match) return null
-    const ownProps = { ...this.props, ...this.state }
+    // Get scene component
+    const { render, children, component } = this.props
+    const { match } = this.state
+    const ownProps = { ...this.props, match }
     if (render) return render(ownProps)
     else if (children && typeof children === 'function') return children(ownProps)
     else if (component) return React.createElement(component, ownProps)

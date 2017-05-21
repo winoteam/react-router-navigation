@@ -1,14 +1,13 @@
 /* @flow */
 /* eslint  no-nested-ternary: 0 */
 
-import React, { Component, createElement } from 'react'
+import React from 'react'
 import { StyleSheet, Dimensions, View } from 'react-native'
 import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
-import { Route } from 'react-router'
-import type { ContextRouter } from 'react-router'
 import type { TabProps, TabBarProps, TabSubViewProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import TabBarBottom from './TabBarBottom'
+import History from './History'
 import TabStack from './TabStack'
 
 const styles = StyleSheet.create({
@@ -35,7 +34,7 @@ type State = {
   key: string,
 }
 
-class BottomNavigation extends Component<DefaultProps, Props, State> {
+class BottomNavigation extends React.Component<DefaultProps, Props, State> {
 
   props: Props
 
@@ -61,7 +60,7 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
     if (sceneProps.hideTabBar) return null
     // Custom tab bar
     if (sceneProps.renderTabBar) {
-      return createElement(
+      return React.createElement(
         sceneProps.renderTabBar,
         sceneProps,
       )
@@ -78,7 +77,7 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
   renderScene = (sceneProps: TabSubViewProps): ?React$Element<any> => {
     const { render, children, component } = sceneProps
     const Scene = component ? ( // component prop gets first priority
-        React.createElement(component, sceneProps)
+      React.createElement(component, sceneProps)
     ) : render ? ( // render prop is next
       render(sceneProps)
     ) : (children && typeof children === 'function') ? ( // then children as func
@@ -93,13 +92,12 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
 
   render(): React$Element<any> {
     return (
-      <Route>
-        {({ history, location, match }: ContextRouter) => (
+      <History>
+        {({ history, location }) => (
           <TabStack
             {...this.props}
             history={history}
             location={location}
-            match={match}
             style={styles.container}
             forceSync
             render={(props) => {
@@ -120,7 +118,7 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
             }}
           />
         )}
-      </Route>
+      </History>
     )
   }
 

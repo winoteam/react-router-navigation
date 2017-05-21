@@ -1,7 +1,7 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
 
-import { Children, cloneElement } from 'react'
+import React from 'react'
 import { matchPath } from 'react-router'
 import type { Location } from 'react-router'
 import type { Route } from './TypeDefinitions'
@@ -14,7 +14,7 @@ import type { Route } from './TypeDefinitions'
 export const build = <Item>(
   children: Array<React$Element<Item>>,
 ): Array<Item & { key: string }> => {
-  return Children.toArray(children).reduce((stack, child) => {
+  return React.Children.toArray(children).reduce((stack, child) => {
     const item = Object.keys(child.props).reduce((props, key) => {
       if (key === 'path') {
         return {
@@ -25,7 +25,7 @@ export const build = <Item>(
       } else if (key === 'render' || key === 'component' || key === 'children') {
         return {
           ...props,
-          [key]: () => cloneElement(child),
+          [key]: () => React.cloneElement(child),
         }
       }
       return {

@@ -1,12 +1,11 @@
 /* @flow */
 /* eslint no-use-before-define: 0 */
 
-import type { ContextRouter, Match } from 'react-router'
+import type { ContextRouter } from 'react-router'
 
 export type Route = {
   key: string,
   routeName: string,
-  match: ?Match,
 }
 
 export type NavigationState<OwnRoute> = {
