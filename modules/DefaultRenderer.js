@@ -136,13 +136,14 @@ class Navigation extends Component<void, Props, void> {
 
   render(): React$Element<any> {
     const { navigationState } = this.props
+    const defualtRender = (ownProps) => this.renderView({ ...this.props, ...ownProps })
     return (
       <Transitioner
-        configureTransition={this.configureTransition}
+        configureTransition={this.props.configureTransition || this.configureTransition}
         navigation={{ state: navigationState }}
         onTransitionStart={this.props.onTransitionStart}
         onTransitionEnd={this.props.onTransitionEnd}
-        render={ownProps => this.renderView({ ...this.props, ...ownProps })}
+        render={this.props.render || defualtRender}
       />
     )
   }
