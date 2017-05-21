@@ -22,7 +22,7 @@ const App = () => (
 
 ## Options
 
-### TabBar Props
+### TabBar props
 * **hideTabBar** ```?boolean``` whether to display tab bar
 * **tabBarStyle** ```?StyleSheet``` override style for the tab bar
 * **renderTabBar** ```?Function``` callback which renders a tab bar
@@ -34,12 +34,12 @@ const App = () => (
 * **renderLabel** ```?Function``` callback which renders a label
 * **renderTabIcon** ```?Function``` optional callback which receives the current scene and returns a React Element to be used as an icon
 
-#### ```<BottomNavigation />``` Props
+#### ```<BottomNavigation />``` props
 * [```... TabBar props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **style** ```?StyleSheet``` override or extend the default style for ```<View />``` container
 * **lazy** ```?boolean``` whether to load tabs lazily when you start switching
 
-#### ```<Tab />``` Props
+#### ```<Tab />``` props
 * [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
 * [```... TabBar props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **onReset** ```?Function``` callback which resets the current tab

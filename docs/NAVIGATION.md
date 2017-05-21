@@ -28,7 +28,7 @@ const App = () => (
 
 ## Options
 
-#### NavBar Props
+#### NavBar props
 * **hideNavBar** ```?boolean``` whether to display nav bar
 * **renderNavBar** ```?string``` callback which renders a custom navigation bar
 * **navBarStyle** ```?StyleSheet``` override style for the navigation bar
@@ -41,12 +41,12 @@ const App = () => (
 * **renderTitle** ```?Function``` callback which renders a custom title component
 * **renderRightButton** ```?Function``` callback which renders a right button
 
-#### ```<Navigation />``` Props
+#### ```<Navigation />``` props
 * [... ```<NavBar />```  props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navbar-props)
 * **onTransitionStart** ```?Function``` function invoked when the card transition animation is about to start
 * **onTransitionEnd** ```?Function``` function invoked once the card transition animation completes
 * **cardStyle** ```?StyleSheet``` override style for the card component
 
-#### ```<Card />``` Props
+#### ```<Card />``` props
 * [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
 * [```... <Navigation />``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navigation--props)
