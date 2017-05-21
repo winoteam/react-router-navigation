@@ -91,7 +91,7 @@ class Navigation extends Component<void, Props, void> {
       onNavigateBack: props.onNavigateBack,
     }
     const panHandlers = Platform.OS === 'ios'
-      ? CardStackStyleInterpolator.forHorizontal(panHandlersProps)
+      ? CardStackPanResponder.forHorizontal(panHandlersProps)
       : null
     // Get cardStyle prop
     const ownProps = StackUtils.get(
