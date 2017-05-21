@@ -20,7 +20,8 @@ export type RouteProps = {
   children?: (props: ContextRouter) => React$Element<any>,
   path: string,
   exact?: boolean,
-  strict?: boolean
+  strict?: boolean,
+  state?: Object,
 }
 
 

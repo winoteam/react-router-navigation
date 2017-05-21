@@ -125,21 +125,26 @@ class TabStack extends Component<DefaultProps, OwnProps, State> {
         const n = this.state.rootIndex - (this.props.history.index || 0)
         if (n !== 0) this.props.history.go(n)
         // Replace root entry
-        if (entries && entries[0]) this.props.history.replace(entries[0].pathname)
-        else this.props.history.replace(this.state.tabs[index].path)
+        if (entries && entries[0]) {
+          const entry = entries[0]
+          this.props.history.replace(entry.pathname, entry.state)
+        } else {
+          const entry = this.state.tabs[index]
+          this.props.history.replace(entry.path, entry.state)
+        }
         // Push other entries
         if (entries && entries.length > 1) {
           entries
             .slice(this.state.rootIndex + 1)
-            .forEach(({ pathname }) => {
-              this.props.history.push(pathname)
+            .forEach(({ pathname, state }) => {
+              this.props.history.push(pathname, state)
             })
-          this.props.history.replace(
-            entries[Math.max(0, parseInt(entries.length - 1, 10))].pathname,
-          )
+          const entry = entries[Math.max(0, parseInt(entries.length - 1, 10))]
+          this.props.history.replace(entry.pathname, entry.state)
         }
       } else {
-        this.props.history.replace(this.state.tabs[index].path)
+        const entry = this.state.tabs[index]
+        this.props.history.replace(entry.path, entry.state)
       }
     } else {
       const tab = this.state.tabs[index]
