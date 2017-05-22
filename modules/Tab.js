@@ -12,6 +12,7 @@ const Tab = (props: Props) => (
     {({ history, location }) => (
       <SceneView
         {...props}
+        type="tab"
         location={location}
         history={history}
       />

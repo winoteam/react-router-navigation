@@ -5,7 +5,9 @@ import { matchPath } from 'react-router'
 import type { ContextRouter, Location } from 'react-router'
 import type { CardProps } from './TypeDefinitions'
 
-type Props = ContextRouter & CardProps
+type Props = ContextRouter & CardProps & {
+  type: 'card' | 'tab',
+}
 
 type State = {
   location: Location,
@@ -21,7 +23,7 @@ class SceneView extends React.Component<void, Props, State> {
   constructor(props: Props) {
     super(props)
     // Build current match
-    const { location, path, exact, strict } = props
+    const { path, exact, strict, history: { location } } = props
     const match = matchPath(location.pathname, { path, exact, strict })
     this.state = { match }
   }
@@ -41,8 +43,11 @@ class SceneView extends React.Component<void, Props, State> {
 
   render(): ?React$Element<any> {
     // Get scene component
-    const { render, children, component } = this.props
+    const { render, children, component, type } = this.props
     const { match } = this.state
+    // If card, return null is match is not defined
+    if (type === 'card' && !match) return null
+    // Return scene component
     const ownProps = { ...this.props, match }
     if (render) return render(ownProps)
     else if (children && typeof children === 'function') return children(ownProps)

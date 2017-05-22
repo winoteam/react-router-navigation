@@ -12,6 +12,7 @@ const Card = (props: Props) => (
     {({ history, location }) => (
       <SceneView
         {...props}
+        type="card"
         location={location}
         history={history}
       />

@@ -21,9 +21,8 @@ class History extends React.Component<void, Props, State> {
 
   constructor(props: Props) {
     super(props)
-    this.state = {
-      location: props.location,
-    }
+    const { location } = props.history
+    this.state = { location }
   }
 
   componentWillMount(): void {
