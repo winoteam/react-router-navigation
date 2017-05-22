@@ -1,19 +1,59 @@
+/* @flow */
+
 import React from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import { StyleSheet, Platform, View, TouchableOpacity, Text } from 'react-native'
 import { Route, Redirect } from 'react-router'
+import type { Match } from 'react-router'
 import { Link } from 'react-router-native'
 import { Tabs, Tab } from 'react-router-navigation'
-import styles from './styles'
+import { BRAND_COLOR_50 } from './theme'
 
-const Profile = () => (
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scene: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabBar: {
+    paddingTop: Platform.OS === 'ios' ? 10 : 0,
+    backgroundColor: BRAND_COLOR_50,
+  },
+  indicatorStyle: {
+    backgroundColor: 'white',
+  },
+  link: {
+    marginTop: 20,
+    marginLeft: -8,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderWidth: 1,
+    borderColor: BRAND_COLOR_50,
+    borderRadius: 3,
+  },
+  span: {
+    color: BRAND_COLOR_50,
+  },
+  strong: {
+    fontWeight: '700',
+  },
+})
+
+type Props = {
+  match: Match,
+}
+
+const Profile = ({ match: { url } }: Props): React$Element<any> => (
   <View style={styles.container}>
     <Route
       exact
-      path="/app/profile"
+      path={url}
       render={() => <Redirect to="/app/profile/likes" />}
     />
     <Route
-      path="/app/profile/(likes|bookmarks)"
+      path={`${url}/(likes|bookmarks)`}
       render={() => (
         <View style={styles.container}>
           <Tabs
@@ -21,7 +61,7 @@ const Profile = () => (
             tabBarIndicatorStyle={styles.indicatorStyle}
           >
             <Tab
-              path="/app/profile/likes"
+              path={`${url}/likes`}
               label="Likes"
               render={() => (
                 <View style={styles.scene}>
@@ -38,7 +78,7 @@ const Profile = () => (
               )}
             />
             <Tab
-              path="/app/profile/bookmarks"
+              path={`${url}/bookmarks`}
               label="Bookmarks"
               render={() => (
                 <View style={styles.scene}>

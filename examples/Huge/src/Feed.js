@@ -1,15 +1,38 @@
+/* @flow */
+
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
-import { Link } from 'react-router-native'
+import { StyleSheet, View } from 'react-native'
 import { Navigation, Card } from 'react-router-navigation'
+import type { Match } from 'react-router'
 import HeaderTitle from 'react-navigation/src/views/HeaderTitle'
-import List from './components/List'
-import Article from './components/Article'
-import styles from './styles'
+import List from './List'
+import Article from './Article'
+import { BRAND_COLOR_50 } from './theme'
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  navBar: {
+    backgroundColor: BRAND_COLOR_50,
+  },
+  title: {
+    color: 'white',
+  },
+})
+
+type Props = {
+  match: Match,
+}
 
 /* FIX > https://github.com/facebook/react/issues/4936 */
-class Feed extends Component {
-  render() {
+class Feed extends Component<void, Props, void> {
+
+  props: Props
+  listView: List
+
+  render(): React$Element<any> {
+    const { match: { url } } = this.props
     return (
       <View style={styles.container}>
         <Navigation
@@ -19,17 +42,19 @@ class Feed extends Component {
         >
           <Card
             exact
-            path="/app/feed"
-            render={(props) => (
+            path={url}
+            render={props => (
               <List
-                ref={(c) => this.listView = c}
+                ref={(c) => {
+                  this.listView = c
+                }}
                 {...props}
               />
             )}
             title="Feed"
           />
           <Card
-            path="/app/feed/article/:id"
+            path={`${url}/article/:id`}
             component={Article}
             title="Item"
             backButtonTitle="Back"
@@ -43,6 +68,7 @@ class Feed extends Component {
       </View>
     )
   }
+
 }
 
 export default Feed
