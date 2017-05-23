@@ -73,7 +73,7 @@ class DefaultRenderer extends React.Component<void, Props, void> {
         getComponentForRouteName: routeName => this.getSceenComponent(routeName, ownProps),
       }}
       navigation={{
-        goBack: this.props.onNavigateBack, // $FlowFixMe
+        goBack: this.props.onNavigateBack,
         state: this.props.navigationState,
         dispatch: (action) => {
           if (action.type === 'Navigation/BACK') {

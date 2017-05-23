@@ -3,16 +3,16 @@
 /* eslint react/no-unused-prop-types:0 */
 
 import React from 'react'
-import type { HistoryRouter, Location } from 'react-router'
+import type { RouterHistory, Location } from 'react-router'
 import isEqual from 'lodash.isequal'
-import type { NavigationState, TabsRendererProps, Tab, TabProps } from './TypeDefinitions'
+import type { NavigationState, TabsRendererProps, Tab } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
 type Props = {
   location: Location,
-  history: HistoryRouter,
+  history: RouterHistory,
   // eslint-disable-next-line
-  children?: Array<React$Element<TabProps>>,
+  children?: Array<React$Element<any>>,
   render: (props: TabsRendererProps) => React$Element<any>,
   // eslint-disable-next-line
   lazy?: boolean,
@@ -47,7 +47,7 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
   // Initialyze navigation state with initial history
   constructor(props: Props): void {
     super(props)
-    // Build the tab stack $FlowFixMe
+    // Build the tab stack
     const { children, history: { location, entries } } = props
     const tabs = children && StackUtils.build(children)
     if (!tabs) throw new Error('No children found')
@@ -69,8 +69,9 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
     const navigationState = { index, routes }
     const rootIndex = props.history.index || 0
     // Initialyze cached history
+    if (!entries) throw new Error('No history entries found')
     const tabsHistory = {
-      [index]: entries.slice(location.index),
+      [index]: entries.slice(props.history.index),
     }
     // Save everything
     this.state = { navigationState, tabs, rootIndex, tabsHistory }
@@ -102,7 +103,10 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
       }))
     }
     // Save history
-    if (nextRoute && nextLocation.pathname === entries[historyIndex].pathname) {
+    if (
+      nextRoute && historyIndex && entries && entries[historyIndex] &&
+      nextLocation.pathname === entries[historyIndex].pathname
+    ) {
       this.state.tabsHistory[nextIndex] = entries.slice(rootIndex, historyIndex + 1)
     }
   }
@@ -123,7 +127,7 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
         }))
       }
       // 2) Resync history if needed
-      if (forceSync) {
+      if (forceSync && entries) {
         // Re-build hisstory
         const newEntries = tabsHistory[index]
           ? [
@@ -157,7 +161,7 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
         const entry = tabs[index] // $FlowFixMe
         if (entry.onRequestChangeTab && !tabsHistory[index]) {
           entry.onRequestChangeTab()
-        } else {
+        } else { // $FlowFixMe
           this.props.history.replace(entry.path, entry.state)
         }
       } else {

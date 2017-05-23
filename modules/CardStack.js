@@ -8,14 +8,11 @@ import isEqual from 'lodash.isequal'
 import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
 import type { RouterHistory, Location } from 'react-router'
-import type { CardsRendererProps, NavigationState, Card, CardProps } from './TypeDefinitions'
+import type { CardsRendererProps, NavigationState, Card } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
 type State = {
-  navigationState: NavigationState<{
-    path?: string,
-    params?: Object,
-  }>,
+  navigationState: NavigationState<{}>,
   cards: Array<Card>,
 }
 
@@ -23,7 +20,8 @@ type Props = {
   // eslint-disable-next-line
   location: Location,
   history: RouterHistory,
-  children?: Array<React$Element<CardProps>>,
+  // eslint-disable-next-line
+  children?: Array<React$Element<any>>,
   render: (props: CardsRendererProps) => React$Element<any>,
 }
 
@@ -35,7 +33,7 @@ class CardStack extends React.Component<void, Props, State> {
   // Initialyze navigation state with initial history
   constructor(props: Props): void {
     super(props)
-    // Build the card stack $FlowFixMe
+    // Build the card stack
     const { children, history: { entries, index, location } } = props
     const cards = children && StackUtils.build(children)
     if (!cards) throw new Error('No initial route found')
@@ -48,6 +46,7 @@ class CardStack extends React.Component<void, Props, State> {
       })
       if (!card || !card.path) return state
       const route = StackUtils.getRoute(cards, entry)
+      if (!route) return state
       return {
         index: matchPath(location.pathname, card)
           ? state.routes.length

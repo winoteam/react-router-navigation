@@ -6,7 +6,9 @@ import { withRouter } from 'react-router'
 
 const enhancer = withRouter
 
-type Props = ContextRouter
+type Props = ContextRouter & {
+  children?: () => React$Element<any>,
+}
 
 type State = {
   location: Location,
@@ -40,6 +42,7 @@ class History extends React.Component<void, Props, State> {
 
   render(): ?React$Element<any> {
     const { children, history } = this.props
+    if (!children) return null
     const { location } = this.state
     return children({ history, location })
   }

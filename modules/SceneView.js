@@ -2,15 +2,17 @@
 
 import React from 'react'
 import { matchPath } from 'react-router'
-import type { ContextRouter, Location } from 'react-router'
+import type { RouterHistory, Location, Match } from 'react-router'
 import type { CardProps } from './TypeDefinitions'
 
-type Props = ContextRouter & CardProps & {
+type Props = CardProps & {
+  location: Location,
+  history: RouterHistory,
   type: 'card' | 'tab',
 }
 
 type State = {
-  location: Location,
+  match: ?Match,
 }
 
 class SceneView extends React.Component<void, Props, State> {
@@ -42,7 +44,7 @@ class SceneView extends React.Component<void, Props, State> {
   }
 
   render(): ?React$Element<any> {
-    // Get scene component
+    // Get scene component $FlowFixMe
     const { render, children, component, type } = this.props
     const { match } = this.state
     // If card, return null is match is not defined
