@@ -11,7 +11,7 @@ type Props = NavigationProps & {
   children?: Array<React$Element<any>>,
 }
 
-class Navigation extends React.Component<void, Props, void> {
+class NativeNavigation extends React.Component<void, Props, void> {
 
   props: Props
 
@@ -48,4 +48,4 @@ class Navigation extends React.Component<void, Props, void> {
 
 }
 
-export default Navigation
+export default NativeNavigation
