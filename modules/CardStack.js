@@ -38,7 +38,7 @@ class CardStack extends React.Component<void, Props, State> {
     // Build the card stack $FlowFixMe
     const { children, history: { entries, index, location } } = props
     const cards = children && StackUtils.build(children)
-    if (!cards) throw new Error('No cards found')
+    if (!cards) throw new Error('No initial route found')
     // Get initial route of navigation state
     if (!entries) throw new Error('No history entries found')
     // Build navigation state

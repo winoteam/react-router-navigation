@@ -86,7 +86,7 @@ export const get = <Item>(items: Array<Item>, route: Route): ?Item => ({
  * Generate unique key
  */
 export const createKey = (route: Route): string => {
-  return `${route.key}@@${Math.random().toString(10)}`
+  return `${route.key}@@${Math.random().toString(10).slice(1)}`
 }
 
 
@@ -102,7 +102,6 @@ export const getRoute = (stack: Array<Object>, location: Location): ?Route => {
   return {
     key: createKey(item),
     routeName: item.key,
-    match: matchPath(pathname, item),
   }
 }
 
