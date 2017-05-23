@@ -9,6 +9,7 @@ import type { NavigationState, TabsRendererProps, Tab, TabProps } from './TypeDe
 import * as StackUtils from './StackUtils'
 
 type Props = {
+  location: Location,
   history: HistoryRouter,
   // eslint-disable-next-line
   children?: Array<React$Element<TabProps>>,
@@ -29,8 +30,7 @@ type State = {
   }>,
   tabs: Array<Tab>,
   rootIndex: number,
-  location: Location,
-  history: { [key: number]: Array<Location> },
+  tabsHistory: { [key: number]: Array<Location> },
 }
 
 class TabStack extends React.Component<DefaultProps, Props, State> {
@@ -48,12 +48,12 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
   constructor(props: Props): void {
     super(props)
     // Build the tab stack $FlowFixMe
-    const { children, history: { entries, location } } = props
+    const { children, history: { location, entries } } = props
     const tabs = children && StackUtils.build(children)
     if (!tabs) throw new Error('No children found')
     // Get initial route
-    const currentRoute = StackUtils.getRoute(tabs, location)
-    if (!currentRoute) throw new Error('No route found !')
+    const currentRoute = StackUtils.getRoute(tabs, { ...location })
+    if (!currentRoute) throw new Error('No initial route found !')
     // Build navigation state
     const routes = tabs.map((tab) => {
       const route = {
@@ -69,38 +69,30 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
     const navigationState = { index, routes }
     const rootIndex = props.history.index || 0
     // Initialyze cached history
-    const history = {
+    const tabsHistory = {
       [index]: entries.slice(location.index),
     }
     // Save everything
-    this.state = { navigationState, tabs, rootIndex, history, location }
+    this.state = { navigationState, tabs, rootIndex, tabsHistory }
   }
 
-  componentDidMount(): void {
-    this.unlisten = this.props.history.listen(this.onChangeHistory)
-  }
-
-  componentWillUnmount(): void {
-    this.unlisten()
-  }
-
-  // Listen history events
-  onChangeHistory = (location: Location): void => {
-    // Get current route $FlowFixMe
-    const { history: { entries } } = this.props
+  componentWillReceiveProps(nextProps: Props): void {
+    // Extract props
+    const { location } = this.props
+    const { location: nextLocation, history: { entries, index: historyIndex } } = nextProps
     const { navigationState: { routes, index }, tabs, rootIndex } = this.state
     // Get current tab
     const currentRoute = routes[index]
     const currentTab = StackUtils.get(tabs, currentRoute)
     // Get next tab
-    const nextRoute = StackUtils.getRoute(tabs, location)
+    const nextRoute = StackUtils.getRoute(tabs, nextLocation)
     if (!nextRoute) return
     const nextTab = StackUtils.get(tabs, nextRoute)
     const nextIndex = routes.findIndex(({ routeName }) => routeName === nextRoute.routeName)
     // Update navigation state
     if (
       currentTab && nextTab &&
-      StackUtils.shouldUpdate(currentTab, nextTab, this.state.location, location)
+      StackUtils.shouldUpdate(currentTab, nextTab, location, nextLocation)
     ) {
       this.setState(({ navigationState }) => ({
         navigationState: {
@@ -109,60 +101,79 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
         },
       }))
     }
-    // Update history
-    if (nextRoute) {
-      this.state.history[nextIndex] = entries.slice(
-        rootIndex,
-        this.props.history.index + 1,
-      )
+    // Save history
+    if (nextRoute && nextLocation.pathname === entries[historyIndex].pathname) {
+      this.state.tabsHistory[nextIndex] = entries.slice(rootIndex, historyIndex + 1)
     }
-    // Save location
-    this.state.location = location
   }
 
   // Callback for when the current tab changes
   onRequestChangeTab = (index: number): void => {
     if (index < 0) return
     // 1) Set index directly
-    this.setState(prevState => ({
-      navigationState: {
-        ...prevState.navigationState,
-        index,
-      },
-    }))
-    // 2) Resync history if needed
-    if (this.props.forceSync) {
-      // Get entries
-      const entries = this.state.history[index]
-      // Update index + length + entries properties
-      const newHistoryIndex = 2
-      this.props.history.index = newHistoryIndex
-      this.props.history.entries = [
-        ...this.props.history.entries,
-        ...entries,
-      ]
-      this.props.history.length = this.props.history.entries.length
-    }
-    // 3) Prevent history of changes
-    // Warning: we must deal with this king of thing:
-    // const App = () => (
-    //   <Tabs>
-    //     <Tab
-    //       path="/hello"
-    //     />
-    //     <Tab
-    //       path="/:one"
-    //       onRequestChangeTab={({ history }) => history.push('/one')}
-    //     />
-    //   </Tabs>
-    // )
-    const entry = this.state.tabs[index] // $FlowFixMe
-    if (entry.path.includes(':')) {
-      if (entry.onRequestChangeTab) {
-        entry.onRequestChangeTab()
+    const { lazy, forceSync, history: { entries, index: historyIndex } } = this.props
+    const { navigationState, tabsHistory, tabs, rootIndex } = this.state
+    if (index !== navigationState.index) {
+      if (!lazy || tabsHistory[index]) {
+        this.setState(prevState => ({
+          navigationState: {
+            ...prevState.navigationState,
+            index,
+          },
+        }))
+      }
+      // 2) Resync history if needed
+      if (forceSync) {
+        // Re-build hisstory
+        const newEntries = tabsHistory[index]
+          ? [
+            ...entries.slice(0, rootIndex),
+            ...tabsHistory[index],
+          ]
+          : [...entries.slice(0, rootIndex + 1)]
+        const newIndex = tabsHistory[index]
+          ? (newEntries.length - 1)
+          : rootIndex
+        // Save it
+        this.props.history.entries = [...newEntries]
+        this.props.history.location = { ...newEntries[newIndex] }
+        this.props.history.index = newIndex
+        this.props.history.length = newEntries.length
+      }
+      // 3) Prevent history of changes
+      // Warning: we must deal with this king of thing:
+      // const App = () => (
+      //   <Tabs>
+      //     <Tab
+      //       path="/hello"
+      //     />
+      //     <Tab
+      //       path="/:params"
+      //       onRequestChangeTab={({ history }) => history.push('/one')}
+      //     />
+      //   </Tabs>
+      // )
+      if (!tabsHistory[index]) {
+        const entry = tabs[index] // $FlowFixMe
+        if (entry.onRequestChangeTab && !tabsHistory[index]) {
+          entry.onRequestChangeTab()
+        } else {
+          this.props.history.replace(entry.path, entry.state)
+        }
+      } else {
+        const entry = tabsHistory[index].slice(-1)[0]
+        this.props.history.replace(entry.pathname, entry.state)
       }
     } else {
-      this.props.history.replace(entry.path, entry.state)
+      // 4) Reset tab
+      const tab = tabs[index]
+      const n = rootIndex - (historyIndex || 0)
+      if (n < 0) {
+        this.props.history.go(n)
+      } else {
+        const props = { ...this.props, ...tab }
+        if (props.onReset) props.onReset(props)
+      }
     }
   }
 
