@@ -14,6 +14,7 @@ import * as StackUtils from './StackUtils'
 type State = {
   navigationState: NavigationState<{}>,
   cards: Array<Card>,
+  historyIndex: number,
 }
 
 type Props = {
@@ -38,7 +39,7 @@ class CardStack extends React.Component<void, Props, State> {
     const cards = children && StackUtils.build(children)
     if (!cards) throw new Error('No initial route found')
     // Get initial route of navigation state
-    if (!entries) throw new Error('No history entries found')
+    if (!entries || index === undefined) throw new Error('No history entries found')
     // Build navigation state
     const navigationState = entries.reduce((state, entry) => {
       const card = cards.find(({ path, exact, strict }) => {
@@ -57,10 +58,8 @@ class CardStack extends React.Component<void, Props, State> {
         ],
       }
     }, { index: -1, routes: [] })
-    // Get history index
-    const historyIndex = index || 0
     // Save everything in component state
-    this.state = { navigationState, cards, location, historyIndex }
+    this.state = { navigationState, cards, historyIndex: index }
   }
 
   // Listen hardware BackHandler event
@@ -75,9 +74,9 @@ class CardStack extends React.Component<void, Props, State> {
 
   // Listen all history events
   componentWillReceiveProps(nextProps: Props): void {
-    const { location, history: { entries, index: indexHistory } } = this.props
+    const { location, history: { entries } } = this.props
     const { location: nextLocation, history: { action, index: nextIndexHistory } } = nextProps
-    const { cards, navigationState: { routes, index } } = this.state
+    const { cards, navigationState: { routes, index }, historyIndex } = this.state
     // Re-build cards
     // Get current card
     const currentRoute = routes[index]
@@ -104,13 +103,13 @@ class CardStack extends React.Component<void, Props, State> {
         }
         case 'POP': {
           if (
-            indexHistory === undefined ||
+            historyIndex === undefined ||
             nextIndexHistory === undefined ||
             entries === undefined
           ) {
             return
           }
-          const n = indexHistory - nextIndexHistory
+          const n = historyIndex - nextIndexHistory
           if (n > 1) {
             this.setState(state => ({
               navigationState: StateUtils.reset(
@@ -141,6 +140,8 @@ class CardStack extends React.Component<void, Props, State> {
         }
         default:
       }
+      // Save historyIndex
+      if (historyIndex >= 0) this.state.historyIndex = historyIndex
     }
   }
 
