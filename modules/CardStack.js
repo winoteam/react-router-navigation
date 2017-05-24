@@ -169,7 +169,7 @@ class CardStack extends React.Component<void, Props, State> {
         default:
       }
       // Save historyIndex
-      if (nextIndexHistory >= 0) {
+      if (nextIndexHistory !== undefined && nextIndexHistory >= 0) {
         this.state.historyIndex = nextIndexHistory
       }
     }
