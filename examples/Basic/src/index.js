@@ -5,6 +5,7 @@ import { NativeRouter, Link, DeepLinking } from 'react-router-native'
 import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
 
 const PRIMARY_COLOR = 'rgb(226, 68, 68)'
+const SECONDARY_COLOR = 'rgb(226, 144, 68)'
 
 const styles = StyleSheet.create({
   container: {
@@ -27,18 +28,20 @@ const styles = StyleSheet.create({
 
 class App extends Component {
 
-  state = {}
+  state = {
+    navigation: {},
+    card: {},
+  }
 
   render() {
-    const { setNavigationState } = this.props
     return (
       <View style={styles.container}>
-        <StatusBar barStyle={this.state.barStyle} />
+        <StatusBar barStyle={this.state.navigation.barStyle} />
         <Navigation
           backButtonTintColor="red"
-          navBarStyle={this.state.navBarStyle}
-          titleStyle={this.state.titleStyle}
-          backButtonTintColor={this.state.backButtonTintColor}
+          navBarStyle={this.state.navigation.navBarStyle}
+          titleStyle={this.state.navigation.titleStyle}
+          backButtonTintColor={this.state.navigation.backButtonTintColor}
         >
           <Card
             exact
@@ -53,10 +56,12 @@ class App extends Component {
                   style={styles.button}
                   onPress={() => {
                     this.setState({
-                      navBarStyle: { backgroundColor: PRIMARY_COLOR },
-                      titleStyle: { color: 'white' },
-                      barStyle: 'light-content',
-                      backButtonTintColor: 'white',
+                      navigation: {
+                        navBarStyle: { backgroundColor: PRIMARY_COLOR },
+                        titleStyle: { color: 'white' },
+                        barStyle: 'light-content',
+                        backButtonTintColor: 'white',
+                      },
                     })
                   }}
                 >
@@ -66,6 +71,7 @@ class App extends Component {
             )}
           />
           <Card
+            navBarStyle={this.state.card.navBarStyle}
             path="/yolo"
             render={() => (
               <View style={styles.scene}>
@@ -75,9 +81,35 @@ class App extends Component {
                 >
                   <Text>Push tabs</Text>
                 </Link>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => {
+                    this.setState(prevState => ({
+                      card: {
+                        ...prevState.card,
+                        navBarStyle: { backgroundColor: SECONDARY_COLOR },
+                      },
+                    }))
+                  }}
+                >
+                  <Text>Change navbar style</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => {
+                    this.setState(prevState => ({
+                      card: {
+                        ...prevState.card,
+                        title: 'New title !',
+                      },
+                    }))
+                  }}
+                >
+                  <Text>Change title</Text>
+                </TouchableOpacity>
               </View>
             )}
-            title="Yolo"
+            title={this.state.card.title || 'Yolo'}
           />
           <Card
             path="/hello"
