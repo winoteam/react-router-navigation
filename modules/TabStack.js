@@ -104,7 +104,7 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
     }
     // Save history
     if (
-      nextRoute && historyIndex && entries && entries[historyIndex] &&
+      nextRoute && entries && historyIndex !== undefined && entries[historyIndex] &&
       nextLocation.pathname === entries[historyIndex].pathname
     ) {
       this.state.tabsHistory[nextIndex] = entries.slice(rootIndex, historyIndex + 1)
@@ -159,9 +159,9 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
       // )
       if (!tabsHistory[index]) {
         const entry = tabs[index] // $FlowFixMe
-        if (entry.onRequestChangeTab && !tabsHistory[index]) {
+        if (entry.onRequestChangeTab) {
           entry.onRequestChangeTab()
-        } else { // $FlowFixMe
+        } else {
           this.props.history.replace(entry.path, entry.state)
         }
       } else {
