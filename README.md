@@ -23,7 +23,7 @@ and `react-native-tab-view`.
 ## How to use
 Install:
 ```shell
-$ yarn add react-router react-router-native react-router-navigation
+$ yarn add react-router react-router-native react-router-navigation@next
 ```
 
 And then, enjoy it:
