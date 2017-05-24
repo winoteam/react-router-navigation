@@ -45,14 +45,11 @@ export type NavBarProps = {
   renderRightButton?: (props: CardSubViewProps) => React$Element<any>,
 }
 
-export type NavigationCardProps = {
-  cardStyle?: StyleSheet,
-}
-
 export type NavigationProps =
   & NavBarProps
   & NavigationCardProps
   & {
+  cardStyle?: StyleSheet,
   onTransitionStart?: Function,
   onTransitionEnd?: Function,
 }

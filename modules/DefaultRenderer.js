@@ -67,6 +67,7 @@ class DefaultRenderer extends React.Component<void, Props, void> {
   renderView = (ownProps: SceneRendererProps): React$Element<any> => (
     <CardStack
       {...ownProps}
+      cardStyle={this.props.cardStyle}
       navigationState={this.props.navigationState}
       router={{
         getScreenOptions: navigationScreen => this.getScreenOptions(navigationScreen, ownProps),
