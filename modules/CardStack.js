@@ -169,7 +169,9 @@ class CardStack extends React.Component<void, Props, State> {
         default:
       }
       // Save historyIndex
-      if (historyIndex >= 0) this.state.historyIndex = historyIndex
+      if (nextIndexHistory >= 0) {
+        this.state.historyIndex = nextIndexHistory
+      }
     }
   }
 
@@ -201,7 +203,10 @@ class CardStack extends React.Component<void, Props, State> {
     // Get diff
     return (
       !isEqual(navigationState, nextNavigationState) ||
-      !isEqual(options, nextOptions) ||
+      !isEqual(
+        omit(options, functions(options)),
+        omit(nextOptions, functions(nextOptions)),
+      ) ||
       !isEqual(
         cards.map(card => omit(card, functions(card))),
         nextCards.map(card => omit(card, functions(card))),

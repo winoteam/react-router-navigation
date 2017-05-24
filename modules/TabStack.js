@@ -5,6 +5,8 @@
 import React from 'react'
 import type { RouterHistory, Location } from 'react-router'
 import isEqual from 'lodash.isequal'
+import omit from 'lodash.omit'
+import functions from 'lodash.functions'
 import type { NavigationState, TabsRendererProps, Tab } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
@@ -200,7 +202,10 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
     // Get diff
     return (
       !isEqual(navigationState, nextNavigationState) ||
-      !isEqual(options, nextOptions)
+      !isEqual(
+        omit(options, functions(options)),
+        omit(nextOptions, functions(nextOptions)),
+      )
     )
   }
 
