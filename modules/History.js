@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint no-duplicate-imports: 0 */
 
 import React from 'react'
 import type { ContextRouter, Location } from 'react-router'

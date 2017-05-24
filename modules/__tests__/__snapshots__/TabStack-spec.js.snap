@@ -1,24 +1,22 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<TabStack /> re-renders correctly when "replace" action is called 1`] = `
+exports[`test <TabStack /> re-renders correctly when "replace" action is called 1`] = `
 <Text>
   Index
 </Text>
 `;
 
-exports[`<TabStack /> re-renders correctly when "replace" action is called 2`] = `
+exports[`test <TabStack /> re-renders correctly when "replace" action is called 2`] = `
 <Text>
   Hello
 </Text>
 `;
 
-exports[`<TabStack /> renders correctly 1`] = `
+exports[`test <TabStack /> renders correctly 1`] = `
 <Text>
   Index
 </Text>
 `;
 
-exports[`<TabStack /> renders correctly with initialEntries prop  1`] = `
+exports[`test <TabStack /> renders correctly with initialEntries prop  1`] = `
 <Text>
   Hello
 </Text>

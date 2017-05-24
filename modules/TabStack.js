@@ -115,7 +115,6 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
 
   // Callback for when the current tab changes
   onRequestChangeTab = (index: number): void => {
-<<<<<<< HEAD
     if (index < 0) return
     // 1) Set index directly
     const { lazy, forceSync, history: { entries, index: historyIndex } } = this.props
@@ -170,42 +169,6 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
       } else {
         const entry = tabsHistory[index].slice(-1)[0]
         this.props.history.replace(entry.pathname, entry.state)
-=======
-    const entries = this.state.history[index]
-    if (index !== this.state.navigationState.index) {
-      // Update navigation state
-      this.setState(prevState => ({
-        navigationState: {
-          ...prevState.navigationState,
-          index,
-        },
-      }))
-      if (this.props.forceSync) {
-        // Go back to root index
-        const n = this.state.rootIndex - (this.props.history.index || 0)
-        if (n !== 0) this.props.history.go(n)
-        // Replace root entry
-        if (entries && entries[0]) {
-          const entry = entries[0]
-          this.props.history.replace(entry.pathname, entry.state)
-        } else {
-          const entry = this.state.tabs[index]
-          this.props.history.replace(entry.path, entry.state)
-        }
-        // Push other entries
-        if (entries && entries.length > 1) {
-          entries
-            .slice(this.state.rootIndex + 1)
-            .forEach(({ pathname, state }) => {
-              this.props.history.push(pathname, state)
-            })
-          const entry = entries[Math.max(0, parseInt(entries.length - 1, 10))]
-          this.props.history.replace(entry.pathname, entry.state)
-        }
-      } else {
-        const entry = this.state.tabs[index]
-        this.props.history.replace(entry.path, entry.state)
->>>>>>> master
       }
     } else {
       // 4) Reset tab

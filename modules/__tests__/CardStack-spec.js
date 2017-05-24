@@ -14,7 +14,7 @@ it('<CardStack /> renders correctly', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
@@ -35,7 +35,7 @@ it('<CardStack /> renders correctly with initialIndex and initialEntries prop ',
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
@@ -54,7 +54,7 @@ it('<CardStack /> re-renders correctly when "push" action is called', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
@@ -77,7 +77,7 @@ it('<CardStack /> re-renders correctly when "push" action is called with same pa
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack {...routeProps} render={CardView}>
             <Route path="/article/:id" render={componentFactory()} />
           </CardStack>
@@ -100,7 +100,7 @@ it('<CardStack /> re-renders correctly when "goBack" action is called', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
@@ -124,7 +124,7 @@ it('<CardStack /> re-renders correctly when "goBack" action is called with same 
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack {...routeProps} render={CardView}>
             <Route path="/article/:id" render={componentFactory()} />
           </CardStack>
@@ -147,7 +147,7 @@ it('<CardStack /> re-renders correctly when "go" action is called', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
@@ -172,7 +172,7 @@ it('<CardStack /> re-renders correctly when "go" action is called with same path
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack {...routeProps} render={CardView}>
             <Route path="/article/:id" render={componentFactory('Article')} />
           </CardStack>
@@ -195,7 +195,7 @@ it('<CardStack /> re-renders correctly when "replace" action is called', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
@@ -220,7 +220,7 @@ it('<CardStack /> re-renders correctly when onNavigateBack() method is called', 
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={(routeProps: ContextRouter) => (
+        render={routeProps => (
           <CardStack
             {...routeProps}
             render={({ navigationState, onNavigateBack, cards }) => (
