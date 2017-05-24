@@ -52,7 +52,7 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
     const tabs = children && StackUtils.build(children)
     if (!tabs) throw new Error('No children found')
     // Get initial route
-    const currentRoute = StackUtils.getRoute(tabs, { ...location })
+    const currentRoute = StackUtils.getRoute(tabs, location)
     if (!currentRoute) throw new Error('No initial route found !')
     // Build navigation state
     const routes = tabs.map((tab) => {
@@ -134,7 +134,7 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
             ...entries.slice(0, rootIndex),
             ...tabsHistory[index],
           ]
-          : [...entries.slice(0, rootIndex + 1)]
+          : entries.slice(0, rootIndex + 1)
         const newIndex = tabsHistory[index]
           ? (newEntries.length - 1)
           : rootIndex
@@ -183,7 +183,25 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
 
   // Diff navigation state
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    return !isEqual(this.state.navigationState, nextState.navigationState)
+    // Get options
+    const options = { ...this.props }
+    const nextOptions = { ...nextProps }
+    delete options.location
+    delete options.history
+    delete options.children
+    delete options.render
+    delete nextOptions.location
+    delete nextOptions.history
+    delete nextOptions.children
+    delete nextOptions.render
+    // Get navigation state
+    const { navigationState } = this.state
+    const { navigationState: nextNavigationState } = nextState
+    // Get diff
+    return (
+      !isEqual(navigationState, nextNavigationState) ||
+      !isEqual(options, nextOptions)
+    )
   }
 
   // Render view

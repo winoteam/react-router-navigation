@@ -5,6 +5,8 @@
 import React from 'react'
 import { BackHandler } from 'react-native'
 import isEqual from 'lodash.isequal'
+import omit from 'lodash.omit'
+import functions from 'lodash.functions'
 import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
 import type { RouterHistory, Location } from 'react-router'
@@ -72,12 +74,38 @@ class CardStack extends React.Component<void, Props, State> {
     BackHandler.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
-  // Listen all history events
   componentWillReceiveProps(nextProps: Props): void {
-    const { location, history: { entries } } = this.props
-    const { location: nextLocation, history: { action, index: nextIndexHistory } } = nextProps
-    const { cards, navigationState: { routes, index }, historyIndex } = this.state
+    // Extact state and props
+    const {
+      location,
+      history: { entries },
+    } = this.props
+    const {
+      location: nextLocation,
+      history: { action, index: nextIndexHistory },
+      children: nextChildren,
+    } = nextProps
+    const {
+      cards,
+      navigationState: { routes, index },
+      historyIndex,
+    } = this.state
     // Re-build cards
+    const nextCards = nextChildren && StackUtils.build(nextChildren)
+    if (
+      nextCards &&
+      !isEqual(
+        cards.map(card => omit(card, functions(card))),
+        nextCards.map(card => omit(card, functions(card))),
+      )
+    ) {
+      this.setState({
+        cards: nextCards.map((card, i) => ({
+          ...cards[i],
+          ...omit(card, functions(card)),
+        })),
+      })
+    }
     // Get current card
     const currentRoute = routes[index]
     const currentCard = cards.find(({ key }) => key === currentRoute.routeName)
@@ -156,7 +184,29 @@ class CardStack extends React.Component<void, Props, State> {
 
   // Diff navigation state
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    return !isEqual(this.state.navigationState, nextState.navigationState)
+    // Get options
+    const options = { ...this.props }
+    const nextOptions = { ...nextProps }
+    delete options.location
+    delete options.history
+    delete options.children
+    delete options.render
+    delete nextOptions.location
+    delete nextOptions.history
+    delete nextOptions.children
+    delete nextOptions.render
+    // Get navigation state
+    const { cards, navigationState } = this.state
+    const { cards: nextCards, navigationState: nextNavigationState } = nextState
+    // Get diff
+    return (
+      !isEqual(navigationState, nextNavigationState) ||
+      !isEqual(options, nextOptions) ||
+      !isEqual(
+        cards.map(card => omit(card, functions(card))),
+        nextCards.map(card => omit(card, functions(card))),
+      )
+    )
   }
 
   // Render view

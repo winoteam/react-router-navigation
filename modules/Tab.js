@@ -7,7 +7,7 @@ import SceneView from './SceneView'
 
 type Props = TabProps
 
-const Tab = (props: Props) => (
+const Tab = (props: Props): React$Element<any> => (
   <History>
     {({ history, location }) => (
       <SceneView
