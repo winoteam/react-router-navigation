@@ -94,7 +94,7 @@ const App = (): React$Element<any> => (
                   path="/profile/(likes|bookmarks)"
                   component={Profile}
                   onRequestChangeTab={() => history.replace('/profile/likes')}
-                  onReset={() => history.replace(`${url}/profile/likes`)}
+                  onReset={() => history.replace("/profile/likes")}
                   label="Profile"
                   renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) => (
                     <Image
