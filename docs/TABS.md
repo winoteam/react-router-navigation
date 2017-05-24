@@ -12,7 +12,7 @@ const App = () => (
   <Tabs
     labelStyle={{ color: 'white' }}
     tabBarStyle={{ backgroundColor: 'purple' }}
-    tabBarIndicatorStyle={{ background: 'white' }}
+    tabBarIndicatorStyle={{ backgroundColor: 'white' }}
   >
     <Tab path="/one" component={require('./One')} />
     <Tab path="/two" component={require('./Two')} />
@@ -23,7 +23,7 @@ const App = () => (
 
 ## Options
 
-### TabBar Props
+### TabBar props
 * **hideTabBar** ```?boolean``` whether to display tab bar
 * **tabBarStyle** ```?StyleSheet``` style override for the tab bar
 * **renderTabBar** ```?Function``` callback which renders a bottom tab bar
@@ -36,13 +36,13 @@ const App = () => (
 * **labelStyle** ```?(StyleSheet | Function)``` styling text item
 * **renderLabel** ```?Function``` callback which renders a label
 
-#### ```<Tabs />``` Props
-* [```... TarBar Props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+#### ```<Tabs />``` props
+* [```... TabBar props``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **style** ```?StyleSheet``` override or extend the default style for ```<View />``` container
 * **lazy** ```?boolean``` whether to load tabs lazily when you start switching
 * **configureTransition** ```:?Function``` callback which returns a configuration for the transition, return null to disable animation
 
-#### ```<Tab />``` Props
-* [```... <Route />``` props](https://reacttraining.com/react-router/#route)
-* [```... TarBar Props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+#### ```<Tab />``` props
+* [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
+* [```... TabBar props``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **onReset** ```?Function``` callback which resets the current tab

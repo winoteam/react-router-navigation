@@ -1,6 +1,10 @@
 # react-router-navigation
 [![Build Status](https://travis-ci.org/LeoLeBras/react-router-navigation.svg?branch=master)](https://travis-ci.org/LeoLeBras/react-router-navigation)
 [![npm version](https://badge.fury.io/js/react-router-navigation.svg)](https://badge.fury.io/js/react-router-navigation)
+[![Am I a cool kid ?](http://cool-kid.herokuapp.com/LeoLeBras/react-router-navigation)](https://github.com/awemakers/cool-kid)
+
+>### An update is coming (wip)
+> Check [next branch](https://github.com/LeoLeBras/react-router-navigation/tree/next) for RN 0.42+ support
 
 `react-router-navigation` provides tools to navigate between multiple screens with
 navigators or tab views. This library is based on `react-router`, `react-navigation`,
@@ -51,13 +55,13 @@ const App = () => (
 ```
 
 ## Docs
-* [```<Navigation />```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md) handles the transition between different scenes in your app
+* [```<Navigation />```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md) handles the transition between different scenes in your app.
 * [```<Tabs />```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/TABS.md) make it easy to explore and switch between different views.
 * [```<BottomNavigation />```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md) make it easy to explore and switch between top-level views in a single tap.
 
 ## Advanced
 ### Platform Support
-```react-router-navigation``` is cross-platform. It supports all platforms that [`react-navigation`](https://github.com/react-community/react-navigation/) and[`react-native-tab-view`](https://github.com/react-native-community/react-native-tab-view)  supports (Android and iOS).
+```react-router-navigation``` is cross-platform. It supports all platforms that [`react-navigation`](https://github.com/react-community/react-navigation/) and[`react-native-tab-view`](https://github.com/react-native-community/react-native-tab-view) support (Android and iOS).
 
 ## Contributing
 Want to hack on ```react-router-navigation```? Awesome! We welcome contributions from anyone and everyone. :rocket:
@@ -68,4 +72,4 @@ If you have any questions, feel free to get in touch on Twitter, [@Leo_LeBras](h
 ## Thanks
 `react-router-navigation` is based on [React Router](https://github.com/reactjs/react-router). Thanks to Ryan Florence [@ryanflorence](https://twitter.com/ryanflorence), Michael Jackson [@mjackson](https://twitter.com/mjackson) and all the contributors for their work on [`react-router`](https://github.com/reactjs/react-router) and [`history`](https://github.com/mjackson/history).
 
-Special thanks to [@ericvicenti](https://twitter.com/ericvicenti), [@skevy](https://twitter.com/skevy), [@satya164](https://twitter.com/satya164) and [@grabbou](https://twitter.com/grabbou) for their work on [`react-navigation`](https://github.com/react-community/react-navigation/) and [@satya164](https://twitter.com/satya164) for his work on [`react-native-tab-view`](https://github.com/react-native-community/react-native-tab-view)
+Special thanks to [@ericvicenti](https://twitter.com/ericvicenti), [@skevy](https://twitter.com/skevy), [@satya164](https://twitter.com/satya164) and [@grabbou](https://twitter.com/grabbou) for their work on [`react-navigation`](https://github.com/react-community/react-navigation/) and [@satya164](https://twitter.com/satya164) for his work on [`react-native-tab-view`](https://github.com/react-native-community/react-native-tab-view).

@@ -28,10 +28,10 @@ const App = () => (
 
 ## Options
 
-#### NavBar Props
+#### NavBar props
 * **hideNavBar** ```?boolean``` whether to display nav bar
 * **renderNavBar** ```?string``` callback which renders a custom navigation bar
-* **navBarStyle** ```?StyleSheet``` style override for the navigation bar
+* **navBarStyle** ```?StyleSheet``` override style for the navigation bar
 * **hideBackButton** ```?boolean``` whether to display default back button
 * **backButtonTintColor** ```?string``` sets the color of the back button
 * **backButtonTitle** ```?string``` text that appears on back button
@@ -41,12 +41,12 @@ const App = () => (
 * **renderTitle** ```?Function``` callback which renders a custom title component
 * **renderRightButton** ```?Function``` callback which renders a right button
 
-#### ```<Navigation />``` Props
-* [... NavBar Props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navbar-props)
+#### ```<Navigation />``` props
+* [... ```<NavBar />```  props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navbar-props)
 * **onTransitionStart** ```?Function``` function invoked when the card transition animation is about to start
-* **onTransitionEnd** ```?Function``` function invoked once the card transition animation completes.
-* **cardStyle** ```?StyleSheet``` style override for the card component
+* **onTransitionEnd** ```?Function``` function invoked once the card transition animation completes
+* **cardStyle** ```?StyleSheet``` override style for the card component
 
-#### ```<Card />``` Props
-* [```...<Route />``` props](https://reacttraining.com/react-router/#route)
-* [```...<Navigation />``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navigation--props)
+#### ```<Card />``` props
+* [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
+* [```... <Navigation />``` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navigation--props)

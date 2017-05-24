@@ -12,10 +12,9 @@ import { BottomNavigation, Tab } from 'react-router-navigation'
 const App = () => (
   <BottomNavigation
     lazy={false}
-    tabActiveTintColor="purple"
+    tabActiveTintColor="blue"
   >
     <Tab label="Feed" path="/feed" component={require('./Feed')} />
-    <Tab label="Search" path="/search" component={require('./Search')} />
     <Tab label="Profile" path="/profile" component={require('./Profile')} />
   </BottomNavigation>
 )
@@ -23,24 +22,24 @@ const App = () => (
 
 ## Options
 
-### TabBar Props
+### TabBar props
 * **hideTabBar** ```?boolean``` whether to display tab bar
-* **tabBarStyle** ```?StyleSheet``` style override for the tab bar
+* **tabBarStyle** ```?StyleSheet``` override style for the tab bar
 * **renderTabBar** ```?Function``` callback which renders a tab bar
-* **tabStyle** ```?StyleSheet``` style override for the tab item
+* **tabStyle** ```?StyleSheet``` override style for the tab item
 * **tabTintColor** ```?string``` label and icon color of the tab
 * **tabActiveTintColor** ```?string``` label and icon color of the active tab
 * **label** ```?string``` text that appears on each item
 * **labelStyle** ```?(StyleSheet | Function)``` styling text item
 * **renderLabel** ```?Function``` callback which renders a label
-* **renderTabIcon** ```?Function``` optional callback which receives the current scene and returns a React Element to be used as a icon
+* **renderTabIcon** ```?Function``` optional callback which receives the current scene and returns a React Element to be used as an icon
 
-#### ```<BottomNavigation />``` Props
-* [```... TarBar Props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+#### ```<BottomNavigation />``` props
+* [```... TabBar props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **style** ```?StyleSheet``` override or extend the default style for ```<View />``` container
 * **lazy** ```?boolean``` whether to load tabs lazily when you start switching
 
-#### ```<Tab />``` Props
-* [```... <Route />``` props](https://reacttraining.com/react-router/#route)
-* [```... TarBar Props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+#### ```<Tab />``` props
+* [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
+* [```... TabBar props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **onReset** ```?Function``` callback which resets the current tab
