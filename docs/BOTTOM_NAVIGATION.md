@@ -43,3 +43,4 @@ const App = () => (
 * [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)
 * [```... TabBar props```](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **onReset** ```?Function``` callback which resets the current tab
+* **onRequestChangeTab** ```?Function``` callback which update history
