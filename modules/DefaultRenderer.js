@@ -4,16 +4,14 @@
 import React from 'react'
 import { CardStack, Transitioner } from 'react-navigation'
 import type { NavigationTransitionProps } from 'react-navigation/src/TypeDefinition'
-import type { NavigationProps, CardsRendererProps } from './TypeDefinitions'
+import type { Route, NavigationProps, CardsRendererProps } from './TypeDefinitions'
 
 type SceneRendererProps =
   & CardsRendererProps
   & NavigationTransitionProps
 
 type NavigationScreen = {
-  state: {
-    routeName: string,
-  },
+  state: Route,
 }
 
 type Props =
@@ -33,10 +31,10 @@ class DefaultRenderer extends React.Component<void, Props, void> {
     sceneProps: SceneRendererProps,
   ): Object => {
     // Get route name
-    const { state: { routeName } } = navigationScreen
+    const { state: { key } } = navigationScreen
     // Get current scene
     const scene = sceneProps.scenes.find(({ route }) => {
-      return route.routeName === routeName
+      return route.key === key
     })
     // Return header
     return {
