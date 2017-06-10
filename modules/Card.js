@@ -2,18 +2,17 @@
 
 import React from 'react'
 import type { CardProps } from './TypeDefinitions'
-import History from './History'
+import { History } from './HistoryUtils'
 import SceneView from './SceneView'
 
 type Props = CardProps
 
 const Card = (props: Props) => (
   <History>
-    {({ history, location }) => (
+    {history => (
       <SceneView
         {...props}
         type="card"
-        location={location}
         history={history}
       />
     )}

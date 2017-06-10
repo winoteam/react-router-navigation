@@ -2,18 +2,17 @@
 
 import React from 'react'
 import type { TabProps } from './TypeDefinitions'
-import History from './History'
+import { History } from './HistoryUtils'
 import SceneView from './SceneView'
 
 type Props = TabProps
 
 const Tab = (props: Props): React$Element<any> => (
   <History>
-    {({ history, location }) => (
+    {history => (
       <SceneView
         {...props}
         type="tab"
-        location={location}
         history={history}
       />
     )}

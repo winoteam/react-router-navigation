@@ -7,12 +7,12 @@ import type { RouterHistory, Location, Match } from 'react-router'
 import type { CardProps } from './TypeDefinitions'
 
 type Props = CardProps & {
-  location: Location,
   history: RouterHistory,
   type: 'card' | 'tab',
 }
 
 type State = {
+  location: Location,
   match: ?Match,
 }
 
@@ -28,14 +28,28 @@ class SceneView extends React.Component<void, Props, State> {
     // Build current match
     const { path, exact, strict, history: { location } } = props
     const match = matchPath(location.pathname, { path, exact, strict })
-    this.state = { match }
+    this.state = { match, location }
   }
 
-  componentWillReceiveProps(nextProps: Props): void {
-    const { location, path, exact, strict } = nextProps
+  componentDidMount(): void {
+    // Listen history events
+    const { history } = this.props
+    this.unlisten = history.listen(this.onListenHistory)
+  }
+
+  componentWillUnmount(): void {
+    // Remove history listenner
+    this.unlisten()
+  }
+
+  onListenHistory = (location: Location): void => {
+    // Build match
+    const { path, exact, strict } = this.props
     if (!this.state.match) {
       const match = matchPath(location.pathname, { path, exact, strict })
-      this.setState({ match })
+      this.setState({ match, location })
+    } else {
+      this.setState({ location })
     }
   }
 
@@ -47,11 +61,11 @@ class SceneView extends React.Component<void, Props, State> {
   render(): ?React$Element<any> {
     // Get scene component $FlowFixMe
     const { render, children, component, type } = this.props
-    const { match } = this.state
-    // If card, return null is match is not defined
+    const { match, location } = this.state
+    // Special case
     if (type === 'card' && !match) return null
     // Return scene component
-    const ownProps = { ...this.props, match }
+    const ownProps = { ...this.props, match, location }
     if (render) return render(ownProps)
     else if (children && typeof children === 'function') return children(ownProps)
     else if (component) return React.createElement(component, ownProps)

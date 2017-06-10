@@ -4,19 +4,14 @@
 
 import React from 'react'
 import type { RouterHistory, Location } from 'react-router'
-import isEqual from 'lodash.isequal'
-import omit from 'lodash.omit'
-import functions from 'lodash.functions'
 import type { NavigationState, TabsRendererProps, Tab } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
+import * as HistoryUtils from './HistoryUtils'
 
 type Props = {
-  location: Location,
-  history: RouterHistory,
-  // eslint-disable-next-line
+  history: RouterHistory, // eslint-disable-next-line
   children?: Array<React$Element<any>>,
-  render: (props: TabsRendererProps) => React$Element<any>,
-  // eslint-disable-next-line
+  render: (props: TabsRendererProps) => React$Element<any>, // eslint-disable-next-line
   lazy?: boolean,
   forceSync?: boolean,
 }
@@ -35,12 +30,12 @@ type State = {
   tabsHistory: { [key: number]: Array<Location> },
 }
 
-class TabStack extends React.Component<DefaultProps, Props, State> {
+class TabStack extends React.PureComponent<DefaultProps, Props, State> {
 
   props: Props
   state: State
 
-  unlisten: Function
+  unlistenHistory: Function
 
   static defaultProps = {
     forceSync: false,
@@ -79,47 +74,69 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
     this.state = { navigationState, tabs, rootIndex, tabsHistory }
   }
 
+  // Listen history events
+  componentDidMount(): void {
+    const { history } = this.props
+    this.unlistenHistory = HistoryUtils.runHistoryListenner(history, this.onListenHistory)
+  }
+
+  // Remove all listeners
+  componentWillUnmount(): void {
+    this.unlistenHistory()
+  }
+
+  // Update cards
   componentWillReceiveProps(nextProps: Props): void {
+    const { children } = nextProps
+    const { tabs } = this.state
+    const nextTabs = children && StackUtils.build(children, tabs)
+    this.setState({ tabs: nextTabs })
+  }
+
+  // Update navigation state
+  onListenHistory = (history: RouterHistory, nextHistory: RouterHistory): void => {
     // Extract props
-    const { location } = this.props
-    const { location: nextLocation, history: { entries, index: historyIndex } } = nextProps
-    const { navigationState: { routes, index }, tabs, rootIndex } = this.state
+    const { location } = history
+    const { location: nextLocation, entries, index } = nextHistory
+    const { navigationState, tabs, rootIndex } = this.state
     // Get current tab
-    const currentRoute = routes[index]
+    const currentRoute = navigationState.routes[navigationState.index]
     const currentTab = StackUtils.get(tabs, currentRoute)
     // Get next tab
     const nextRoute = StackUtils.getRoute(tabs, nextLocation)
     if (!nextRoute) return
     const nextTab = StackUtils.get(tabs, nextRoute)
-    const nextIndex = routes.findIndex(({ routeName }) => routeName === nextRoute.routeName)
+    const nextIndex = navigationState.routes.findIndex(({ routeName }) => {
+      return routeName === nextRoute.routeName
+    })
     // Update navigation state
     if (
       currentTab && nextTab &&
       StackUtils.shouldUpdate(currentTab, nextTab, location, nextLocation)
     ) {
-      this.setState(({ navigationState }) => ({
+      this.setState(previousState => ({
         navigationState: {
           index: nextIndex,
-          routes: navigationState.routes,
+          routes: previousState.navigationState.routes,
         },
       }))
     }
     // Save history
     if (
-      nextRoute && entries && historyIndex !== undefined && entries[historyIndex] &&
-      nextLocation.pathname === entries[historyIndex].pathname
+      nextRoute && entries && index !== undefined && entries[index] &&
+      nextLocation.pathname === entries[index].pathname
     ) {
-      this.state.tabsHistory[nextIndex] = entries.slice(rootIndex, historyIndex + 1)
+      this.state.tabsHistory[nextIndex] = entries.slice(rootIndex, index + 1)
     }
   }
 
   // Callback for when the current tab changes
   onRequestChangeTab = (index: number): void => {
     if (index < 0) return
-    // 1) Set index directly
     const { lazy, forceSync, history: { entries, index: historyIndex } } = this.props
     const { navigationState, tabsHistory, tabs, rootIndex } = this.state
     if (index !== navigationState.index) {
+      // 1) Set index directly
       if (!lazy || tabsHistory[index]) {
         this.setState(prevState => ({
           navigationState: {
@@ -181,32 +198,6 @@ class TabStack extends React.Component<DefaultProps, Props, State> {
         if (props.onReset) props.onReset(props)
       }
     }
-  }
-
-  // Diff navigation state
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    // Get options
-    const options = { ...this.props }
-    const nextOptions = { ...nextProps }
-    delete options.location
-    delete options.history
-    delete options.children
-    delete options.render
-    delete nextOptions.location
-    delete nextOptions.history
-    delete nextOptions.children
-    delete nextOptions.render
-    // Get navigation state
-    const { navigationState } = this.state
-    const { navigationState: nextNavigationState } = nextState
-    // Get diff
-    return (
-      !isEqual(navigationState, nextNavigationState) ||
-      !isEqual(
-        omit(options, functions(options)),
-        omit(nextOptions, functions(nextOptions)),
-      )
-    )
   }
 
   // Render view

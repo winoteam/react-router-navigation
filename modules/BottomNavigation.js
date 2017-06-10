@@ -7,7 +7,7 @@ import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
 import type { TabProps, TabBarProps, TabSubViewProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import TabBarBottom from './TabBarBottom'
-import History from './History'
+import { History } from './HistoryUtils'
 import TabStack from './TabStack'
 
 const styles = StyleSheet.create({
@@ -93,11 +93,10 @@ class BottomNavigation extends React.Component<DefaultProps, Props, State> {
   render(): React$Element<any> {
     return (
       <History>
-        {({ history, location }) => (
+        {history => (
           <TabStack
             {...this.props}
             history={history}
-            location={location}
             style={styles.container}
             forceSync
             render={(props) => {

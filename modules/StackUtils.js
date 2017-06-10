@@ -13,8 +13,9 @@ import type { Route } from './TypeDefinitions'
 // eslint-disable-next-line
 export const build = <Item>(
   children: Array<React$Element<Item>>,
+  oldBuild?: Array<Item & { key: string }>,
 ): Array<Item & { key: string }> => {
-  return React.Children.toArray(children).reduce((stack, child) => {
+  return React.Children.toArray(children).reduce((stack, child, index) => {
     const item = Object.keys(child.props).reduce((props, key) => {
       if (key === 'path') {
         return {
@@ -25,7 +26,9 @@ export const build = <Item>(
       } else if (key === 'render' || key === 'component' || key === 'children') {
         return {
           ...props,
-          [key]: () => React.cloneElement(child),
+          [key]: oldBuild
+            ? oldBuild[index][key]
+            : () => React.cloneElement(child),
         }
       }
       return {

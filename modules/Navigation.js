@@ -6,7 +6,7 @@ import type { NavigationProps, CardSubViewProps } from './TypeDefinitions'
 import CardStack from './CardStack'
 import DefaultRenderer from './DefaultRenderer'
 import NavBar from './NavBar'
-import History from './History'
+import { History } from './HistoryUtils'
 import * as StackUtils from './StackUtils'
 
 type Props = NavigationProps & {
@@ -40,10 +40,9 @@ class Navigation extends React.Component<void, Props, void> {
     const { children, ...props } = this.props
     return (
       <History>
-        {({ history, location }) => (
+        {history => (
           <CardStack
             {...props}
-            location={location}
             history={history}
             children={children}
             render={ownProps => (

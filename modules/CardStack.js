@@ -4,43 +4,38 @@
 
 import React from 'react'
 import { BackHandler } from 'react-native'
-import isEqual from 'lodash.isequal'
-import omit from 'lodash.omit'
-import functions from 'lodash.functions'
 import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
-import type { RouterHistory, Location } from 'react-router'
+import type { RouterHistory } from 'react-router'
 import type { CardsRendererProps, NavigationState, Card } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
+import * as HistoryUtils from './HistoryUtils'
 
 type State = {
   navigationState: NavigationState<{}>,
   cards: Array<Card>,
-  historyIndex: number,
 }
 
 type Props = {
-  // eslint-disable-next-line
-  location: Location,
-  history: RouterHistory,
-  // eslint-disable-next-line
+  history: RouterHistory, // eslint-disable-next-line
   children?: Array<React$Element<any>>,
   render: (props: CardsRendererProps) => React$Element<any>,
 }
 
-class CardStack extends React.Component<void, Props, State> {
+class CardStack extends React.PureComponent<void, Props, State> {
 
   props: Props
   state: State
 
-  // Initialyze navigation state with initial history
+  unlistenHistory: Function
+
   constructor(props: Props): void {
     super(props)
     // Build the card stack
     const { children, history: { entries, index, location } } = props
     const cards = children && StackUtils.build(children)
+    // CardStack can be mount ?
     if (!cards) throw new Error('No initial route found')
-    // Get initial route of navigation state
     if (!entries || index === undefined) throw new Error('No history entries found')
     // Build navigation state
     const navigationState = entries.reduce((state, entry) => {
@@ -61,53 +56,37 @@ class CardStack extends React.Component<void, Props, State> {
       }
     }, { index: -1, routes: [] })
     // Save everything in component state
-    this.state = { navigationState, cards, historyIndex: index }
+    this.state = { navigationState, cards }
   }
 
-  // Listen hardware BackHandler event
+  // Listen hardware BackHandler event + history event
   componentDidMount(): void {
+    const { history } = this.props
+    this.unlistenHistory = HistoryUtils.runHistoryListenner(history, this.onListenHistory)
     BackHandler.addEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
   // Remove all listeners
   componentWillUnmount(): void {
+    this.unlistenHistory()
     BackHandler.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
+  // Update cards
   componentWillReceiveProps(nextProps: Props): void {
-    // Extact state and props
-    const {
-      location,
-      history: { entries },
-    } = this.props
-    const {
-      location: nextLocation,
-      history: { action, index: nextIndexHistory },
-      children: nextChildren,
-    } = nextProps
-    const {
-      cards,
-      navigationState: { routes, index },
-      historyIndex,
-    } = this.state
-    // Re-build cards
-    const nextCards = nextChildren && StackUtils.build(nextChildren)
-    if (
-      nextCards &&
-      !isEqual(
-        cards.map(card => omit(card, functions(card))),
-        nextCards.map(card => omit(card, functions(card))),
-      )
-    ) {
-      this.setState({
-        cards: nextCards.map((card, i) => ({
-          ...cards[i],
-          ...omit(card, functions(card)),
-        })),
-      })
-    }
+    const { children } = nextProps
+    const { cards } = this.state
+    const nextCards = children && StackUtils.build(children, cards)
+    this.setState({ cards: nextCards })
+  }
+
+  // Update navigation state
+  onListenHistory = (history: RouterHistory, nextHistory: RouterHistory): void => {
+    const { location, entries, index } = history
+    const { location: nextLocation, action, index: nextIndex } = nextHistory
+    const { navigationState, cards } = this.state
     // Get current card
-    const currentRoute = routes[index]
+    const currentRoute = navigationState.routes[navigationState.index]
     const currentCard = cards.find(({ key }) => key === currentRoute.routeName)
     // Get next card
     const nextRoute = StackUtils.getRoute(cards, nextLocation)
@@ -131,13 +110,13 @@ class CardStack extends React.Component<void, Props, State> {
         }
         case 'POP': {
           if (
-            historyIndex === undefined ||
-            nextIndexHistory === undefined ||
+            index === undefined ||
+            nextIndex === undefined ||
             entries === undefined
           ) {
             return
           }
-          const n = historyIndex - nextIndexHistory
+          const n = index - nextIndex
           if (n > 1) {
             this.setState(state => ({
               navigationState: StateUtils.reset(
@@ -168,10 +147,6 @@ class CardStack extends React.Component<void, Props, State> {
         }
         default:
       }
-      // Save historyIndex
-      if (nextIndexHistory !== undefined && nextIndexHistory >= 0) {
-        this.state.historyIndex = nextIndexHistory
-      }
     }
   }
 
@@ -182,36 +157,6 @@ class CardStack extends React.Component<void, Props, State> {
       return true
     }
     return false
-  }
-
-  // Diff navigation state
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    // Get options
-    const options = { ...this.props }
-    const nextOptions = { ...nextProps }
-    delete options.location
-    delete options.history
-    delete options.children
-    delete options.render
-    delete nextOptions.location
-    delete nextOptions.history
-    delete nextOptions.children
-    delete nextOptions.render
-    // Get navigation state
-    const { cards, navigationState } = this.state
-    const { cards: nextCards, navigationState: nextNavigationState } = nextState
-    // Get diff
-    return (
-      !isEqual(navigationState, nextNavigationState) ||
-      !isEqual(
-        omit(options, functions(options)),
-        omit(nextOptions, functions(nextOptions)),
-      ) ||
-      !isEqual(
-        cards.map(card => omit(card, functions(card))),
-        nextCards.map(card => omit(card, functions(card))),
-      )
-    )
   }
 
   // Render view

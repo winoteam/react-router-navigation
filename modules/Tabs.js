@@ -7,7 +7,7 @@ import { matchPath } from 'react-router'
 import type { TabSubViewProps, TabBarProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import TabStack from './TabStack'
-import History from './History'
+import { History } from './HistoryUtils'
 
 const styles = StyleSheet.create({
   container: {
@@ -107,11 +107,10 @@ class Tabs extends React.Component<void, Props, State> {
   render(): React$Element<any> {
     return (
       <History>
-        {({ history, location }) => (
+        {history => (
           <TabStack
             {...this.props}
             history={history}
-            location={location}
             style={styles.container}
             render={(props) => {
               const ownProps = { ...this.props, ...props }

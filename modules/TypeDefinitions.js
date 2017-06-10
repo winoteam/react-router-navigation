@@ -49,10 +49,10 @@ export type NavBarProps = {
 export type NavigationProps =
   & NavBarProps
   & {
-  cardStyle?: StyleSheet,
-  onTransitionStart?: Function,
-  onTransitionEnd?: Function,
-}
+    cardStyle?: StyleSheet,
+    onTransitionStart?: Function,
+    onTransitionEnd?: Function,
+  }
 
 export type CardProps =
   & RouteProps

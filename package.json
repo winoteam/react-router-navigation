@@ -1,7 +1,7 @@
 {
   "name": "react-router-navigation",
   "description": "A complete navigation library for React Native",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc",
   "main": "index.js",
   "keywords": [
     "react-native",
@@ -32,9 +32,6 @@
     "react-router-native": "4.1.x"
   },
   "dependencies": {
-    "lodash.functions": "^4.3.0",
-    "lodash.isequal": "^4.5.0",
-    "lodash.omit": "^4.5.0",
     "react-native-tab-view": "0.0.65",
     "react-navigation": "1.0.0-beta.11"
   },
