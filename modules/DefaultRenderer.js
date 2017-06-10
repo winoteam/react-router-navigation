@@ -62,27 +62,47 @@ class DefaultRenderer extends React.Component<void, Props, void> {
     })
   }
 
-  renderView = (ownProps: SceneRendererProps): React$Element<any> => (
-    <CardStack
-      {...ownProps}
-      cardStyle={this.props.cardStyle}
-      navigationState={this.props.navigationState}
-      router={{
-        getScreenOptions: navigationScreen => this.getScreenOptions(navigationScreen, ownProps),
-        getComponentForRouteName: routeName => this.getSceenComponent(routeName, ownProps),
-      }}
-      navigation={{
-        goBack: this.props.onNavigateBack,
-        state: this.props.navigationState,
-        dispatch: (action) => {
-          if (action.type === 'Navigation/BACK') {
-            this.props.onNavigateBack()
-          }
-          return false
-        },
-      }}
-    />
-  )
+  renderView = (ownProps: SceneRendererProps): React$Element<any> => {
+    // Filter scenes
+    // Fix > https://github.com/LeoLeBras/react-router-navigation/issues/23
+    const scenes = ownProps.scenes.reduce((acc, scene) => {
+      if (acc.find(({ index }) => scene.index === index)) {
+        const indexOf = acc.findIndex(({ index }) => scene.index === index)
+        return [
+          ...acc.slice(0, indexOf),
+          scene,
+        ]
+      }
+      return [...acc, scene]
+    }, [])
+    // Return <ReactNavigation.CardStack />
+    return (
+      <CardStack
+        {...ownProps}
+        scenes={scenes}
+        cardStyle={this.props.cardStyle}
+        navigationState={this.props.navigationState}
+        router={{
+          getScreenOptions: (navigationScreen) => {
+            return this.getScreenOptions(navigationScreen, { ...ownProps, scenes })
+          },
+          getComponentForRouteName: (routeName) => {
+            return this.getSceenComponent(routeName, { ...ownProps, scenes })
+          },
+        }}
+        navigation={{
+          goBack: this.props.onNavigateBack,
+          state: this.props.navigationState,
+          dispatch: (action) => {
+            if (action.type === 'Navigation/BACK') {
+              this.props.onNavigateBack()
+            }
+            return false
+          },
+        }}
+      />
+    )
+  }
 
   render(): React$Element<any> {
     const { navigationState } = this.props
