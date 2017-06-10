@@ -39,7 +39,6 @@ class NavBar extends React.Component<void, Props, void> {
     // Return default <BackButton /> component
     return (
       <HeaderBackButton
-        {...sceneProps}
         title={previousTitle}
         tintColor={sceneProps.backButtonTintColor}
         onPress={sceneProps.onNavigateBack}

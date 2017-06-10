@@ -31,7 +31,7 @@ class SceneView extends React.Component<void, Props, State> {
     this.state = { match, location }
   }
 
-  componentDidMount(): void {
+  componentWillMount(): void {
     // Listen history events
     const { history } = this.props
     this.unlisten = history.listen(this.onListenHistory)
