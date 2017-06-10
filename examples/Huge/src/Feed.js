@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Navigation, Card } from 'react-router-navigation'
 import type { Match } from 'react-router'
 import HeaderTitle from 'react-navigation/src/views/HeaderTitle'
@@ -31,41 +31,43 @@ class Feed extends Component<void, Props, void> {
   props: Props
   listView: List
 
+  shouldComponentUpdate(): boolean {
+    return false
+  }
+
   render(): React$Element<any> {
     const { match: { url } } = this.props
     return (
-      <View style={styles.container}>
-        <Navigation
-          navBarStyle={styles.navBar}
-          titleStyle={styles.title}
-          backButtonTintColor="white"
-        >
-          <Card
-            exact
-            path={url}
-            render={props => (
-              <List
-                ref={(c) => {
-                  this.listView = c
-                }}
-                {...props}
-              />
-            )}
-            title="Feed"
-          />
-          <Card
-            path={`${url}/article/:id`}
-            component={Article}
-            title="Item"
-            backButtonTitle="Back"
-            renderTitle={({ title, match }) => (
-              <HeaderTitle style={styles.title}>
-                {title} {match && match.params.id}
-              </HeaderTitle>
-            )}
-          />
-        </Navigation>
-      </View>
+      <Navigation
+        navBarStyle={styles.navBar}
+        titleStyle={styles.title}
+        backButtonTintColor="white"
+      >
+        <Card
+          exact
+          path={url}
+          render={props => (
+            <List
+              ref={(c) => {
+                this.listView = c
+              }}
+              {...props}
+            />
+          )}
+          title="Feed"
+        />
+        <Card
+          path={`${url}/article/:id`}
+          component={Article}
+          title="Item"
+          backButtonTitle="Back"
+          renderTitle={({ title, match }) => (
+            <HeaderTitle style={styles.title}>
+              {title} {match && match.params.id}
+            </HeaderTitle>
+          )}
+        />
+      </Navigation>
     )
   }
 

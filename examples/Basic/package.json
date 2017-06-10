@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
 	"name": "Basic",
 	"version": "0.0.1",
 	"private": true,
@@ -11,18 +10,6 @@
 		"react": "16.0.0-alpha.6",
 		"react-native": "0.44.0",
 		"react-router": "4.1.1",
-=======
-  "name": "Basic",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
-  },
-  "dependencies": {
-    "react": "^15.4.1",
-    "react-native": "^0.41.1",
-    "react-router": "4.1.1",
->>>>>>> master
     "react-router-native": "4.1.1",
     "react-router-navigation": "file:./../../"
 	},
