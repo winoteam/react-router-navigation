@@ -88,11 +88,14 @@ class App extends Component {
                       style={styles.button}
                       onPress={() => {
                         this.setState(prevState => ({
+                          navigation: {
+                            ...prevState.navigation,
+                            barStyle: 'light-content',
+                          },
                           card: {
                             ...prevState.card,
                             navBarStyle: { backgroundColor: SECONDARY_COLOR },
                             titleStyle: { color: 'white' },
-                            barStyle: 'light-content',
                             backButtonTintColor: 'white',
                           },
                         }))

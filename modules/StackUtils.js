@@ -124,5 +124,16 @@ export const renderSubView = (
     (scene && scene.route) || route || routes[index],
   )
   if (!item) return null
-  return render({ ...props, ...item }, props)
+  return render({
+    ...Object.keys(props).reduce((acc, key) => {
+      const value = props[key]
+      if (!value) return acc
+      return { ...acc, [key]: value }
+    }, {}),
+    ...Object.keys(item).reduce((acc, key) => {
+      const value = item[key]
+      if (!value) return acc
+      return { ...acc, [key]: value }
+    }, {}),
+  }, props)
 }
