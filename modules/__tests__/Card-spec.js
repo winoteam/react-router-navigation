@@ -23,24 +23,3 @@ it('<Card /> renders correctly', () => {
   const tree = component.toJSON()
   expect(tree).toMatchSnapshot()
 })
-
-it('<Card /> renders correctly with staticMatch prop when route doesn\'t match', () => {
-  const history = createHistory({
-    initialEntries: ['/foo/1'],
-  })
-  const component = renderer.create(
-    <Router history={history}>
-      <Card
-        path="/foo/:id"
-        render={({ staticMatch: { params } }) => (
-          <Text>{params.id}</Text>
-        )}
-      />
-    </Router>,
-  )
-  let tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-  history.push('/bar')
-  tree = component.toJSON()
-  expect(tree).toMatchSnapshot()
-})

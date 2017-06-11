@@ -46,6 +46,7 @@ const App = () => (
 * **onTransitionStart** ```?Function``` function invoked when the card transition animation is about to start
 * **onTransitionEnd** ```?Function``` function invoked once the card transition animation completes
 * **cardStyle** ```?StyleSheet``` override style for the card component
+* **configureTransition** ```?Function``` function which customize animation
 
 #### ```<Card />``` props
 * [```... <Route />``` props](https://reacttraining.com/react-router/native/api/Route)

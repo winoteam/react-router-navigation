@@ -1,7 +1,7 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
 
-import { Children, cloneElement } from 'react'
+import React from 'react'
 import { matchPath } from 'react-router'
 import type { Location } from 'react-router'
 import type { Route } from './TypeDefinitions'
@@ -13,8 +13,9 @@ import type { Route } from './TypeDefinitions'
 // eslint-disable-next-line
 export const build = <Item>(
   children: Array<React$Element<Item>>,
+  oldBuild?: Array<Item & { key: string }>,
 ): Array<Item & { key: string }> => {
-  return Children.toArray(children).reduce((stack, child) => {
+  return React.Children.toArray(children).reduce((stack, child, index) => {
     const item = Object.keys(child.props).reduce((props, key) => {
       if (key === 'path') {
         return {
@@ -25,7 +26,9 @@ export const build = <Item>(
       } else if (key === 'render' || key === 'component' || key === 'children') {
         return {
           ...props,
-          [key]: () => cloneElement(child),
+          [key]: oldBuild
+            ? oldBuild[index][key]
+            : () => React.cloneElement(child),
         }
       }
       return {
@@ -86,7 +89,7 @@ export const get = <Item>(items: Array<Item>, route: Route): ?Item => ({
  * Generate unique key
  */
 export const createKey = (route: Route): string => {
-  return `${route.key}@@${Math.random().toString(10)}`
+  return `${route.key}@@${Math.random().toString(10).slice(1)}`
 }
 
 
@@ -121,5 +124,16 @@ export const renderSubView = (
     (scene && scene.route) || route || routes[index],
   )
   if (!item) return null
-  return render({ ...props, ...item }, props)
+  return render({
+    ...Object.keys(props).reduce((acc, key) => {
+      const value = props[key]
+      if (value === undefined) return acc
+      return { ...acc, [key]: value }
+    }, {}),
+    ...Object.keys(item).reduce((acc, key) => {
+      const value = item[key]
+      if (value === undefined) return acc
+      return { ...acc, [key]: value }
+    }, {}),
+  }, props)
 }

@@ -1,12 +1,12 @@
 /* @flow */
 /* eslint no-use-before-define: 0 */
 
-import type { ContextRouter, Match } from 'react-router'
+import type { ContextRouter } from 'react-router'
+import type { NavigationTransitionProps, NavigationTransitionSpec } from 'react-navigation/src/TypeDefinition'
 
 export type Route = {
   key: string,
   routeName: string,
-  match: ?Match,
 }
 
 export type NavigationState<OwnRoute> = {
@@ -47,22 +47,21 @@ export type NavBarProps = {
   renderRightButton?: (props: CardSubViewProps) => React$Element<any>,
 }
 
-export type NavigationCardProps = {
-  cardStyle?: StyleSheet,
-}
-
 export type NavigationProps =
   & NavBarProps
-  & NavigationCardProps
   & {
-  onTransitionStart?: Function,
-  onTransitionEnd?: Function,
-}
+    cardStyle?: StyleSheet,
+    configureTransition?: (
+      transitionProps: NavigationTransitionProps,
+      prevTransitionProps: ?NavigationTransitionProps
+    ) => NavigationTransitionSpec,
+    onTransitionStart?: Function,
+    onTransitionEnd?: Function,
+  }
 
 export type CardProps =
   & RouteProps
   & NavBarProps
-  & NavigationCardProps
 
 export type Card =
   & CardProps

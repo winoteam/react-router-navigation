@@ -1,19 +1,19 @@
 /* @flow */
-/* eslint no-duplicate-imports: 0 */
 /* eslint react/no-children-prop: 0 */
 
-import React, { Component, createElement } from 'react'
+import React from 'react'
 import type { NavigationProps, CardSubViewProps } from './TypeDefinitions'
 import CardStack from './CardStack'
 import DefaultRenderer from './DefaultRenderer'
 import NavBar from './NavBar'
+import { History } from './HistoryUtils'
 import * as StackUtils from './StackUtils'
 
 type Props = NavigationProps & {
   children?: Array<React$Element<any>>,
 }
 
-class Navigation extends Component<void, Props, void> {
+class Navigation extends React.Component<void, Props, void> {
 
   props: Props
 
@@ -28,29 +28,34 @@ class Navigation extends Component<void, Props, void> {
     return <NavBar {...props} />
   }
 
-  renderScene = (sceneProps: CardSubViewProps): ?React$Element<any> => {
+  renderSceneComponent = (sceneProps: CardSubViewProps): ?ReactClass<any> => {
     const { render, children, component } = sceneProps
-    if (render) return render(sceneProps)
-    else if (children && typeof children === 'function') return children(sceneProps)
-    else if (component) return createElement(component, sceneProps)
+    if (render) return render
+    else if (children && typeof children === 'function') return children
+    else if (component) return component
     return null
   }
 
   render(): React$Element<any> {
     const { children, ...props } = this.props
     return (
-      <CardStack
-        {...props}
-        children={children}
-        render={ownProps => (
-          <DefaultRenderer
+      <History>
+        {history => (
+          <CardStack
             {...props}
-            {...ownProps}
-            renderScene={StackUtils.renderSubView(this.renderScene)}
-            renderHeader={StackUtils.renderSubView(this.renderHeader)}
+            history={history}
+            children={children}
+            render={ownProps => (
+              <DefaultRenderer
+                {...props}
+                {...ownProps}
+                renderSceneComponent={StackUtils.renderSubView(this.renderSceneComponent)}
+                renderHeader={StackUtils.renderSubView(this.renderHeader)}
+              />
+            )}
           />
         )}
-      />
+      </History>
     )
   }
 

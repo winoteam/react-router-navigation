@@ -5,15 +5,3 @@ exports[`<Card /> renders correctly 1`] = `
   1
 </Text>
 `;
-
-exports[`<Card /> renders correctly with staticMatch prop when route doesn't match 1`] = `
-<Text>
-  1
-</Text>
-`;
-
-exports[`<Card /> renders correctly with staticMatch prop when route doesn't match 2`] = `
-<Text>
-  1
-</Text>
-`;

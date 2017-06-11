@@ -1,16 +1,22 @@
 /* @flow */
+/* eslint  no-nested-ternary: 0 */
 
-import React, { Component, createElement } from 'react'
-import { StyleSheet, Dimensions } from 'react-native'
+import React from 'react'
+import { StyleSheet, Dimensions, View } from 'react-native'
 import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
 import type { TabProps, TabBarProps, TabSubViewProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import TabBarBottom from './TabBarBottom'
+import { History } from './HistoryUtils'
 import TabStack from './TabStack'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scene: {
+    flex: 1,
+    overflow: 'hidden',
   },
 })
 
@@ -28,7 +34,7 @@ type State = {
   key: string,
 }
 
-class BottomNavigation extends Component<DefaultProps, Props, State> {
+class BottomNavigation extends React.Component<DefaultProps, Props, State> {
 
   props: Props
 
@@ -54,7 +60,7 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
     if (sceneProps.hideTabBar) return null
     // Custom tab bar
     if (sceneProps.renderTabBar) {
-      return createElement(
+      return React.createElement(
         sceneProps.renderTabBar,
         sceneProps,
       )
@@ -70,35 +76,48 @@ class BottomNavigation extends Component<DefaultProps, Props, State> {
 
   renderScene = (sceneProps: TabSubViewProps): ?React$Element<any> => {
     const { render, children, component } = sceneProps
-    if (render) return render(sceneProps)
-    else if (children && typeof children === 'function') return children(sceneProps)
-    else if (component) return createElement(component, sceneProps)
-    return null
+    const Scene = component ? ( // component prop gets first priority
+      React.createElement(component, sceneProps)
+    ) : render ? ( // render prop is next
+      render(sceneProps)
+    ) : (children && typeof children === 'function') ? ( // then children as func
+      children(sceneProps)
+    ) : null
+    return (
+      <View style={styles.scene}>
+        {Scene}
+      </View>
+    )
   }
 
   render(): React$Element<any> {
     return (
-      <TabStack
-        {...this.props}
-        style={styles.container}
-        forceSync
-        render={(props) => {
-          const ownProps = { ...this.props, ...props }
-          return (
-            <TabViewAnimated
-              {...props}
-              key={`transitioner_${this.state.key}`}
-              style={[styles.container, this.props.style]}
-              initialLayout={Dimensions.get('window')}
-              lazy={this.props.lazy}
-              configureTransition={() => null}
-              renderPager={StackUtils.renderSubView(this.renderPager, ownProps)}
-              renderFooter={StackUtils.renderSubView(this.renderNavigationBar, ownProps)}
-              renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
-            />
-          )
-        }}
-      />
+      <History>
+        {history => (
+          <TabStack
+            {...this.props}
+            history={history}
+            style={styles.container}
+            forceSync
+            render={(props) => {
+              const ownProps = { ...this.props, ...props }
+              return (
+                <TabViewAnimated
+                  {...props}
+                  key={`transitioner_${this.state.key}`}
+                  style={[styles.container, this.props.style]}
+                  initialLayout={Dimensions.get('window')}
+                  lazy={this.props.lazy}
+                  animationEnabled={false}
+                  renderPager={StackUtils.renderSubView(this.renderPager, ownProps)}
+                  renderFooter={StackUtils.renderSubView(this.renderNavigationBar, ownProps)}
+                  renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
+                />
+              )
+            }}
+          />
+        )}
+      </History>
     )
   }
 

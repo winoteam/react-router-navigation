@@ -1,12 +1,13 @@
 /* @flow */
 
-import React, { Component, createElement } from 'react'
+import React from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
 import { matchPath } from 'react-router'
 import type { TabSubViewProps, TabBarProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import TabStack from './TabStack'
+import { History } from './HistoryUtils'
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +28,7 @@ type State = {
   key: string,
 }
 
-class Tabs extends Component<void, Props, State> {
+class Tabs extends React.Component<void, Props, State> {
 
   props: Props
 
@@ -52,7 +53,7 @@ class Tabs extends Component<void, Props, State> {
     if (sceneProps.hideTabBar) return null
     // Custom tab bar
     if (sceneProps.renderTabBar) {
-      return createElement(
+      return React.createElement(
         sceneProps.renderTabBar,
         sceneProps,
       )
@@ -99,29 +100,34 @@ class Tabs extends Component<void, Props, State> {
     const { render, children, component } = sceneProps
     if (render) return render(sceneProps)
     else if (children && typeof children === 'function') return children(sceneProps)
-    else if (component) return createElement(component, sceneProps)
+    else if (component) return React.createElement(component, sceneProps)
     return null
   }
 
   render(): React$Element<any> {
     return (
-      <TabStack
-        {...this.props}
-        style={styles.container}
-        render={(props) => {
-          const ownProps = { ...this.props, ...props }
-          return (
-            <TabViewAnimated
-              {...ownProps}
-              style={styles.container}
-              initialLayout={Dimensions.get('window')}
-              renderHeader={StackUtils.renderSubView(this.renderHeader, ownProps)}
-              renderFooter={StackUtils.renderSubView(this.renderFooter, ownProps)}
-              renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
-            />
-          )
-        }}
-      />
+      <History>
+        {history => (
+          <TabStack
+            {...this.props}
+            history={history}
+            style={styles.container}
+            render={(props) => {
+              const ownProps = { ...this.props, ...props }
+              return (
+                <TabViewAnimated
+                  {...ownProps}
+                  style={styles.container}
+                  initialLayout={Dimensions.get('window')}
+                  renderHeader={StackUtils.renderSubView(this.renderHeader, ownProps)}
+                  renderFooter={StackUtils.renderSubView(this.renderFooter, ownProps)}
+                  renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
+                />
+              )
+            }}
+          />
+        )}
+      </History>
     )
   }
 

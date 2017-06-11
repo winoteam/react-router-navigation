@@ -12,26 +12,6 @@ exports[`<TabStack /> re-renders correctly when "replace" action is called 2`] =
 </Text>
 `;
 
-exports[`<TabStack /> re-renders correctly when onRequestChangeTab() method is called 1`] = `
-<TouchableOpacity
-  onPress={[Function]}
->
-  <Text>
-    Index
-  </Text>
-</TouchableOpacity>
-`;
-
-exports[`<TabStack /> re-renders correctly when onRequestChangeTab() method is called 2`] = `
-<TouchableOpacity
-  onPress={[Function]}
->
-  <Text>
-    Goodbye
-  </Text>
-</TouchableOpacity>
-`;
-
 exports[`<TabStack /> renders correctly 1`] = `
 <Text>
   Index

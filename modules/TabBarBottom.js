@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, Platform, Text } from 'react-native'
 import { TabBar } from 'react-native-tab-view'
 import type { TabSubViewProps } from './TypeDefinitions'
@@ -50,20 +50,13 @@ type DefaultProps = {
   tabActiveTintColor: string,
 }
 
-class TabBarBottom extends Component<DefaultProps, Props, void> {
+class TabBarBottom extends React.Component<DefaultProps, Props, void> {
 
   props: Props
 
   static defaultProps: DefaultProps = {
     tabTintColor: '#929292',
     tabActiveTintColor: '#3478f6',
-  }
-
-  // Align tab icon & label
-  alignTabBarContent = (): Object => {
-    const { label, renderTabIcon } = this.props
-    if (label && renderTabIcon) return { justifyContent: 'flex-end' }
-    return { justifyContent: 'center' }
   }
 
   // Disable indicator
@@ -106,10 +99,15 @@ class TabBarBottom extends Component<DefaultProps, Props, void> {
   }
 
   render(): React$Element<any> {
+    const { label, renderTabIcon } = this.props
     return ( // $FlowFixMe
       <TabBar
         {...this.props}
-        style={[styles.tabBar, this.alignTabBarContent, this.props.sceneProps.tabBarStyle]}
+        style={[
+          styles.tabBar,
+          { justifyContent: (label && renderTabIcon) ? 'flex-end' : 'center' },
+          this.props.sceneProps.tabBarStyle,
+        ]}
         tabStyle={[styles.tab, this.props.sceneProps.tabStyle]}
         jumpToIndex={this.props.onRequestChangeTab}
         onRequestChangeTab={() => null}
