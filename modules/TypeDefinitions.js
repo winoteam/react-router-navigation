@@ -2,6 +2,7 @@
 /* eslint no-use-before-define: 0 */
 
 import type { ContextRouter } from 'react-router'
+import type { NavigationTransitionProps, NavigationTransitionSpec } from 'react-navigation/src/TypeDefinition'
 
 export type Route = {
   key: string,
@@ -50,6 +51,10 @@ export type NavigationProps =
   & NavBarProps
   & {
     cardStyle?: StyleSheet,
+    configureTransition?: (
+      transitionProps: NavigationTransitionProps,
+      prevTransitionProps: ?NavigationTransitionProps
+    ) => NavigationTransitionSpec,
     onTransitionStart?: Function,
     onTransitionEnd?: Function,
   }

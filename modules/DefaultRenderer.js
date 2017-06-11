@@ -109,6 +109,7 @@ class DefaultRenderer extends React.Component<void, Props, void> {
     return (
       <Transitioner
         navigation={{ state: navigationState }}
+        configureTransition={this.props.configureTransition}
         onTransitionStart={this.props.onTransitionStart}
         onTransitionEnd={this.props.onTransitionEnd}
         render={this.renderView}
