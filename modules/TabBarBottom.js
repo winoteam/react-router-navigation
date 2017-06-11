@@ -59,13 +59,6 @@ class TabBarBottom extends React.Component<DefaultProps, Props, void> {
     tabActiveTintColor: '#3478f6',
   }
 
-  // Align tab icon & label
-  alignTabBarContent = (): Object => {
-    const { label, renderTabIcon } = this.props
-    if (label && renderTabIcon) return { justifyContent: 'flex-end' }
-    return { justifyContent: 'center' }
-  }
-
   // Disable indicator
   renderIndicator = (): ?React$Element<any> => {
     return null
@@ -106,10 +99,15 @@ class TabBarBottom extends React.Component<DefaultProps, Props, void> {
   }
 
   render(): React$Element<any> {
+    const { label, renderTabIcon } = this.props
     return ( // $FlowFixMe
       <TabBar
         {...this.props}
-        style={[styles.tabBar, this.alignTabBarContent, this.props.sceneProps.tabBarStyle]}
+        style={[
+          styles.tabBar,
+          { justifyContent: (label && renderTabIcon) ? 'flex-end' : 'center' },
+          this.props.sceneProps.tabBarStyle,
+        ]}
         tabStyle={[styles.tab, this.props.sceneProps.tabStyle]}
         jumpToIndex={this.props.onRequestChangeTab}
         onRequestChangeTab={() => null}
