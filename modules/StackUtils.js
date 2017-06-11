@@ -127,12 +127,12 @@ export const renderSubView = (
   return render({
     ...Object.keys(props).reduce((acc, key) => {
       const value = props[key]
-      if (!value) return acc
+      if (value === undefined) return acc
       return { ...acc, [key]: value }
     }, {}),
     ...Object.keys(item).reduce((acc, key) => {
       const value = item[key]
-      if (!value) return acc
+      if (value === undefined) return acc
       return { ...acc, [key]: value }
     }, {}),
   }, props)
