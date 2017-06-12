@@ -61,7 +61,7 @@ const App = () => (
 ```react-router-navigation``` is cross-platform. It supports all platforms that [`react-navigation`](https://github.com/react-community/react-navigation/) and[`react-native-tab-view`](https://github.com/react-native-community/react-native-tab-view) support (Android and iOS).
 
 ### Performance
-``<Navigation />`, `<Tabs />` and `<BottomNavigation />` are updated every time the parent receive new props. If your view is expensive, it's good idea move each route to a separate component and apply shouldComponentUpdate to prevent unnecessary re-renders.
+`<Navigation />`, `<Tabs />` and `<BottomNavigation />` are updated every time the parent receive new props. If your view is expensive, it's good idea move each route to a separate component and apply shouldComponentUpdate to prevent unnecessary re-renders.
 
 For example, instead of:
 ```js
@@ -77,7 +77,7 @@ const App = () => (
     />
   </Switch>
 )
-``
+```
 
 Do the following:
 ```js
@@ -117,7 +117,7 @@ class NavigationB extends React.Component {
   }
 
 }
-``
+```
 
 ## Contributing
 Want to hack on ```react-router-navigation```? Awesome! We welcome contributions from anyone and everyone. :rocket:
