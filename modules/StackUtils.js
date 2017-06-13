@@ -26,7 +26,7 @@ export const build = <Item>(
       } else if (key === 'render' || key === 'component' || key === 'children') {
         return {
           ...props,
-          [key]: oldBuild
+          [key]: oldBuild && oldBuild[index]
             ? oldBuild[index][key]
             : () => React.cloneElement(child),
         }
