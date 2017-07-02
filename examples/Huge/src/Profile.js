@@ -1,7 +1,13 @@
 /* @flow */
 
 import React from 'react'
-import { StyleSheet, Platform, View, TouchableOpacity, Text } from 'react-native'
+import {
+  StyleSheet,
+  Platform,
+  View,
+  TouchableOpacity,
+  Text,
+} from 'react-native'
 import { Link } from 'react-router-native'
 import { Tabs, Tab } from 'react-router-navigation'
 import { BRAND_COLOR_50 } from './theme'
@@ -39,7 +45,6 @@ const styles = StyleSheet.create({
 type Props = {}
 
 class Profile extends React.Component<void, Props, void> {
-
   props: Props
 
   shouldComponentUpdate(): boolean {
@@ -55,9 +60,11 @@ class Profile extends React.Component<void, Props, void> {
         <Tab
           path="/profile/likes"
           label="Likes"
-          render={() => (
+          render={() =>
             <View style={styles.scene}>
-              <Text>Current: <Text style={styles.strong}>likes</Text></Text>
+              <Text>
+                Current: <Text style={styles.strong}>likes</Text>
+              </Text>
               <Link
                 style={styles.link}
                 replace
@@ -66,15 +73,16 @@ class Profile extends React.Component<void, Props, void> {
               >
                 <Text style={styles.span}>Go to bookmarks</Text>
               </Link>
-            </View>
-          )}
+            </View>}
         />
         <Tab
           path="/profile/bookmarks"
           label="Bookmarks"
-          render={() => (
+          render={() =>
             <View style={styles.scene}>
-              <Text>Current: <Text style={styles.strong}>bookmarks</Text></Text>
+              <Text>
+                Current: <Text style={styles.strong}>bookmarks</Text>
+              </Text>
               <Link
                 style={styles.link}
                 replace
@@ -83,13 +91,11 @@ class Profile extends React.Component<void, Props, void> {
               >
                 <Text style={styles.span}>Go to likes</Text>
               </Link>
-            </View>
-          )}
+            </View>}
         />
       </Tabs>
     )
   }
-
 }
 
 export default Profile

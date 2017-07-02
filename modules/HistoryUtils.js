@@ -10,12 +10,12 @@ type Props = ContextRouter & {
   children?: Function,
 }
 
-export const History = enhancer(
-  ({ children, history }: Props): ?React$Element<any> => {
-    if (!children) return null
-    return children(history)
-  },
-)
+export const History = enhancer(({ children, history }: Props): ?React$Element<
+  any,
+> => {
+  if (!children) return null
+  return children(history)
+})
 
 export const runHistoryListenner = (
   history: RouterHistory,

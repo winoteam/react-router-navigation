@@ -27,7 +27,6 @@ type Props = {
 
 /* FIX > https://github.com/facebook/react/issues/4936 */
 class Feed extends Component<void, Props, void> {
-
   props: Props
   listView: List
 
@@ -46,14 +45,13 @@ class Feed extends Component<void, Props, void> {
         <Card
           exact
           path={url}
-          render={props => (
+          render={props =>
             <List
-              ref={(c) => {
+              ref={c => {
                 this.listView = c
               }}
               {...props}
-            />
-          )}
+            />}
           title="Feed"
         />
         <Card
@@ -61,16 +59,14 @@ class Feed extends Component<void, Props, void> {
           component={Article}
           title="Item"
           backButtonTitle="Back"
-          renderTitle={({ title, match }) => (
+          renderTitle={({ title, match }) =>
             <HeaderTitle style={styles.title}>
               {title} {match && match.params.id}
-            </HeaderTitle>
-          )}
+            </HeaderTitle>}
         />
       </Navigation>
     )
   }
-
 }
 
 export default Feed

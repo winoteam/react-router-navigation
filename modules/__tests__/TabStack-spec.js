@@ -13,13 +13,12 @@ it('<TabStack /> renders correctly', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route>
-        {routeProps => (
+        {routeProps =>
           <TabStack {...routeProps} render={TabView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
             <Route path="/goodbye" render={componentFactory('Goodbye')} />
-          </TabStack>
-        )}
+          </TabStack>}
       </Route>
     </Router>,
   )
@@ -32,13 +31,12 @@ it('<TabStack /> renders correctly with initialEntries prop ', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route>
-        {routeProps => (
+        {routeProps =>
           <TabStack {...routeProps} render={TabView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
             <Route path="/goodbye" render={componentFactory('Goodbye')} />
-          </TabStack>
-        )}
+          </TabStack>}
       </Route>
     </Router>,
   )
@@ -51,13 +49,12 @@ it('<TabStack /> re-renders correctly when "replace" action is called', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route>
-        {routeProps => (
+        {routeProps =>
           <TabStack {...routeProps} render={TabView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
             <Route path="/goodbye" render={componentFactory('Goodbye')} />
-          </TabStack>
-        )}
+          </TabStack>}
       </Route>
     </Router>,
   )

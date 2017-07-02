@@ -29,21 +29,13 @@ jest.mock('TouchableOpacity', () => {
   const React = require('react')
 
   const TouchableOpacity = ({ children, onPress }) => {
-    return React.createElement(
-      'TouchableOpacity',
-      { onPress },
-      children,
-    )
+    return React.createElement('TouchableOpacity', { onPress }, children)
   }
   TouchableOpacity.propTypes = RealComponent.propTypes
   return TouchableOpacity
 })
 
-jest.mock('react-navigation/src/views/Card', () => (props) => {
+jest.mock('react-navigation/src/views/Card', () => props => {
   const React = require('react')
-  return React.createElement(
-    'Card',
-    {},
-    props.children,
-  )
+  return React.createElement('Card', {}, props.children)
 })

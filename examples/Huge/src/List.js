@@ -30,7 +30,6 @@ type State = {
 }
 
 class List extends React.Component<void, Props, State> {
-
   props: Props
   state: State
 
@@ -43,9 +42,7 @@ class List extends React.Component<void, Props, State> {
     })
     this.state = {
       dataSource: ds.cloneWithRows(
-        Array
-          .from({ length: 100 })
-          .map((a, i) => `Item ${i + 1}`),
+        Array.from({ length: 100 }).map((a, i) => `Item ${i + 1}`),
       ),
     }
   }
@@ -58,26 +55,22 @@ class List extends React.Component<void, Props, State> {
     const { match: { url } } = this.props
     return (
       <ListView
-        ref={(c) => {
+        ref={c => {
           this.listView = c
         }}
         style={styles.container}
         dataSource={this.state.dataSource}
-        renderRow={rowData => (
+        renderRow={rowData =>
           <Link to={`${url}/article/${rowData.slice(5)}`}>
-            <Text style={styles.row}>{rowData}</Text>
-          </Link>
-        )}
-        renderSeparator={(sectionIndex, rowIndex) => (
-          <View
-            key={`${sectionIndex}-${rowIndex}`}
-            style={styles.separator}
-          />
-        )}
+            <Text style={styles.row}>
+              {rowData}
+            </Text>
+          </Link>}
+        renderSeparator={(sectionIndex, rowIndex) =>
+          <View key={`${sectionIndex}-${rowIndex}`} style={styles.separator} />}
       />
     )
   }
-
 }
 
 export default List

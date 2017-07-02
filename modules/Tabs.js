@@ -29,7 +29,6 @@ type State = {
 }
 
 class Tabs extends React.Component<void, Props, State> {
-
   props: Props
 
   state: State = { key: Math.random().toString(10) }
@@ -48,15 +47,15 @@ class Tabs extends React.Component<void, Props, State> {
     return null
   }
 
-  renderTabBar = (sceneProps: TabSubViewProps, props: TabSubViewProps): ?React$Element<any> => {
+  renderTabBar = (
+    sceneProps: TabSubViewProps,
+    props: TabSubViewProps,
+  ): ?React$Element<any> => {
     // Hide tab bar
     if (sceneProps.hideTabBar) return null
     // Custom tab bar
     if (sceneProps.renderTabBar) {
-      return React.createElement(
-        sceneProps.renderTabBar,
-        sceneProps,
-      )
+      return React.createElement(sceneProps.renderTabBar, sceneProps)
     }
     // Render default tab bar
     return (
@@ -67,9 +66,9 @@ class Tabs extends React.Component<void, Props, State> {
         tabStyle={sceneProps.tabStyle}
         indicatorStyle={sceneProps.tabBarIndicatorStyle}
         onRequestChangeTab={(i: number) => i}
-        onTabPress={(route) => {
+        onTabPress={route => {
           const { tabs, onRequestChangeTab } = sceneProps
-          const index = tabs.findIndex((tab) => {
+          const index = tabs.findIndex(tab => {
             return matchPath(route.routeName, tab)
           })
           if (index) onRequestChangeTab(index)
@@ -84,8 +83,8 @@ class Tabs extends React.Component<void, Props, State> {
               style={[
                 styles.tabLabel,
                 labelProps.labelStyle,
-                (!focused && tabTintColor) && { color: tabTintColor },
-                (focused && tabActiveTintColor) && { color: tabActiveTintColor },
+                !focused && tabTintColor && { color: tabTintColor },
+                focused && tabActiveTintColor && { color: tabActiveTintColor },
               ]}
             >
               {labelProps && labelProps.label}
@@ -99,7 +98,8 @@ class Tabs extends React.Component<void, Props, State> {
   renderScene = (sceneProps: TabSubViewProps): ?React$Element<any> => {
     const { render, children, component } = sceneProps
     if (render) return render(sceneProps)
-    else if (children && typeof children === 'function') return children(sceneProps)
+    else if (children && typeof children === 'function')
+      return children(sceneProps)
     else if (component) return React.createElement(component, sceneProps)
     return null
   }
@@ -107,30 +107,37 @@ class Tabs extends React.Component<void, Props, State> {
   render(): React$Element<any> {
     return (
       <History>
-        {history => (
+        {history =>
           <TabStack
             {...this.props}
             history={history}
             style={styles.container}
-            render={(props) => {
+            render={props => {
               const ownProps = { ...this.props, ...props }
               return (
                 <TabViewAnimated
                   {...ownProps}
                   style={styles.container}
                   initialLayout={Dimensions.get('window')}
-                  renderHeader={StackUtils.renderSubView(this.renderHeader, ownProps)}
-                  renderFooter={StackUtils.renderSubView(this.renderFooter, ownProps)}
-                  renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
+                  renderHeader={StackUtils.renderSubView(
+                    this.renderHeader,
+                    ownProps,
+                  )}
+                  renderFooter={StackUtils.renderSubView(
+                    this.renderFooter,
+                    ownProps,
+                  )}
+                  renderScene={StackUtils.renderSubView(
+                    this.renderScene,
+                    ownProps,
+                  )}
                 />
               )
             }}
-          />
-        )}
+          />}
       </History>
     )
   }
-
 }
 
 export default Tabs

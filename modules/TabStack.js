@@ -31,7 +31,6 @@ type State = {
 }
 
 class TabStack extends React.PureComponent<DefaultProps, Props, State> {
-
   props: Props
   state: State
 
@@ -52,7 +51,7 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
     const currentRoute = StackUtils.getRoute(tabs, location)
     if (!currentRoute) throw new Error('No initial route found !')
     // Build navigation state
-    const routes = tabs.map((tab) => {
+    const routes = tabs.map(tab => {
       const route = {
         key: tab.key,
         routeName: tab.path,
@@ -62,7 +61,9 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
         key: StackUtils.createKey(route),
       }
     })
-    const index = routes.findIndex(({ routeName }) => currentRoute.routeName === routeName)
+    const index = routes.findIndex(
+      ({ routeName }) => currentRoute.routeName === routeName,
+    )
     const navigationState = { index, routes }
     const rootIndex = props.history.index || 0
     // Initialyze cached history
@@ -77,7 +78,10 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
   // Listen history events
   componentDidMount(): void {
     const { history } = this.props
-    this.unlistenHistory = HistoryUtils.runHistoryListenner(history, this.onListenHistory)
+    this.unlistenHistory = HistoryUtils.runHistoryListenner(
+      history,
+      this.onListenHistory,
+    )
   }
 
   // Remove all listeners
@@ -94,7 +98,10 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
   }
 
   // Update navigation state
-  onListenHistory = (history: RouterHistory, nextHistory: RouterHistory): void => {
+  onListenHistory = (
+    history: RouterHistory,
+    nextHistory: RouterHistory,
+  ): void => {
     // Extract props
     const { location } = history
     const { location: nextLocation, entries, index } = nextHistory
@@ -111,7 +118,8 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
     })
     // Update navigation state
     if (
-      currentTab && nextTab &&
+      currentTab &&
+      nextTab &&
       StackUtils.shouldUpdate(currentTab, nextTab, location, nextLocation)
     ) {
       this.setState(previousState => ({
@@ -123,7 +131,10 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
     }
     // Save history
     if (
-      nextRoute && entries && index !== undefined && entries[index] &&
+      nextRoute &&
+      entries &&
+      index !== undefined &&
+      entries[index] &&
       nextLocation.pathname === entries[index].pathname
     ) {
       this.state.tabsHistory[nextIndex] = entries.slice(rootIndex, index + 1)
@@ -133,7 +144,11 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
   // Callback for when the current tab changes
   onRequestChangeTab = (index: number): void => {
     if (index < 0) return
-    const { lazy, forceSync, history: { entries, index: historyIndex } } = this.props
+    const {
+      lazy,
+      forceSync,
+      history: { entries, index: historyIndex },
+    } = this.props
     const { navigationState, tabsHistory, tabs, rootIndex } = this.state
     if (index !== navigationState.index) {
       // 1) Set index directly
@@ -149,14 +164,9 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
       if (forceSync && entries) {
         // Re-build hisstory
         const newEntries = tabsHistory[index]
-          ? [
-            ...entries.slice(0, rootIndex),
-            ...tabsHistory[index],
-          ]
+          ? [...entries.slice(0, rootIndex), ...tabsHistory[index]]
           : entries.slice(0, rootIndex + 1)
-        const newIndex = tabsHistory[index]
-          ? (newEntries.length - 1)
-          : rootIndex
+        const newIndex = tabsHistory[index] ? newEntries.length - 1 : rootIndex
         // Save it
         this.props.history.entries = [...newEntries]
         this.props.history.location = { ...newEntries[newIndex] }
@@ -208,7 +218,6 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
       onRequestChangeTab: this.onRequestChangeTab,
     })
   }
-
 }
 
 export default TabStack

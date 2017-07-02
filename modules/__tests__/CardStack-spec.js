@@ -14,12 +14,11 @@ it('<CardStack /> renders correctly', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )
@@ -35,13 +34,12 @@ it('<CardStack /> renders correctly with initialIndex and initialEntries prop ',
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
             <Route path="/goodbye" render={componentFactory('Goodbye')} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )
@@ -54,12 +52,11 @@ it('<CardStack /> re-renders correctly when "push" action is called', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )
@@ -77,11 +74,10 @@ it('<CardStack /> re-renders correctly when "push" action is called with same pa
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack {...routeProps} render={CardView}>
             <Route path="/article/:id" render={componentFactory()} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )
@@ -100,12 +96,11 @@ it('<CardStack /> re-renders correctly when "goBack" action is called', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )
@@ -124,11 +119,10 @@ it('<CardStack /> re-renders correctly when "goBack" action is called with same 
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack {...routeProps} render={CardView}>
             <Route path="/article/:id" render={componentFactory()} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )
@@ -147,13 +141,12 @@ it('<CardStack /> re-renders correctly when "go" action is called', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
             <Route path="/goodbye" render={componentFactory('Goodbye')} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )
@@ -172,11 +165,10 @@ it('<CardStack /> re-renders correctly when "go" action is called with same path
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack {...routeProps} render={CardView}>
             <Route path="/article/:id" render={componentFactory('Article')} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )
@@ -195,13 +187,12 @@ it('<CardStack /> re-renders correctly when "replace" action is called', () => {
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack {...routeProps} render={CardView}>
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
             <Route path="/goodbye" render={componentFactory('Goodbye')} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )
@@ -220,19 +211,17 @@ it('<CardStack /> re-renders correctly when onNavigateBack() method is called', 
   const component = renderer.create(
     <Router history={history}>
       <Route
-        render={routeProps => (
+        render={routeProps =>
           <CardStack
             {...routeProps}
-            render={({ navigationState, onNavigateBack, cards }) => (
+            render={({ navigationState, onNavigateBack, cards }) =>
               <TouchableOpacity onPress={onNavigateBack}>
                 {CardView({ navigationState, onNavigateBack, cards })}
-              </TouchableOpacity>
-            )}
+              </TouchableOpacity>}
           >
             <Route exact path="/" render={componentFactory('Index')} />
             <Route path="/hello" render={componentFactory('Hello')} />
-          </CardStack>
-        )}
+          </CardStack>}
       />
     </Router>,
   )

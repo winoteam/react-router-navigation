@@ -7,7 +7,11 @@ import { BackHandler } from 'react-native'
 import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
 import type { RouterHistory, Location } from 'react-router'
-import type { CardsRendererProps, NavigationState, Card } from './TypeDefinitions'
+import type {
+  CardsRendererProps,
+  NavigationState,
+  Card,
+} from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import * as HistoryUtils from './HistoryUtils'
 
@@ -16,23 +20,23 @@ const buildNavigationState = (
   entries: Array<Location>,
   cards: Array<Card>,
 ): NavigationState<{}> => {
-  return entries.reduce((state, entry) => {
-    const card = cards.find(({ path, exact, strict }) => {
-      return matchPath(entry.pathname, { path, exact, strict })
-    })
-    if (!card || !card.path) return { index: -1, routes: [] }
-    const route = StackUtils.getRoute(cards, entry)
-    if (!route) return { index: -1, routes: [] }
-    return {
-      index: matchPath(location.pathname, card)
-        ? state.routes.length
-        : state.index,
-      routes: [
-        ...state.routes,
-        route,
-      ],
-    }
-  }, { index: -1, routes: [] })
+  return entries.reduce(
+    (state, entry) => {
+      const card = cards.find(({ path, exact, strict }) => {
+        return matchPath(entry.pathname, { path, exact, strict })
+      })
+      if (!card || !card.path) return { index: -1, routes: [] }
+      const route = StackUtils.getRoute(cards, entry)
+      if (!route) return { index: -1, routes: [] }
+      return {
+        index: matchPath(location.pathname, card)
+          ? state.routes.length
+          : state.index,
+        routes: [...state.routes, route],
+      }
+    },
+    { index: -1, routes: [] },
+  )
 }
 
 type State = {
@@ -48,7 +52,6 @@ type Props = {
 }
 
 class CardStack extends React.PureComponent<void, Props, State> {
-
   props: Props
   state: State
 
@@ -61,7 +64,8 @@ class CardStack extends React.PureComponent<void, Props, State> {
     const cards = children && StackUtils.build(children)
     // CardStack can be mount ?
     if (!cards) throw new Error('No initial route found')
-    if (!entries || index === undefined) throw new Error('No history entries found')
+    if (!entries || index === undefined)
+      throw new Error('No history entries found')
     // Build navigation state
     const navigationState = buildNavigationState(location, entries, cards)
     // Set key
@@ -73,7 +77,10 @@ class CardStack extends React.PureComponent<void, Props, State> {
   // Listen hardware BackHandler event + history event
   componentDidMount(): void {
     const { history } = this.props
-    this.unlistenHistory = HistoryUtils.runHistoryListenner(history, this.onListenHistory)
+    this.unlistenHistory = HistoryUtils.runHistoryListenner(
+      history,
+      this.onListenHistory,
+    )
     BackHandler.addEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
@@ -96,8 +103,12 @@ class CardStack extends React.PureComponent<void, Props, State> {
     if (entries && card && !card.path) {
       // Build cards from scratch
       const newCards = children && StackUtils.build(children)
-      if (!newCards) throw new Error('Can\'t rebuild cards')
-      const newNavigationState = buildNavigationState(location, entries, newCards)
+      if (!newCards) throw new Error("Can't rebuild cards")
+      const newNavigationState = buildNavigationState(
+        location,
+        entries,
+        newCards,
+      )
       // Update state + rebuild navigation state
       this.setState(prevState => ({
         key: prevState.key + 1,
@@ -111,7 +122,10 @@ class CardStack extends React.PureComponent<void, Props, State> {
   }
 
   // Update navigation state
-  onListenHistory = (history: RouterHistory, nextHistory: RouterHistory): void => {
+  onListenHistory = (
+    history: RouterHistory,
+    nextHistory: RouterHistory,
+  ): void => {
     const { location, entries, index } = history
     const { location: nextLocation, action, index: nextIndex } = nextHistory
     const { navigationState, cards } = this.state
@@ -124,17 +138,18 @@ class CardStack extends React.PureComponent<void, Props, State> {
     const nextCard = cards.find(({ key }) => key === nextRoute.routeName)
     // Local state must be updated ?
     if (
-      currentCard && nextCard &&
+      currentCard &&
+      nextCard &&
       StackUtils.shouldUpdate(currentCard, nextCard, location, nextLocation)
     ) {
       const key = StackUtils.createKey(nextRoute)
       switch (action) {
         case 'PUSH': {
           this.setState(state => ({
-            navigationState: StateUtils.push(
-              state.navigationState,
-              { ...nextRoute, key },
-            ),
+            navigationState: StateUtils.push(state.navigationState, {
+              ...nextRoute,
+              key,
+            }),
           }))
           break
         }
@@ -153,7 +168,7 @@ class CardStack extends React.PureComponent<void, Props, State> {
                 state.navigationState,
                 state.navigationState.routes.slice(
                   0,
-                  (state.navigationState.index - n) + 1,
+                  state.navigationState.index - n + 1,
                 ),
                 state.navigationState.index - n,
               ),
@@ -197,7 +212,6 @@ class CardStack extends React.PureComponent<void, Props, State> {
       onNavigateBack: this.onNavigateBack,
     })
   }
-
 }
 
 export default CardStack

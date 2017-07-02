@@ -11,7 +11,6 @@ import * as StackUtils from './StackUtils'
 type Props = CardSubViewProps
 
 class NavBar extends React.Component<void, Props, void> {
-
   props: Props
 
   renderLeftComponent = (sceneProps: CardSubViewProps): ?React$Element<any> => {
@@ -32,10 +31,8 @@ class NavBar extends React.Component<void, Props, void> {
       sceneProps.cards,
       sceneProps.scenes[Math.max(0, sceneProps.scene.index - 1)].route,
     )
-    const previousTitle = (
-      sceneProps.backButtonTitle ||
-      (previousRoute && previousRoute.title)
-    )
+    const previousTitle =
+      sceneProps.backButtonTitle || (previousRoute && previousRoute.title)
     // Return default <BackButton /> component
     return (
       <HeaderBackButton
@@ -46,7 +43,9 @@ class NavBar extends React.Component<void, Props, void> {
     )
   }
 
-  renderTitleComponent= (sceneProps: CardSubViewProps): ?React$Element<any> => {
+  renderTitleComponent = (
+    sceneProps: CardSubViewProps,
+  ): ?React$Element<any> => {
     // Render custom title component
     if (sceneProps.renderTitle) {
       return sceneProps.renderTitle(sceneProps)
@@ -59,7 +58,9 @@ class NavBar extends React.Component<void, Props, void> {
     )
   }
 
-  renderRightComponent = (sceneProps: CardSubViewProps): ?React$Element<any> => {
+  renderRightComponent = (
+    sceneProps: CardSubViewProps,
+  ): ?React$Element<any> => {
     // Render cusqtom right component
     if (sceneProps.renderRightButton) {
       return sceneProps.renderRightButton(sceneProps)
@@ -73,22 +74,32 @@ class NavBar extends React.Component<void, Props, void> {
       <Header
         {...this.props}
         mode={Platform.OS === 'ios' ? 'float' : 'screen'}
-        getScreenDetails={(scene) => {
+        getScreenDetails={scene => {
           const sceneProps = StackUtils.get(this.props.cards, scene.route)
           const props = { ...this.props, scene }
           return {
             options: {
-              headerStyle: (sceneProps && sceneProps.navBarStyle) || this.props.navBarStyle,
-              headerLeft: StackUtils.renderSubView(this.renderLeftComponent, props)(),
-              headerTitle: StackUtils.renderSubView(this.renderTitleComponent, props)(),
-              headerRight: StackUtils.renderSubView(this.renderRightComponent, props)(),
+              headerStyle:
+                (sceneProps && sceneProps.navBarStyle) ||
+                this.props.navBarStyle,
+              headerLeft: StackUtils.renderSubView(
+                this.renderLeftComponent,
+                props,
+              )(),
+              headerTitle: StackUtils.renderSubView(
+                this.renderTitleComponent,
+                props,
+              )(),
+              headerRight: StackUtils.renderSubView(
+                this.renderRightComponent,
+                props,
+              )(),
             },
           }
         }}
       />
     )
   }
-
 }
 
 export default NavBar

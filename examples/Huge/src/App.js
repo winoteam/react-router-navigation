@@ -13,7 +13,6 @@ type Props = {
 }
 
 class App extends React.Component<void, Props, void> {
-
   props: Props
   feed: Feed
 
@@ -30,31 +29,31 @@ class App extends React.Component<void, Props, void> {
       >
         <Tab
           path="/feed"
-          render={ownProps => (
+          render={ownProps =>
             <Feed
               {...ownProps}
-              ref={(c) => {
+              ref={c => {
                 this.feed = c
               }}
-            />
-          )}
+            />}
           onReset={() => {
             if (this.feed && this.feed.listView) {
               this.feed.listView.scrollTo({ y: 0 })
             }
           }}
           label="Feed"
-          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) => (
+          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) =>
             <Image
               source={require('./assets/feed.png')}
-              style={[{
-                marginBottom: Platform.OS === 'android' ? 2.5 : 1,
-                width: Platform.OS === 'android' ? 22.5 : 25,
-                height: Platform.OS === 'android' ? 22.5 : 25,
-                tintColor: focused ? tabActiveTintColor : tabTintColor,
-              }]}
-            />
-          )}
+              style={[
+                {
+                  marginBottom: Platform.OS === 'android' ? 2.5 : 1,
+                  width: Platform.OS === 'android' ? 22.5 : 25,
+                  height: Platform.OS === 'android' ? 22.5 : 25,
+                  tintColor: focused ? tabActiveTintColor : tabTintColor,
+                },
+              ]}
+            />}
         />
         <Tab
           path="/profile/(likes|bookmarks)"
@@ -62,7 +61,7 @@ class App extends React.Component<void, Props, void> {
           onRequestChangeTab={() => history.replace('/profile/likes')}
           onReset={() => history.replace('/profile/likes')}
           label="Profile"
-          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) => (
+          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) =>
             <Image
               source={require('./assets/profile.png')}
               style={{
@@ -71,8 +70,7 @@ class App extends React.Component<void, Props, void> {
                 height: Platform.OS === 'android' ? 27.5 : 31,
                 tintColor: focused ? tabActiveTintColor : tabTintColor,
               }}
-            />
-          )}
+            />}
         />
       </BottomNavigation>
     )

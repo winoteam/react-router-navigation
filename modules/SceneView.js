@@ -17,7 +17,6 @@ type State = {
 }
 
 class SceneView extends React.Component<void, Props, State> {
-
   props: Props
   state: State
 
@@ -67,11 +66,11 @@ class SceneView extends React.Component<void, Props, State> {
     // Return scene component
     const ownProps = { ...this.props, match, location }
     if (render) return render(ownProps)
-    else if (children && typeof children === 'function') return children(ownProps)
+    else if (children && typeof children === 'function')
+      return children(ownProps)
     else if (component) return React.createElement(component, ownProps)
     return null
   }
-
 }
 
 export default SceneView

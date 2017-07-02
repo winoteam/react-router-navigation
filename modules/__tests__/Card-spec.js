@@ -14,9 +14,10 @@ it('<Card /> renders correctly', () => {
     <Router history={history}>
       <Card
         path="/:id"
-        render={({ match: { params } }) => (
-          <Text>{params.id}</Text>
-        )}
+        render={({ match: { params } }) =>
+          <Text>
+            {params.id}
+          </Text>}
       />
     </Router>,
   )

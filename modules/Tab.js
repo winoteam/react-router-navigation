@@ -7,16 +7,9 @@ import SceneView from './SceneView'
 
 type Props = TabProps
 
-const Tab = (props: Props): React$Element<any> => (
+const Tab = (props: Props): React$Element<any> =>
   <History>
-    {history => (
-      <SceneView
-        {...props}
-        type="tab"
-        history={history}
-      />
-    )}
+    {history => <SceneView {...props} type="tab" history={history} />}
   </History>
-)
 
 export default Tab

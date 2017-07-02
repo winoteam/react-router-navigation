@@ -2,7 +2,10 @@
 /* eslint no-use-before-define: 0 */
 
 import type { ContextRouter } from 'react-router'
-import type { NavigationTransitionProps, NavigationTransitionSpec } from 'react-navigation/src/TypeDefinition'
+import type {
+  NavigationTransitionProps,
+  NavigationTransitionSpec,
+} from 'react-navigation/src/TypeDefinition'
 
 export type Route = {
   key: string,
@@ -23,7 +26,6 @@ export type RouteProps = {
   strict?: boolean,
   state?: Object,
 }
-
 
 /**
  * Navigation
@@ -47,25 +49,19 @@ export type NavBarProps = {
   renderRightButton?: (props: CardSubViewProps) => React$Element<any>,
 }
 
-export type NavigationProps =
-  & NavBarProps
-  & {
-    cardStyle?: StyleSheet,
-    configureTransition?: (
-      transitionProps: NavigationTransitionProps,
-      prevTransitionProps: ?NavigationTransitionProps
-    ) => NavigationTransitionSpec,
-    onTransitionStart?: Function,
-    onTransitionEnd?: Function,
-  }
+export type NavigationProps = NavBarProps & {
+  cardStyle?: StyleSheet,
+  configureTransition?: (
+    transitionProps: NavigationTransitionProps,
+    prevTransitionProps: ?NavigationTransitionProps,
+  ) => NavigationTransitionSpec,
+  onTransitionStart?: Function,
+  onTransitionEnd?: Function,
+}
 
-export type CardProps =
-  & RouteProps
-  & NavBarProps
+export type CardProps = RouteProps & NavBarProps
 
-export type Card =
-  & CardProps
-  & { key: string }
+export type Card = CardProps & { key: string }
 
 export type CardsRendererProps = {
   onNavigateBack: Function,
@@ -77,10 +73,9 @@ export type CardsRendererProps = {
 }
 
 export type CardSubViewProps = any
-  // & NavigationSceneRendererProps
-  // & CardsRendererProps
-  // & CardProps
-
+// & NavigationSceneRendererProps
+// & CardsRendererProps
+// & CardProps
 
 /**
  * Tabs
@@ -109,14 +104,9 @@ export type TabsProps = TabBarProps & {
   configureTransition: ?Function,
 }
 
-export type TabProps =
-  & RouteProps
-  & TabBarProps
-  & { onReset?: Function }
+export type TabProps = RouteProps & TabBarProps & { onReset?: Function }
 
-export type Tab =
-  & TabProps
-  & { key: string }
+export type Tab = TabProps & { key: string }
 
 export type TabsRendererProps = {
   onRequestChangeTab: (index: number) => void,
@@ -128,6 +118,6 @@ export type TabsRendererProps = {
 }
 
 export type TabSubViewProps = any
-  // & SceneRendererProps
-  // & TabsRendererProps
-  // & TabBarProps
+// & SceneRendererProps
+// & TabsRendererProps
+// & TabBarProps

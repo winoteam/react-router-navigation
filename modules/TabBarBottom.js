@@ -51,7 +51,6 @@ type DefaultProps = {
 }
 
 class TabBarBottom extends React.Component<DefaultProps, Props, void> {
-
   props: Props
 
   static defaultProps: DefaultProps = {
@@ -100,12 +99,13 @@ class TabBarBottom extends React.Component<DefaultProps, Props, void> {
 
   render(): React$Element<any> {
     const { label, renderTabIcon } = this.props
-    return ( // $FlowFixMe
+    return (
+      // $FlowFixMe
       <TabBar
         {...this.props}
         style={[
           styles.tabBar,
-          { justifyContent: (label && renderTabIcon) ? 'flex-end' : 'center' },
+          { justifyContent: label && renderTabIcon ? 'flex-end' : 'center' },
           this.props.sceneProps.tabBarStyle,
         ]}
         tabStyle={[styles.tab, this.props.sceneProps.tabStyle]}
@@ -118,7 +118,6 @@ class TabBarBottom extends React.Component<DefaultProps, Props, void> {
       />
     )
   }
-
 }
 
 export default TabBarBottom

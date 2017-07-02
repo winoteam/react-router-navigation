@@ -10,6 +10,7 @@
     "history": "^4.6.1",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
+    "react-native-navigation": "^2.0.1920",
     "react-redux": "^5.0.2",
     "react-router": "4.1.1",
     "react-router-native": "4.1.1",

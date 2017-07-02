@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { StatusBar, StyleSheet, View, TouchableOpacity, Text } from 'react-native'
+import {
+  StatusBar,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+} from 'react-native'
 import { Switch, Route, Redirect } from 'react-router'
 import { NativeRouter, Link, DeepLinking } from 'react-router-native'
 import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
@@ -27,7 +33,6 @@ const styles = StyleSheet.create({
 })
 
 class App extends Component {
-
   state = {
     navigation: {},
     card: {},
@@ -48,7 +53,7 @@ class App extends Component {
                 exact
                 path="/"
                 title="Index"
-                render={() => (
+                render={() =>
                   <View style={styles.scene}>
                     <Link component={TouchableOpacity} to="/yolo">
                       <Text>Push a new scene</Text>
@@ -68,20 +73,16 @@ class App extends Component {
                     >
                       <Text>Change navbar style</Text>
                     </TouchableOpacity>
-                  </View>
-                )}
+                  </View>}
               />
               <Card
                 titleStyle={this.state.card.titleStyle}
                 navBarStyle={this.state.card.navBarStyle}
                 backButtonTintColor={this.state.card.backButtonTintColor}
                 path="/yolo"
-                render={() => (
+                render={() =>
                   <View style={styles.scene}>
-                    <Link
-                      component={TouchableOpacity}
-                      to="/hello"
-                    >
+                    <Link component={TouchableOpacity} to="/hello">
                       <Text>Push tabs</Text>
                     </Link>
                     <TouchableOpacity
@@ -116,58 +117,56 @@ class App extends Component {
                     >
                       <Text>Change title</Text>
                     </TouchableOpacity>
-                  </View>
-                )}
+                  </View>}
                 title={this.state.card.title || 'Yolo'}
               />
               <Card
                 path="/hello"
                 title="Hello"
-                render={({ match, location }) => (console.log(location),
-                  <Switch location={location}>
-                    <Route
-                      exact
-                      path={match.url}
-                      render={() => <Redirect to={`${match.url}/one`} />}
-                    />
-                    <Route
-                      render={() => (
-                        <Tabs
-                          style={styles.container}
-                          tabBarStyle={styles.tabs}
-                          tabBarIndicatorStyle={styles.indicator}
-                        >
-                          <Tab
-                            path={`${match.url}/one`}
-                            label="One"
-                            render={() => (
-                              <View style={styles.scene}>
-                                <Text>One</Text>
-                              </View>
-                            )}
-                          />
-                          <Tab
-                            path={`${match.url}/two`}
-                            label="Two"
-                            render={() => (
-                              <View style={styles.scene}>
-                                <Text>Two</Text>
-                              </View>
-                            )}
-                          />
-                          <Tab
-                            path={`${match.url}/three`}
-                            label="Three"
-                            render={() => (
-                              <View style={styles.scene}>
-                                <Text>Three</Text>
-                              </View>
-                            )}
-                          />
-                        </Tabs>
-                      )}
-                    />
-                  </Switch>
+                render={({ match, location }) => (
+                  console.log(location),
+                  (
+                    <Switch location={location}>
+                      <Route
+                        exact
+                        path={match.url}
+                        render={() => <Redirect to={`${match.url}/one`} />}
+                      />
+                      <Route
+                        render={() =>
+                          <Tabs
+                            style={styles.container}
+                            tabBarStyle={styles.tabs}
+                            tabBarIndicatorStyle={styles.indicator}
+                          >
+                            <Tab
+                              path={`${match.url}/one`}
+                              label="One"
+                              render={() =>
+                                <View style={styles.scene}>
+                                  <Text>One</Text>
+                                </View>}
+                            />
+                            <Tab
+                              path={`${match.url}/two`}
+                              label="Two"
+                              render={() =>
+                                <View style={styles.scene}>
+                                  <Text>Two</Text>
+                                </View>}
+                            />
+                            <Tab
+                              path={`${match.url}/three`}
+                              label="Three"
+                              render={() =>
+                                <View style={styles.scene}>
+                                  <Text>Three</Text>
+                                </View>}
+                            />
+                          </Tabs>}
+                      />
+                    </Switch>
+                  )
                 )}
               />
             </Navigation>
@@ -176,7 +175,6 @@ class App extends Component {
       </NativeRouter>
     )
   }
-
 }
 
 export default App

@@ -14,10 +14,12 @@ type Props = NavigationProps & {
 }
 
 class Navigation extends React.Component<void, Props, void> {
-
   props: Props
 
-  renderHeader = (sceneProps: CardSubViewProps, props: CardSubViewProps): ?React$Element<any> => {
+  renderHeader = (
+    sceneProps: CardSubViewProps,
+    props: CardSubViewProps,
+  ): ?React$Element<any> => {
     // Hide nav bar
     if (sceneProps.hideNavBar) return null
     // Render custom nav bar
@@ -40,25 +42,24 @@ class Navigation extends React.Component<void, Props, void> {
     const { children, ...props } = this.props
     return (
       <History>
-        {history => (
+        {history =>
           <CardStack
             {...props}
             history={history}
             children={children}
-            render={ownProps => (
+            render={ownProps =>
               <DefaultRenderer
                 {...props}
                 {...ownProps}
-                renderSceneComponent={StackUtils.renderSubView(this.renderSceneComponent)}
+                renderSceneComponent={StackUtils.renderSubView(
+                  this.renderSceneComponent,
+                )}
                 renderHeader={StackUtils.renderSubView(this.renderHeader)}
-              />
-            )}
-          />
-        )}
+              />}
+          />}
       </History>
     )
   }
-
 }
 
 export default Navigation

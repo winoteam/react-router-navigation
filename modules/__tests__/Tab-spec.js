@@ -14,9 +14,10 @@ it('<Tab /> renders correctly', () => {
     <Router history={history}>
       <Tab
         path="/:id"
-        render={({ match: { params } }) => (
-          <Text>{params.id}</Text>
-        )}
+        render={({ match: { params } }) =>
+          <Text>
+            {params.id}
+          </Text>}
       />
     </Router>,
   )

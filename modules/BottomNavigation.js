@@ -35,7 +35,6 @@ type State = {
 }
 
 class BottomNavigation extends React.Component<DefaultProps, Props, State> {
-
   props: Props
 
   static defaultProps: DefaultProps = {
@@ -44,13 +43,12 @@ class BottomNavigation extends React.Component<DefaultProps, Props, State> {
 
   state: State = { key: Math.random().toString(10) }
 
-  renderPager = (sceneProps: TabSubViewProps): React$Element<any> => (
+  renderPager = (sceneProps: TabSubViewProps): React$Element<any> =>
     <TabViewPagerPan
       {...sceneProps}
       key={`pager_${this.state.key}`}
       swipeEnabled={false}
     />
-  )
 
   renderNavigationBar = (
     sceneProps: TabSubViewProps,
@@ -60,29 +58,21 @@ class BottomNavigation extends React.Component<DefaultProps, Props, State> {
     if (sceneProps.hideTabBar) return null
     // Custom tab bar
     if (sceneProps.renderTabBar) {
-      return React.createElement(
-        sceneProps.renderTabBar,
-        sceneProps,
-      )
+      return React.createElement(sceneProps.renderTabBar, sceneProps)
     }
     // Default tab bar
-    return (
-      <TabBarBottom
-        sceneProps={sceneProps}
-        {...props}
-      />
-    )
+    return <TabBarBottom sceneProps={sceneProps} {...props} />
   }
 
   renderScene = (sceneProps: TabSubViewProps): ?React$Element<any> => {
     const { render, children, component } = sceneProps
-    const Scene = component ? ( // component prop gets first priority
-      React.createElement(component, sceneProps)
-    ) : render ? ( // render prop is next
-      render(sceneProps)
-    ) : (children && typeof children === 'function') ? ( // then children as func
-      children(sceneProps)
-    ) : null
+    const Scene = component // component prop gets first priority
+      ? React.createElement(component, sceneProps)
+      : render // render prop is next
+        ? render(sceneProps)
+        : children && typeof children === 'function' // then children as func
+          ? children(sceneProps)
+          : null
     return (
       <View style={styles.scene}>
         {Scene}
@@ -93,13 +83,13 @@ class BottomNavigation extends React.Component<DefaultProps, Props, State> {
   render(): React$Element<any> {
     return (
       <History>
-        {history => (
+        {history =>
           <TabStack
             {...this.props}
             history={history}
             style={styles.container}
             forceSync
-            render={(props) => {
+            render={props => {
               const ownProps = { ...this.props, ...props }
               return (
                 <TabViewAnimated
@@ -109,18 +99,25 @@ class BottomNavigation extends React.Component<DefaultProps, Props, State> {
                   initialLayout={Dimensions.get('window')}
                   lazy={this.props.lazy}
                   animationEnabled={false}
-                  renderPager={StackUtils.renderSubView(this.renderPager, ownProps)}
-                  renderFooter={StackUtils.renderSubView(this.renderNavigationBar, ownProps)}
-                  renderScene={StackUtils.renderSubView(this.renderScene, ownProps)}
+                  renderPager={StackUtils.renderSubView(
+                    this.renderPager,
+                    ownProps,
+                  )}
+                  renderFooter={StackUtils.renderSubView(
+                    this.renderNavigationBar,
+                    ownProps,
+                  )}
+                  renderScene={StackUtils.renderSubView(
+                    this.renderScene,
+                    ownProps,
+                  )}
                 />
               )
             }}
-          />
-        )}
+          />}
       </History>
     )
   }
-
 }
 
 export default BottomNavigation
