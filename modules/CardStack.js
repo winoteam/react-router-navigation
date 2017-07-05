@@ -1,6 +1,7 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
 /* eslint react/no-unused-prop-types: 0 */
+/* eslint no-mixed-operators: 0 */
 
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -63,9 +64,12 @@ class CardStack extends React.PureComponent<void, Props, State> {
     const { children, history: { entries, index, location } } = props
     const cards = children && StackUtils.build(children)
     // CardStack can be mount ?
-    if (!cards) throw new Error('No initial route found')
-    if (!entries || index === undefined)
+    if (!cards) {
+      throw new Error('No initial route found')
+    }
+    if (!entries || index === undefined) {
       throw new Error('No history entries found')
+    }
     // Build navigation state
     const navigationState = buildNavigationState(location, entries, cards)
     // Set key

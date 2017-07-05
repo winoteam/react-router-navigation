@@ -97,10 +97,13 @@ class Tabs extends React.Component<void, Props, State> {
 
   renderScene = (sceneProps: TabSubViewProps): ?React$Element<any> => {
     const { render, children, component } = sceneProps
-    if (render) return render(sceneProps)
-    else if (children && typeof children === 'function')
+    if (render) {
+      return render(sceneProps)
+    } else if (children && typeof children === 'function') {
       return children(sceneProps)
-    else if (component) return React.createElement(component, sceneProps)
+    } else if (component) {
+      return React.createElement(component, sceneProps)
+    }
     return null
   }
 

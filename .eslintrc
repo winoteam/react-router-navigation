@@ -1,14 +1,7 @@
 {
   "parser": "babel-eslint",
-  "extends": [
-    "airbnb",
-    "plugin:flowtype/recommended"
-  ],
-  "plugins": [
-    "babel",
-    "react",
-    "flowtype"
-  ],
+  "extends": ["airbnb", "plugin:flowtype/recommended"],
+  "plugins": ["babel", "react", "flowtype"],
   "env": {
     "jest": true,
     "node": true
@@ -20,6 +13,7 @@
     "semi": [2, "never"],
     "react/jsx-filename-extension": 0,
     "react/sort-comp": 0,
-    "arrow-body-style": 0
+    "arrow-body-style": 0,
+    "arrow-parens": 0
   }
 }

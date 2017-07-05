@@ -65,10 +65,13 @@ class SceneView extends React.Component<void, Props, State> {
     if (type === 'card' && !match) return null
     // Return scene component
     const ownProps = { ...this.props, match, location }
-    if (render) return render(ownProps)
-    else if (children && typeof children === 'function')
+    if (render) {
+      return render(ownProps)
+    } else if (children && typeof children === 'function') {
       return children(ownProps)
-    else if (component) return React.createElement(component, ownProps)
+    } else if (component) {
+      return React.createElement(component, ownProps)
+    }
     return null
   }
 }
