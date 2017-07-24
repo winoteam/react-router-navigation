@@ -44,8 +44,8 @@ class SceneView extends React.Component<void, Props, State> {
   onListenHistory = (location: Location): void => {
     // Build match
     const { path, exact, strict } = this.props
-    if (!this.state.match) {
-      const match = matchPath(location.pathname, { path, exact, strict })
+    const match = matchPath(location.pathname, { path, exact, strict })
+    if (!!match) {
       this.setState({ match, location })
     } else {
       this.setState({ location })
