@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint no-duplicate-imports: 0 */
+/* eslint no-extra-boolean-cast: 0 */
 
 import React from 'react'
 import { matchPath } from 'react-router'
