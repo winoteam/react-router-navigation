@@ -40,7 +40,7 @@ const App = () => (
       <Card
         exact
         path="/"
-        render={() => <Link to="/hello">Press it</Link>}
+        render={() => <Link to="/hello"><Text>Press it</Text></Link>}
       />
       <Card
         path="/hello"
