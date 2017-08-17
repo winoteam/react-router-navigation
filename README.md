@@ -66,54 +66,54 @@ const App = () => (
 For example, instead of:
 ```js
 const App = () => (
-  <Switch>
-    <Route
+  <Navigation>
+    <Card
       {...routeProps}
-      render={() => <Navigation  {...navigationProps} />}
+      render={() => <MyExpensiveView />}
     />
-    <Route
+    <Card
       {...routeProps}
-      render={() => <Navigation  {...navigationProps} />}
+      render={() => <MyExpensiveView />}
     />
-  </Switch>
+  </Navigation>
 )
 ```
 
 Do the following:
 ```js
 const App = () => (
-  <Switch>
-    <Route
-      {...routeProps}
-      component={NavigationA}
+  <Navigation>
+    <Card
+      {...cardProps}
+      component={CardA}
     />
-    <Route
-      {...routeProps}
-      component={NavigationA}
+    <Card
+      {...cardProps}
+      component={CardB}
     />
-  </Switch>
+  </Navigation>
 )
 
-class NavigationA extends React.Component {
+class CardA extends React.Component {
 
   shouldComponentUpdate() {
     return false
   }
 
   render() {
-    ...
+    return <MyExpensiveView />
   }
 
 }
 
-class NavigationB extends React.Component {
+class CardB extends React.Component {
 
   shouldComponentUpdate() {
     return false
   }
 
   render() {
-    ...
+    return <MyExpensiveView />
   }
 
 }
