@@ -2,9 +2,7 @@
 
 import React from 'react'
 import { Platform } from 'react-native'
-import Header from 'react-navigation/src/views/Header'
-import HeaderTitle from 'react-navigation/src/views/HeaderTitle'
-import HeaderBackButton from 'react-navigation/src/views/HeaderBackButton'
+import { Header, HeaderTitle, HeaderBackButton } from 'react-navigation'
 import type { CardSubViewProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 
@@ -13,7 +11,7 @@ type Props = CardSubViewProps
 class NavBar extends React.Component<void, Props, void> {
   props: Props
 
-  renderLeftComponent = (sceneProps: CardSubViewProps): ?React$Element<any> => {
+  renderLeftComponent = (sceneProps: CardSubViewProps) => {
     // Custom left component
     if (sceneProps.renderLeftButton) {
       return sceneProps.renderLeftButton(sceneProps)
@@ -43,9 +41,7 @@ class NavBar extends React.Component<void, Props, void> {
     )
   }
 
-  renderTitleComponent = (
-    sceneProps: CardSubViewProps,
-  ): ?React$Element<any> => {
+  renderTitleComponent = (sceneProps: CardSubViewProps) => {
     // Render custom title component
     if (sceneProps.renderTitle) {
       return sceneProps.renderTitle(sceneProps)
@@ -58,9 +54,7 @@ class NavBar extends React.Component<void, Props, void> {
     )
   }
 
-  renderRightComponent = (
-    sceneProps: CardSubViewProps,
-  ): ?React$Element<any> => {
+  renderRightComponent = (sceneProps: CardSubViewProps) => {
     // Render cusqtom right component
     if (sceneProps.renderRightButton) {
       return sceneProps.renderRightButton(sceneProps)
@@ -69,7 +63,7 @@ class NavBar extends React.Component<void, Props, void> {
     return null
   }
 
-  render(): ?React$Element<any> {
+  render() {
     return (
       <Header
         {...this.props}

@@ -32,8 +32,8 @@
     "react-router-native": "4.1.x"
   },
   "dependencies": {
-    "react-native-tab-view": "0.0.65",
-    "react-navigation": "1.0.0-beta.11"
+    "react-native-tab-view": "0.0.67",
+    "react-navigation": "1.0.0-beta.12"
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",
