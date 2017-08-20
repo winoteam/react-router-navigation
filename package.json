@@ -1,7 +1,7 @@
 {
   "name": "react-router-navigation",
   "description": "A complete navigation library for React Native",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "main": "index.js",
   "keywords": [
     "react-native",
