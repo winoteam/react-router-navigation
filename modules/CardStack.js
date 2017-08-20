@@ -26,7 +26,7 @@ const buildNavigationState = (
       const card = cards.find(({ path, exact, strict }) => {
         return matchPath(entry.pathname, { path, exact, strict })
       })
-      if (!card || !card.path) return { index: -1, routes: [] }
+      if (!card || !card.path) return state
       const route = StackUtils.getRoute(cards, entry)
       if (!route) return { index: -1, routes: [] }
       return {
