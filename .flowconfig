@@ -6,16 +6,24 @@
 <PROJECT_ROOT>/\.buckd/
 
 ; Ignore unexpected extra "@providesModule"
-.*/node_modules/.*/node_modules/fbjs/.*
+.*/node_modules/fbjs/.*
 
 ; Ignore react-navigation
 .*/node_modules/react-navigation/.*/__tests__/.*
 
 ; Ignore duplicate module providers
+.*/react-navigation/lib/.*
+.*/react-navigation/src/utils/.*
 ; For RN Apps installed via npm, "Libraries" folder is inside
 ; "node_modules/react-native" but in the source repo it is in the root
 .*/Libraries/react-native/React.js
 .*/Libraries/react-native/ReactNative.js
+
+; Ignore React Native
+.*/node_modules/react-native/.*
+
+; Ignore misc packages
+.*/node_modules/react-native-tab-view/.*
 
 ; Ignore examples dir
 .*/examples/.*
@@ -23,9 +31,6 @@
 [include]
 
 [libs]
-node_modules/react-native/Libraries/react-native/react-native-interface.js
-node_modules/react-native/flow
-flow/
 
 [options]
 emoji=true
@@ -36,6 +41,12 @@ experimental.strict_type_args=true
 munge_underscores=true
 
 module.name_mapper='^[./a-zA-Z0-9$_-]+\.\(bmp\|gif\|jpg\|jpeg\|png\|psd\|svg\|webp\|m4v\|mov\|mp4\|mpeg\|mpg\|webm\|aac\|aiff\|caf\|m4a\|mp3\|wav\|html\|pdf\)$' -> 'RelativeImageStub'
+
+; Fix React Navigation errors
+module.name_mapper='^./PlatformHelpers' -> '<PROJECT_ROOT>/node_modules/react-navigation/lib-rn/PlatformHelpers.native.js.flow'
+module.name_mapper='utils/shallowEqual$' -> '<PROJECT_ROOT>/node_modules/react-navigation/lib-rn/utils/shallowEqual.js.flow'
+module.name_mapper='utils/invariant$' -> '<PROJECT_ROOT>/node_modules/react-navigation/lib-rn/utils/invariant.js.flow'
+module.name_mapper='^../assets/back-icon.png' -> 'RelativeImageStub'
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
@@ -49,4 +60,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 unsafe.enable_getters_and_setters=true
 
 [version]
-^0.42.0
+^0.49.1
