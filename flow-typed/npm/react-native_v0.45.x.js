@@ -1,26 +1,25 @@
-declare var __DEV__: boolean;
+declare var __DEV__: boolean
 
 declare module 'react-native' {
-
-  declare type Color = string | number;
+  declare type Color = string | number
 
   declare type Transform =
-    { perspective: number | AnimatedInterpolation | AnimatedValue } |
-    { scale: number | AnimatedInterpolation | AnimatedValue } |
-    { scaleX: number | AnimatedInterpolation | AnimatedValue } |
-    { scaleY: number | AnimatedInterpolation | AnimatedValue } |
-    { translateX: number | AnimatedInterpolation | AnimatedValue } |
-    { translateY: number | AnimatedInterpolation | AnimatedValue } |
-    { rotate: string | AnimatedInterpolation | AnimatedValue } |
-    { rotateX: string | AnimatedInterpolation | AnimatedValue } |
-    { rotateY: string | AnimatedInterpolation | AnimatedValue } |
-    { rotateZ: string | AnimatedInterpolation | AnimatedValue } |
-    { skewX: string | AnimatedInterpolation | AnimatedValue } |
-    { skewY: string | AnimatedInterpolation | AnimatedValue };
+    | { perspective: number | AnimatedInterpolation | AnimatedValue }
+    | { scale: number | AnimatedInterpolation | AnimatedValue }
+    | { scaleX: number | AnimatedInterpolation | AnimatedValue }
+    | { scaleY: number | AnimatedInterpolation | AnimatedValue }
+    | { translateX: number | AnimatedInterpolation | AnimatedValue }
+    | { translateY: number | AnimatedInterpolation | AnimatedValue }
+    | { rotate: string | AnimatedInterpolation | AnimatedValue }
+    | { rotateX: string | AnimatedInterpolation | AnimatedValue }
+    | { rotateY: string | AnimatedInterpolation | AnimatedValue }
+    | { rotateZ: string | AnimatedInterpolation | AnimatedValue }
+    | { skewX: string | AnimatedInterpolation | AnimatedValue }
+    | { skewY: string | AnimatedInterpolation | AnimatedValue }
 
   declare type TransformPropTypes = {|
-    transform?: Array<Transform>
-  |};
+    transform?: Array<Transform>,
+  |}
 
   declare type LayoutPropTypes = {|
     /** `display` sets the display type of this component.
@@ -284,7 +283,12 @@ declare module 'react-native' {
      *  See https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content
      *  for more details.
      */
-    justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around',
+    justifyContent?:
+      | 'flex-start'
+      | 'flex-end'
+      | 'center'
+      | 'space-between'
+      | 'space-around',
 
     /** `alignItems` aligns children in the cross direction.
      *  For example, if children are flowing vertically, `alignItems`
@@ -301,14 +305,26 @@ declare module 'react-native' {
      *  See https://developer.mozilla.org/en-US/docs/Web/CSS/align-self
      *  for more details.
      */
-    alignSelf?: 'auto' | 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline',
+    alignSelf?:
+      | 'auto'
+      | 'flex-start'
+      | 'flex-end'
+      | 'center'
+      | 'stretch'
+      | 'baseline',
 
     /** `alignContent` controls how rows align in the cross direction,
      *  overriding the `alignContent` of the parent.
      *  See https://developer.mozilla.org/en-US/docs/Web/CSS/align-content
      *  for more details.
      */
-    alignContent?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'space-between' | 'space-around',
+    alignContent?:
+      | 'flex-start'
+      | 'flex-end'
+      | 'center'
+      | 'stretch'
+      | 'space-between'
+      | 'space-around',
 
     /** `overflow` controls how a children are measured and displayed.
      *  `overflow: hidden` causes views to be clipped while `overflow: scroll`
@@ -380,7 +396,7 @@ declare module 'react-native' {
      *  @platform ios
      */
     direction?: 'inherit' | 'ltr' | 'rtl',
-  |};
+  |}
 
   declare type ShadowPropTypes = {|
     /**
@@ -395,7 +411,7 @@ declare module 'react-native' {
      */
     shadowOffset?: {|
       width?: number,
-      height?: number
+      height?: number,
     |},
 
     /**
@@ -409,7 +425,7 @@ declare module 'react-native' {
      * @platform ios
      */
     shadowRadius?: number,
-  |};
+  |}
 
   declare type ExtraViewStylePropTypes = {|
     backfaceVisibility?: 'visible' | 'hidden',
@@ -439,13 +455,14 @@ declare module 'react-native' {
      * @platform android
      */
     elevation?: number,
-  |};
+  |}
 
-  declare type FontVariant = 'small-caps' |
-        'oldstyle-nums' |
-        'lining-nums' |
-        'tabular-nums' |
-        'proportional-nums';
+  declare type FontVariant =
+    | 'small-caps'
+    | 'oldstyle-nums'
+    | 'lining-nums'
+    | 'tabular-nums'
+    | 'proportional-nums'
 
   declare type ExtraTextStylePropTypes = {|
     color?: Color,
@@ -458,15 +475,24 @@ declare module 'react-native' {
      * in that case the closest one is chosen.
      */
     fontWeight?:
-      'normal' | 'bold' |
-      '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900',
+      | 'normal'
+      | 'bold'
+      | '100'
+      | '200'
+      | '300'
+      | '400'
+      | '500'
+      | '600'
+      | '700'
+      | '800'
+      | '900',
     /**
      * @platform ios
      */
     fontVariant?: Array<FontVariant>,
     textShadowOffset?: {|
       width?: number,
-      height?: number
+      height?: number,
     |},
     textShadowRadius?: number,
     textShadowColor?: Color,
@@ -491,7 +517,11 @@ declare module 'react-native' {
      * @platform android
      */
     includeFontPadding?: boolean,
-    textDecorationLine?: 'none' | 'underline' | 'line-through' | 'underline line-through',
+    textDecorationLine?:
+      | 'none'
+      | 'underline'
+      | 'line-through'
+      | 'underline line-through',
     /**
      * @platform ios
      */
@@ -504,7 +534,7 @@ declare module 'react-native' {
      * @platform ios
      */
     writingDirection?: 'auto' | 'ltr' | 'rtl',
-  |};
+  |}
 
   declare type ImageResizeModeEnum = {
     contain: 'contain',
@@ -512,7 +542,7 @@ declare module 'react-native' {
     stretch: 'stretch',
     center: 'center',
     repeat: 'repeat',
-  };
+  }
 
   declare type ExtraImageStylePropTypes = {|
     resizeMode?: $Keys<ImageResizeModeEnum>,
@@ -552,15 +582,14 @@ declare module 'react-native' {
     borderTopRightRadius?: number,
     borderBottomLeftRadius?: number,
     borderBottomRightRadius?: number,
-  |};
-
+  |}
 
   declare type ViewStylePropTypes = {|
     ...LayoutPropTypes,
     ...ShadowPropTypes,
     ...TransformPropTypes,
     ...ExtraViewStylePropTypes,
-  |};
+  |}
 
   declare type TextStylePropTypes = {|
     ...LayoutPropTypes,
@@ -568,14 +597,14 @@ declare module 'react-native' {
     ...TransformPropTypes,
     ...ExtraViewStylePropTypes,
     ...ExtraTextStylePropTypes,
-  |};
+  |}
 
   declare type ImageStylePropTypes = {|
     ...LayoutPropTypes,
     ...ShadowPropTypes,
     ...TransformPropTypes,
     ...ExtraImageStylePropTypes,
-  |};
+  |}
 
   declare type StylePropTypes = {|
     ...LayoutPropTypes,
@@ -586,11 +615,17 @@ declare module 'react-native' {
     ...ExtraViewStylePropTypes,
   |}
 
-  declare type StyleId = number;
+  declare type StyleId = number
 
-  declare export type StyleDefinition = {[key: string]: StylePropTypes};
-  declare type StyleRuleSet<S: StyleDefinition> = {[key: $Keys<S>]: StyleId};
-  declare type StyleProp<T, V> = false | null | void | T | V | Array<StyleProp<T, V>>;
+  declare export type StyleDefinition = { [key: string]: StylePropTypes }
+  declare type StyleRuleSet<S: StyleDefinition> = { [key: $Keys<S>]: StyleId }
+  declare type StyleProp<T, V> =
+    | false
+    | null
+    | void
+    | T
+    | V
+    | Array<StyleProp<T, V>>
 
   declare export var StyleSheet: {|
     hairlineWidth: number,
@@ -598,42 +633,45 @@ declare module 'react-native' {
     absoluteFillObject: Object,
     flatten: (style: StyleProp<StylePropTypes, StyleId>) => StylePropTypes,
     create<S: StyleDefinition>(styles: S): StyleRuleSet<S>,
-    setStyleAttributePreprocessor(property: string, process: (nextProp: mixed) => mixed): void,
-    Styles: StylePropTypes;
+    setStyleAttributePreprocessor(
+      property: string,
+      process: (nextProp: mixed) => mixed,
+    ): void,
+    Styles: StylePropTypes,
     StyleSheet<S: StyleDefinition>(styles: S): StyleRuleSet<S>,
-  |};
+  |}
 
   declare type EdgeInsetsProp = {
     top: number,
     left: number,
     bottom: number,
     right: number,
-  };
+  }
 
   declare type AccessibilityTrait =
-    'none' |
-    'button' |
-    'link' |
-    'header' |
-    'search' |
-    'image' |
-    'selected' |
-    'plays' |
-    'key' |
-    'text' |
-    'summary' |
-    'disabled' |
-    'frequentUpdates' |
-    'startsMedia' |
-    'adjustable' |
-    'allowsDirectInteraction' |
-    'pageTurn';
+    | 'none'
+    | 'button'
+    | 'link'
+    | 'header'
+    | 'search'
+    | 'image'
+    | 'selected'
+    | 'plays'
+    | 'key'
+    | 'text'
+    | 'summary'
+    | 'disabled'
+    | 'frequentUpdates'
+    | 'startsMedia'
+    | 'adjustable'
+    | 'allowsDirectInteraction'
+    | 'pageTurn'
 
   declare type AccessibilityComponentType =
-    'none' |
-    'button' |
-    'radiobutton_checked' |
-    'radiobutton_unchecked';
+    | 'none'
+    | 'button'
+    | 'radiobutton_checked'
+    | 'radiobutton_unchecked'
 
   declare type MeasureOnSuccessCallback = (
     x: number,
@@ -642,21 +680,21 @@ declare module 'react-native' {
     height: number,
     pageX: number,
     pageY: number,
-  ) => void;
+  ) => void
 
   declare type MeasureInWindowOnSuccessCallback = (
     x: number,
     y: number,
     width: number,
     height: number,
-  ) => void;
+  ) => void
 
   declare type MeasureLayoutOnSuccessCallback = (
     left: number,
     top: number,
     width: number,
     height: number,
-  ) => void;
+  ) => void
 
   declare type NativeMethodsMixinType = {
     blur(): void,
@@ -669,24 +707,23 @@ declare module 'react-native' {
       onFail: () => void,
     ): void,
     setNativeProps(nativeProps: Object): void,
-  };
+  }
 
-  declare type ViewDefaultProps = {
-  };
-  
+  declare type ViewDefaultProps = {}
+
   declare type RCTViewAttributes = {
     accessible?: boolean,
     accessibilityLabel?: React$PropType$Primitive<any>,
     accessibilityComponentType?: AccessibilityComponentType,
     accessibilityLiveRegion?: 'none' | 'polite' | 'assertive',
-    importantForAccessibility?: 'auto'| 'yes'| 'no'| 'no-hide-descendants',
+    importantForAccessibility?: 'auto' | 'yes' | 'no' | 'no-hide-descendants',
     accessibilityTraits?: AccessibilityTrait | Array<AccessibilityTrait>,
     accessibilityViewIsModal?: boolean,
     onAccessibilityTap?: Function,
     onMagicTap?: Function,
     testID?: string,
     nativeID?: string,
-    pointerEvents?: 'box-none'| 'none'| 'box-only'| 'auto',
+    pointerEvents?: 'box-none' | 'none' | 'box-only' | 'auto',
     removeClippedSubviews?: boolean,
     renderToHardwareTextureAndroid?: boolean,
     shouldRasterizeIOS?: boolean,
@@ -713,9 +750,9 @@ declare module 'react-native' {
     onStartShouldSetResponderCapture?: Function,
     onMoveShouldSetResponder?: Function,
     onMoveShouldSetResponderCapture?: Function,
-    style?: StyleProp<ViewStylePropTypes, StyleId>,    
+    style?: StyleProp<ViewStylePropTypes, StyleId>,
     children?: React$Element<*>,
-  };
+  }
 
   declare class BaseView<D, P, S> extends React$Component<D, P, S> {
     blur(): void,
@@ -729,27 +766,37 @@ declare module 'react-native' {
     ): void,
     setNativeProps(nativeProps: P): void,
   }
-  
-  declare export class View extends BaseView<ViewDefaultProps, ViewProps, void> {}
-  
+
+  declare export class View extends BaseView<
+    ViewDefaultProps,
+    ViewProps,
+    void,
+  > {}
+
   declare export type AnimatedViewStylePropTypes = {
     ...$Exact<ViewStylePropTypes>,
-    ...({ [key: $Keys<ViewStylePropTypes>]: AnimatedValue | AnimatedInterpolation })
-  };
-  
+    ...{
+      [key: $Keys<ViewStylePropTypes>]: AnimatedValue | AnimatedInterpolation,
+    },
+  }
+
   declare type AnimatedViewProps = {
     ...$Exact<ViewProps>,
     style: StyleProp<AnimatedViewStylePropTypes, StyleId>,
   }
-  
-  declare class AnimatedView extends BaseView<ViewDefaultProps, AnimatedViewProps, void> {}
+
+  declare class AnimatedView extends BaseView<
+    ViewDefaultProps,
+    AnimatedViewProps,
+    void,
+  > {}
 
   declare type TextDefaultProps = {
     accessible: true,
     allowFontScaling: true,
     ellipsizeMode: 'tail',
     disabled: false,
-  };
+  }
 
   declare export type TextProps = {
     ...$Exact<RCTViewAttributes>,
@@ -861,9 +908,9 @@ declare module 'react-native' {
     disabled?: boolean,
     style?: StyleProp<TextStylePropTypes, StyleId>,
     children?: React$Element<*>,
-  };
+  }
 
-  declare class BaseText<D, P, S> extends React$Component<D, P, S> {    
+  declare class BaseText<D, P, S> extends React$Component<D, P, S> {
     blur(): void,
     focus(): void,
     measure(callback: MeasureOnSuccessCallback): void,
@@ -875,20 +922,30 @@ declare module 'react-native' {
     ): void,
     setNativeProps(nativeProps: P): void,
   }
-  
-  declare export class Text extends BaseText<TextDefaultProps, TextProps, void> {}
-  
+
+  declare export class Text extends BaseText<
+    TextDefaultProps,
+    TextProps,
+    void,
+  > {}
+
   declare type AnimatedTextStylePropTypes = {
     ...$Exact<TextStylePropTypes>,
-    ...({ [key: $Keys<TextStylePropTypes>]: AnimatedValue | AnimatedInterpolation })
-  };
-  
+    ...{
+      [key: $Keys<TextStylePropTypes>]: AnimatedValue | AnimatedInterpolation,
+    },
+  }
+
   declare type AnimatedTextProps = {
     ...$Exact<TextProps>,
     style: StyleProp<AnimatedTextStylePropTypes, StyleId>,
-  };
-  
-  declare class AnimatedText extends BaseText<TextDefaultProps, AnimatedTextProps, void> {}
+  }
+
+  declare class AnimatedText extends BaseText<
+    TextDefaultProps,
+    AnimatedTextProps,
+    void,
+  > {}
 
   declare type ImageUriSourcePropType = {
     uri: string,
@@ -937,9 +994,12 @@ declare module 'react-native' {
      * @platform ios
      */
     cache?: 'default' | 'reload' | 'force-cache' | 'only-if-cached',
-  };
+  }
 
-  declare type ImageSourcePropType = ImageUriSourcePropType | number | Array<ImageUriSourcePropType>;
+  declare type ImageSourcePropType =
+    | ImageUriSourcePropType
+    | number
+    | Array<ImageUriSourcePropType>
 
   declare type ImageProps = {
     /**
@@ -1089,7 +1149,7 @@ declare module 'react-native' {
     height: ?number,
     uri: string,
     scale: number,
-  };
+  }
 
   declare class BaseImage<D, P, S> extends React$Component<D, P, S> {
     static resizeMode: ImageResizeModeEnum,
@@ -1137,7 +1197,9 @@ declare module 'react-native' {
      * and `height`. The input may either be a number (opaque type returned by
      * require('./foo.png')) or an `ImageSource` like { uri: '<http location || file path>' }
      */
-    static resolveAssetSource(source: ImageSourcePropType): ?ResolvedAssetSource,
+    static resolveAssetSource(
+      source: ImageSourcePropType,
+    ): ?ResolvedAssetSource,
 
     blur(): void,
     focus(): void,
@@ -1150,21 +1212,26 @@ declare module 'react-native' {
     ): void,
     setNativeProps(nativeProps: P): void,
   }
-  
+
   declare export class Image extends BaseImage<void, ImageProps, void> {}
-  
+
   declare type AnimatedImageStylePropTypes = {
     ...$Exact<ImageStylePropTypes>,
-    ...({ [key: $Keys<ImageStylePropTypes>]: AnimatedValue | AnimatedInterpolation })
-  };
-  
+    ...{
+      [key: $Keys<ImageStylePropTypes>]: AnimatedValue | AnimatedInterpolation,
+    },
+  }
+
   declare type AnimatedImageProps = {
     ...$Exact<ImageProps>,
     style: StyleProp<AnimatedImageStylePropTypes, StyleId>,
-  };
-  
-  declare class AnimatedImage extends BaseView<void, AnimatedImageProps, void> {}
+  }
 
+  declare class AnimatedImage extends BaseView<
+    void,
+    AnimatedImageProps,
+    void,
+  > {}
 
   declare type ScrollViewProps = {
     ...$Exact<ViewProps>,
@@ -1254,7 +1321,7 @@ declare module 'react-native' {
      *
      * @platform ios
      */
-    decelerationRate?: 'fast' | 'normal'  | number,
+    decelerationRate?: 'fast' | 'normal' | number,
     /**
      * When true, the scroll view's children are arranged horizontally in a row
      * instead of vertically in a column. The default value is false.
@@ -1466,7 +1533,11 @@ declare module 'react-native' {
     overScrollMode?: 'auto' | 'always' | 'never',
   }
 
-  declare export class BaseScrollView<D, P, S> extends React$Component<D, P, S> {
+  declare export class BaseScrollView<D, P, S> extends React$Component<
+    D,
+    P,
+    S,
+  > {
     // TODO(lmr): ScrollResponder.Mixin?
     setNativeProps(props: P): void,
 
@@ -1496,7 +1567,7 @@ declare module 'react-native' {
     scrollTo(
       y?: number | { x?: number, y?: number, animated?: boolean },
       x?: number,
-      animated?: boolean
+      animated?: boolean,
     ): void,
 
     /**
@@ -1507,25 +1578,33 @@ declare module 'react-native' {
      * `scrollToEnd({animated: false})` for immediate scrolling.
      * If no options are passed, `animated` defaults to true.
      */
-    scrollToEnd(
-      options?: { animated?: boolean },
-    ): void,
+    scrollToEnd(options?: { animated?: boolean }): void,
   }
-  
-  declare export class ScrollView extends BaseScrollView<void, ScrollViewProps, void> {}
-  
+
+  declare export class ScrollView extends BaseScrollView<
+    void,
+    ScrollViewProps,
+    void,
+  > {}
+
   declare type AnimatedScrollViewStyleProps = {
     ...$Exact<ViewStylePropTypes>,
-    ...({ [key: $Keys<ViewStylePropTypes>]: AnimatedValue | AnimatedInterpolation })
-  };
-  
+    ...{
+      [key: $Keys<ViewStylePropTypes>]: AnimatedValue | AnimatedInterpolation,
+    },
+  }
+
   declare type AnimatedScrollViewProps = {
     ...$Exact<ScrollViewProps>,
     style: StyleProp<AnimatedScrollViewStyleProps, StyleId>,
-  };
-  
-  declare class AnimatedScrollView extends BaseView<void, AnimatedScrollViewProps, void> {}
-  
+  }
+
+  declare class AnimatedScrollView extends BaseView<
+    void,
+    AnimatedScrollViewProps,
+    void,
+  > {}
+
   declare export var Platform: {|
     OS: 'ios' | 'android',
     Version: number,
@@ -1540,21 +1619,15 @@ declare module 'react-native' {
     height: number,
     scale: number,
     fontScale: number,
-  };
+  }
 
-  declare type DimensionName = 'window' | 'screen';
+  declare type DimensionName = 'window' | 'screen'
 
   declare export var Dimensions: {|
     set(dims: { [key: DimensionName]: Dimension }): void,
     get(dim: DimensionName): Dimensions,
-    addEventListener(
-      type: string,
-      handler: Function
-    ): void,
-    removeEventListener(
-      type: string,
-      handler: Function
-    ): void,
+    addEventListener(type: string, handler: Function): void,
+    removeEventListener(type: string, handler: Function): void,
   |}
 
   declare export var PixelRatio: {|
@@ -1608,7 +1681,7 @@ declare module 'react-native' {
 
     // No-op for iOS, but used on the web. Should not be documented.
     startDetecting(): void,
-  |};
+  |}
 
   declare type LayoutAnimationTypesEnum = {
     spring: 'spring',
@@ -1617,12 +1690,12 @@ declare module 'react-native' {
     easeIn: 'easeIn',
     easeOut: 'easeOut',
     keyboard: 'keyboard',
-  };
+  }
 
   declare type LayoutAnimationPropertiesEnum = {
     opacity: 'opacity',
     scaleXY: 'scaleXY',
-  };
+  }
 
   declare type Anim = {
     duration?: number,
@@ -1631,14 +1704,14 @@ declare module 'react-native' {
     initialVelocity?: number,
     type?: $Keys<LayoutAnimationTypesEnum>,
     property?: $Keys<LayoutAnimationPropertiesEnum>,
-  };
+  }
 
   declare type LayoutAnimationConfig = {
     duration: number,
     create?: Anim,
     update?: Anim,
     delete?: Anim,
-  };
+  }
 
   declare export var LayoutAnimation: {
     /**
@@ -1655,7 +1728,10 @@ declare module 'react-native' {
      * Only supported on iOS.
      * @param onError Called on error. Only supported on iOS.
      */
-    configureNext(config: LayoutAnimationConfig, onAnimationDidEnd?: Function): void,
+    configureNext(
+      config: LayoutAnimationConfig,
+      onAnimationDidEnd?: Function,
+    ): void,
     /**
      * Helper for creating a config for `configureNext`.
      */
@@ -1670,21 +1746,21 @@ declare module 'react-native' {
     easeInEaseOut(onAnimationDidEnd?: Function): void,
     linear(onAnimationDidEnd?: Function): void,
     spring(onAnimationDidEnd?: Function): void,
-  };
+  }
 
-  declare type Event = Object;
+  declare type Event = Object
   declare type Selection = {
     start: number,
     end?: number,
-  };
+  }
 
   declare type DataDetector =
-    'phoneNumber' |
-    'link' |
-    'address' |
-    'calendarEvent' |
-    'none' |
-    'all';
+    | 'phoneNumber'
+    | 'link'
+    | 'address'
+    | 'calendarEvent'
+    | 'none'
+    | 'all'
 
   declare type TextInputState = {|
     /**
@@ -1706,33 +1782,44 @@ declare module 'react-native' {
      * noop if it wasn't focused
      */
     blurTextInput(textFieldID: ?number): void,
-  |};
+  |}
 
   declare type EventSubscription = {
-    eventType: string;
-    key: number;
-    subscriber: EventSubscriptionVendor;
+    eventType: string,
+    key: number,
+    subscriber: EventSubscriptionVendor,
     remove(): void,
   }
 
   declare type EventSubscriptionVendor = {
-    addSubscription(eventType: string, subscription: EventSubscription): EventSubscription,
+    addSubscription(
+      eventType: string,
+      subscription: EventSubscription,
+    ): EventSubscription,
     removeAllSubscriptions(eventType: ?string): void,
     removeSubscription(subscription: EventSubscription): void,
     getSubscriptionsForType(eventType: string): ?[EventSubscription],
   }
 
   declare type EmitterSubscription<T: string> = {
-    emitter: EventEmitter<T>;
-    listener: Function;
-    context: ?Object;
+    emitter: EventEmitter<T>,
+    listener: Function,
+    context: ?Object,
     remove(): void,
   }
 
   declare type EventEmitter<T: string> = {
     emit(eventType: T, ...args: any[]): void,
-    addListener(eventType: T, listener: Function, context: ?Object): EmitterSubscription<T>,
-    once(eventType: T, listener: Function, context: ?Object): EmitterSubscription<T>,
+    addListener(
+      eventType: T,
+      listener: Function,
+      context: ?Object,
+    ): EmitterSubscription<T>,
+    once(
+      eventType: T,
+      listener: Function,
+      context: ?Object,
+    ): EmitterSubscription<T>,
     removeAllListeners(): void,
     removeCurrentListener(): void,
     removeSubscription(subscription: EmitterSubscription<T>): void,
@@ -1740,7 +1827,7 @@ declare module 'react-native' {
     removeListener(eventType: T, listener: Function): void,
   }
 
-  declare type EventHolderToken<T: string> = { eventType: T, index: number };
+  declare type EventHolderToken<T: string> = { eventType: T, index: number }
 
   declare type EventHolder<T: string> = {
     holdEvent(eventType: T, ...args: any[]): EventHolderToken<T>,
@@ -1751,14 +1838,26 @@ declare module 'react-native' {
   }
 
   declare type EventEmitterWithHolding<T: string> = {
-    addListener(eventType: T, listener: Function, context: ?Object): EmitterSubscription<T>,
-    once(eventType: T, listener: Function, context: ?Object): EmitterSubscription<T>,
+    addListener(
+      eventType: T,
+      listener: Function,
+      context: ?Object,
+    ): EmitterSubscription<T>,
+    once(
+      eventType: T,
+      listener: Function,
+      context: ?Object,
+    ): EmitterSubscription<T>,
     removeAllListeners(eventType: T): void,
     removeCurrentListener(): void,
     listeners(eventType: T): [EmitterSubscription<T>],
     emit(eventType: T, ...args: any[]): void,
 
-    addRetroactiveListener(eventType: T, listener: Function, context: ?Object): EmitterSubscription<T>,
+    addRetroactiveListener(
+      eventType: T,
+      listener: Function,
+      context: ?Object,
+    ): EmitterSubscription<T>,
     emitAndHold(eventType: T, ...args: any[]): void,
     releaseCurrentEvent(): void,
     releaseHeldEventType(eventType: T): void,
@@ -1820,21 +1919,21 @@ declare module 'react-native' {
      * - `email-address`
      * - `phone-pad`
      */
-    keyboardType?:
-      // Cross-platform
-      'default' |
-      'email-address' |
-      'numeric' |
-      'phone-pad' |
+    keyboardType?: // Cross-platform
+
+      | 'default'
+      | 'email-address'
+      | 'numeric'
+      | 'phone-pad'
       // iOS-only
-      'ascii-capable' |
-      'numbers-and-punctuation' |
-      'url' |
-      'number-pad' |
-      'name-phone-pad' |
-      'decimal-pad' |
-      'twitter' |
-      'web-search',
+      | 'ascii-capable'
+      | 'numbers-and-punctuation'
+      | 'url'
+      | 'number-pad'
+      | 'name-phone-pad'
+      | 'decimal-pad'
+      | 'twitter'
+      | 'web-search',
     /**
      * Determines the color of the keyboard.
      * @platform ios
@@ -1872,23 +1971,23 @@ declare module 'react-native' {
      * - `route`
      * - `yahoo`
      */
-    returnKeyType?:
-      // Cross-platform
-      'done'|
-      'go'|
-      'next'|
-      'search'|
-      'send'|
+    returnKeyType?: // Cross-platform
+
+      | 'done'
+      | 'go'
+      | 'next'
+      | 'search'
+      | 'send'
       // Android-only
-      'none'|
-      'previous'|
+      | 'none'
+      | 'previous'
       // iOS-only
-      'default'|
-      'emergency-call'|
-      'google'|
-      'join'|
-      'route'|
-      'yahoo',
+      | 'default'
+      | 'emergency-call'
+      | 'google'
+      | 'join'
+      | 'route'
+      | 'yahoo',
     /**
      * Sets the return key to the label. Use it instead of `returnKeyType`.
      * @platform android
@@ -2118,9 +2217,13 @@ declare module 'react-native' {
      * If `true`, caret is hidden. The default value is `false`.
      */
     caretHidden?: boolean,
-  };
+  }
 
-  declare export class TextInput extends React$Component<void, TextInputProps, void> {
+  declare export class TextInput extends React$Component<
+    void,
+    TextInputProps,
+    void,
+  > {
     static State: TextInputState,
 
     isFocused(): boolean,
@@ -2142,13 +2245,13 @@ declare module 'react-native' {
     'plain-text': string,
     'secure-text': string,
     'login-password': string,
-  }>;
+  }>
 
   declare type AlertButtonStyle = $Enum<{
     'default': string,
     'cancel': string,
     'destructive': string,
-  }>;
+  }>
 
   /**
    * Array or buttons
@@ -2170,18 +2273,18 @@ declare module 'react-native' {
      * Button style
      */
     style?: AlertButtonStyle,
-  }>;
+  }>
 
   declare type AlertButtons = Array<{
     text?: string,
     onPress?: ?Function,
     style?: AlertButtonStyle,
-  }>;
+  }>
 
   declare type AlertOptions = {
     cancelable?: ?boolean,
     onDismiss?: ?Function,
-  };
+  }
 
   declare export var Alert: {|
     alert(
@@ -2191,12 +2294,12 @@ declare module 'react-native' {
       options?: AlertOptions,
       type?: AlertType,
     ): void,
-  |};
+  |}
 
   declare export var Linking: {|
     ...$Exact<EventEmitter<string>>,
     addEventListener(type: string, handler: Function): void,
-    removeEventListener(type: string, handler: Function ): void,
+    removeEventListener(type: string, handler: Function): void,
 
     /**
      * Try to open the given `url` with any of the installed apps.
@@ -2235,9 +2338,9 @@ declare module 'react-native' {
      * NOTE: To support deep linking on Android, refer http://developer.android.com/training/app-indexing/deep-linking.html#handling-intents
      */
     getInitialURL(): Promise<?string>,
-  |};
+  |}
 
-  declare export var processColor: Color => number;
+  declare export var processColor: Color => number
 
   declare type KeyboardEventName =
     | 'keyboardWillShow'
@@ -2245,7 +2348,7 @@ declare module 'react-native' {
     | 'keyboardWillHide'
     | 'keyboardDidHide'
     | 'keyboardWillChangeFrame'
-    | 'keyboardDidChangeFrame';
+    | 'keyboardDidChangeFrame'
 
   declare type KeyboardEventData = {
     endCoordinates: {
@@ -2254,14 +2357,14 @@ declare module 'react-native' {
       screenX: number,
       screenY: number,
     },
-  };
+  }
 
-  declare type KeyboardEventListener = (e: KeyboardEventData) => void;
+  declare type KeyboardEventListener = (e: KeyboardEventData) => void
 
   declare export var Keyboard: {|
     ...$Exact<EventEmitter<KeyboardEventName>>,
     dismiss(): void,
-  |};
+  |}
 
   declare export var AsyncStorage: {|
     /**
@@ -2274,7 +2377,7 @@ declare module 'react-native' {
      */
     getItem(
       key: string,
-      callback?: ?(error: ?Error, result: ?string) => void
+      callback?: ?(error: ?Error, result: ?string) => void,
     ): Promise,
 
     /**
@@ -2288,7 +2391,7 @@ declare module 'react-native' {
     setItem(
       key: string,
       value: string,
-      callback?: ?(error: ?Error) => void
+      callback?: ?(error: ?Error) => void,
     ): Promise,
 
     /**
@@ -2298,10 +2401,7 @@ declare module 'react-native' {
      * @param callback Function that will be called with any error.
      * @returns A `Promise` object.
      */
-    removeItem(
-      key: string,
-      callback?: ?(error: ?Error) => void
-    ): Promise,
+    removeItem(key: string, callback?: ?(error: ?Error) => void): Promise,
 
     /**
      * Merges an existing `key` value with an input value, assuming both values
@@ -2341,7 +2441,7 @@ declare module 'react-native' {
     mergeItem(
       key: string,
       value: string,
-      callback?: ?(error: ?Error) => void
+      callback?: ?(error: ?Error) => void,
     ): Promise,
 
     /**
@@ -2361,7 +2461,9 @@ declare module 'react-native' {
      *
      * Example: see the `multiGet` example.
      */
-    getAllKeys(callback?: ?(error: ?Error, keys: ?Array<string>) => void): Promise,
+    getAllKeys(
+      callback?: ?(error: ?Error, keys: ?Array<string>) => void,
+    ): Promise,
 
     /**
      * The following batched functions are useful for executing a lot of
@@ -2406,7 +2508,10 @@ declare module 'react-native' {
      */
     multiGet(
       keys: Array<string>,
-      callback?: ?(errors: ?Array<Error>, result: ?Array<Array<string>>) => void
+      callback?: ?(
+        errors: ?Array<Error>,
+        result: ?Array<Array<string>>,
+      ) => void,
     ): Promise,
 
     /**
@@ -2427,7 +2532,7 @@ declare module 'react-native' {
      */
     multiSet(
       keyValuePairs: Array<Array<string>>,
-      callback?: ?(errors: ?Array<Error>) => void
+      callback?: ?(errors: ?Array<Error>) => void,
     ): Promise,
 
     /**
@@ -2448,7 +2553,7 @@ declare module 'react-native' {
      */
     multiRemove(
       keys: Array<string>,
-      callback?: ?(errors: ?Array<Error>) => void
+      callback?: ?(errors: ?Array<Error>) => void,
     ): Promise,
 
     /**
@@ -2511,14 +2616,14 @@ declare module 'react-native' {
      */
     multiMerge(
       keyValuePairs: Array<Array<string>>,
-      callback?: ?(errors: ?Array<Error>) => void
+      callback?: ?(errors: ?Array<Error>) => void,
     ): Promise,
-  |};
+  |}
 
   declare type InteractionManagerEvents = {
     interactionStart: 'interactionStart',
     interactionComplete: 'interactionComplete',
-  };
+  }
 
   declare export var InteractionManager: {|
     Events: InteractionManagerEvents,
@@ -2527,7 +2632,9 @@ declare module 'react-native' {
      * Schedule a function to run after all interactions have completed. Returns a cancellable
      * "promise".
      */
-    runAfterInteractions(task: ?Task): {then: Function, done: Function, cancel: Function},
+    runAfterInteractions(
+      task: ?Task,
+    ): { then: Function, done: Function, cancel: Function },
 
     /**
      * Notify manager that an interaction has started.
@@ -2542,7 +2649,7 @@ declare module 'react-native' {
     addListener(
       eventType: $Keys<InteractionManagerEvents>,
       listener: Function,
-      context: ?Object
+      context: ?Object,
     ): EmitterSubscription<$Keys<InteractionManagerEvents>>,
 
     /**
@@ -2551,10 +2658,10 @@ declare module 'react-native' {
      * executed in one setImmediate batch (default).
      */
     setDeadline(deadline: number): void,
-  |};
+  |}
 
-  declare type EasingFunction = (t?: number) => number;
-  declare type EasingFunctionGenerator = (s: number) => EasingFunction;
+  declare type EasingFunction = (t?: number) => number
+  declare type EasingFunctionGenerator = (s: number) => EasingFunction
 
   declare export var Easing: {|
     step0: (n: number) => EasingFunction,
@@ -2634,12 +2741,7 @@ declare module 'react-native' {
      * A useful tool to visualize cubic bezier curves can be found at
      * http://cubic-bezier.com/
      */
-    bezier(
-      x1: number,
-      y1: number,
-      x2: number,
-      y2: number
-    ): EasingFunction,
+    bezier(x1: number, y1: number, x2: number, y2: number): EasingFunction,
 
     /**
      * Runs an easing function forwards.
@@ -2657,33 +2759,33 @@ declare module 'react-native' {
      * duration.
      */
     inOut(easing: EasingFunction): EasingFunction,
-  |};
+  |}
 
-  declare type ExtrapolateType = 'extend' | 'identity' | 'clamp';
+  declare type ExtrapolateType = 'extend' | 'identity' | 'clamp'
   declare type InterpolationConfigType = {
     inputRange: Array<number>,
-    outputRange: (Array<number> | Array<string>),
-    easing?: ((input: number) => number),
+    outputRange: Array<number> | Array<string>,
+    easing?: (input: number) => number,
     extrapolate?: ExtrapolateType,
     extrapolateLeft?: ExtrapolateType,
     extrapolateRight?: ExtrapolateType,
-  };
-  declare type EndResult = {finished: bool};
-  declare type EndCallback = (result: EndResult) => void;
+  }
+  declare type EndResult = { finished: boolean }
+  declare type EndCallback = (result: EndResult) => void
   declare type AnimationConfig = {
-    isInteraction?: bool,
-    useNativeDriver?: bool,
+    isInteraction?: boolean,
+    useNativeDriver?: boolean,
     onComplete?: ?EndCallback,
     iterations?: number,
-  };
+  }
 
   declare class Interpolation {
-    static create(config: InterpolationConfigType): (input: number) => number | string,
+    static create(
+      config: InterpolationConfigType,
+    ): (input: number) => number | string,
   }
 
-  declare class BaseAnimated {
-
-  }
+  declare class BaseAnimated {}
 
   declare class Animation {
     start(
@@ -2691,7 +2793,7 @@ declare module 'react-native' {
       onUpdate: (value: number) => void,
       onEnd: ?EndCallback,
       previousAnimation: ?Animation,
-      animatedValue: AnimatedValue
+      animatedValue: AnimatedValue,
     ): void,
     onUpdate(): void,
     stop(): void,
@@ -2702,30 +2804,34 @@ declare module 'react-native' {
   declare class TimingAnimation extends Animation {}
 
   declare type DecayAnimationConfig = AnimationConfig & {
-    velocity: number | {x: number, y: number},
+    velocity: number | { x: number, y: number },
     deceleration?: number,
-  };
+  }
 
   declare type DecayAnimationConfigSingle = AnimationConfig & {
     velocity: number,
     deceleration?: number,
-  };
+  }
 
   declare type SpringAnimationConfig = AnimationConfig & {
-    toValue: number | AnimatedValue | {x: number, y: number} | AnimatedValueXY,
-    overshootClamping?: bool,
+    toValue:
+      | number
+      | AnimatedValue
+      | { x: number, y: number }
+      | AnimatedValueXY,
+    overshootClamping?: boolean,
     restDisplacementThreshold?: number,
     restSpeedThreshold?: number,
-    velocity?: number | {x: number, y: number},
+    velocity?: number | { x: number, y: number },
     bounciness?: number,
     speed?: number,
     tension?: number,
     friction?: number,
-  };
+  }
 
   declare type SpringAnimationConfigSingle = AnimationConfig & {
     toValue: number | AnimatedValue,
-    overshootClamping?: bool,
+    overshootClamping?: boolean,
     restDisplacementThreshold?: number,
     restSpeedThreshold?: number,
     velocity?: number,
@@ -2733,20 +2839,20 @@ declare module 'react-native' {
     speed?: number,
     tension?: number,
     friction?: number,
-  };
+  }
 
   declare class DecayAnimation extends Animation {}
   declare class SpringAnimation extends Animation {}
 
-  declare type ValueListenerCallback = (state: {value: number}) => void;
+  declare type ValueListenerCallback = (state: { value: number }) => void
 
   declare class AnimatedValue extends AnimatedWithChildren {
     __isNative: boolean,
     __getValue: () => number,
     __getAnimatedValue: () => number,
-    
+
     _listeners: { [key: string]: mixed },
-    
+
     constructor(value: number): void,
     /**
      * Directly set the value.  This will stop any animations running on the value
@@ -2819,24 +2925,29 @@ declare module 'react-native' {
     track(tracking: BaseAnimated): void,
   }
 
-  declare type ValueXYListenerCallback = (value: {x: number, y: number}) => void;
+  declare type ValueXYListenerCallback = (value: {
+    x: number,
+    y: number,
+  }) => void
 
   declare class AnimatedValueXY extends AnimatedWithChildren {
-    x: AnimatedValue;
-    y: AnimatedValue;
-    constructor(valueIn?: ?{x: number | AnimatedValue, y: number | AnimatedValue}): void,
+    x: AnimatedValue,
+    y: AnimatedValue,
+    constructor(
+      valueIn?: ?{ x: number | AnimatedValue, y: number | AnimatedValue },
+    ): void,
 
-    setValue(value: {x: number, y: number}): void,
+    setValue(value: { x: number, y: number }): void,
 
-    setOffset(offset: {x: number, y: number}): void,
+    setOffset(offset: { x: number, y: number }): void,
 
     flattenOffset(): void,
 
     extractOffset(): void,
 
-    resetAnimation(callback?: (value: {x: number, y: number}) => void): void,
+    resetAnimation(callback?: (value: { x: number, y: number }) => void): void,
 
-    stopAnimation(callback?: (value: {x: number, y: number}) => void): void,
+    stopAnimation(callback?: (value: { x: number, y: number }) => void): void,
 
     addListener(callback: ValueXYListenerCallback): string,
 
@@ -2851,7 +2962,7 @@ declare module 'react-native' {
      *  style={this.state.anim.getLayout()}
      *```
      */
-    getLayout(): {[key: string]: AnimatedValue},
+    getLayout(): { [key: string]: AnimatedValue },
 
     /**
      * Converts `{x, y}` into a useable translation transform, e.g.
@@ -2862,7 +2973,7 @@ declare module 'react-native' {
      *  }}
      *```
      */
-    getTranslateTransform(): Array<{[key: string]: AnimatedValue}>,
+    getTranslateTransform(): Array<{ [key: string]: AnimatedValue }>,
   }
 
   declare class AnimatedInterpolation extends AnimatedWithChildren {
@@ -2904,15 +3015,12 @@ declare module 'react-native' {
   }
 
   declare class AnimatedProps extends AnimatedWithChildren {
-    constructor(
-      props: Object,
-      callback: () => void,
-    ): void,
+    constructor(props: Object, callback: () => void): void,
     update(): void,
     setNativeView(animatedView: any): void,
   }
 
-  declare class AnimatedComponent extends React$Component<*,*,*> {
+  declare class AnimatedComponent extends React$Component<*, *, *> {
     getNode(): any,
   }
 
@@ -2931,23 +3039,21 @@ declare module 'react-native' {
     start: (callback?: ?EndCallback) => void,
     stop: () => void,
     reset: () => void,
-  };
+  }
 
   declare type ParallelConfig = {
-    stopTogether?: bool, // If one is stopped, stop all.  default: true
+    stopTogether?: boolean, // If one is stopped, stop all.  default: true
   }
 
-  declare type LoopAnimationConfig = { iterations: number };
+  declare type LoopAnimationConfig = { iterations: number }
 
-  declare type Mapping = {[key: string]: Mapping} | AnimatedValue;
+  declare type Mapping = { [key: string]: Mapping } | AnimatedValue
   declare type EventConfig = {
     listener?: ?Function,
-    useNativeDriver?: bool,
-  };
-
-  declare class AnimatedEvent {
-
+    useNativeDriver?: boolean,
   }
+
+  declare class AnimatedEvent {}
 
   declare export var Animated: {|
     /**
@@ -2980,7 +3086,10 @@ declare module 'react-native' {
      *   - `deceleration`: Rate of decay.  Default 0.997.
      *   - `useNativeDriver`: Uses the native driver when true. Default false.
      */
-    decay(value: AnimatedValue | AnimatedValueXY, config: DecayAnimationConfig): CompositeAnimation,
+    decay(
+      value: AnimatedValue | AnimatedValueXY,
+      config: DecayAnimationConfig,
+    ): CompositeAnimation,
     /**
      * Animates a value along a timed easing curve. The
      * [`Easing`](docs/easing.html) module has tons of predefined curves, or you
@@ -2994,7 +3103,10 @@ declare module 'react-native' {
      *   - `delay`: Start the animation after delay (milliseconds).  Default 0.
      *   - `useNativeDriver`: Uses the native driver when true. Default false.
      */
-    timing(value: AnimatedValue | AnimatedValueXY, config: TimingAnimationConfig): CompositeAnimation,
+    timing(
+      value: AnimatedValue | AnimatedValueXY,
+      config: TimingAnimationConfig,
+    ): CompositeAnimation,
     /**
      * Spring animation based on Rebound and
      * [Origami](https://facebook.github.io/origami/).  Tracks velocity state to
@@ -3009,7 +3121,10 @@ declare module 'react-native' {
      *   - `bounciness`: Controls bounciness. Default 8.
      *   - `useNativeDriver`: Uses the native driver when true. Default false.
      */
-    spring(value: AnimatedValue | AnimatedValueXY, config: SpringAnimationConfig): CompositeAnimation,
+    spring(
+      value: AnimatedValue | AnimatedValueXY,
+      config: SpringAnimationConfig,
+    ): CompositeAnimation,
 
     /**
      * Creates a new Animated value composed from two Animated values added
@@ -3021,13 +3136,19 @@ declare module 'react-native' {
      * Creates a new Animated value composed by dividing the first Animated value
      * by the second Animated value.
      */
-    divide(a: BaseAnimated | number, b: BaseAnimated | number): AnimatedDivision,
+    divide(
+      a: BaseAnimated | number,
+      b: BaseAnimated | number,
+    ): AnimatedDivision,
 
     /**
      * Creates a new Animated value composed from two Animated values multiplied
      * together.
      */
-    multiply(a: BaseAnimated | number, b: BaseAnimated | number): AnimatedMultiplication,
+    multiply(
+      a: BaseAnimated | number,
+      b: BaseAnimated | number,
+    ): AnimatedMultiplication,
 
     /**
      * Creates a new Animated value that is the (non-negative) modulo of the
@@ -3061,19 +3182,28 @@ declare module 'react-native' {
      * of the animations is stopped, they will all be stopped.  You can override
      * this with the `stopTogether` flag.
      */
-    parallel(animations: Array<CompositeAnimation>, config?: ?ParallelConfig): CompositeAnimation,
+    parallel(
+      animations: Array<CompositeAnimation>,
+      config?: ?ParallelConfig,
+    ): CompositeAnimation,
     /**
      * Array of animations may run in parallel (overlap), but are started in
      * sequence with successive delays.  Nice for doing trailing effects.
      */
-    stagger(time: number, animations: Array<CompositeAnimation>): CompositeAnimation,
+    stagger(
+      time: number,
+      animations: Array<CompositeAnimation>,
+    ): CompositeAnimation,
     /**
      * Loops a given animation continuously, so that each time it reaches the
      * end, it resets and begins again from the start. Can specify number of
      * times to loop using the key 'iterations' in the config. Will loop without
      * blocking the UI thread if the child animation is set to 'useNativeDriver'.
      */
-    loop(animation: CompositeAnimation, config?: LoopAnimationConfig): CompositeAnimation,
+    loop(
+      animation: CompositeAnimation,
+      config?: LoopAnimationConfig,
+    ): CompositeAnimation,
 
     /**
      * Takes an array of mappings and extracts values from each arg accordingly,
@@ -3107,22 +3237,29 @@ declare module 'react-native' {
      * Imperative API to attach an animated value to an event on a view. Prefer using
      * `Animated.event` with `useNativeDrive: true` if possible.
      */
-    attachNativeEvent(viewRef: any, eventName: string, argMapping: Array<?Mapping>): void,
+    attachNativeEvent(
+      viewRef: any,
+      eventName: string,
+      argMapping: Array<?Mapping>,
+    ): void,
 
     /**
      * Advanced imperative API for snooping on animated events that are passed in through props. Use
      * values directly where possible.
      */
-    forkEvent(event: ?AnimatedEvent | ?Function, listener: Function): AnimatedEvent | Function,
-    unforkEvent(event: ?AnimatedEvent | ?Function, listener: Function): void ,
-    
+    forkEvent(
+      event: ?AnimatedEvent | ?Function,
+      listener: Function,
+    ): AnimatedEvent | Function,
+    unforkEvent(event: ?AnimatedEvent | ?Function, listener: Function): void,
+
     Text: Class<AnimatedText>,
     View: Class<AnimatedView>,
     Image: Class<AnimatedImage>,
     ScrollView: Class<AnimatedScrollView>,
-  |};
+  |}
 
-  declare export function findNodeHandle(componentOrHandle: any): ?number;
+  declare export function findNodeHandle(componentOrHandle: any): ?number
 
   declare type TouchableWithoutFeedbackProps = {
     accessible?: boolean,
@@ -3177,9 +3314,13 @@ declare module 'react-native' {
      * views.
      */
     hitSlop?: EdgeInsetsProp,
-  };
+  }
 
-  declare export class TouchableWithoutFeedback extends React$Component<void, TouchableWithoutFeedbackProps, void> {
+  declare export class TouchableWithoutFeedback extends React$Component<
+    void,
+    TouchableWithoutFeedbackProps,
+    void,
+  > {
     blur(): void,
     focus(): void,
     measure(callback: MeasureOnSuccessCallback): void,
@@ -3204,18 +3345,22 @@ declare module 'react-native' {
      * Apple TV parallax effects
      */
     tvParallaxProperties?: Object,
-  };
+  }
 
   declare type TouchableOpacityDefaultProps = {
     activeOpacity: number,
     focusedOpacity: number,
-  };
+  }
 
-  declare export class TouchableOpacity extends React$Component<TouchableOpacityDefaultProps, TouchableOpacityProps, void> {
+  declare export class TouchableOpacity extends React$Component<
+    TouchableOpacityDefaultProps,
+    TouchableOpacityProps,
+    void,
+  > {
     static defaultProps: {
       activeOpacity: 0.2,
       focusedOpacity: 0.7,
-    };
+    },
     blur(): void,
     focus(): void,
     measure(callback: MeasureOnSuccessCallback): void,
@@ -3267,13 +3412,17 @@ declare module 'react-native' {
      * @platform ios
      */
     tvParallaxProperties?: Object,
-  };
+  }
 
-  declare export class TouchableHighlight extends React$Component<typeof TouchableHighlight.defaultProps, TouchableHighlightProps, void> {
+  declare export class TouchableHighlight extends React$Component<
+    typeof TouchableHighlight.defaultProps,
+    TouchableHighlightProps,
+    void,
+  > {
     static defaultProps: {
       activeOpacity: 0.85,
       underlayColor: 'black',
-    };
+    },
     blur(): void,
     focus(): void,
     measure(callback: MeasureOnSuccessCallback): void,
@@ -3294,14 +3443,16 @@ declare module 'react-native' {
      * depending on the `type`. It's recommended to use one of the static
      * methods to generate that dictionary.
      */
-    background: {
-      type: 'RippleAndroid',
-      color: number,
-      borderless: boolean,
-    } | {
-      type: 'ThemeAttrAndroid',
-      attribute: string,
-    },
+    background:
+      | {
+          type: 'RippleAndroid',
+          color: number,
+          borderless: boolean,
+        }
+      | {
+          type: 'ThemeAttrAndroid',
+          attribute: string,
+        },
 
     /**
      * Set to true to add the ripple effect to the foreground of the view, instead of the
@@ -3313,25 +3464,29 @@ declare module 'react-native' {
      * fallback to background.
      */
     useForeground?: boolean,
-  };
-  
+  }
+
   declare type TouchableNativeFeedbackDefaultProps = {
     activeOpacity: number,
     underlayColor: string,
-  };
+  }
 
-  declare export class TouchableNativeFeedback extends React$Component<TouchableNativeFeedbackDefaultProps, TouchableNativeFeedbackProps, void> {
+  declare export class TouchableNativeFeedback extends React$Component<
+    TouchableNativeFeedbackDefaultProps,
+    TouchableNativeFeedbackProps,
+    void,
+  > {
     static defaultProps: {
       activeOpacity: 0.85,
       underlayColor: 'black',
-    };
+    },
     /**
      * Creates an object that represents android theme's default background for
      * selectable elements (?android:attr/selectableItemBackground).
      */
     static SelectableBackground(): {
       type: 'ThemeAttrAndroid',
-      attribute: 'selectableItemBackground'
+      attribute: 'selectableItemBackground',
     },
     /**
      * Creates an object that represent android theme's default background for borderless
@@ -3352,7 +3507,10 @@ declare module 'react-native' {
      * @param color The ripple color
      * @param borderless If the ripple can render outside it's bounds
      */
-    static Ripple(color: string, borderless: boolean): {
+    static Ripple(
+      color: string,
+      borderless: boolean,
+    ): {
       type: 'RippleAndroid',
       color: number,
       borderless: boolean,
@@ -3369,7 +3527,6 @@ declare module 'react-native' {
     ): void,
     setNativeProps(nativeProps: TouchableNativeFeedbackProps): void,
   }
-
 
   declare class ListViewDataSource {
     /**
@@ -3416,8 +3573,8 @@ declare module 'react-native' {
      * this function as the `dataBlob`.
      */
     cloneWithRows(
-        dataBlob: $ReadOnlyArray<any> | {+[key: string]: any},
-        rowIdentities: ?$ReadOnlyArray<string>
+      dataBlob: $ReadOnlyArray<any> | { +[key: string]: any },
+      rowIdentities: ?$ReadOnlyArray<string>,
     ): ListViewDataSource,
 
     /**
@@ -3432,9 +3589,9 @@ declare module 'react-native' {
      * Note: this returns a new object!
      */
     cloneWithRowsAndSections(
-        dataBlob: any,
-        sectionIdentities: ?Array<string>,
-        rowIdentities: ?Array<Array<string>>
+      dataBlob: any,
+      sectionIdentities: ?Array<string>,
+      rowIdentities: ?Array<Array<string>>,
     ): ListViewDataSource,
 
     getRowCount(): number,
@@ -3478,8 +3635,6 @@ declare module 'react-native' {
      */
     getSectionHeaderData(sectionIndex: number): any,
   }
-
-
 
   declare type ListViewProps = {
     ...ScrollViewProps,
@@ -3600,9 +3755,13 @@ declare module 'react-native' {
      * If empty sections are not desired to be rendered their indices should be excluded from sectionID object.
      */
     enableEmptySections?: boolean,
-  };
+  }
 
-  declare export class ListView extends React$Component<void, ListViewProps, void> {
+  declare export class ListView extends React$Component<
+    void,
+    ListViewProps,
+    void,
+  > {
     static DataSource: Class<ListViewDataSource>,
     /**
      * Provides a handle to the underlying scroll responder.
@@ -3634,9 +3793,9 @@ declare module 'react-native' {
     setNativeProps(props: Object): void,
   }
 
-  declare type VirtualizedListItem = any;
+  declare type VirtualizedListItem = any
 
-  declare type renderItemType = (info: any) => ?React.Element<any>;
+  declare type renderItemType = (info: any) => ?React.Element<any>
 
   declare type RequiredVirtualizedListProps = {
     renderItem: renderItemType,
@@ -3653,7 +3812,7 @@ declare module 'react-native' {
      * Determines how many items are in the data blob.
      */
     getItemCount: (data: any) => number,
-  };
+  }
 
   declare type OptionalVirtualizedListProps = {
     /**
@@ -3673,8 +3832,10 @@ declare module 'react-native' {
      * `data` prop, stick it here and treat it immutably.
      */
     extraData?: any,
-    getItemLayout?: (data: any, index: number) =>
-      {length: number, offset: number, index: number}, // e.g. height, y
+    getItemLayout?: (
+      data: any,
+      index: number,
+    ) => { length: number, offset: number, index: number }, // e.g. height, y
     horizontal?: ?boolean,
     /**
      * How many items to render in the initial batch. This should be enough to fill the screen but not
@@ -3711,7 +3872,7 @@ declare module 'react-native' {
      * interfere with responding to button taps or other interactions.
      */
     maxToRenderPerBatch: number,
-    onEndReached?: ?(info: {distanceFromEnd: number}) => void,
+    onEndReached?: ?(info: { distanceFromEnd: number }) => void,
     onEndReachedThreshold?: ?number, // units of visible length
     onLayout?: ?Function,
     /**
@@ -3755,27 +3916,37 @@ declare module 'react-native' {
      * chance that fast scrolling may reveal momentary blank areas of unrendered content.
      */
     windowSize: number,
-  };
+  }
 
   declare type VirtualizedListProps = {
     ...RequiredVirtualizedListProps,
     ...OptionalVirtualizedListProps,
-  };
+  }
 
-
-  declare class VirtualizedList extends React.PureComponent<OptionalVirtualizedListProps, VirtualizedListProps, void> {
-    scrollToEnd(params?: ?{animated?: ?boolean}): void,
+  declare class VirtualizedList extends React.PureComponent<
+    OptionalVirtualizedListProps,
+    VirtualizedListProps,
+    void,
+  > {
+    scrollToEnd(params?: ?{ animated?: ?boolean }): void,
 
     // scrollToIndex may be janky without getItemLayout prop
     scrollToIndex(params: {
-      animated?: ?boolean, index: number, viewOffset?: number, viewPosition?: number
+      animated?: ?boolean,
+      index: number,
+      viewOffset?: number,
+      viewPosition?: number,
     }): void,
 
     // scrollToItem may be janky without getItemLayout prop. Required linear scan through items -
     // use scrollToIndex instead if possible.
-    scrollToItem(params: {animated?: ?boolean, item: Item, viewPosition?: number}): void,
+    scrollToItem(params: {
+      animated?: ?boolean,
+      item: Item,
+      viewPosition?: number,
+    }): void,
 
-    scrollToOffset(params: {animated?: ?boolean, offset: number}): void,
+    scrollToOffset(params: { animated?: ?boolean, offset: number }): void,
 
     recordInteraction(): void,
 
@@ -3788,8 +3959,6 @@ declare module 'react-native' {
 
     getScrollableNode(): any,
   }
-
-
 
   declare type RequiredFlatListProps<ItemT> = {
     /**
@@ -3832,7 +4001,7 @@ declare module 'react-native' {
      * immutable list, use the underlying `VirtualizedList` directly.
      */
     data: ?$ReadOnlyArray<ItemT>,
-  };
+  }
   declare type OptionalFlatListProps<ItemT> = {
     /**
      * Rendered in between each item, but not at the top or bottom. By default, `highlighted` and
@@ -3878,8 +4047,10 @@ declare module 'react-native' {
      * Remember to include separator length (height or width) in your offset calculation if you
      * specify `ItemSeparatorComponent`.
      */
-    getItemLayout?: (data: ?Array<ItemT>, index: number) =>
-      {length: number, offset: number, index: number},
+    getItemLayout?: (
+      data: ?Array<ItemT>,
+      index: number,
+    ) => { length: number, offset: number, index: number },
     /**
      * If true, renders items next to each other horizontally instead of stacked vertically.
      */
@@ -3912,7 +4083,7 @@ declare module 'react-native' {
      * Called once when the scroll position gets within `onEndReachedThreshold` of the rendered
      * content.
      */
-    onEndReached?: ?(info: {distanceFromEnd: number}) => void,
+    onEndReached?: ?(info: { distanceFromEnd: number }) => void,
     /**
      * How far from the end (in units of visible length of the list) the bottom edge of the
      * list must be from the end of the content to trigger the `onEndReached` callback.
@@ -3947,19 +4118,23 @@ declare module 'react-native' {
      * See `ViewabilityHelper` for flow type and further documentation.
      */
     viewabilityConfig?: ViewabilityConfig,
-  };
+  }
 
   declare type FlatListProps<ItemT> = {
     ...RequiredProps<ItemT>,
     ...OptionalProps<ItemT>,
     ...VirtualizedListProps,
-  };
+  }
 
-  declare export class FlatList<ItemT> extends React$Component<void, FlatListProps<ItemT>, void> {
+  declare export class FlatList<ItemT> extends React$Component<
+    void,
+    FlatListProps<ItemT>,
+    void,
+  > {
     /**
      * Scrolls to the end of the content. May be janky without `getItemLayout` prop.
      */
-    scrollToEnd(params?: ?{animated?: ?boolean}): void,
+    scrollToEnd(params?: ?{ animated?: ?boolean }): void,
 
     /**
      * Scrolls to the item at a the specified index such that it is positioned in the viewable area
@@ -3970,7 +4145,10 @@ declare module 'react-native' {
      * `getItemLayout` prop.
      */
     scrollToIndex(params: {
-      animated?: ?boolean, index: number, viewOffset?: number, viewPosition?: number,
+      animated?: ?boolean,
+      index: number,
+      viewOffset?: number,
+      viewPosition?: number,
     }): void,
 
     /**
@@ -3979,12 +4157,16 @@ declare module 'react-native' {
      * Note: cannot scroll to locations outside the render window without specifying the
      * `getItemLayout` prop.
      */
-    scrollToItem(params: {animated?: ?boolean, item: ItemT, viewPosition?: number}): void,
+    scrollToItem(params: {
+      animated?: ?boolean,
+      item: ItemT,
+      viewPosition?: number,
+    }): void,
 
     /**
      * Scroll to a specific content pixel offset, like a normal `ScrollView`.
      */
-    scrollToOffset(params: {animated?: ?boolean, offset: number}): void,
+    scrollToOffset(params: { animated?: ?boolean, offset: number }): void,
 
     /**
      * Tells the list an interaction has occured, which should trigger viewability calculations, e.g.
@@ -4034,15 +4216,8 @@ declare module 'react-native' {
   declare export var UIManager: {|
     focus(reactTag: number): void,
     blur(reactTag: number): void,
-    dispatchViewManagerCommand(
-      reactTag: number,
-      commandID,
-      commandArgs
-    ): void,
-    measure(
-      reactTag: number,
-      callback: MeasureOnSuccessCallback,
-    ): void,
+    dispatchViewManagerCommand(reactTag: number, commandID, commandArgs): void,
+    measure(reactTag: number, callback: MeasureOnSuccessCallback): void,
     measureLayout(
       reactTag: number,
       relativeTo: number,
@@ -4052,7 +4227,7 @@ declare module 'react-native' {
     measureLayoutRelativeToParent(
       reactTag: number,
       errorCallback: () => void,
-      callback: MeasureLayoutOnSuccessCallback
+      callback: MeasureLayoutOnSuccessCallback,
     ): void,
     measureViewsInRect(
       rect: {
@@ -4063,7 +4238,7 @@ declare module 'react-native' {
       },
       parentView: number,
       errorCallback: () => void,
-      callback: MeasureLayoutOnSuccessCallback
+      callback: MeasureLayoutOnSuccessCallback,
     ): void,
   |}
 
@@ -4096,16 +4271,13 @@ declare module 'react-native' {
      */
     addEventListener(
       eventName: ChangeEventName,
-      handler: Function
-    ): {remove: () => void},
+      handler: Function,
+    ): { remove: () => void },
 
     /**
      * Removes the listener for network status changes.
      */
-    removeEventListener(
-      eventName: ChangeEventName,
-      handler: Function
-    ): void,
+    removeEventListener(eventName: ChangeEventName, handler: Function): void,
 
     /**
      * Returns a promise that resolves with one of the connectivity types listed
@@ -4122,13 +4294,10 @@ declare module 'react-native' {
     isConnected: {
       addEventListener(
         eventName: ChangeEventName,
-        handler: Function
-      ): {remove: () => void},
+        handler: Function,
+      ): { remove: () => void },
 
-      removeEventListener(
-        eventName: ChangeEventName,
-        handler: Function
-      ): void,
+      removeEventListener(eventName: ChangeEventName, handler: Function): void,
 
       fetch(): Promise<any>,
     },
@@ -4136,41 +4305,43 @@ declare module 'react-native' {
     isConnectionExpensive(): Promise<boolean>,
   |}
 
-  declare type ComponentInterface = React$Class<any> | {
-    name?: string,
-    displayName?: string,
-    propTypes: Object,
-  };
+  declare type ComponentInterface =
+    | React$Class<any>
+    | {
+        name?: string,
+        displayName?: string,
+        propTypes: Object,
+      }
 
   declare export function requireNativeComponent(
     viewName: string,
     componentInterface?: ?ComponentInterface,
-    extraConfig?: ?{nativeOnly?: Object},
-  ): ReactClass<any> | string;
+    extraConfig?: ?{ nativeOnly?: Object },
+  ): ReactClass<any> | string
 
-
-  declare type Task = (taskData: any) => Promise<void>;
-  declare type TaskProvider = () => Task;
-  declare type ComponentProvider = () => React$Class<any>;
-  declare type ComponentProviderInstrumentationHook =
-    (component: ComponentProvider) => React$Class<any>;
+  declare type Task = (taskData: any) => Promise<void>
+  declare type TaskProvider = () => Task
+  declare type ComponentProvider = () => React$Class<any>
+  declare type ComponentProviderInstrumentationHook = (
+    component: ComponentProvider,
+  ) => React$Class<any>
   declare type AppConfig = {
     appKey: string,
     component?: ComponentProvider,
     run?: Function,
     section?: boolean,
-  };
+  }
   declare type Runnable = {
     component?: ComponentProvider,
     run: Function,
-  };
+  }
   declare type Runnables = {
     [appKey: string]: Runnable,
-  };
+  }
   declare type Registry = {
     sections: Array<string>,
     runnables: Runnables,
-  };
+  }
 
   declare export var AppRegistry: {|
     registerConfig(config: Array<AppConfig>): void,
@@ -4195,7 +4366,9 @@ declare module 'react-native' {
 
     getRegistry(): Registry,
 
-    setComponentProviderInstrumentationHook(hook: ComponentProviderInstrumentationHook): void,
+    setComponentProviderInstrumentationHook(
+      hook: ComponentProviderInstrumentationHook,
+    ): void,
 
     runApplication(appKey: string, appParameters: any): void,
 
@@ -4220,8 +4393,14 @@ declare module 'react-native' {
     startHeadlessTask(taskId: number, taskKey: string, data: any): void,
   |}
 
-  declare type ShareContent = { title?: string, message: string } | { title?: string, url: string };
-  declare type ShareOptions = { dialogTitle?: string, excludeActivityTypes?: Array<string>, tintColor?: string };
+  declare type ShareContent =
+    | { title?: string, message: string }
+    | { title?: string, url: string }
+  declare type ShareOptions = {
+    dialogTitle?: string,
+    excludeActivityTypes?: Array<string>,
+    tintColor?: string,
+  }
 
   declare export var Share: {|
     /**
@@ -4267,7 +4446,7 @@ declare module 'react-native' {
      * The dialog has been dismissed.
      * @platform ios
      */
-    dismissedAction: 'dismissedAction'
+    dismissedAction: 'dismissedAction',
   |}
 
   declare type ActivityIndicatorProps = {
@@ -4293,7 +4472,11 @@ declare module 'react-native' {
     hidesWhenStopped?: boolean,
   }
 
-  declare export class ActivityIndicator extends React$Component<void, ActivityIndicatorProps, void> {
+  declare export class ActivityIndicator extends React$Component<
+    void,
+    ActivityIndicatorProps,
+    void,
+  > {
     blur(): void,
     focus(): void,
     measure(callback: MeasureOnSuccessCallback): void,
@@ -4319,7 +4502,7 @@ declare module 'react-native' {
      * Light background, dark texts and icons
      */
     'dark-content': string,
-  }>;
+  }>
 
   /**
    * Status bar animation
@@ -4337,7 +4520,7 @@ declare module 'react-native' {
      * Slide animation
      */
     'slide': string,
-  }>;
+  }>
 
   declare type StatusBarProps = {
     hidden?: boolean,
@@ -4349,7 +4532,11 @@ declare module 'react-native' {
     showHideTransition?: 'fade' | 'slide',
   }
 
-  declare export class StatusBar extends React$Component<void, StatusBarProps, void> {
+  declare export class StatusBar extends React$Component<
+    void,
+    StatusBarProps,
+    void,
+  > {
     static currentHeight: number,
 
     // Provide an imperative API as static functions of the component.
@@ -4388,7 +4575,6 @@ declare module 'react-native' {
      * @param translucent Set as translucent.
      */
     static setTranslucent(translucent: boolean): void,
-
   }
 
   // declare export var View: any;
@@ -4415,51 +4601,51 @@ declare module 'react-native' {
   // declare export var InteractionManager: any; // yes
   // declare export var Easing: any; // yes
   // declare export var TouchableNativeFeedback: any;
-  declare export var Button: any;
-  declare export var NativeModules: any;
-  declare export var Modal: any;
-  declare export var ColorPropType: any;
+  declare export var Button: any
+  declare export var NativeModules: any
+  declare export var Modal: any
+  declare export var ColorPropType: any
   // declare export var AppState: any; // yes
-  declare export var RefreshControl: any;
-  declare export var KeyboardAvoidingView: any;
-  declare export var Picker: any;
-  declare export var ActionSheetIOS: any;
-  declare export var Navigator: any;
-  declare export var WebView: any;
+  declare export var RefreshControl: any
+  declare export var KeyboardAvoidingView: any
+  declare export var Picker: any
+  declare export var ActionSheetIOS: any
+  declare export var Navigator: any
+  declare export var WebView: any
   // declare export var FlatList: any; // yes
   // declare export var findNodeHandle: any; // yes
-  declare export var Switch: any;
+  declare export var Switch: any
   // declare export var UIManager: any; // yes
   // declare export var Clipboard: any; // yes
-  declare export var PanResponder: any; // yes
+  declare export var PanResponder: any // yes
   // declare export var NetInfo: any; // yes
-  declare export var BackAndroid: any;
+  declare export var BackAndroid: any
   // declare export var Share: any; // yes
-  declare export var NavigationExperimental: any;
-  declare export var CameraRoll: any;
-  declare export var Vibration: any;
-  declare export var PermissionsAndroid: any;
-  declare export var Slider: any;
-  declare export var AlertIOS: any;
+  declare export var NavigationExperimental: any
+  declare export var CameraRoll: any
+  declare export var Vibration: any
+  declare export var PermissionsAndroid: any
+  declare export var Slider: any
+  declare export var AlertIOS: any
   // declare export var AppRegistry: any; // yes
-  declare export var PushNotificationIOS: any;
-  declare export var RenderingPerf: any;
-  declare export var Perf: any;
-  declare export var ToastAndroid: any;
-  declare export var RecyclerViewBackedScrollView: any;
-  declare export var SectionList: any;
-  declare export var DatePickerIOS: any;
-  declare export var ART: any;
+  declare export var PushNotificationIOS: any
+  declare export var RenderingPerf: any
+  declare export var Perf: any
+  declare export var ToastAndroid: any
+  declare export var RecyclerViewBackedScrollView: any
+  declare export var SectionList: any
+  declare export var DatePickerIOS: any
+  declare export var ART: any
   // declare export var requireNativeComponent: any; // yes
   // declare export var DeviceEventEmitter: any; // yes
-  declare export var BackHandler: any;
+  declare export var BackHandler: any
   // declare export var NativeEventEmitter: any; // yes
-  declare export var Touchable: any;
-  declare export var ProgressViewIOS: any;
-  declare export var I18nManager: any;
-  declare export var SwipeableListView: any;
+  declare export var Touchable: any
+  declare export var ProgressViewIOS: any
+  declare export var I18nManager: any
+  declare export var SwipeableListView: any
   // declare export var processColor: any;
-  declare export var VibrationIOS: any;
-  declare export var DatePickerAndroid: any;
-  declare export var TimePickerAndroid: any;
+  declare export var VibrationIOS: any
+  declare export var DatePickerAndroid: any
+  declare export var TimePickerAndroid: any
 }
