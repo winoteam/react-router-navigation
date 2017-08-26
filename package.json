@@ -17,14 +17,14 @@
   },
   "scripts": {
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clear",
-    "test": "eslint . && flow && jest --config=jest.json"
+    "test": "eslint . && flow --show-all-errors && jest --config=jest.json"
   },
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/LeoLeBras/react-router-navigation/issues"
   },
-  "homepage": "https://github.com/LeoLeBras/react-router-navigation#readme",
+  "homepage": "https://github.com/LeoLeBras/react-router-navigation#readme", 
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
@@ -47,7 +47,7 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.7.1",
-    "flow-bin": "0.42.0",
+    "flow-bin": "0.49.1",
     "history": "4.6.1",
     "jest": "19.0.2",
     "react": "16.0.0-alpha.6",

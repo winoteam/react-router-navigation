@@ -61,26 +61,62 @@ const App = () => (
 ```react-router-navigation``` is cross-platform. It supports all platforms that [`react-navigation`](https://github.com/react-community/react-navigation/) and[`react-native-tab-view`](https://github.com/react-native-community/react-native-tab-view) support (Android and iOS).
 
 ### Performance
-`<Navigation />`, `<Tabs />` and `<BottomNavigation />` are updated every time the parent receive new props. If your view is expensive, it's good idea move each route to a separate component and apply shouldComponentUpdate to prevent unnecessary re-renders.
+`<Navigation />`, `<Tabs />` and `<BottomNavigation />` are updated every time the parent receives new props. If your view is expensive, it's good idea to move each route inside a separate stateful component and use the shouldComponentUpdate lifecycle hook to prevent unnecessary re-renders.
 
 For example, instead of:
 ```js
+import MyExpensiveViewComponent from './MyExpensiveViewComponent'
+
 const App = () => (
   <Navigation>
     <Card
       {...routeProps}
-      render={() => <MyExpensiveView />}
+      render={() => <MyExpensiveViewComponent />}
     />
     <Card
       {...routeProps}
-      render={() => <MyExpensiveView />}
+      render={() => <MyExpensiveViewComponent />}
     />
   </Navigation>
 )
 ```
 
-Do the following:
+Prefer the following:
 ```js
+/* CardA.js */
+import MyExpensiveViewComponent from './MyExpensiveViewComponent'
+
+export default class CardA extends React.Component {
+
+  shouldComponentUpdate() {
+    return false
+  }
+
+  render() {
+    return <MyExpensiveViewComponent />
+  }
+
+}
+
+/* CardB.js */
+import MyExpensiveViewComponent from './MyExpensiveViewComponent'
+
+export default class CardB extends React.Component {
+
+  shouldComponentUpdate() {
+    return false
+  }
+
+  render() {
+    return <MyExpensiveViewComponent />
+  }
+
+}
+
+/* App.js */
+import CardA from './CardA'
+import CardB from './CardB'
+
 const App = () => (
   <Navigation>
     <Card
@@ -93,30 +129,6 @@ const App = () => (
     />
   </Navigation>
 )
-
-class CardA extends React.Component {
-
-  shouldComponentUpdate() {
-    return false
-  }
-
-  render() {
-    return <MyExpensiveView />
-  }
-
-}
-
-class CardB extends React.Component {
-
-  shouldComponentUpdate() {
-    return false
-  }
-
-  render() {
-    return <MyExpensiveView />
-  }
-
-}
 ```
 
 ## Contributing

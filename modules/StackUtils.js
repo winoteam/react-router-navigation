@@ -113,9 +113,10 @@ export const getRoute = (stack: Array<Object>, location: Location): ?Route => {
 /**
  * Render a subview with props
  */
+
 export const renderSubView = (
   render: Function,
-  additionalProps?: any = {}, // $FlowFixMe
+  additionalProps?: any = {},
 ) => (ownProps: any): ?React$Element<any> => {
   const props = { ...additionalProps, ...ownProps }
   const { cards, tabs, scene, route, navigationState: { routes, index } } = props

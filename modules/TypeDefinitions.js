@@ -28,6 +28,13 @@ export type RouteProps = {
 }
 
 /**
+ * Style
+ */
+
+export type Styles = {[key: string]: Object};
+export type StyleSheet = Styles | Array<Styles>;
+
+/**
  * Navigation
  */
 
@@ -121,3 +128,4 @@ export type TabSubViewProps = any
 // & SceneRendererProps
 // & TabsRendererProps
 // & TabBarProps
+

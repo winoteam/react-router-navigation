@@ -4,7 +4,7 @@
 import React from 'react'
 import { StyleSheet, Dimensions, View } from 'react-native'
 import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
-import type { TabProps, TabBarProps, TabSubViewProps } from './TypeDefinitions'
+import type { StyleSheet as Style, TabProps, TabBarProps, TabSubViewProps } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import TabBarBottom from './TabBarBottom'
 import { History } from './HistoryUtils'
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 type Props = TabBarProps & {
   children?: Array<React$Element<TabProps>>,
   lazy?: boolean,
-  style?: StyleSheet,
+  style?: Style,
 }
 
 type DefaultProps = {
