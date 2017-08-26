@@ -34,3 +34,8 @@ jest.mock('TouchableOpacity', () => {
   TouchableOpacity.propTypes = RealComponent.propTypes
   return TouchableOpacity
 })
+
+jest.mock('react-navigation/src/views/CardStack/Card', () => props => {
+  const React = require('react')
+  return React.createElement('Card', {}, props.children)
+})
