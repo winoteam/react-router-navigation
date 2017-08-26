@@ -46,7 +46,8 @@ class SceneView extends React.Component<void, Props, State> {
     // Build match
     const { path, exact, strict } = this.props
     const match = matchPath(location.pathname, { path, exact, strict })
-    if (!!match) {
+    if (!this.state.match) {
+      const match = matchPath(location.pathname, { path, exact, strict })
       this.setState({ match, location })
     } else {
       this.setState({ location })
