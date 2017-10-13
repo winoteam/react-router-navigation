@@ -87,7 +87,6 @@ exports[`<Navigation /> renders correctly with initialIndex and initialEntries p
           Hello
         </Text>
       </Card>
-      <Card />
     </View>
   </View>
 </View>
