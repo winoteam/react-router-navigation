@@ -3,7 +3,7 @@
 
 import * as React from 'react'
 import { Dimensions, View } from 'react-native'
-import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view'
+import { TabViewPagerPanProps } from 'react-native-tab-view'
 import { TabProps, TabBarProps, TabSubViewProps } from './TypeDefinitions'
 
 type Props = TabBarProps & {
@@ -25,7 +25,14 @@ declare class BottomNavigation extends React.Component<Props, State> {
 
   state: State
 
-  renderPager: (sceneProps: TabSubViewProps) => React.ReactElement<any>
+  renderPager: (sceneProps: TabViewPagerPanProps) => React.ReactNode
+
+  renderNavigationBar: (
+    sceneProps: TabSubViewProps,
+    props: TabBarProps
+  ) => React.ReactNode
+
+  renderScene: (sceneProps: TabSubViewProps) => React.ReactNode
 
   render(): React.ReactElement<any>
 }

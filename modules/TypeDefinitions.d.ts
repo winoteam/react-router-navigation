@@ -5,7 +5,7 @@ import { StyleProp, ViewStyle, TextStyle } from 'react-native'
 import { RouteComponentProps } from 'react-router'
 import {
   NavigationTransitionProps,
-  NavigationTransitionSpec
+  NavigationTransitionSpec,
 } from 'react-navigation'
 
 export type Route = {
