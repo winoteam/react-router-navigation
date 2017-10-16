@@ -21,7 +21,12 @@ const buildNavigationState = (
   entries: Array<Location>,
   cards: Array<Card>,
 ): NavigationState<{}> => {
-  return entries.reduce(
+  // Find last route and reproduce actual route stack
+  // Fix > https://github.com/LeoLeBras/react-router-navigation/issues/37
+  const lastRouteIndex = entries.findIndex((entry) => entry.pathname === location.pathname)
+  const initialEntries = entries.slice(0, lastRouteIndex + 1)
+
+  return initialEntries.reduce(
     (state, entry) => {
       const card = cards.find(({ path, exact, strict }) => {
         return matchPath(entry.pathname, { path, exact, strict })
