@@ -9,10 +9,10 @@ $ cd examples/(Basic|Huge)
 
 Install Node.js components:
 ```shell
-$ npm i
+$ yarn install 
 ```
 
 Run the example:
 ```shell
-$ npm start
+$ yarn start
 ```

@@ -1,4 +1,5 @@
 {
-  "name": "Basic",
-  "displayName": "Basic"
+  "expo": {
+    "sdkVersion": "21.0.0"
+  }
 }
