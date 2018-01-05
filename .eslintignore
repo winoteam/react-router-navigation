@@ -1,3 +1,5 @@
-**/flow-typed/**
-**/node_modules/**
-**/examples/**
+flow-typed
+node_modules
+examples
+__tests__
+coverage
