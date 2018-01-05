@@ -1,13 +1,14 @@
 /* @flow */
-/* eslint no-duplicate-imports: 0 */
-/* eslint react/no-unused-prop-types: 0 */
-/* eslint no-mixed-operators: 0 */
 
 import React from 'react'
 import { BackHandler } from 'react-native'
-import { matchPath } from 'react-router'
 import { StateUtils } from 'react-navigation'
-import type { RouterHistory, Location } from 'react-router'
+import {
+  type RouterHistory,
+  type Location,
+  withRouter,
+  matchPath,
+} from 'react-router'
 import type {
   CardsRendererProps,
   NavigationState,
@@ -20,12 +21,17 @@ const buildNavigationState = (
   location: Location,
   entries: Array<Location>,
   cards: Array<Card>,
-): NavigationState<{}> => {
+): NavigationState<{
+  path?: string,
+  params?: Object,
+}> => {
   // Find last route and reproduce actual route stack
   // Fix > https://github.com/LeoLeBras/react-router-navigation/issues/37
-  const lastRouteIndex = entries.findIndex((entry) => entry.pathname === location.pathname)
+  const lastRouteIndex = entries.findIndex(
+    entry => entry.pathname === location.pathname,
+  )
   const initialEntries = entries.slice(0, lastRouteIndex + 1)
-
+  // $FlowFixMe
   return initialEntries.reduce(
     (state, entry) => {
       const card = cards.find(({ path, exact, strict }) => {
@@ -47,7 +53,10 @@ const buildNavigationState = (
 
 type State = {
   key: number,
-  navigationState: NavigationState<{}>,
+  navigationState: NavigationState<{
+    path?: string,
+    params?: Object,
+  }>,
   cards: Array<Card>,
 }
 
@@ -57,13 +66,13 @@ type Props = {
   render: (props: CardsRendererProps) => React$Element<any>,
 }
 
-class CardStack extends React.PureComponent<void, Props, State> {
+class CardStack extends React.PureComponent<Props, State> {
   props: Props
   state: State
 
   unlistenHistory: Function
 
-  constructor(props: Props): void {
+  constructor(props: Props) {
     super(props)
     // Build the card stack
     const { children, history: { entries, index, location } } = props
@@ -84,7 +93,7 @@ class CardStack extends React.PureComponent<void, Props, State> {
   }
 
   // Listen hardware BackHandler event + history event
-  componentDidMount(): void {
+  componentDidMount() {
     const { history } = this.props
     this.unlistenHistory = HistoryUtils.runHistoryListenner(
       history,
@@ -94,13 +103,13 @@ class CardStack extends React.PureComponent<void, Props, State> {
   }
 
   // Remove all listeners
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     this.unlistenHistory()
     BackHandler.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
   // Update cards
-  componentWillReceiveProps(nextProps: Props): void {
+  componentWillReceiveProps(nextProps: Props) {
     const { children, history: { entries, location } } = nextProps
     const { cards, navigationState } = this.state
     // Rebuild cards<x
@@ -108,7 +117,7 @@ class CardStack extends React.PureComponent<void, Props, State> {
     // Get current route
     const route = navigationState.routes[navigationState.index]
     // Get current card
-    const card = StackUtils.get(nextCards, route)
+    const card = Array.isArray(nextCards) && StackUtils.get(nextCards, route)
     if (entries && card && !card.path) {
       // Build cards from scratch
       const newCards = children && StackUtils.build(children)
@@ -131,10 +140,7 @@ class CardStack extends React.PureComponent<void, Props, State> {
   }
 
   // Update navigation state
-  onListenHistory = (
-    history: RouterHistory,
-    nextHistory: RouterHistory,
-  ): void => {
+  onListenHistory = (history: RouterHistory, nextHistory: RouterHistory) => {
     const { location, entries, index } = history
     const { location: nextLocation, action, index: nextIndex } = nextHistory
     const { navigationState, cards } = this.state
@@ -177,6 +183,7 @@ class CardStack extends React.PureComponent<void, Props, State> {
                 state.navigationState,
                 state.navigationState.routes.slice(
                   0,
+                  // eslint-disable-next-line
                   state.navigationState.index - n + 1,
                 ),
                 state.navigationState.index - n,
@@ -205,7 +212,7 @@ class CardStack extends React.PureComponent<void, Props, State> {
   }
 
   // Pop to previous scene (n-1)
-  onNavigateBack = (): boolean => {
+  onNavigateBack = () => {
     if (this.state.navigationState.index > 0) {
       this.props.history.goBack()
       return true
@@ -214,7 +221,7 @@ class CardStack extends React.PureComponent<void, Props, State> {
   }
 
   // Render view
-  render(): React$Element<any> {
+  render() {
     return this.props.render({
       ...this.state,
       history: this.props.history,
@@ -223,4 +230,6 @@ class CardStack extends React.PureComponent<void, Props, State> {
   }
 }
 
-export default CardStack
+const CardStackWithHistory = withRouter(CardStack)
+
+export default CardStackWithHistory

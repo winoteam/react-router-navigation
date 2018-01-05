@@ -4,7 +4,6 @@ exports[`build util creates correctly render method 1`] = `
 <Text
   accessible={true}
   allowFontScaling={true}
-  disabled={false}
   ellipsizeMode="tail"
 >
   /

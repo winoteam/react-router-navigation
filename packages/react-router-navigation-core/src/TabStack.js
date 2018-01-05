@@ -1,23 +1,17 @@
 /* @flow */
-/* eslint no-duplicate-imports: 0 */
-/* eslint react/no-unused-prop-types:0 */
 
 import React from 'react'
-import type { RouterHistory, Location } from 'react-router'
+import { type RouterHistory, type Location, withRouter } from 'react-router'
 import type { NavigationState, TabsRendererProps, Tab } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import * as HistoryUtils from './HistoryUtils'
 
 type Props = {
   history: RouterHistory, // eslint-disable-next-line
-  children?: Array<React$Element<any>>,
-  render: (props: TabsRendererProps) => React$Element<any>, // eslint-disable-next-line
+  children?: Array<React$Element<*>>,
+  render: (props: TabsRendererProps) => React$Element<*>, // eslint-disable-next-line
   lazy?: boolean,
   forceSync?: boolean,
-}
-
-type DefaultProps = {
-  forceSync: boolean,
 }
 
 type State = {
@@ -30,18 +24,14 @@ type State = {
   tabsHistory: { [key: number]: Array<Location> },
 }
 
-class TabStack extends React.PureComponent<DefaultProps, Props, State> {
-  props: Props
-  state: State
-
-  unlistenHistory: Function
-
+class TabStack extends React.PureComponent<Props, State> {
   static defaultProps = {
     forceSync: false,
   }
 
-  // Initialyze navigation state with initial history
-  constructor(props: Props): void {
+  unlistenHistory: ?Function
+
+  constructor(props: Props) {
     super(props)
     // Build the tab stack
     const { children, history: { location, entries } } = props
@@ -54,7 +44,7 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
     const routes = tabs.map(tab => {
       const route = {
         key: tab.key,
-        routeName: tab.path,
+        routeName: tab.path || '',
       }
       return {
         ...route,
@@ -75,8 +65,7 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
     this.state = { navigationState, tabs, rootIndex, tabsHistory }
   }
 
-  // Listen history events
-  componentDidMount(): void {
+  componentDidMount() {
     const { history } = this.props
     this.unlistenHistory = HistoryUtils.runHistoryListenner(
       history,
@@ -84,24 +73,18 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
     )
   }
 
-  // Remove all listeners
-  componentWillUnmount(): void {
-    this.unlistenHistory()
+  componentWillUnmount() {
+    if (this.unlistenHistory) this.unlistenHistory()
   }
 
-  // Update cards
-  componentWillReceiveProps(nextProps: Props): void {
+  componentWillReceiveProps(nextProps: Props) {
     const { children } = nextProps
     const { tabs } = this.state
     const nextTabs = children && StackUtils.build(children, tabs)
     this.setState({ tabs: nextTabs })
   }
 
-  // Update navigation state
-  onListenHistory = (
-    history: RouterHistory,
-    nextHistory: RouterHistory,
-  ): void => {
+  onListenHistory = (history: RouterHistory, nextHistory: RouterHistory) => {
     // Extract props
     const { location } = history
     const { location: nextLocation, entries, index } = nextHistory
@@ -141,8 +124,7 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
     }
   }
 
-  // Callback for when the current tab changes
-  onRequestChangeTab = (index: number): void => {
+  onIndexChange = (index: number) => {
     if (index < 0) return
     const {
       lazy,
@@ -182,16 +164,16 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
       //     />
       //     <Tab
       //       path="/:params"
-      //       onRequestChangeTab={({ history }) => history.push('/one')}
+      //       onIndexChange={({ history }) => history.push('/one')}
       //     />
       //   </Tabs>
       // )
       if (!tabsHistory[index]) {
-        const entry = tabs[index] // $FlowFixMe
-        if (entry.onRequestChangeTab) {
-          entry.onRequestChangeTab()
-        } else {
-          this.props.history.replace(entry.path, entry.state)
+        const entry = tabs[index]
+        if (entry.onIndexChange) {
+          entry.onIndexChange(index)
+        } else if (entry.path) {
+          this.props.history.replace(entry.path)
         }
       } else {
         const entry = tabsHistory[index].slice(-1)[0]
@@ -211,13 +193,15 @@ class TabStack extends React.PureComponent<DefaultProps, Props, State> {
   }
 
   // Render view
-  render(): React$Element<any> {
+  render() {
     return this.props.render({
       ...this.state,
       history: this.props.history,
-      onRequestChangeTab: this.onRequestChangeTab,
+      onIndexChange: this.onIndexChange,
     })
   }
 }
 
-export default TabStack
+const TabStackWithHistory = withRouter(TabStack)
+
+export default TabStackWithHistory

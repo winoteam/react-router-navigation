@@ -12,25 +12,32 @@ describe('build util', () => {
     const children = [
       <Route
         path="hey"
-        render={() => null}
+        render={function() {
+          return null
+        }}
       />,
       <Route
         path="hello"
-        component={() => null}
+        component={function() {
+          return null
+        }}
         title="Hello"
       />,
     ]
-    const results = [{
-      path: 'hey',
-      key: 'hey',
-      render: () => null,
-    }, {
-      path: 'hello',
-      key: 'hello',
-      component: () => null,
-      title: 'Hello',
-    }]
-    expect(JSON.stringify(build(children))).toEqual(JSON.stringify(results))
+    const results = [
+      {
+        path: 'hey',
+        key: 'hey',
+      },
+      {
+        path: 'hello',
+        key: 'hello',
+        title: 'Hello',
+      },
+    ]
+    expect(build(children)).toMatchObject(results)
+    expect(typeof build(children)[0].render).toBe('function')
+    expect(typeof build(children)[1].component).toBe('function')
   })
 
   it('creates correctly render method', () => {
@@ -43,9 +50,7 @@ describe('build util', () => {
     const stack = build(children)
     const history = createHistory()
     const component = renderer.create(
-      <Router history={history}>
-        {stack[0].render()}
-      </Router>,
+      <Router history={history}>{stack[0].render()}</Router>,
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -153,10 +158,13 @@ describe('get util', () => {
       routeName: '/index',
       title: 'Index',
     }
-    const cards = [{
-      key: '/',
-      title: 'Root',
-    }, currentCard]
+    const cards = [
+      {
+        key: '/',
+        title: 'Root',
+      },
+      currentCard,
+    ]
     expect(get(cards, route)).toEqual(currentCard)
   })
 })

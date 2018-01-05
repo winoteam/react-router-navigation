@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
-import { componentFactory, CardView } from './utils'
+import { componentFactory, renderCardView } from './utils'
 import CardStack from './../CardStack'
 import './__mocks__'
 
@@ -13,13 +13,10 @@ it('<CardStack /> renders correctly', () => {
   const history = createHistory()
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack {...routeProps} render={CardView}>
-            <Route exact path="/" render={componentFactory('Index')} />
-            <Route path="/hello" render={componentFactory('Hello')} />
-          </CardStack>}
-      />
+      <CardStack render={renderCardView}>
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+      </CardStack>
     </Router>,
   )
   const tree = component.toJSON()
@@ -33,14 +30,11 @@ it('<CardStack /> renders correctly with initialIndex and initialEntries prop ',
   })
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack {...routeProps} render={CardView}>
-            <Route exact path="/" render={componentFactory('Index')} />
-            <Route path="/hello" render={componentFactory('Hello')} />
-            <Route path="/goodbye" render={componentFactory('Goodbye')} />
-          </CardStack>}
-      />
+      <CardStack render={renderCardView}>
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+        <Route path="/goodbye" render={componentFactory('Goodbye')} />
+      </CardStack>
     </Router>,
   )
   const tree = component.toJSON()
@@ -51,13 +45,10 @@ it('<CardStack /> re-renders correctly when "push" action is called', () => {
   const history = createHistory()
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack {...routeProps} render={CardView}>
-            <Route exact path="/" render={componentFactory('Index')} />
-            <Route path="/hello" render={componentFactory('Hello')} />
-          </CardStack>}
-      />
+      <CardStack render={renderCardView}>
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+      </CardStack>
     </Router>,
   )
   let tree = component.toJSON()
@@ -73,12 +64,9 @@ it('<CardStack /> re-renders correctly when "push" action is called with same pa
   })
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack {...routeProps} render={CardView}>
-            <Route path="/article/:id" render={componentFactory()} />
-          </CardStack>}
-      />
+      <CardStack render={renderCardView}>
+        <Route path="/article/:id" render={componentFactory()} />
+      </CardStack>
     </Router>,
   )
   let tree = component.toJSON()
@@ -95,13 +83,10 @@ it('<CardStack /> re-renders correctly when "goBack" action is called', () => {
   })
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack {...routeProps} render={CardView}>
-            <Route exact path="/" render={componentFactory('Index')} />
-            <Route path="/hello" render={componentFactory('Hello')} />
-          </CardStack>}
-      />
+      <CardStack render={renderCardView}>
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+      </CardStack>
     </Router>,
   )
   let tree = component.toJSON()
@@ -118,12 +103,9 @@ it('<CardStack /> re-renders correctly when "goBack" action is called with same 
   })
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack {...routeProps} render={CardView}>
-            <Route path="/article/:id" render={componentFactory()} />
-          </CardStack>}
-      />
+      <CardStack render={renderCardView}>
+        <Route path="/article/:id" render={componentFactory()} />
+      </CardStack>
     </Router>,
   )
   let tree = component.toJSON()
@@ -140,14 +122,11 @@ it('<CardStack /> re-renders correctly when "go" action is called', () => {
   })
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack {...routeProps} render={CardView}>
-            <Route exact path="/" render={componentFactory('Index')} />
-            <Route path="/hello" render={componentFactory('Hello')} />
-            <Route path="/goodbye" render={componentFactory('Goodbye')} />
-          </CardStack>}
-      />
+      <CardStack render={renderCardView}>
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+        <Route path="/goodbye" render={componentFactory('Goodbye')} />
+      </CardStack>
     </Router>,
   )
   let tree = component.toJSON()
@@ -164,12 +143,9 @@ it('<CardStack /> re-renders correctly when "go" action is called with same path
   })
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack {...routeProps} render={CardView}>
-            <Route path="/article/:id" render={componentFactory('Article')} />
-          </CardStack>}
-      />
+      <CardStack render={renderCardView}>
+        <Route path="/article/:id" render={componentFactory('Article')} />
+      </CardStack>
     </Router>,
   )
   let tree = component.toJSON()
@@ -186,14 +162,11 @@ it('<CardStack /> re-renders correctly when "replace" action is called', () => {
   })
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack {...routeProps} render={CardView}>
-            <Route exact path="/" render={componentFactory('Index')} />
-            <Route path="/hello" render={componentFactory('Hello')} />
-            <Route path="/goodbye" render={componentFactory('Goodbye')} />
-          </CardStack>}
-      />
+      <CardStack render={renderCardView}>
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+        <Route path="/goodbye" render={componentFactory('Goodbye')} />
+      </CardStack>
     </Router>,
   )
   let tree = component.toJSON()
@@ -210,19 +183,16 @@ it('<CardStack /> re-renders correctly when onNavigateBack() method is called', 
   })
   const component = renderer.create(
     <Router history={history}>
-      <Route
-        render={routeProps =>
-          <CardStack
-            {...routeProps}
-            render={({ navigationState, onNavigateBack, cards }) =>
-              <TouchableOpacity onPress={onNavigateBack}>
-                {CardView({ navigationState, onNavigateBack, cards })}
-              </TouchableOpacity>}
-          >
-            <Route exact path="/" render={componentFactory('Index')} />
-            <Route path="/hello" render={componentFactory('Hello')} />
-          </CardStack>}
-      />
+      <CardStack
+        render={({ navigationState, onNavigateBack, cards }) => (
+          <TouchableOpacity onPress={onNavigateBack}>
+            {renderCardView({ navigationState, onNavigateBack, cards })}
+          </TouchableOpacity>
+        )}
+      >
+        <Route exact path="/" render={componentFactory('Index')} />
+        <Route path="/hello" render={componentFactory('Hello')} />
+      </CardStack>
     </Router>,
   )
   let tree = component.toJSON()
