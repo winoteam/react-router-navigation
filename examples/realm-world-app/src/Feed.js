@@ -25,16 +25,15 @@ type Props = {
   match: Match,
 }
 
-/* FIX > https://github.com/facebook/react/issues/4936 */
-class Feed extends Component<void, Props, void> {
+class Feed extends Component<Props> {
   props: Props
   listView: List
 
-  shouldComponentUpdate(): boolean {
+  shouldComponentUpdate() {
     return false
   }
 
-  render(): React$Element<any> {
+  render() {
     const { match: { url } } = this.props
     return (
       <Navigation
@@ -45,13 +44,14 @@ class Feed extends Component<void, Props, void> {
         <Card
           exact
           path={url}
-          render={props =>
+          render={props => (
             <List
               ref={c => {
                 this.listView = c
               }}
               {...props}
-            />}
+            />
+          )}
           title="Feed"
         />
         <Card
@@ -59,10 +59,11 @@ class Feed extends Component<void, Props, void> {
           component={Article}
           title="Item"
           backButtonTitle="Back"
-          renderTitle={({ title, match }) =>
+          renderTitle={({ title, match }) => (
             <HeaderTitle style={styles.title}>
               {title} {match && match.params.id}
-            </HeaderTitle>}
+            </HeaderTitle>
+          )}
         />
       </Navigation>
     )

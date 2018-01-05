@@ -44,14 +44,14 @@ const styles = StyleSheet.create({
 
 type Props = {}
 
-class Profile extends React.Component<void, Props, void> {
+class Profile extends React.Component<Props> {
   props: Props
 
-  shouldComponentUpdate(): boolean {
+  shouldComponentUpdate() {
     return false
   }
 
-  render(): React$Element<any> {
+  render() {
     return (
       <Tabs
         tabBarStyle={styles.tabBar}
@@ -60,7 +60,7 @@ class Profile extends React.Component<void, Props, void> {
         <Tab
           path="/profile/likes"
           label="Likes"
-          render={() =>
+          render={() => (
             <View style={styles.scene}>
               <Text>
                 Current: <Text style={styles.strong}>likes</Text>
@@ -73,12 +73,13 @@ class Profile extends React.Component<void, Props, void> {
               >
                 <Text style={styles.span}>Go to bookmarks</Text>
               </Link>
-            </View>}
+            </View>
+          )}
         />
         <Tab
           path="/profile/bookmarks"
           label="Bookmarks"
-          render={() =>
+          render={() => (
             <View style={styles.scene}>
               <Text>
                 Current: <Text style={styles.strong}>bookmarks</Text>
@@ -91,7 +92,8 @@ class Profile extends React.Component<void, Props, void> {
               >
                 <Text style={styles.span}>Go to likes</Text>
               </Link>
-            </View>}
+            </View>
+          )}
         />
       </Tabs>
     )

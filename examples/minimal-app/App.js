@@ -53,7 +53,7 @@ class App extends Component {
                 exact
                 path="/"
                 title="Index"
-                render={() =>
+                render={() => (
                   <View style={styles.scene}>
                     <Link component={TouchableOpacity} to="/yolo">
                       <Text>Push a new scene</Text>
@@ -73,14 +73,15 @@ class App extends Component {
                     >
                       <Text>Change navbar style</Text>
                     </TouchableOpacity>
-                  </View>}
+                  </View>
+                )}
               />
               <Card
                 titleStyle={this.state.card.titleStyle}
                 navBarStyle={this.state.card.navBarStyle}
                 backButtonTintColor={this.state.card.backButtonTintColor}
                 path="/yolo"
-                render={() =>
+                render={() => (
                   <View style={styles.scene}>
                     <Link component={TouchableOpacity} to="/hello">
                       <Text>Push tabs</Text>
@@ -117,56 +118,58 @@ class App extends Component {
                     >
                       <Text>Change title</Text>
                     </TouchableOpacity>
-                  </View>}
+                  </View>
+                )}
                 title={this.state.card.title || 'Yolo'}
               />
               <Card
                 path="/hello"
                 title="Hello"
                 render={({ match, location }) => (
-                  console.log(location),
-                  (
-                    <Switch location={location}>
-                      <Route
-                        exact
-                        path={match.url}
-                        render={() => <Redirect to={`${match.url}/one`} />}
-                      />
-                      <Route
-                        render={() =>
-                          <Tabs
-                            style={styles.container}
-                            tabBarStyle={styles.tabs}
-                            tabBarIndicatorStyle={styles.indicator}
-                          >
-                            <Tab
-                              path={`${match.url}/one`}
-                              label="One"
-                              render={() =>
-                                <View style={styles.scene}>
-                                  <Text>One</Text>
-                                </View>}
-                            />
-                            <Tab
-                              path={`${match.url}/two`}
-                              label="Two"
-                              render={() =>
-                                <View style={styles.scene}>
-                                  <Text>Two</Text>
-                                </View>}
-                            />
-                            <Tab
-                              path={`${match.url}/three`}
-                              label="Three"
-                              render={() =>
-                                <View style={styles.scene}>
-                                  <Text>Three</Text>
-                                </View>}
-                            />
-                          </Tabs>}
-                      />
-                    </Switch>
-                  )
+                  <Switch location={location}>
+                    <Route
+                      exact
+                      path={match.url}
+                      render={() => <Redirect to={`${match.url}/one`} />}
+                    />
+                    <Route
+                      render={() => (
+                        <Tabs
+                          style={styles.container}
+                          tabBarStyle={styles.tabs}
+                          tabBarIndicatorStyle={styles.indicator}
+                        >
+                          <Tab
+                            path={`${match.url}/one`}
+                            label="One"
+                            render={() => (
+                              <View style={styles.scene}>
+                                <Text>One</Text>
+                              </View>
+                            )}
+                          />
+                          <Tab
+                            path={`${match.url}/two`}
+                            label="Two"
+                            render={() => (
+                              <View style={styles.scene}>
+                                <Text>Two</Text>
+                              </View>
+                            )}
+                          />
+                          <Tab
+                            path={`${match.url}/three`}
+                            label="Three"
+                            render={() => (
+                              <View style={styles.scene}>
+                                <Text>Three</Text>
+                              </View>
+                            )}
+                          />
+                        </Tabs>
+                      )}
+                    />
+                  </Switch>
                 )}
               />
             </Navigation>

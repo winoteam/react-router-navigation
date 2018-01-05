@@ -35,32 +35,36 @@ const store = createStore(
   applyMiddleware(historyMiddleware, loggerMiddleware),
 )
 
-const Root = (): React$Element<any> =>
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Switch>
-        <Route exact path="/" render={() => <Redirect to="/feed" />} />
-        <Route
-          path="/"
-          render={({ location, match: { url } }) =>
-            <View style={styles.tabs}>
-              <StatusBar
-                barStyle={
-                  location.pathname.startsWith(`${url}/search`)
-                    ? 'dark-content'
-                    : 'light-content'
-                }
-                backgroundColor={
-                  !location.pathname.startsWith(`${url}/search`)
-                    ? BRAND_COLOR_60
-                    : '#ffffff'
-                }
-              />
-              <App history={history} />
-            </View>}
-        />
-      </Switch>
-    </ConnectedRouter>
-  </Provider>
+const Root = () => {
+  return (
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Switch>
+          <Route exact path="/" render={() => <Redirect to="/feed" />} />
+          <Route
+            path="/"
+            render={({ location, match: { url } }) => (
+              <View style={styles.tabs}>
+                <StatusBar
+                  barStyle={
+                    location.pathname.startsWith(`${url}/search`)
+                      ? 'dark-content'
+                      : 'light-content'
+                  }
+                  backgroundColor={
+                    !location.pathname.startsWith(`${url}/search`)
+                      ? BRAND_COLOR_60
+                      : '#ffffff'
+                  }
+                />
+                <App history={history} />
+              </View>
+            )}
+          />
+        </Switch>
+      </ConnectedRouter>
+    </Provider>
+  )
+}
 
 export default Root

@@ -12,15 +12,15 @@ type Props = {
   history: RouterHistory,
 }
 
-class App extends React.Component<void, Props, void> {
+class App extends React.Component<Props> {
   props: Props
   feed: Feed
 
-  shouldComponentUpdate(): boolean {
+  shouldComponentUpdate() {
     return false
   }
 
-  render(): React$Element<any> {
+  render() {
     const { history } = this.props
     return (
       <BottomNavigation
@@ -29,20 +29,21 @@ class App extends React.Component<void, Props, void> {
       >
         <Tab
           path="/feed"
-          render={ownProps =>
+          render={ownProps => (
             <Feed
               {...ownProps}
               ref={c => {
                 this.feed = c
               }}
-            />}
+            />
+          )}
           onReset={() => {
             if (this.feed && this.feed.listView) {
               this.feed.listView.scrollTo({ y: 0 })
             }
           }}
           label="Feed"
-          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) =>
+          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) => (
             <Image
               source={require('./assets/feed.png')}
               style={[
@@ -53,15 +54,16 @@ class App extends React.Component<void, Props, void> {
                   tintColor: focused ? tabActiveTintColor : tabTintColor,
                 },
               ]}
-            />}
+            />
+          )}
         />
         <Tab
           path="/profile/(likes|bookmarks)"
           component={Profile}
-          onRequestChangeTab={() => history.replace('/profile/likes')}
+          onIndexChange={() => history.replace('/profile/likes')}
           onReset={() => history.replace('/profile/likes')}
           label="Profile"
-          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) =>
+          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) => (
             <Image
               source={require('./assets/profile.png')}
               style={{
@@ -70,7 +72,8 @@ class App extends React.Component<void, Props, void> {
                 height: Platform.OS === 'android' ? 27.5 : 31,
                 tintColor: focused ? tabActiveTintColor : tabTintColor,
               }}
-            />}
+            />
+          )}
         />
       </BottomNavigation>
     )

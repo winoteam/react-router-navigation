@@ -39,11 +39,10 @@ type State = {
   time: 0,
 }
 
-class Article extends React.Component<void, Props, void> {
-  props: Props
-  state: State = { time: 0 }
+class Article extends React.Component<Props, State> {
+  state = { time: 0 }
 
-  componentDidMount(): void {
+  componentDidMount() {
     this.timer = setInterval(() => {
       if (
         this.props.match &&
@@ -56,15 +55,15 @@ class Article extends React.Component<void, Props, void> {
     }, 250)
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     clearInterval(this.timer)
   }
 
-  shouldComponentUpdate(nextProps, nextState): boolean {
+  shouldComponentUpdate(nextProps, nextState) {
     return this.state.time !== nextState.time
   }
 
-  render(): React$Element<any> {
+  render() {
     const { match } = this.props
     return (
       <View style={styles.scene}>
@@ -73,9 +72,7 @@ class Article extends React.Component<void, Props, void> {
           beans on your placeholder text. Trump Ipsum is calling for a total and
           complete shutdown of Muslim text entering your website.
         </Text>
-        <Text style={styles.strong}>
-          Focus time: {this.state.time / 1000}s
-        </Text>
+        <Text style={styles.strong}>Focus time: {this.state.time / 1000}s</Text>
         <Link
           style={styles.link}
           component={TouchableOpacity}
