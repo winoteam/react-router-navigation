@@ -3,14 +3,14 @@
 import React from 'react'
 import { Platform } from 'react-native'
 import { Header, HeaderTitle, HeaderBackButton } from 'react-navigation'
+import { renderSubView, get } from 'react-router-navigation-core'
 import type { CardSubViewProps } from './TypeDefinitions'
-import * as StackUtils from './StackUtils'
+
+const StackUtils = { get }
 
 type Props = CardSubViewProps
 
-class NavBar extends React.Component<void, Props, void> {
-  props: Props
-
+class NavBar extends React.Component<Props> {
   renderLeftComponent = (sceneProps: CardSubViewProps) => {
     // Custom left component
     if (sceneProps.renderLeftButton) {
@@ -76,18 +76,9 @@ class NavBar extends React.Component<void, Props, void> {
               headerStyle:
                 (sceneProps && sceneProps.navBarStyle) ||
                 this.props.navBarStyle,
-              headerLeft: StackUtils.renderSubView(
-                this.renderLeftComponent,
-                props,
-              )(),
-              headerTitle: StackUtils.renderSubView(
-                this.renderTitleComponent,
-                props,
-              )(),
-              headerRight: StackUtils.renderSubView(
-                this.renderRightComponent,
-                props,
-              )(),
+              headerLeft: renderSubView(this.renderLeftComponent, props)(),
+              headerTitle: renderSubView(this.renderTitleComponent, props)(),
+              headerRight: renderSubView(this.renderRightComponent, props)(),
             },
           }
         }}

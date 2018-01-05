@@ -1,15 +1,13 @@
 /* @flow */
-/* eslint no-duplicate-imports: 0 */
-/* eslint no-extra-boolean-cast: 0 */
 
 import React from 'react'
 import { matchPath } from 'react-router'
 import type { RouterHistory, Location, Match } from 'react-router'
-import type { CardProps } from './TypeDefinitions'
+import type { RouteProps } from 'react-router-navigation-core'
 
-type Props = CardProps & {
-  history: RouterHistory,
+type Props = RouteProps & {
   type: 'card' | 'tab',
+  history: RouterHistory,
 }
 
 type State = {
@@ -17,11 +15,8 @@ type State = {
   match: ?Match,
 }
 
-class SceneView extends React.Component<void, Props, State> {
-  props: Props
-  state: State
-
-  unlisten: Function
+class SceneView extends React.Component<Props, State> {
+  unlisten: ?Function
 
   constructor(props: Props) {
     super(props)
@@ -31,18 +26,18 @@ class SceneView extends React.Component<void, Props, State> {
     this.state = { match, location }
   }
 
-  componentWillMount(): void {
+  componentWillMount() {
     // Listen history events
     const { history } = this.props
     this.unlisten = history.listen(this.onListenHistory)
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     // Remove history listenner
-    this.unlisten()
+    if (this.unlisten) this.unlisten()
   }
 
-  onListenHistory = (location: Location): void => {
+  onListenHistory = (location: Location) => {
     // Build match
     const { path, exact, strict } = this.props
     const match = matchPath(location.pathname, { path, exact, strict })
@@ -53,25 +48,24 @@ class SceneView extends React.Component<void, Props, State> {
     }
   }
 
-  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
     // Only update when scene is focused
     return !!nextState.match
   }
 
-  render(): ?React$Element<any> {
-    // Get scene component $FlowFixMe
-    const { render, children, component, type } = this.props
+  render() {
+    const { render, children, component: Component, type, history } = this.props
     const { match, location } = this.state
     // Special case
     if (type === 'card' && !match) return null
-    // Return scene component
-    const ownProps = { ...this.props, match, location }
+    // Return scene
+    const ownProps = { history, match, location }
     if (render) {
       return render(ownProps)
     } else if (children && typeof children === 'function') {
       return children(ownProps)
-    } else if (component) {
-      return React.createElement(component, ownProps)
+    } else if (Component) {
+      return <Component {...ownProps} />
     }
     return null
   }

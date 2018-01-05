@@ -3,11 +3,11 @@
 import React from 'react'
 import { StyleSheet, Dimensions, Text } from 'react-native'
 import { TabViewAnimated, TabBar } from 'react-native-tab-view'
+import { TabStack, renderSubView, get } from 'react-router-navigation-core'
 import { matchPath } from 'react-router'
-import type { TabSubViewProps, TabBarProps } from './TypeDefinitions'
-import * as StackUtils from './StackUtils'
-import TabStack from './TabStack'
-import { History } from './HistoryUtils'
+import type { TabSubViewProps, TabBarProps, TabProps } from './TypeDefinitions'
+
+const StackUtils = { get }
 
 const styles = StyleSheet.create({
   container: {
@@ -20,37 +20,30 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = TabBarProps & {
-  children?: Array<React$Element<any>>,
-}
+type Props = TabBarProps & { children?: Array<React$Element<TabProps>> }
 
 type State = {
   key: string,
 }
 
-class Tabs extends React.Component<void, Props, State> {
-  props: Props
+class Tabs extends React.Component<Props, State> {
+  state = { key: Math.random().toString(10) }
 
-  state: State = { key: Math.random().toString(10) }
-
-  renderHeader = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+  renderHeader = (sceneProps: TabSubViewProps) => {
     if (sceneProps.tabBarPosition !== 'bottom') {
       return this.renderTabBar(sceneProps)
     }
     return null
   }
 
-  renderFooter = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+  renderFooter = (sceneProps: TabSubViewProps) => {
     if (sceneProps.tabBarPosition === 'bottom') {
       return this.renderTabBar(sceneProps)
     }
     return null
   }
 
-  renderTabBar = (
-    sceneProps: TabSubViewProps,
-    props: TabSubViewProps,
-  ): ?React$Element<any> => {
+  renderTabBar = (sceneProps: TabSubViewProps, props: TabSubViewProps) => {
     // Hide tab bar
     if (sceneProps.hideTabBar) return null
     // Custom tab bar
@@ -65,13 +58,13 @@ class Tabs extends React.Component<void, Props, State> {
         style={sceneProps.tabBarStyle}
         tabStyle={sceneProps.tabStyle}
         indicatorStyle={sceneProps.tabBarIndicatorStyle}
-        onRequestChangeTab={(i: number) => i}
+        onIndexChange={(i: number) => i}
         onTabPress={route => {
-          const { tabs, onRequestChangeTab } = sceneProps
+          const { tabs, onIndexChange } = sceneProps
           const index = tabs.findIndex(tab => {
             return matchPath(route.routeName, tab)
           })
-          if (index) onRequestChangeTab(index)
+          if (index) onIndexChange(index)
         }}
         renderLabel={({ route, focused }) => {
           const currentTab = StackUtils.get(sceneProps.tabs, route)
@@ -95,7 +88,7 @@ class Tabs extends React.Component<void, Props, State> {
     )
   }
 
-  renderScene = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+  renderScene = (sceneProps: TabSubViewProps) => {
     const { render, children, component } = sceneProps
     if (render) {
       return render(sceneProps)
@@ -107,38 +100,25 @@ class Tabs extends React.Component<void, Props, State> {
     return null
   }
 
-  render(): React$Element<any> {
+  render() {
     return (
-      <History>
-        {history =>
-          <TabStack
-            {...this.props}
-            history={history}
-            style={styles.container}
-            render={props => {
-              const ownProps = { ...this.props, ...props }
-              return (
-                <TabViewAnimated
-                  {...ownProps}
-                  style={styles.container}
-                  initialLayout={Dimensions.get('window')}
-                  renderHeader={StackUtils.renderSubView(
-                    this.renderHeader,
-                    ownProps,
-                  )}
-                  renderFooter={StackUtils.renderSubView(
-                    this.renderFooter,
-                    ownProps,
-                  )}
-                  renderScene={StackUtils.renderSubView(
-                    this.renderScene,
-                    ownProps,
-                  )}
-                />
-              )
-            }}
-          />}
-      </History>
+      <TabStack
+        {...this.props}
+        style={styles.container}
+        render={props => {
+          const ownProps = { ...this.props, ...props }
+          return (
+            <TabViewAnimated
+              {...ownProps}
+              style={styles.container}
+              initialLayout={Dimensions.get('window')}
+              renderHeader={renderSubView(this.renderHeader, ownProps)}
+              renderFooter={renderSubView(this.renderFooter, ownProps)}
+              renderScene={renderSubView(this.renderScene, ownProps)}
+            />
+          )
+        }}
+      />
     )
   }
 }

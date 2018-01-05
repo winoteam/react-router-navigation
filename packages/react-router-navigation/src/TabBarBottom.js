@@ -3,8 +3,8 @@
 import React from 'react'
 import { StyleSheet, Platform, Text } from 'react-native'
 import { TabBar } from 'react-native-tab-view'
+import { renderSubView } from 'react-router-navigation-core'
 import type { TabSubViewProps } from './TypeDefinitions'
-import * as StackUtils from './StackUtils'
 
 const TAB_HEIGHT = Platform.OS === 'ios' ? 49 : 56
 
@@ -41,30 +41,22 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = TabSubViewProps & {
+type Props = {
+  ...TabSubViewProps,
   sceneProps: TabSubViewProps,
 }
 
-type DefaultProps = {
-  tabTintColor: string,
-  tabActiveTintColor: string,
-}
-
-class TabBarBottom extends React.Component<DefaultProps, Props, void> {
-  props: Props
-
-  static defaultProps: DefaultProps = {
+class TabBarBottom extends React.Component<Props> {
+  static defaultProps = {
     tabTintColor: '#929292',
     tabActiveTintColor: '#3478f6',
   }
 
-  // Disable indicator
-  renderIndicator = (): ?React$Element<any> => {
+  renderIndicator = () => {
     return null
   }
 
-  // Render tab label
-  renderLabel = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+  renderLabel = (sceneProps: TabSubViewProps) => {
     // Custom label component
     if (sceneProps.renderLabel) return sceneProps.renderLabel(sceneProps)
     // Default label
@@ -84,20 +76,18 @@ class TabBarBottom extends React.Component<DefaultProps, Props, void> {
     )
   }
 
-  // Render tab icon
-  renderIcon = (sceneProps: TabSubViewProps): ?React$Element<any> => {
+  renderIcon = (sceneProps: TabSubViewProps) => {
     if (!sceneProps.renderTabIcon) return null
     return sceneProps.renderTabIcon(sceneProps)
   }
 
-  // Render when navigation state is updated
-  shouldComponentUpdate(nextProps: Props): boolean {
+  shouldComponentUpdate(nextProps: Props) {
     const { index } = this.props.navigationState
     const { index: nextIndex } = nextProps.navigationState
     return index !== nextIndex
   }
 
-  render(): React$Element<any> {
+  render() {
     const { label, renderTabIcon } = this.props
     return (
       <TabBar
@@ -108,12 +98,12 @@ class TabBarBottom extends React.Component<DefaultProps, Props, void> {
           this.props.sceneProps.tabBarStyle,
         ]}
         tabStyle={[styles.tab, this.props.sceneProps.tabStyle]}
-        jumpToIndex={this.props.onRequestChangeTab}
-        onRequestChangeTab={() => null}
+        jumpToIndex={this.props.onIndexChange}
+        onIndexChange={() => null}
         pressOpacity={1}
         renderIndicator={this.renderIndicator}
-        renderLabel={StackUtils.renderSubView(this.renderLabel, this.props)}
-        renderIcon={StackUtils.renderSubView(this.renderIcon, this.props)}
+        renderLabel={renderSubView(this.renderLabel, this.props)}
+        renderIcon={renderSubView(this.renderIcon, this.props)}
       />
     )
   }
