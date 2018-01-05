@@ -60,3 +60,6 @@ fastlane/screenshots
 
 react-native-packager*/
 haste-map-react-native-packager*
+npm-debug.*
+package-lock.json
+coverage
