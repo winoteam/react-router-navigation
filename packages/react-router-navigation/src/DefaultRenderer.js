@@ -8,9 +8,8 @@ import type {
   NavigationTransitionProps,
   NavigationScreenProp,
   NavigationRoute,
-  HeaderMode,
 } from 'react-navigation/src/TypeDefinition'
-import type { Route, CardsRendererProps } from 'react-router-navigation-core'
+import type { CardsRendererProps } from 'react-router-navigation-core'
 import type { NavigationProps } from './TypeDefinitions'
 
 type SceneRendererProps = CardsRendererProps & NavigationTransitionProps
@@ -109,7 +108,6 @@ class DefaultRenderer extends React.Component<Props> {
         {...transitionProps}
         scenes={scenes}
         mode="card"
-        cardStyle="card"
         navigationState={this.props.navigationState}
         router={{
           getScreenOptions: navigationScreen => {
