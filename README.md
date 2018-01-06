@@ -63,7 +63,7 @@ const App = () => (
 * [`<Navigation />`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md) handles the transition between different scenes in your app.
 * [`<Tabs />`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/TABS.md) make it easy to explore and switch between different views.
 * [`<BottomNavigation />`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md) make it easy to explore and switch between top-level views in a single tap.
-* [Performance tips](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/PERFORMANCE.md
+* [Performance tips](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/PERFORMANCE.md)
 
 ## Contributing
 
