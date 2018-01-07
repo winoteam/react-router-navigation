@@ -20,6 +20,7 @@ type State = {
     testID?: string,
   }>,
   tabs: Array<Tab>,
+  loadedTabs: Array<string>,
   rootIndex: number,
   tabsHistory: { [key: number]: Array<Location> },
 }
@@ -61,8 +62,10 @@ class TabStack extends React.PureComponent<Props, State> {
     const tabsHistory = {
       [index]: entries.slice(props.history.index),
     }
+    // Initialize loaded tabs
+    const loadedTabs = [currentRoute.routeName]
     // Save everything
-    this.state = { navigationState, tabs, rootIndex, tabsHistory }
+    this.state = { navigationState, tabs, rootIndex, tabsHistory, loadedTabs }
   }
 
   componentDidMount() {
@@ -105,11 +108,14 @@ class TabStack extends React.PureComponent<Props, State> {
       nextTab &&
       StackUtils.shouldUpdate(currentTab, nextTab, location, nextLocation)
     ) {
-      this.setState(previousState => ({
+      this.setState(prevState => ({
         navigationState: {
           index: nextIndex,
-          routes: previousState.navigationState.routes,
+          routes: prevState.navigationState.routes,
         },
+        loadedTabs: prevState.loadedTabs.includes(nextRoute.routeName)
+          ? prevState.loadedTabs
+          : [...prevState.loadedTabs, nextRoute.routeName],
       }))
     }
     // Save history
