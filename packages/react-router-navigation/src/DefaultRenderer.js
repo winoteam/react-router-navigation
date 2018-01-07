@@ -1,15 +1,21 @@
 /* @flow */
 
 import React from 'react'
-import { NativeModules } from 'react-native'
-import { CardStack, Transitioner } from 'react-navigation'
+import { NativeModules, Platform } from 'react-native'
+import {
+  CardStack,
+  Transitioner,
+  StackRouter,
+  NavigationActions,
+  addNavigationHelpers,
+} from 'react-navigation'
 import TransitionConfigs from 'react-navigation/src/views/CardStack/TransitionConfigs'
 import type {
   NavigationTransitionProps,
   NavigationScreenProp,
   NavigationRoute,
 } from 'react-navigation/src/TypeDefinition'
-import type { CardsRendererProps } from 'react-router-navigation-core'
+import { type CardsRendererProps } from 'react-router-navigation-core'
 import type { NavigationProps } from './TypeDefinitions'
 
 type SceneRendererProps = CardsRendererProps & NavigationTransitionProps
@@ -43,7 +49,7 @@ class DefaultRenderer extends React.Component<Props> {
   getScreenOptions = (
     navigationScreen: NavigationScreenProp<NavigationRoute>,
     sceneProps: NavigationTransitionProps,
-  ): NavigationScreenOptionsGetter<{}> => {
+  ) => {
     // Get route name
     const { state: { key } } = navigationScreen
     // Get current scene
@@ -61,10 +67,10 @@ class DefaultRenderer extends React.Component<Props> {
     }
   }
 
-  getSceenComponent = (
+  getComponentForRouteName = (
     routeName: string,
     sceneProps: NavigationTransitionProps,
-  ): (() => React$Element<*>) => {
+  ) => {
     // Get current scene
     const scene = sceneProps.scenes.find(({ route }) => {
       return route.routeName === routeName
@@ -77,19 +83,43 @@ class DefaultRenderer extends React.Component<Props> {
     })
   }
 
-  getNavigation = (): NavigationScreenProp<NavigationState> => {
+  getRouter = (transitionProps: NavigationTransitionProps) => {
+    // $FlowFixMe
+    const { cards, navigationState: { routes, index } } = this.props
     return {
-      state: this.props.navigationState,
+      ...StackRouter(
+        cards.reduce(
+          (acc, card) => ({
+            ...acc,
+            [card.key]: {
+              screen: this.getComponentForRouteName(card.path, transitionProps),
+            },
+          }),
+          {},
+        ),
+        {
+          initialRouteName: routes[index].routeName,
+        },
+      ),
+      getScreenOptions: navigationScreen => {
+        return this.getScreenOptions(navigationScreen, transitionProps)
+      },
+    }
+  }
+
+  getNavigation = () => {
+    const { navigationState, onNavigateBack: goBack } = this.props
+    const BACK = NavigationActions.back().type
+    return addNavigationHelpers({
+      state: navigationState,
       dispatch: action => {
-        if (action.type === 'Navigation/BACK') {
-          this.props.onNavigateBack()
+        if (action.type === BACK) {
+          goBack()
         }
         return false
       },
-      goBack: this.props.onNavigateBack,
-      navigate: () => false,
-      setParams: () => false,
-    }
+      goBack,
+    })
   }
 
   renderView = (transitionProps: NavigationTransitionProps) => {
@@ -108,21 +138,9 @@ class DefaultRenderer extends React.Component<Props> {
         {...transitionProps}
         scenes={scenes}
         mode="card"
+        headerMode={Platform.OS === 'ios' ? 'float' : 'screen'}
         navigationState={this.props.navigationState}
-        router={{
-          getScreenOptions: navigationScreen => {
-            return this.getScreenOptions(navigationScreen, {
-              ...transitionProps,
-              scenes,
-            })
-          },
-          getComponentForRouteName: routeName => {
-            return this.getSceenComponent(routeName, {
-              ...transitionProps,
-              scenes,
-            })
-          },
-        }}
+        router={this.getRouter({ ...transitionProps, scenes })}
         navigation={this.getNavigation()}
       />
     )
