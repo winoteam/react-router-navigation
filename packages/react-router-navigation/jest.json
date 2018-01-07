@@ -2,5 +2,7 @@
   "preset": "react-native",
   "testRegex": "./__tests__/.*-spec.js$",
   "rootDir": ".",
-  "transformIgnorePatterns": ["node_modules/(?!react-native|react-navigation)"]
+  "transformIgnorePatterns": [
+    "node_modules/(?!react-native|react-navigation|react-router-navigation-core)"
+  ]
 }
