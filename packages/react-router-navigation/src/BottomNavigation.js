@@ -58,8 +58,11 @@ class BottomNavigation extends React.Component<Props, State> {
   }
 
   renderSceneView = (sceneProps: TabSubViewProps) => {
-    const { render, children, component } = sceneProps
-    if (render) {
+    const { render, children, component, lazy, loadedTabs } = sceneProps
+    const { key } = sceneProps
+    if (lazy && !loadedTabs.includes(key)) {
+      return null
+    } else if (render) {
       return render(sceneProps)
     } else if (children && typeof children === 'function') {
       return children(sceneProps)
@@ -87,7 +90,6 @@ class BottomNavigation extends React.Component<Props, State> {
               key={`transitioner_${this.state.key}`}
               style={[styles.container, this.props.style]}
               initialLayout={Dimensions.get('window')}
-              lazy={this.props.lazy}
               animationEnabled={false}
               renderPager={renderSubView(this.renderPager, ownProps)}
               renderFooter={renderSubView(this.renderNavigationBar, ownProps)}
