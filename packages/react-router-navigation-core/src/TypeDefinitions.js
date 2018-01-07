@@ -45,5 +45,6 @@ export type TabsRendererProps = {
     title?: string,
     testID?: string,
   }>,
+  loadedTabs: Array<string>,
   tabs: Array<Tab>,
 }
