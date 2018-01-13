@@ -1,0 +1,26 @@
+{
+  "name": "react-router-navigation-core",
+  "version": "1.0.0-rc.4",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-router": "4.2.x"
+  },
+  "dependencies": {
+    "react-navigation": "1.0.0-beta.22"
+  },
+  "devDependencies": {
+    "flow-bin": "0.56.0",
+    "history": "4.7.2",
+    "jest": "21.2.1",
+    "react": "16.0.0",
+    "react-native": "0.50.3",
+    "react-router": "4.2.0",
+    "react-router-native": "4.2.0",
+    "react-test-renderer": "16.0.0"
+  }
+}

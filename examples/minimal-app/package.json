@@ -1,0 +1,23 @@
+{
+  "name": "MinimalApp",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-native-scripts": "1.8.1"
+  },
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios"
+  },
+  "dependencies": {
+    "expo": "^23.0.4",
+    "react": "16.0.0",
+    "react-native": "0.50.3",
+    "react-router": "4.2.0",
+    "react-router-native": "4.2.0",
+    "react-router-navigation": "1.0.0-rc.4"
+  }
+}
