@@ -23,6 +23,7 @@ and `react-native-tab-view`.
 * Cross-platform
 * First class deep linking support
 * Nested Navigators
+* Fully typed with [Flow](https://flow.org/)
 
 ## How to use
 
