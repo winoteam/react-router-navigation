@@ -1,14 +1,15 @@
 **Do you want to request a _feature_ or report a _bug_?**
+...
 
 **What is the current behavior?**
+_If the current behavior is a bug, please provide necessary steps for reproduction of this issue, or better the reduced test case (without any external dependencies, if possible)._
 
-**If the current behavior is a bug, please provide necessary steps for reproduction of this issue, or better the reduced test case (without any external dependencies, if possible)..**
+1. ...
 
-1.
-
-2.
+2. ...
 
 **What is the expected behavior?**
+...
 
 **Environment (include versions). Did this work in previous versions?**
 
