@@ -48,6 +48,7 @@ const App = () => (
 * **onTransitionEnd** `?Function` function invoked once the card transition animation completes
 * **cardStyle** `?StyleSheet` override style for the card component
 * **configureTransition** `?Function` function which customize animation
+* **mode** `?string` sets the mode configuration. Can be either `card` (default) or `modal`
 
 #### `<Card />` props
 
