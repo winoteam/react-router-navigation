@@ -62,7 +62,7 @@ const App = () => (
 
 ## Guide
 
-To learn how the library work, head to this introduction written by @CharlesMangwa : [Thousand ways to navigate in React-Native](https://medium.com/the-react-native-log/thousand-ways-to-navigate-in-react-native-f7a1e311a0e8)
+To learn how the library work, head to this introduction written by [@CharlesMangwa](https://twitter.com/Charles_Mangwa) : [Thousand ways to navigate in React-Native](https://medium.com/the-react-native-log/thousand-ways-to-navigate-in-react-native-f7a1e311a0e8)
 
 ## Docs
 
