@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
-import {
-  StatusBar,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-} from 'react-native'
+import { StatusBar, StyleSheet, View, TouchableOpacity, Text } from 'react-native'
 import { Switch, Route, Redirect } from 'react-router'
 import { NativeRouter, Link } from 'react-router-native'
 import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
@@ -62,7 +56,10 @@ class App extends Component {
                     onPress={() => {
                       this.setState({
                         navigation: {
-                          navBarStyle: { backgroundColor: PRIMARY_COLOR },
+                          navBarStyle: {
+                            backgroundColor: PRIMARY_COLOR,
+                            borderBottomWidth: 0,
+                          },
                           titleStyle: { color: 'white' },
                           barStyle: 'light-content',
                           backButtonTintColor: 'white',
@@ -76,12 +73,8 @@ class App extends Component {
               )}
             />
             <Card
-              titleStyle={
-                this.state.card.titleStyle || this.state.navigation.titleStyle
-              }
-              navBarStyle={
-                this.state.card.navBarStyle || this.state.navigation.navBarStyle
-              }
+              titleStyle={this.state.card.titleStyle || this.state.navigation.titleStyle}
+              navBarStyle={this.state.card.navBarStyle || this.state.navigation.navBarStyle}
               backButtonTintColor={
                 this.state.card.backButtonTintColor ||
                 this.state.navigation.backButtonTintColor
@@ -102,7 +95,10 @@ class App extends Component {
                         },
                         card: {
                           ...prevState.card,
-                          navBarStyle: { backgroundColor: SECONDARY_COLOR },
+                          navBarStyle: {
+                            backgroundColor: SECONDARY_COLOR,
+                            borderBottomWidth: 0,
+                          },
                           titleStyle: { color: 'white' },
                           backButtonTintColor: 'white',
                         },
