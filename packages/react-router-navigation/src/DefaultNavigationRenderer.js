@@ -11,7 +11,7 @@ import {
   type HeaderProps,
 } from 'react-navigation'
 import { type CardsRendererProps, type Card } from 'react-router-navigation-core'
-import { type NavigationProps } from './TypeDefinitions'
+import { type NavigationProps, type NavBarProps } from './TypeDefinitions'
 
 type Props = NavigationProps &
   CardsRendererProps & {

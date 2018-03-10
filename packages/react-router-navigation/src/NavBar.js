@@ -6,19 +6,16 @@ import {
   HeaderTitle,
   HeaderBackButton,
   type HeaderProps,
-  type HeaderMode,
   type NavigationScene,
 } from 'react-navigation'
 import type { CardsRendererProps, Route } from 'react-router-navigation-core'
-import type { NavigationProps, Card } from './TypeDefinitions'
+import type { NavBarProps, Card } from './TypeDefinitions'
 
 type Props = NavBarProps<CardsRendererProps & HeaderProps> &
   CardsRendererProps &
   HeaderProps
 
-type SceneProps = NavigationProps &
-  CardsRendererProps &
-  HeaderProps &
+type SceneProps = Props &
   Card &
   Route & {
     scene: NavigationScene,
@@ -65,13 +62,34 @@ class NavBar extends React.Component<Props> {
   }
 
   render() {
+    const {
+      cards,
+      layout,
+      navigation,
+      position,
+      progress,
+      scenes,
+      scene,
+      index,
+      router,
+      transitionPreset,
+      mode,
+    } = this.props
     return (
       <Header
-        {...this.props}
-        getScreenDetails={scene => {
-          const { route: { routeName } } = scene
-          const card = this.props.cards.find(({ key }) => key === routeName)
-          const sceneProps = { ...this.props, ...card, ...scene.route, scene }
+        transitionPreset={transitionPreset}
+        mode={mode}
+        layout={layout}
+        navigation={navigation}
+        position={position}
+        progress={progress}
+        scenes={scenes}
+        scene={scene}
+        index={index}
+        router={router}
+        getScreenDetails={({ route }) => {
+          const card = cards.find(({ key }) => key === route.routeName)
+          const sceneProps = { ...this.props, ...card, ...route }
           return {
             options: {
               headerStyle: sceneProps.navBarStyle,

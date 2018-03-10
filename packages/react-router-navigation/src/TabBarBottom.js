@@ -43,9 +43,11 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = TabsRendererProps & TabsProps & SceneRendererProps<TabRoute>
-
-type SceneProps = SceneRendererProps<TabRoute>
+type Props = TabsRendererProps &
+  TabsProps &
+  SceneRendererProps<TabRoute> & {
+    onTabPress: (scene: Scene<TabRoute>) => void,
+  }
 
 class TabBarBottom extends React.Component<Props> {
   static defaultProps = {
@@ -95,6 +97,7 @@ class TabBarBottom extends React.Component<Props> {
   }
 
   render() {
+    // $FlowFixMe
     const { label, renderTabIcon, renderLabel, ...props } = this.props
     const tabBarStyle = [
       styles.tabBar,

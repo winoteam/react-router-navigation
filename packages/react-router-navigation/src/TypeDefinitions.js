@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint no-use-before-define: 0 */
+/* eslint flowtype/generic-spacing: 0 */
 
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 import type {
@@ -16,6 +17,15 @@ import type {
   Route,
 } from 'react-router-navigation-core'
 
+type NavgationStyleObj =
+  | null
+  | void
+  | number
+  | false
+  | ''
+  | $ReadOnlyArray<StyleObj>
+  | { [name: string]: * }
+
 export type CardProps = RouteProps &
   NavBarProps<NavigationProps & CardsRendererProps & HeaderProps>
 
@@ -24,13 +34,13 @@ export type NavBarProps<T> = {
   headerMode?: 'float' | 'screen' | 'none',
   hideNavBar?: boolean,
   renderNavBar?: (props: T) => ?React$Element<*>,
-  navBarStyle?: StyleObj, // Left button
+  navBarStyle?: NavgationStyleObj, // Left button
   hideBackButton?: boolean,
   backButtonTintColor?: string,
   backButtonTitle?: string,
   renderLeftButton?: (props: T) => ?React$Element<*>, // Title
   title?: string,
-  titleStyle?: StyleObj,
+  titleStyle?: NavgationStyleObj,
   renderTitle?: (props: T) => ?React$Element<*>, // Right button
   renderRightButton?: (props: T) => ?React$Element<*>,
 }
@@ -38,14 +48,14 @@ export type NavBarProps<T> = {
 export type NavigationProps = NavBarProps<
   NavigationProps & CardsRendererProps & HeaderProps,
 > & {
-  cardStyle?: StyleObj,
+  mode?: 'card' | 'modal',
+  cardStyle?: NavgationStyleObj,
   configureTransition?: (
     transitionProps: NavigationTransitionProps,
     prevTransitionProps: ?NavigationTransitionProps,
   ) => NavigationTransitionSpec,
   onTransitionStart?: (...args: Array<mixed>) => void,
   onTransitionEnd?: (...args: Array<mixed>) => void,
-  mode?: 'card' | 'modal',
 }
 
 export type Card = CardProps & { key: string }

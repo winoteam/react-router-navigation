@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { StyleSheet, Text } from 'react-native'
-import { TabViewAnimated, TabBar } from 'react-native-tab-view'
+import { TabBar } from 'react-native-tab-view'
 import type { SceneRendererProps, Scene } from 'react-native-tab-view/types'
 import { TabStack, type TabsRendererProps } from 'react-router-navigation-core'
 import DefaultTabsRenderer from './DefaultTabsRenderer'

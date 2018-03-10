@@ -1,7 +1,7 @@
 /* @flow */
 
 import React from 'react'
-import { StyleSheet, Dimensions, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { type TabsRendererProps } from 'react-router-navigation-core'
 import { TabViewAnimated } from 'react-native-tab-view'
 import { type SceneRendererProps, type Scene } from 'react-native-tab-view/types'
@@ -16,7 +16,11 @@ const styles = StyleSheet.create({
 type Props = TabsProps &
   TabsRendererProps & {
     renderTabBar: (
-      tabBar: TabsProps & TabsRendererProps & SceneRendererProps<TabRoute>,
+      tabBar: TabsProps &
+        TabsRendererProps &
+        SceneRendererProps<TabRoute> & {
+          onTabPress: (scene: Scene<TabRoute>) => void,
+        },
     ) => ?React$Element<*>,
   }
 
@@ -29,6 +33,7 @@ class DefaultTabsRenderer extends React.Component<Props> {
 
   renderTabBar = (position: 'top' | 'bottom', sceneProps: SceneProps) => {
     const { tabs, renderTabBar, ...props } = this.props
+    if (!renderTabBar) return null
     const { navigationState } = sceneProps
     const route = navigationState.routes[navigationState.index]
     const tab = tabs.find(({ key }) => key === route.routeName)

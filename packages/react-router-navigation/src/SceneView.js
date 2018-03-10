@@ -49,6 +49,7 @@ class SceneView extends React.Component<Props, State> {
   }
 
   render() {
+    // $FlowFixMe
     const { render, children, component: Component, type, history } = this.props
     const { match, location } = this.state
     if (type === 'card' && !match) return null

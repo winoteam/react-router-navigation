@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { type HeaderProps } from 'react-navigation'
-import { CardStack, type Card, type CardsRendererProps } from 'react-router-navigation-core'
-import { type NavigationProps } from './TypeDefinitions'
+import { CardStack, type CardsRendererProps } from 'react-router-navigation-core'
+import { type NavigationProps, type NavBarProps } from './TypeDefinitions'
 import DefaultNavigationRenderer from './DefaultNavigationRenderer'
 import NavBar from './NavBar'
 
