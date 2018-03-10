@@ -24,6 +24,7 @@ and `react-native-tab-view`.
 * First class deep linking support
 * Nested Navigators
 * Fully typed with [Flow](https://flow.org/)
+* [TypeScript support](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/23114)
 
 ## How to use
 
@@ -61,7 +62,7 @@ const App = () => (
 
 ## Guide
 
-To learn how the library work, head to this introduction: [Thousand ways to navigate in React-Native](https://medium.com/the-react-native-log/thousand-ways-to-navigate-in-react-native-f7a1e311a0e8)
+To learn how the library work, head to this introduction written by @CharlesMangwa : [Thousand ways to navigate in React-Native](https://medium.com/the-react-native-log/thousand-ways-to-navigate-in-react-native-f7a1e311a0e8)
 
 ## Docs
 
