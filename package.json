@@ -6,7 +6,8 @@
     "bootstrap": "make bootstrap",
     "format": "make format",
     "clean": "make clean",
-    "test": "make test"
+    "test": "make test",
+    "precommit": "make precommit"
   },
   "author":
     "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
@@ -39,6 +40,8 @@
     "trash-cli": "^1.4.0"
   },
   "devDependencies": {
-    "lerna": "^2.1.2"
+    "lerna": "^2.1.2",
+    "prettier": "^1.10.2",
+    "pretty-quick": "^1.2.0"
   }
 }

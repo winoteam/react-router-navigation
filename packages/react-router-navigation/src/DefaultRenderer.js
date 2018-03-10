@@ -136,8 +136,9 @@ class DefaultRenderer extends React.Component<Props> {
     return (
       <CardStack
         {...transitionProps}
+        cardStyle={this.props.cardStyle}
         scenes={scenes}
-        mode="card"
+        mode={this.props.mode || 'card'}
         headerMode={Platform.OS === 'ios' ? 'float' : 'screen'}
         navigationState={this.props.navigationState}
         router={this.getRouter({ ...transitionProps, scenes })}

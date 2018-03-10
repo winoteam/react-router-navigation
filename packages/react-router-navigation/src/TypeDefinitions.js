@@ -45,6 +45,7 @@ export type NavigationProps = NavBarProps & {
   ) => NavigationTransitionSpec,
   onTransitionStart?: (...args: Array<mixed>) => void,
   onTransitionEnd?: (...args: Array<mixed>) => void,
+  mode?: 'card' | 'modal',
 }
 
 export type Card = CardProps & { key: string }

@@ -23,6 +23,7 @@ and `react-native-tab-view`.
 * Cross-platform
 * First class deep linking support
 * Nested Navigators
+* Fully typed with [Flow](https://flow.org/)
 
 ## How to use
 
@@ -58,12 +59,16 @@ const App = () => (
 )
 ```
 
+## Guide
+
+To learn how the library work, head to this introduction: [Thousand ways to navigate in React-Native](https://medium.com/the-react-native-log/thousand-ways-to-navigate-in-react-native-f7a1e311a0e8)
+
 ## Docs
 
 * [`<Navigation />`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md) handles the transition between different scenes in your app.
 * [`<Tabs />`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/TABS.md) make it easy to explore and switch between different views.
 * [`<BottomNavigation />`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md) make it easy to explore and switch between top-level views in a single tap.
-* [Performance tips](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/PERFORMANCE.md)
+* And some [performance tips](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/PERFORMANCE.md)
 
 ## Contributing
 

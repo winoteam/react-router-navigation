@@ -5,7 +5,7 @@ bootstrap:
 	lerna bootstrap
 
 format:
-	prettier --write \"**/*.{js,json,css,md}\"
+	node_modules/.bin/prettier --write "**/*.{js,json,css,md}"
 
 test:
 	node_modules/.bin/eslint .
@@ -14,5 +14,7 @@ test:
 clean:
 	trash packages/*/node_modules
 	trash examples/*/node_modules
-	trash packages/*/node_modules
 	trash node_modules
+
+precommit:
+	pretty-quick --staged
