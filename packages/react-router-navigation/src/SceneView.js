@@ -20,25 +20,21 @@ class SceneView extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-    // Build current match
     const { path, exact, strict, history: { location } } = props
     const match = matchPath(location.pathname, { path, exact, strict })
     this.state = { match, location }
   }
 
   componentWillMount() {
-    // Listen history events
     const { history } = this.props
     this.unlisten = history.listen(this.onListenHistory)
   }
 
   componentWillUnmount() {
-    // Remove history listenner
     if (this.unlisten) this.unlisten()
   }
 
   onListenHistory = (location: Location) => {
-    // Build match
     const { path, exact, strict } = this.props
     const match = matchPath(location.pathname, { path, exact, strict })
     if (!this.state.match) {
@@ -49,23 +45,20 @@ class SceneView extends React.Component<Props, State> {
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: State) {
-    // Only update when scene is focused
     return !!nextState.match
   }
 
   render() {
     const { render, children, component: Component, type, history } = this.props
     const { match, location } = this.state
-    // Special case
     if (type === 'card' && !match) return null
-    // Return scene
-    const ownProps = { history, match, location }
+    const contextRouter = { history, match, location }
     if (render) {
-      return render(ownProps)
+      return render(contextRouter)
     } else if (children && typeof children === 'function') {
-      return children(ownProps)
+      return children(contextRouter)
     } else if (Component) {
-      return <Component {...ownProps} />
+      return <Component {...contextRouter} />
     }
     return null
   }

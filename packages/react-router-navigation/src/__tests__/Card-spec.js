@@ -12,10 +12,7 @@ it('<Card /> renders correctly', () => {
   })
   const component = renderer.create(
     <Router history={history}>
-      <Card
-        path="/:id"
-        render={({ match: { params } }) => <Text>{params.id}</Text>}
-      />
+      <Card path="/:id" render={({ match: { params } }) => <Text>{params.id}</Text>} />
     </Router>,
   )
   const tree = component.toJSON()

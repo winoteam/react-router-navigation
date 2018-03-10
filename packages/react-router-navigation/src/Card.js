@@ -9,7 +9,9 @@ type Props = CardProps
 
 const Card = (props: Props) => (
   <Route>
-    {({ history }) => <SceneView {...props} type="card" history={history} />}
+    {({ history }) => {
+      return <SceneView {...props} type="card" history={history} />
+    }}
   </Route>
 )
 

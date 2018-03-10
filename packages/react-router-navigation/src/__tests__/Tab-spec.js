@@ -12,10 +12,7 @@ it('<Tab /> renders correctly', () => {
   })
   const component = renderer.create(
     <Router history={history}>
-      <Tab
-        path="/:id"
-        render={({ match: { params } }) => <Text>{params.id}</Text>}
-      />
+      <Tab path="/:id" render={({ match: { params } }) => <Text>{params.id}</Text>} />
     </Router>,
   )
   const tree = component.toJSON()
