@@ -41,9 +41,7 @@ export const get = <Item>(items: Array<Item>, route: Route): Item => ({
 
 // Generate unique key
 export const createKey = (route: Route): string => {
-  return `${route.key}@@${Math.random()
-    .toString(10)
-    .slice(1)}`
+  return `${route.key}-${Date.now()}`
 }
 
 // Get current route from a specific history location
@@ -60,55 +58,19 @@ export const getRoute = (stack: Array<Object>, location: Location): ?Route => {
   }
 }
 
-// Render a subview with props
-export const renderSubView = (render: Function, additionalProps?: * = {}) => (
-  ownProps: *,
-): React$Element<*> => {
-  const props = { ...additionalProps, ...ownProps }
-  const {
-    cards,
-    tabs,
-    scene,
-    route,
-    navigationState: { routes, index },
-  } = props
-  const item = {
-    ...props,
-    ...get(cards || tabs, (scene && scene.route) || route || routes[index]),
-  }
-  return render(
-    Object.keys(item).reduce((acc, key) => {
-      const value = item[key]
-      if (value === undefined) return acc
-      return { ...acc, [key]: value }
-    }, {}),
-    props,
-  )
-}
-
 // Build stack with React elements
-export const build = <Item>(
-  children: Array<React$Element<Item>>,
-  oldBuild?: Array<Item>,
-): Array<Item> => {
-  return React.Children.toArray(children).reduce((stack, child, index) => {
+export const build = <Item>(children: React$Node): Array<Item> => {
+  return React.Children.toArray(children).reduce((stack, child) => {
     const item = Object.keys(child.props).reduce((props, key) => {
       if (key === 'path') {
         return {
           ...props,
           key: child.props[key],
         }
-      } else if (
-        key === 'render' ||
-        key === 'component' ||
-        key === 'children'
-      ) {
+      } else if (key === 'render' || key === 'component' || key === 'children') {
         return {
           ...props,
-          [key]:
-            oldBuild && oldBuild[index] // $FlowFixMe
-              ? oldBuild[index][key]
-              : () => React.cloneElement(child),
+          [key]: () => React.cloneElement(child),
         }
       }
       return props

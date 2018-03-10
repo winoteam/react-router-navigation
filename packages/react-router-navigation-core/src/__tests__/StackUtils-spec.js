@@ -42,10 +42,7 @@ describe('build util', () => {
 
   it('creates correctly render method', () => {
     const children = [
-      <Route
-        path="/"
-        render={({ location }) => <Text>{location.pathname}</Text>}
-      />,
+      <Route path="/" render={({ location }) => <Text>{location.pathname}</Text>} />,
     ]
     const stack = build(children)
     const history = createHistory()

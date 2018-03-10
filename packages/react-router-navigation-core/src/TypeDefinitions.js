@@ -7,18 +7,22 @@ export type Route = {
   routeName: string,
 }
 
-export type NavigationState<OwnRoute> = {
+export type NavigationState<OwnRout e> = {
   index: number,
   routes: Array<Route & OwnRoute>,
 }
 
 export type RouteProps = {
-  component?: Class<React$Component<ContextRouter>>,
-  render?: (props: ContextRouter) => React$Node,
-  children?: ((props: ContextRouter) => React$Node) | React$Node,
+  component?: React$ComponentType<*>,
+  render?: (contextRouter: ContextRouter) => React$Node,
+  children?: React$ComponentType<ContextRouter> | React$Node,
+    | React$ComponentType<ContextRouter>
+    | React$Node
+    | ((contextRouter: ContextRouter) => React$Node),
   path?: string,
   exact?: boolean,
   strict?: boolean,
+  sensitive?: boolean,
 }
 
 export type Card = RouteProps & {
@@ -26,7 +30,7 @@ export type Card = RouteProps & {
 }
 
 export type CardsRendererProps = {
-  onNavigateBack: (routeKey?: ?string) => boolean,
+  onNavigateBack: () => boolean,
   navigationState: NavigationState<{
     path?: string,
     params?: Object,
