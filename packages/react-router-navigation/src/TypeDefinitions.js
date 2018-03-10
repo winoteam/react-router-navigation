@@ -50,42 +50,36 @@ export type NavigationProps = NavBarProps<
 
 export type Card = CardProps & { key: string }
 
-/**
- * Tabs
- */
+export type TabRoute = Route & { title?: string, testID?: string }
 
-export type TabSubViewProps = *
-//  SceneRendererProps &
-//   TabsRendererProps &
-// TabBarProps
-
-export type TabBarProps = {
+export type TabBarProps<T> = {
   hideTabBar?: boolean,
-  renderTabBar?: (props: TabSubViewProps) => ?React$Element<*>,
+  renderTabBar?: (props: T) => ?React$Element<*>,
   tabBarStyle?: StyleObj,
   tabStyle?: StyleObj,
   label?: string,
   labelStyle?: StyleObj,
-  renderLabel?: (props: TabSubViewProps) => ?React$Element<*>,
+  renderLabel?: (props: T, scene: Scene<TabRoute>) => ?React$Element<*>,
   tabTintColor?: string,
-  tabActiveTintColor?: string,
-  // <BottomNavigation /> only:
-  renderTabIcon?: (props: TabSubViewProps) => ?React$Element<*>,
-  // <Tabs /> only:
+  tabActiveTintColor?: string, // <BottomNavigation /> only:
+  renderTabIcon?: (props: T) => ?React$Element<*>, // <Tabs /> only:
   tabBarPosition?: 'top' | 'bottom',
   tabBarIndicatorStyle?: StyleObj,
 }
 
-export type TabsProps = TabBarProps & {
+export type TabsProps = TabBarProps<
+  TabsProps & TabsRendererProps & SceneRendererProps<TabRoute>,
+> & {
   // <Tabs /> only:
-  initialLayout?: { width?: number, height?: number },
-  configureTransition: ?Function,
+  initialLayout?: { width: number, height: number },
+  configureTransition?: TransitionConfigurator,
+  lazy?: boolean,
 }
 
 export type TabProps = RouteProps &
-  TabBarProps & {
-    onReset?: (props: TabBarProps & RouteProps) => void,
+  TabBarProps<TabsProps & TabsRendererProps & SceneRendererProps<TabRoute>> & {
+    onReset?: () => void,
     onIndexChange?: (index: number) => void,
   }
 
-export type Tab = TabProps & { key: string }
+export type Tab = { ...TabProps, key: string }

@@ -2,9 +2,11 @@
 
 import React from 'react'
 import { StyleSheet, Platform, Text } from 'react-native'
+import { SafeAreaView } from 'react-navigation'
+import { type TabsRendererProps } from 'react-router-navigation-core'
 import { TabBar } from 'react-native-tab-view'
-import { renderSubView } from 'react-router-navigation-core'
-import type { TabSubViewProps } from './TypeDefinitions'
+import { type SceneRendererProps, type Scene } from 'react-native-tab-view/types'
+import { type TabsProps, type TabRoute } from './TypeDefinitions'
 
 const TAB_HEIGHT = Platform.OS === 'ios' ? 49 : 56
 
@@ -41,10 +43,9 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = {
-  ...TabSubViewProps,
-  sceneProps: TabSubViewProps,
-}
+type Props = TabsRendererProps & TabsProps & SceneRendererProps<TabRoute>
+
+type SceneProps = SceneRendererProps<TabRoute>
 
 class TabBarBottom extends React.Component<Props> {
   static defaultProps = {
@@ -56,17 +57,19 @@ class TabBarBottom extends React.Component<Props> {
     return null
   }
 
-  renderLabel = (sceneProps: TabSubViewProps) => {
-    // Custom label component
-    if (sceneProps.renderLabel) return sceneProps.renderLabel(sceneProps)
-    // Default label
-    const { label, focused, tabTintColor, tabActiveTintColor } = sceneProps
+  renderLabel = (scene: Scene<TabRoute>) => {
+    const { tabs } = this.props
+    const { route } = scene
+    const tab = tabs.find(({ key }) => key === route.routeName)
+    const labelprops = { ...this.props, ...tab, ...scene }
+    if (labelprops.renderLabel) return labelprops.renderLabel(labelprops, scene)
+    const { label, tabTintColor, tabActiveTintColor, focused } = labelprops
     if (!label) return null
     return (
       <Text
         style={[
           styles.label,
-          sceneProps.labelStyle,
+          labelprops.labelStyle,
           !focused && { color: tabTintColor },
           focused && { color: tabActiveTintColor },
         ]}
@@ -76,9 +79,13 @@ class TabBarBottom extends React.Component<Props> {
     )
   }
 
-  renderIcon = (sceneProps: TabSubViewProps) => {
-    if (!sceneProps.renderTabIcon) return null
-    return sceneProps.renderTabIcon(sceneProps)
+  renderIcon = (scene: Scene<TabRoute>) => {
+    const { tabs } = this.props
+    const { route } = scene
+    const tab = tabs.find(({ key }) => key === route.routeName)
+    const iconProps = { ...this.props, ...scene, ...tab }
+    if (!iconProps.renderTabIcon) return null
+    return iconProps.renderTabIcon(iconProps)
   }
 
   shouldComponentUpdate(nextProps: Props) {
@@ -88,23 +95,35 @@ class TabBarBottom extends React.Component<Props> {
   }
 
   render() {
-    const { label, renderTabIcon } = this.props
+    const { label, renderTabIcon, renderLabel, ...props } = this.props
+    const tabBarStyle = [
+      styles.tabBar,
+      { justifyContent: label && renderTabIcon ? 'flex-end' : 'center' },
+      this.props.tabBarStyle,
+    ]
+    const flattenStyle = StyleSheet.flatten(tabBarStyle)
     return (
-      <TabBar
-        {...this.props}
-        style={[
-          styles.tabBar,
-          { justifyContent: label && renderTabIcon ? 'flex-end' : 'center' },
-          this.props.sceneProps.tabBarStyle,
-        ]}
-        tabStyle={[styles.tab, this.props.sceneProps.tabStyle]}
-        jumpToIndex={this.props.onIndexChange}
-        onIndexChange={() => null}
-        pressOpacity={1}
-        renderIndicator={this.renderIndicator}
-        renderLabel={renderSubView(this.renderLabel, this.props)}
-        renderIcon={renderSubView(this.renderIcon, this.props)}
-      />
+      <SafeAreaView
+        forceInset={{ bottom: 'always', top: 'never' }}
+        style={{ backgroundColor: flattenStyle && flattenStyle.backgroundColor }}
+      >
+        <TabBar
+          layout={props.layout}
+          navigationState={props.navigationState}
+          panX={props.panX}
+          offsetX={props.offsetX}
+          position={props.position}
+          jumpToIndex={props.jumpToIndex}
+          useNativeDriver={props.useNativeDriver}
+          onTabPress={props.onTabPress}
+          style={tabBarStyle}
+          tabStyle={[styles.tab, props.tabStyle]}
+          pressOpacity={1}
+          renderIndicator={this.renderIndicator}
+          renderLabel={this.renderLabel}
+          renderIcon={this.renderIcon}
+        />
+      </SafeAreaView>
     )
   }
 }
