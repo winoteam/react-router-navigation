@@ -149,12 +149,10 @@ class TabStack extends React.Component<Props, State> {
   }
 
   onIndexChange = (index: number) => {
-    console.log('onIndexChange')
     if (index < 0) return
     const { lazy, forceHistorySync, history: { entries, index: historyIndex } } = this.props
     const { navigationState, tabsHistory, tabs, rootIndex } = this.state
     if (index !== navigationState.index) {
-      console.log('onIndexChange, 1')
       // 1) Set index directly
       if (!lazy || tabsHistory[index]) {
         this.setState(prevState => ({
@@ -202,7 +200,6 @@ class TabStack extends React.Component<Props, State> {
         this.props.history.replace(entry.pathname, entry.state)
       }
     } else {
-      console.log('onIndexChange, 2')
       // 4) Reset tab
       const tab = tabs[index]
       const n = rootIndex - (historyIndex || 0)

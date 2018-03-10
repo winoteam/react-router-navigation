@@ -7,7 +7,7 @@ export type Route = {
   routeName: string,
 }
 
-export type NavigationState<OwnRout e> = {
+export type NavigationState<OwnRoute> = {
   index: number,
   routes: Array<Route & OwnRoute>,
 }
@@ -16,9 +16,6 @@ export type RouteProps = {
   component?: React$ComponentType<*>,
   render?: (contextRouter: ContextRouter) => React$Node,
   children?: React$ComponentType<ContextRouter> | React$Node,
-    | React$ComponentType<ContextRouter>
-    | React$Node
-    | ((contextRouter: ContextRouter) => React$Node),
   path?: string,
   exact?: boolean,
   strict?: boolean,
