@@ -5,39 +5,39 @@ import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes
 import type {
   NavigationTransitionProps,
   NavigationTransitionSpec,
-} from 'react-navigation/src/TypeDefinition'
-import type { RouteProps } from 'react-router-navigation-core'
+  HeaderProps,
+} from 'react-navigation'
+import type { SceneRendererProps, Scene } from 'react-native-tab-view/types'
+import type { TransitionConfigurator } from 'react-native-tab-view/src/TabViewTypeDefinitions'
+import type {
+  RouteProps,
+  CardsRendererProps,
+  TabsRendererProps,
+  Route,
+} from 'react-router-navigation-core'
 
-/**
- * Navigation
- */
+export type CardProps = RouteProps &
+  NavBarProps<NavigationProps & CardsRendererProps & HeaderProps>
 
-export type CardProps = RouteProps & NavBarProps
-
-export type CardSubViewProps = *
-//  NavigationSceneRendererProps &
-//   CardsRendererProps &
-//   CardProps
-
-export type NavBarProps = {
+export type NavBarProps<T> = {
   // General
+  headerMode?: 'float' | 'screen' | 'none',
   hideNavBar?: boolean,
-  renderNavBar?: (props: CardSubViewProps) => React$Element<*>,
-  navBarStyle?: StyleObj,
-  // Left button
+  renderNavBar?: (props: T) => ?React$Element<*>,
+  navBarStyle?: StyleObj, // Left button
   hideBackButton?: boolean,
   backButtonTintColor?: string,
   backButtonTitle?: string,
-  renderLeftButton?: (props: CardSubViewProps) => React$Element<*>,
-  // Title
+  renderLeftButton?: (props: T) => ?React$Element<*>, // Title
   title?: string,
   titleStyle?: StyleObj,
-  renderTitle?: (props: CardSubViewProps) => React$Element<*>,
-  // Right button
-  renderRightButton?: (props: CardSubViewProps) => React$Element<*>,
+  renderTitle?: (props: T) => ?React$Element<*>, // Right button
+  renderRightButton?: (props: T) => ?React$Element<*>,
 }
 
-export type NavigationProps = NavBarProps & {
+export type NavigationProps = NavBarProps<
+  NavigationProps & CardsRendererProps & HeaderProps,
+> & {
   cardStyle?: StyleObj,
   configureTransition?: (
     transitionProps: NavigationTransitionProps,
