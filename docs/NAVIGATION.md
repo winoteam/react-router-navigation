@@ -11,10 +11,7 @@ import React from 'react'
 import { Navigation, Card } from 'react-router-navigation'
 
 const App = () => (
-  <Navigation
-    navBarStyle={{ backgroundColor: 'purple' }}
-    titleStyle={{ color: 'white' }}
-  >
+  <Navigation navBarStyle={{ backgroundColor: 'purple' }} titleStyle={{ color: 'white' }}>
     <Card exact path="/feed" component={require('./Feed')} />
     <Card
       backButtonTintColor="white"
