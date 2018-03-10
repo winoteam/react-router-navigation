@@ -6,6 +6,7 @@ import {
   HeaderTitle,
   HeaderBackButton,
   type HeaderProps,
+  type HeaderMode,
   type NavigationScene,
 } from 'react-navigation'
 import type { CardsRendererProps, Route } from 'react-router-navigation-core'
@@ -77,8 +78,8 @@ class NavBar extends React.Component<Props> {
     } = this.props
     return (
       <Header
+        mode="float"
         transitionPreset={transitionPreset}
-        mode={mode}
         layout={layout}
         navigation={navigation}
         position={position}

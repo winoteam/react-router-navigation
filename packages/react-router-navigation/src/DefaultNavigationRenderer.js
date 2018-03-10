@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react'
+import { Platform } from 'react-native'
 import {
   CardStackTransitioner,
   StackRouter,
@@ -67,7 +68,7 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
     const { router } = this.state
     return (
       <CardStackTransitioner
-        headerTransitionPreset="uikit"
+        headerTransitionPreset={Platform.OS === 'ios' ? 'uikit' : 'fade-in-place'}
         mode={mode}
         cardStyle={cardStyle}
         onTransitionStart={onTransitionStart}
