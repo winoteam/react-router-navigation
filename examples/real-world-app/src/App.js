@@ -23,10 +23,7 @@ class App extends React.Component<Props> {
   render() {
     const { history } = this.props
     return (
-      <BottomNavigation
-        tabTintColor={NEUTRAL_COLOR_50}
-        tabActiveTintColor={BRAND_COLOR_60}
-      >
+      <BottomNavigation tabTintColor={NEUTRAL_COLOR_50} tabActiveTintColor={BRAND_COLOR_60}>
         <Tab
           path="/feed"
           render={ownProps => (

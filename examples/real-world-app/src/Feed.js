@@ -57,12 +57,9 @@ class Feed extends Component<Props> {
         <Card
           path={`${url}/article/:id`}
           component={Article}
-          title="Item"
           backButtonTitle="Back"
-          renderTitle={({ title, match }) => (
-            <HeaderTitle style={styles.title}>
-              {title} {match && match.params.id}
-            </HeaderTitle>
+          renderTitle={({ match }) => (
+            <HeaderTitle style={styles.title}>Item {match && match.params.id}</HeaderTitle>
           )}
         />
       </Navigation>

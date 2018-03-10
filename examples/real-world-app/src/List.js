@@ -25,9 +25,9 @@ type Props = {
   match: Match,
 }
 
-type State = {
+type State = {|
   dataSource: Object,
-}
+|}
 
 class List extends React.Component<Props, State> {
   listView: ListView
@@ -39,7 +39,7 @@ class List extends React.Component<Props, State> {
     })
     this.state = {
       dataSource: ds.cloneWithRows(
-        Array.from({ length: 100 }).map((a, i) => `Item ${i + 1}`),
+        Array.from({ length: 100 }).map((a, i) => `Article #${i + 1}`),
       ),
     }
   }
@@ -58,7 +58,7 @@ class List extends React.Component<Props, State> {
         style={styles.container}
         dataSource={this.state.dataSource}
         renderRow={rowData => (
-          <Link to={`${url}/article/${rowData.slice(5)}`}>
+          <Link to={`${url}/article/${rowData.slice(9)}`}>
             <Text style={styles.row}>{rowData}</Text>
           </Link>
         )}
