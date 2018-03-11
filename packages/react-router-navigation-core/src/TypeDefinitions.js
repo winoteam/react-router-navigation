@@ -13,8 +13,8 @@ export type NavigationState<OwnRoute> = {
 }
 
 export type RouteProps = {
-  component?: React$ComponentType<*>,
-  render?: (contextRouter: ContextRouter) => React$Node,
+  component?: React$ComponentType<ContextRouter>,
+  render?: (router: ContextRouter) => React$Node,
   children?: React$ComponentType<ContextRouter> | React$Node,
   path?: string,
   exact?: boolean,

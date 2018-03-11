@@ -37,6 +37,7 @@ class DefaultTabsRenderer extends React.Component<Props> {
     const { navigationState } = sceneProps
     const route = navigationState.routes[navigationState.index]
     const tab = tabs.find(({ key }) => key === route.routeName)
+    if (!tab) return null
     const { key, ...tabProps } = tab
     const tabBarProps = { ...props, tabs, ...sceneProps, ...tabProps }
     if (tabBarProps.tabBarPosition !== position) return null
@@ -50,9 +51,11 @@ class DefaultTabsRenderer extends React.Component<Props> {
   }
 
   renderScene = (sceneProps: SceneProps & Scene<TabRoute>) => {
+    // $FlowFixMe
     const { tabs, lazy, loadedTabs } = this.props
     const { route } = sceneProps
     const tab = tabs.find(({ key }) => key === route.routeName)
+    if (!tab) return null
     const { render, children, component } = tab
     if (lazy && !loadedTabs.includes(route.routeName)) {
       return null

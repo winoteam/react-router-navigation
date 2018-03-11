@@ -58,6 +58,8 @@ class SceneView extends React.Component<Props, State> {
       return render(contextRouter)
     } else if (children && typeof children === 'function') {
       return children(contextRouter)
+    } else if (children && React.Children.count(children) === 0) {
+      return React.Children.only(children)
     } else if (Component) {
       return <Component {...contextRouter} />
     }

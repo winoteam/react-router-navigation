@@ -2,12 +2,8 @@
 /* eslint no-use-before-define: 0 */
 /* eslint flowtype/generic-spacing: 0 */
 
+import { Animated } from 'react-native'
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
-import type {
-  NavigationTransitionProps,
-  NavigationTransitionSpec,
-  HeaderProps,
-} from 'react-navigation'
 import type { SceneRendererProps, Scene } from 'react-native-tab-view/types'
 import type { TransitionConfigurator } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type {
@@ -17,39 +13,71 @@ import type {
   Route,
 } from 'react-router-navigation-core'
 
-type NavgationStyleObj =
-  | null
-  | void
-  | number
-  | false
-  | ''
-  | $ReadOnlyArray<StyleObj>
-  | { [name: string]: * }
+// https://github.com/react-navigation/react-navigation/blob/214eeb13fba1a26d47165b3cf21958e3e414fef3/flow/react-navigation.js#L209
+export type NavigationRouter = *
+
+// https://github.com/react-navigation/react-navigation/blob/214eeb13fba1a26d47165b3cf21958e3e414fef3/flow/react-navigation.js#L472
+export type NavigationScreenProp = *
+
+export type NavigationLayout = {
+  height: Animated.Value,
+  initHeight: number,
+  initWidth: number,
+  isMeasured: boolean,
+  width: Animated.Value,
+}
+
+export type NavigationTransitionProps = {
+  layout: NavigationLayout,
+  navigation: NavigationScreenProp,
+  position: Animated.Value,
+  progress: Animated.Value,
+  scenes: Array<NavigationScene>,
+  scene: NavigationScene,
+  index: number,
+}
+export type NavigationTransitionSpec = {
+  duration?: number,
+  easing?: (t: number) => number,
+  timing?: (value: Animated.Value, config: *) => *,
+}
+
+export type NavigationScene = {
+  index: number,
+  isActive: boolean,
+  isStale: boolean,
+  key: string,
+  route: Route,
+}
+
+export type NavigationHeaderProps = NavigationTransitionProps & { router: NavigationRouter }
 
 export type CardProps = RouteProps &
-  NavBarProps<NavigationProps & CardsRendererProps & HeaderProps>
+  NavBarProps<NavigationProps & CardsRendererProps & NavigationHeaderProps>
 
 export type NavBarProps<T> = {
   // General
-  headerMode?: 'float' | 'screen' | 'none',
   hideNavBar?: boolean,
   renderNavBar?: (props: T) => ?React$Element<*>,
-  navBarStyle?: NavgationStyleObj, // Left button
+  navBarStyle?: StyleObj,
+  // Left button
   hideBackButton?: boolean,
   backButtonTintColor?: string,
   backButtonTitle?: string,
-  renderLeftButton?: (props: T) => ?React$Element<*>, // Title
+  renderLeftButton?: (props: T) => ?React$Element<*>,
+  // Title
   title?: string,
-  titleStyle?: NavgationStyleObj,
-  renderTitle?: (props: T) => ?React$Element<*>, // Right button
+  titleStyle?: StyleObj,
+  renderTitle?: (props: T) => ?React$Element<*>,
+  // Right button
   renderRightButton?: (props: T) => ?React$Element<*>,
 }
 
 export type NavigationProps = NavBarProps<
-  NavigationProps & CardsRendererProps & HeaderProps,
+  NavigationProps & CardsRendererProps & NavigationHeaderProps,
 > & {
   mode?: 'card' | 'modal',
-  cardStyle?: NavgationStyleObj,
+  cardStyle?: StyleObj,
   configureTransition?: (
     transitionProps: NavigationTransitionProps,
     prevTransitionProps: ?NavigationTransitionProps,
@@ -64,7 +92,9 @@ export type TabRoute = Route & { title?: string, testID?: string }
 
 export type TabBarProps<T> = {
   hideTabBar?: boolean,
-  renderTabBar?: (props: T) => ?React$Element<*>,
+  renderTabBar?: (
+    props: T & { onTabPress: (scene: Scene<TabRoute>) => void },
+  ) => ?React$Element<*>,
   tabBarStyle?: StyleObj,
   tabStyle?: StyleObj,
   label?: string,

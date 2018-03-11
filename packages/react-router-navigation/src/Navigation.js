@@ -1,9 +1,8 @@
 /* @flow */
 
 import React from 'react'
-import { type HeaderProps } from 'react-navigation'
 import { CardStack, type CardsRendererProps } from 'react-router-navigation-core'
-import { type NavigationProps, type NavBarProps } from './TypeDefinitions'
+import type { NavigationProps, NavBarProps, NavigationHeaderProps } from './TypeDefinitions'
 import DefaultNavigationRenderer from './DefaultNavigationRenderer'
 import NavBar from './NavBar'
 
@@ -13,9 +12,9 @@ type Props = NavigationProps & {
 
 class Navigation extends React.Component<Props> {
   renderHeader = (
-    headerProps: NavBarProps<CardsRendererProps & HeaderProps> &
+    headerProps: NavBarProps<CardsRendererProps & NavigationHeaderProps> &
       CardsRendererProps &
-      HeaderProps,
+      NavigationHeaderProps,
   ) => {
     if (headerProps.hideNavBar) return null
     if (headerProps.renderNavBar) {

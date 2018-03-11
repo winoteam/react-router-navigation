@@ -5,26 +5,28 @@ import { Platform } from 'react-native'
 import {
   CardStackTransitioner,
   StackRouter,
-  NavigationActions, // $FlowFixMe
+  NavigationActions,
   addNavigationHelpers,
-  type NavigationRouter,
-  type NavigationStackScreenOptions,
-  type HeaderProps,
 } from 'react-navigation'
-import { type CardsRendererProps, type Card } from 'react-router-navigation-core'
-import { type NavigationProps, type NavBarProps } from './TypeDefinitions'
+import type { CardsRendererProps, Card } from 'react-router-navigation-core'
+import type {
+  NavigationProps,
+  NavBarProps,
+  NavigationHeaderProps,
+  NavigationRouter,
+} from './TypeDefinitions'
 
 type Props = NavigationProps &
   CardsRendererProps & {
     renderHeader: (
-      headerProps: NavBarProps<CardsRendererProps & HeaderProps> &
+      NavBarProps<CardsRendererProps & NavigationHeaderProps> &
         CardsRendererProps &
-        HeaderProps,
+        NavigationHeaderProps,
     ) => ?React$Element<any>,
   }
 
 type State = {
-  router: NavigationRouter<*, NavigationStackScreenOptions>,
+  router: NavigationRouter,
 }
 
 class DefaultNavigationRenderer extends React.Component<Props, State> {
@@ -57,22 +59,12 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      navigationState,
-      onNavigateBack,
-      mode,
-      cardStyle,
-      onTransitionStart,
-      onTransitionEnd,
-    } = this.props
+    const { navigationState, onNavigateBack } = this.props
     const { router } = this.state
     return (
       <CardStackTransitioner
+        {...this.props}
         headerTransitionPreset={Platform.OS === 'ios' ? 'uikit' : 'fade-in-place'}
-        mode={mode}
-        cardStyle={cardStyle}
-        onTransitionStart={onTransitionStart}
-        onTransitionEnd={onTransitionEnd}
         router={router}
         navigation={addNavigationHelpers({
           state: { ...navigationState },

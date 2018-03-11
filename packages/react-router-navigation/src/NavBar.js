@@ -1,20 +1,18 @@
 /* @flow */
 
 import React from 'react'
-import {
-  Header,
-  HeaderTitle,
-  HeaderBackButton,
-  type HeaderProps,
-  type HeaderMode,
-  type NavigationScene,
-} from 'react-navigation'
+import { Header, HeaderTitle, HeaderBackButton } from 'react-navigation'
 import type { CardsRendererProps, Route } from 'react-router-navigation-core'
-import type { NavBarProps, Card } from './TypeDefinitions'
+import type {
+  NavBarProps,
+  Card,
+  NavigationHeaderProps,
+  NavigationScene,
+} from './TypeDefinitions'
 
-type Props = NavBarProps<CardsRendererProps & HeaderProps> &
+type Props = NavBarProps<CardsRendererProps & NavigationHeaderProps> &
   CardsRendererProps &
-  HeaderProps
+  NavigationHeaderProps
 
 type SceneProps = Props &
   Card &
@@ -63,34 +61,13 @@ class NavBar extends React.Component<Props> {
   }
 
   render() {
-    const {
-      cards,
-      layout,
-      navigation,
-      position,
-      progress,
-      scenes,
-      scene,
-      index,
-      router,
-      transitionPreset,
-      mode,
-    } = this.props
     return (
       <Header
-        mode="float"
-        transitionPreset={transitionPreset}
-        layout={layout}
-        navigation={navigation}
-        position={position}
-        progress={progress}
-        scenes={scenes}
-        scene={scene}
-        index={index}
-        router={router}
-        getScreenDetails={({ route }) => {
-          const card = cards.find(({ key }) => key === route.routeName)
-          const sceneProps = { ...this.props, ...card, ...route }
+        {...this.props}
+        getScreenDetails={scene => {
+          const { route: { routeName } } = scene
+          const card = this.props.cards.find(({ key }) => key === routeName)
+          const sceneProps = { ...this.props, ...card, ...scene.route, scene }
           return {
             options: {
               headerStyle: sceneProps.navBarStyle,
