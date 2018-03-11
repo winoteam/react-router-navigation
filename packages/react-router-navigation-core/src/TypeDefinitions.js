@@ -13,12 +13,13 @@ export type NavigationState<OwnRoute> = {
 }
 
 export type RouteProps = {
-  component?: Class<React$Component<ContextRouter>>,
-  render?: (props: ContextRouter) => React$Node,
-  children?: ((props: ContextRouter) => React$Node) | React$Node,
+  component?: React$ComponentType<ContextRouter>,
+  render?: (router: ContextRouter) => React$Node,
+  children?: React$ComponentType<ContextRouter> | React$Node,
   path?: string,
   exact?: boolean,
   strict?: boolean,
+  sensitive?: boolean,
 }
 
 export type Card = RouteProps & {
@@ -26,7 +27,7 @@ export type Card = RouteProps & {
 }
 
 export type CardsRendererProps = {
-  onNavigateBack: (routeKey?: ?string) => boolean,
+  onNavigateBack: () => boolean,
   navigationState: NavigationState<{
     path?: string,
     params?: Object,

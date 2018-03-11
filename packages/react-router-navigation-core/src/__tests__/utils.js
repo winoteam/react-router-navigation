@@ -8,10 +8,7 @@ export const componentFactory = message => ({ match }) => (
   <Text>{(match && (match.params.id || match.params.slug)) || message}</Text>
 )
 
-export const renderCardView = ({
-  navigationState: { routes, index },
-  cards,
-}) => {
+export const renderCardView = ({ navigationState: { routes, index }, cards }) => {
   const route = routes[index]
   const card = StackUtils.get(cards, route)
   return createElement(card.render, { key: card.key })

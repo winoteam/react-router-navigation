@@ -6,7 +6,7 @@ declare module 'react-router' {
     pathname: string,
     search: string,
     hash: string,
-    state?: any,
+    state?: *,
     key?: string,
   }
 
@@ -14,7 +14,7 @@ declare module 'react-router' {
     pathname?: string,
     search?: string,
     hash?: string,
-    state?: any,
+    state?: *,
   }
 
   declare export type HistoryAction = 'PUSH' | 'REPLACE' | 'POP'
@@ -23,18 +23,14 @@ declare module 'react-router' {
     length: number,
     location: Location,
     action: HistoryAction,
-    listen(
-      callback: (location: Location, action: HistoryAction) => void,
-    ): () => void,
-    push(path: string | LocationShape, state?: any): void,
-    replace(path: string | LocationShape, state?: any): void,
+    listen(callback: (location: Location, action: HistoryAction) => void): () => void,
+    push(path: string | LocationShape, state?: *): void,
+    replace(path: string | LocationShape, state?: *): void,
     go(n: number): void,
     goBack(): void,
     goForward(): void,
     canGo?: (n: number) => boolean,
-    block(
-      callback: (location: Location, action: HistoryAction) => boolean,
-    ): void,
+    block(callback: (location: Location, action: HistoryAction) => boolean): void,
     // createMemoryHistory
     index?: number,
     entries?: Array<Location>,
@@ -50,7 +46,7 @@ declare module 'react-router' {
   declare export type ContextRouter = {|
     history: RouterHistory,
     location: Location,
-    match: Match,
+    match: ?Match,
   |}
 
   declare export type GetUserConfirmation = (
@@ -93,7 +89,7 @@ declare module 'react-router' {
   }> {}
 
   declare export class Route extends React$Component<{
-    component?: React$ComponentType<*>,
+    component?: React$ComponentType<ContextRouter>,
     render?: (router: ContextRouter) => React$Node,
     children?: React$ComponentType<ContextRouter> | React$Node,
     path?: string,
@@ -106,10 +102,10 @@ declare module 'react-router' {
   }> {}
 
   declare export function withRouter<P>(
-    Component: React$ComponentType<{| ...ContextRouter, ...P |}>,
+    Component: React$ComponentType<*>,
   ): React$ComponentType<P>
 
-  declare type MatchPathOptions = {
+  declare export type MatchPathOptions = {
     path?: string,
     exact?: boolean,
     strict?: boolean,

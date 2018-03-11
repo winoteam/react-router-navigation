@@ -1,22 +1,31 @@
 /* @flow */
 
 import React from 'react'
-import { Platform } from 'react-native'
 import { Header, HeaderTitle, HeaderBackButton } from 'react-navigation'
-import { renderSubView, get } from 'react-router-navigation-core'
-import type { CardSubViewProps } from './TypeDefinitions'
+import type { CardsRendererProps, Route } from 'react-router-navigation-core'
+import type {
+  NavBarProps,
+  Card,
+  NavigationHeaderProps,
+  NavigationScene,
+} from './TypeDefinitions'
 
-const StackUtils = { get }
+type Props = NavBarProps<CardsRendererProps & NavigationHeaderProps> &
+  CardsRendererProps &
+  NavigationHeaderProps
 
-type Props = CardSubViewProps
+type SceneProps = Props &
+  Card &
+  Route & {
+    scene: NavigationScene,
+  }
 
 class NavBar extends React.Component<Props> {
-  renderLeftComponent = (sceneProps: CardSubViewProps) => {
-    // Custom left component
+  renderLeftComponent = (sceneProps: SceneProps) => {
+    const { scenes, cards } = sceneProps
     if (sceneProps.renderLeftButton) {
       return sceneProps.renderLeftButton(sceneProps)
     }
-    // Hide back button
     if (
       sceneProps.scene.index === 0 ||
       !sceneProps.onNavigateBack ||
@@ -24,42 +33,30 @@ class NavBar extends React.Component<Props> {
     ) {
       return null
     }
-    // Get previous title
-    const previousRoute = StackUtils.get(
-      sceneProps.cards,
-      sceneProps.scenes[Math.max(0, sceneProps.scene.index - 1)].route,
-    )
-    const previousTitle =
-      sceneProps.backButtonTitle || (previousRoute && previousRoute.title)
-    // Return default <BackButton /> component
+    const previousScene = scenes[Math.max(0, sceneProps.scene.index - 1)]
+    const { routeName: previousRouteName } = previousScene.route
+    const previousCard = cards.find(card => card.key === previousRouteName)
+    const previousSceneProps = { ...previousScene, ...previousCard }
     return (
       <HeaderBackButton
-        title={previousTitle}
+        title={previousSceneProps.backButtonTitle || previousSceneProps.title}
         tintColor={sceneProps.backButtonTintColor}
         onPress={sceneProps.onNavigateBack}
       />
     )
   }
 
-  renderTitleComponent = (sceneProps: CardSubViewProps) => {
-    // Render custom title component
+  renderTitleComponent = (sceneProps: SceneProps) => {
     if (sceneProps.renderTitle) {
       return sceneProps.renderTitle(sceneProps)
     }
-    // Return <ReactNavigation.HeaderTitle /> component
-    return (
-      <HeaderTitle style={sceneProps.titleStyle}>
-        {sceneProps.title}
-      </HeaderTitle>
-    )
+    return <HeaderTitle style={sceneProps.titleStyle}>{sceneProps.title}</HeaderTitle>
   }
 
-  renderRightComponent = (sceneProps: CardSubViewProps) => {
-    // Render cusqtom right component
+  renderRightComponent = (sceneProps: SceneProps) => {
     if (sceneProps.renderRightButton) {
       return sceneProps.renderRightButton(sceneProps)
     }
-    // Else return null =)
     return null
   }
 
@@ -67,18 +64,16 @@ class NavBar extends React.Component<Props> {
     return (
       <Header
         {...this.props}
-        mode={Platform.OS === 'ios' ? 'float' : 'screen'}
         getScreenDetails={scene => {
-          const sceneProps = StackUtils.get(this.props.cards, scene.route)
-          const props = { ...this.props, scene }
+          const { route: { routeName } } = scene
+          const card = this.props.cards.find(({ key }) => key === routeName)
+          const sceneProps = { ...this.props, ...card, ...scene.route, scene }
           return {
             options: {
-              headerStyle:
-                (sceneProps && sceneProps.navBarStyle) ||
-                this.props.navBarStyle,
-              headerLeft: renderSubView(this.renderLeftComponent, props)(),
-              headerTitle: renderSubView(this.renderTitleComponent, props)(),
-              headerRight: renderSubView(this.renderRightComponent, props)(),
+              headerStyle: sceneProps.navBarStyle,
+              headerLeft: this.renderLeftComponent(sceneProps),
+              headerTitle: this.renderTitleComponent(sceneProps),
+              headerRight: this.renderRightComponent(sceneProps),
             },
           }
         }}

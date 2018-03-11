@@ -1,49 +1,37 @@
 /* @flow */
 
 import React from 'react'
-import { CardStack, renderSubView } from 'react-router-navigation-core'
-import type {
-  NavigationProps,
-  CardProps,
-  CardSubViewProps,
-} from './TypeDefinitions'
-import DefaultRenderer from './DefaultRenderer'
+import { CardStack, type CardsRendererProps } from 'react-router-navigation-core'
+import type { NavigationProps, NavBarProps, NavigationHeaderProps } from './TypeDefinitions'
+import DefaultNavigationRenderer from './DefaultNavigationRenderer'
 import NavBar from './NavBar'
 
 type Props = NavigationProps & {
-  children?: Array<React$Element<CardProps>>,
+  children?: React$Node,
 }
 
 class Navigation extends React.Component<Props> {
-  renderHeader = (sceneProps: CardSubViewProps, props: CardSubViewProps) => {
-    // Hide nav bar
-    if (sceneProps.hideNavBar) return null
-    // Render custom nav bar
-    if (sceneProps.renderNavBar) {
-      return sceneProps.renderNavBar(sceneProps)
+  renderHeader = (
+    headerProps: NavBarProps<CardsRendererProps & NavigationHeaderProps> &
+      CardsRendererProps &
+      NavigationHeaderProps,
+  ) => {
+    if (headerProps.hideNavBar) return null
+    if (headerProps.renderNavBar) {
+      return headerProps.renderNavBar(headerProps)
     }
-    // Else return default <NavBar /> component
-    return <NavBar {...props} />
-  }
-
-  renderSceneComponent = (sceneProps: CardSubViewProps) => {
-    const { render, children, component } = sceneProps
-    if (render) return render
-    else if (children && typeof children === 'function') return children
-    else if (component) return component
-    return null
+    return <NavBar {...headerProps} />
   }
 
   render() {
     return (
       <CardStack
         {...this.props}
-        render={ownProps => (
-          <DefaultRenderer
+        render={cardsRendererProps => (
+          <DefaultNavigationRenderer
             {...this.props}
-            {...ownProps}
-            renderSceneComponent={renderSubView(this.renderSceneComponent)}
-            renderHeader={renderSubView(this.renderHeader)}
+            {...cardsRendererProps}
+            renderHeader={this.renderHeader}
           />
         )}
       />

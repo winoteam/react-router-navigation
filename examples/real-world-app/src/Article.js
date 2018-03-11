@@ -44,10 +44,7 @@ class Article extends React.Component<Props, State> {
 
   componentDidMount() {
     this.timer = setInterval(() => {
-      if (
-        this.props.match &&
-        this.props.match.url === this.props.location.pathname
-      ) {
+      if (this.props.match && this.props.match.url === this.props.location.pathname) {
         this.setState(prevState => ({
           time: prevState.time + 250,
         }))
@@ -64,14 +61,9 @@ class Article extends React.Component<Props, State> {
   }
 
   render() {
-    const { match } = this.props
+    const { history, match } = this.props
     return (
       <View style={styles.scene}>
-        <Text>
-          I know words. I have the best words. Be careful, or I will spill the
-          beans on your placeholder text. Trump Ipsum is calling for a total and
-          complete shutdown of Muslim text entering your website.
-        </Text>
         <Text style={styles.strong}>Focus time: {this.state.time / 1000}s</Text>
         <Link
           style={styles.link}
@@ -79,9 +71,27 @@ class Article extends React.Component<Props, State> {
           to={`/feed/article/${parseInt(match.params.id, 10) + 1}`}
         >
           <Text style={styles.span}>
-            See item {parseInt(match.params.id, 10) + 1}
+            Push to article {parseInt(match.params.id, 10) + 1} (n + 1)
           </Text>
         </Link>
+        <Link
+          style={styles.link}
+          component={TouchableOpacity}
+          to={`/feed/article/${parseInt(match.params.id, 10) + 1}`}
+          replace
+        >
+          <Text style={styles.span}>
+            Replace to article {parseInt(match.params.id, 10) + 1} (n + 1)
+          </Text>
+        </Link>
+        <TouchableOpacity style={styles.link} onPress={() => history.goBack()}>
+          <Text style={styles.span}>Go back (n-1)</Text>
+        </TouchableOpacity>
+        {history.entries.slice(0, history.index + 1).length > 2 && (
+          <TouchableOpacity style={styles.link} onPress={() => history.go(-2)}>
+            <Text style={styles.span}>Pop (n-2)</Text>
+          </TouchableOpacity>
+        )}
       </View>
     )
   }

@@ -1,18 +1,12 @@
 /* @flow */
-/* eslint global-require: 0 */
 
-import React from 'react'
+import * as React from 'react'
 import { StyleSheet, StatusBar, View } from 'react-native'
 import { Switch, Route, Redirect } from 'react-router'
-import {
-  ConnectedRouter,
-  routerReducer,
-  routerMiddleware,
-} from 'react-router-redux'
+import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createMemoryHistory'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { BRAND_COLOR_60 } from './theme'
 import App from './App'
 
 const styles = StyleSheet.create({
@@ -43,20 +37,9 @@ const Root = () => {
           <Route exact path="/" render={() => <Redirect to="/feed" />} />
           <Route
             path="/"
-            render={({ location, match: { url } }) => (
+            render={() => (
               <View style={styles.tabs}>
-                <StatusBar
-                  barStyle={
-                    location.pathname.startsWith(`${url}/search`)
-                      ? 'dark-content'
-                      : 'light-content'
-                  }
-                  backgroundColor={
-                    !location.pathname.startsWith(`${url}/search`)
-                      ? BRAND_COLOR_60
-                      : '#ffffff'
-                  }
-                />
+                <StatusBar barStyle="light-content" backgroundColor="#ffffff" />
                 <App history={history} />
               </View>
             )}

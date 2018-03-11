@@ -9,20 +9,12 @@
     "test": "make test",
     "precommit": "make precommit"
   },
-  "author":
-    "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
+  "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
   },
-  "keywords": [
-    "react-native",
-    "ios",
-    "android",
-    "router",
-    "navigation",
-    "navigator"
-  ],
+  "keywords": ["react-native", "ios", "android", "router", "navigation", "navigator"],
   "bugs": {
     "url": "https://github.com/LeoLeBras/react-router-navigation/issues"
   },

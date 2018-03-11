@@ -1,43 +1,82 @@
 /* @flow */
 /* eslint no-use-before-define: 0 */
+/* eslint flowtype/generic-spacing: 0 */
 
+import { Animated } from 'react-native'
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
+import type { SceneRendererProps, Scene } from 'react-native-tab-view/types'
+import type { TransitionConfigurator } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type {
-  NavigationTransitionProps,
-  NavigationTransitionSpec,
-} from 'react-navigation/src/TypeDefinition'
-import type { RouteProps } from 'react-router-navigation-core'
+  RouteProps,
+  CardsRendererProps,
+  TabsRendererProps,
+  Route,
+} from 'react-router-navigation-core'
 
-/**
- * Navigation
- */
+// https://github.com/react-navigation/react-navigation/blob/214eeb13fba1a26d47165b3cf21958e3e414fef3/flow/react-navigation.js#L209
+export type NavigationRouter = *
 
-export type CardProps = RouteProps & NavBarProps
+// https://github.com/react-navigation/react-navigation/blob/214eeb13fba1a26d47165b3cf21958e3e414fef3/flow/react-navigation.js#L472
+export type NavigationScreenProp = *
 
-export type CardSubViewProps = *
-//  NavigationSceneRendererProps &
-//   CardsRendererProps &
-//   CardProps
+export type NavigationLayout = {
+  height: Animated.Value,
+  initHeight: number,
+  initWidth: number,
+  isMeasured: boolean,
+  width: Animated.Value,
+}
 
-export type NavBarProps = {
+export type NavigationTransitionProps = {
+  layout: NavigationLayout,
+  navigation: NavigationScreenProp,
+  position: Animated.Value,
+  progress: Animated.Value,
+  scenes: Array<NavigationScene>,
+  scene: NavigationScene,
+  index: number,
+}
+export type NavigationTransitionSpec = {
+  duration?: number,
+  easing?: (t: number) => number,
+  timing?: (value: Animated.Value, config: *) => *,
+}
+
+export type NavigationScene = {
+  index: number,
+  isActive: boolean,
+  isStale: boolean,
+  key: string,
+  route: Route,
+}
+
+export type NavigationHeaderProps = NavigationTransitionProps & { router: NavigationRouter }
+
+export type CardProps = RouteProps &
+  NavBarProps<NavigationProps & CardsRendererProps & NavigationHeaderProps>
+
+export type NavBarProps<T> = {
   // General
   hideNavBar?: boolean,
-  renderNavBar?: (props: CardSubViewProps) => React$Element<*>,
+  renderNavBar?: (props: T) => ?React$Element<*>,
   navBarStyle?: StyleObj,
   // Left button
   hideBackButton?: boolean,
   backButtonTintColor?: string,
   backButtonTitle?: string,
-  renderLeftButton?: (props: CardSubViewProps) => React$Element<*>,
+  renderLeftButton?: (props: T) => ?React$Element<*>,
   // Title
   title?: string,
   titleStyle?: StyleObj,
-  renderTitle?: (props: CardSubViewProps) => React$Element<*>,
+  renderTitle?: (props: T) => ?React$Element<*>,
   // Right button
-  renderRightButton?: (props: CardSubViewProps) => React$Element<*>,
+  renderRightButton?: (props: T) => ?React$Element<*>,
 }
 
-export type NavigationProps = NavBarProps & {
+export type NavigationProps = NavBarProps<
+  NavigationProps & CardsRendererProps & NavigationHeaderProps,
+> & {
+  mode?: 'card' | 'modal',
   cardStyle?: StyleObj,
   configureTransition?: (
     transitionProps: NavigationTransitionProps,
@@ -45,47 +84,42 @@ export type NavigationProps = NavBarProps & {
   ) => NavigationTransitionSpec,
   onTransitionStart?: (...args: Array<mixed>) => void,
   onTransitionEnd?: (...args: Array<mixed>) => void,
-  mode?: 'card' | 'modal',
 }
 
 export type Card = CardProps & { key: string }
 
-/**
- * Tabs
- */
+export type TabRoute = Route & { title?: string, testID?: string }
 
-export type TabSubViewProps = *
-//  SceneRendererProps &
-//   TabsRendererProps &
-// TabBarProps
-
-export type TabBarProps = {
+export type TabBarProps<T> = {
   hideTabBar?: boolean,
-  renderTabBar?: (props: TabSubViewProps) => ?React$Element<*>,
+  renderTabBar?: (
+    props: T & { onTabPress: (scene: Scene<TabRoute>) => void },
+  ) => ?React$Element<*>,
   tabBarStyle?: StyleObj,
   tabStyle?: StyleObj,
   label?: string,
   labelStyle?: StyleObj,
-  renderLabel?: (props: TabSubViewProps) => ?React$Element<*>,
+  renderLabel?: (props: T, scene: Scene<TabRoute>) => ?React$Element<*>,
   tabTintColor?: string,
-  tabActiveTintColor?: string,
-  // <BottomNavigation /> only:
-  renderTabIcon?: (props: TabSubViewProps) => ?React$Element<*>,
-  // <Tabs /> only:
+  tabActiveTintColor?: string, // <BottomNavigation /> only:
+  renderTabIcon?: (props: T) => ?React$Element<*>, // <Tabs /> only:
   tabBarPosition?: 'top' | 'bottom',
   tabBarIndicatorStyle?: StyleObj,
 }
 
-export type TabsProps = TabBarProps & {
+export type TabsProps = TabBarProps<
+  TabsProps & TabsRendererProps & SceneRendererProps<TabRoute>,
+> & {
   // <Tabs /> only:
-  initialLayout?: { width?: number, height?: number },
-  configureTransition: ?Function,
+  initialLayout?: { width: number, height: number },
+  configureTransition?: TransitionConfigurator,
+  lazy?: boolean,
 }
 
 export type TabProps = RouteProps &
-  TabBarProps & {
-    onReset?: (props: TabBarProps & RouteProps) => void,
+  TabBarProps<TabsProps & TabsRendererProps & SceneRendererProps<TabRoute>> & {
+    onReset?: () => void,
     onIndexChange?: (index: number) => void,
   }
 
-export type Tab = TabProps & { key: string }
+export type Tab = { ...TabProps, key: string }

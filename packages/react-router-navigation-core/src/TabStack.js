@@ -7,11 +7,11 @@ import * as StackUtils from './StackUtils'
 import * as HistoryUtils from './HistoryUtils'
 
 type Props = {
-  history: RouterHistory, // eslint-disable-next-line
-  children?: Array<React$Element<*>>,
-  render: (props: TabsRendererProps) => React$Element<*>, // eslint-disable-next-line
+  history: RouterHistory,
+  children?: React$Node,
+  render: (props: TabsRendererProps) => React$Element<*>,
   lazy?: boolean,
-  forceSync?: boolean,
+  forceHistorySync?: boolean,
 }
 
 type State = {
@@ -25,9 +25,9 @@ type State = {
   tabsHistory: { [key: number]: Array<Location> },
 }
 
-class TabStack extends React.PureComponent<Props, State> {
+class TabStack extends React.Component<Props, State> {
   static defaultProps = {
-    forceSync: false,
+    forceHistorySync: false,
   }
 
   unlistenHistory: ?Function
@@ -52,9 +52,7 @@ class TabStack extends React.PureComponent<Props, State> {
         key: StackUtils.createKey(route),
       }
     })
-    const index = routes.findIndex(
-      ({ routeName }) => currentRoute.routeName === routeName,
-    )
+    const index = routes.findIndex(({ routeName }) => currentRoute.routeName === routeName)
     const navigationState = { index, routes }
     const rootIndex = props.history.index || 0
     // Initialyze cached history
@@ -70,10 +68,7 @@ class TabStack extends React.PureComponent<Props, State> {
 
   componentDidMount() {
     const { history } = this.props
-    this.unlistenHistory = HistoryUtils.runHistoryListenner(
-      history,
-      this.onListenHistory,
-    )
+    this.unlistenHistory = HistoryUtils.runHistoryListenner(history, this.onListenHistory)
   }
 
   componentWillUnmount() {
@@ -81,10 +76,33 @@ class TabStack extends React.PureComponent<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    const { children } = nextProps
-    const { tabs } = this.state
-    const nextTabs = children && StackUtils.build(children, tabs)
-    this.setState({ tabs: nextTabs })
+    const { children } = this.props
+    const { children: nextChildren, history: { location } } = nextProps
+    if (children !== nextChildren) {
+      const { navigationState: { routes: oldRoutes } } = this.state
+      const nextTabs = nextChildren && StackUtils.build(nextChildren)
+      if (nextTabs) {
+        const currentRoute = StackUtils.getRoute(nextTabs, location)
+        const nextRoutes = nextTabs.map(tab => {
+          const oldRoute = oldRoutes.find(({ routeName }) => tab.path === routeName)
+          if (oldRoute) return oldRoute
+          return {
+            key: tab.key,
+            routeName: tab.path || '',
+          }
+        })
+        if (currentRoute) {
+          const nextIndex = nextRoutes.findIndex(
+            ({ routeName }) => currentRoute.routeName === routeName,
+          )
+          const nextNavigationState = { routes: nextRoutes, index: nextIndex }
+          this.setState({
+            tabs: nextTabs,
+            navigationState: nextNavigationState,
+          })
+        }
+      }
+    }
   }
 
   onListenHistory = (history: RouterHistory, nextHistory: RouterHistory) => {
@@ -132,11 +150,7 @@ class TabStack extends React.PureComponent<Props, State> {
 
   onIndexChange = (index: number) => {
     if (index < 0) return
-    const {
-      lazy,
-      forceSync,
-      history: { entries, index: historyIndex },
-    } = this.props
+    const { lazy, forceHistorySync, history: { entries, index: historyIndex } } = this.props
     const { navigationState, tabsHistory, tabs, rootIndex } = this.state
     if (index !== navigationState.index) {
       // 1) Set index directly
@@ -149,7 +163,7 @@ class TabStack extends React.PureComponent<Props, State> {
         }))
       }
       // 2) Resync history if needed
-      if (forceSync && entries) {
+      if (forceHistorySync && entries) {
         // Re-build hisstory
         const newEntries = tabsHistory[index]
           ? [...entries.slice(0, rootIndex), ...tabsHistory[index]]
@@ -193,12 +207,18 @@ class TabStack extends React.PureComponent<Props, State> {
         this.props.history.go(n)
       } else {
         const props = { ...this.props, ...tab }
-        if (props.onReset) props.onReset(props)
+        if (props.onReset) props.onReset()
       }
     }
   }
 
-  // Render view
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    return (
+      this.state.tabs !== nextState.tabs ||
+      this.state.navigationState !== nextState.navigationState
+    )
+  }
+
   render() {
     return this.props.render({
       ...this.state,
