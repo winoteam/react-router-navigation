@@ -43,7 +43,9 @@ class DefaultTabsRenderer extends React.Component<Props> {
     if (tabBarProps.tabBarPosition !== position) return null
     if (tabBarProps.hideTabBar) return null
     return React.createElement(renderTabBar, {
-      ...tabBarProps,
+      ...props,
+      ...sceneProps,
+      tabs,
       style: tabBarProps.tabBarStyle,
       indicatorStyle: tabBarProps.tabBarIndicatorStyle,
       onTabPress: this.onTabPress,
@@ -80,7 +82,7 @@ class DefaultTabsRenderer extends React.Component<Props> {
     return (
       <TabViewAnimated
         {...this.props}
-        style={styles.container}
+        style={[styles.container, this.props.style]}
         renderHeader={tabBarProps => this.renderTabBar('top', tabBarProps)}
         renderFooter={tabBarProps => this.renderTabBar('bottom', tabBarProps)}
         renderScene={this.renderScene}

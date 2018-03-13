@@ -24,7 +24,7 @@ type TabBarProps = TabsRendererProps & TabsProps & SceneRendererProps<TabRoute>
 
 class Tabs extends React.Component<Props> {
   renderTabBar = (tabBarProps: TabBarProps) => {
-    const renderTabBar = this.props.renderTabBar || tabBarProps.renderTabBar
+    const renderTabBar = tabBarProps.renderTabBar || this.props.renderTabBar
     if (tabBarProps.hideTabBar) return null
     if (renderTabBar) {
       return React.createElement(renderTabBar, {

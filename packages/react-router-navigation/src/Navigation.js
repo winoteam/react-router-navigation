@@ -16,9 +16,12 @@ class Navigation extends React.Component<Props> {
       CardsRendererProps &
       NavigationHeaderProps,
   ) => {
-    if (headerProps.hideNavBar) return null
-    if (headerProps.renderNavBar) {
-      return headerProps.renderNavBar(headerProps)
+    const { cards, scene: { route } } = headerProps
+    const card = cards.find(({ key }) => key === route.routeName)
+    const navBarProps = { ...headerProps, ...card }
+    if (navBarProps.hideNavBar) return null
+    if (navBarProps.renderNavBar) {
+      return navBarProps.renderNavBar(headerProps)
     }
     return <NavBar {...headerProps} />
   }
