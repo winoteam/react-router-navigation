@@ -1,20 +1,26 @@
 /* @flow */
 
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform, NativeModules } from 'react-native'
 import {
-  CardStackTransitioner,
+  Transitioner,
+  CardStack,
   StackRouter,
   NavigationActions,
   addNavigationHelpers,
 } from 'react-navigation'
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator'
+import TransitionConfigs from 'react-navigation/src/views/CardStack/TransitionConfigs'
 import type { CardsRendererProps, Card } from 'react-router-navigation-core'
 import type {
   NavigationProps,
   NavBarProps,
   NavigationHeaderProps,
   NavigationRouter,
+  NavigationTransitionProps,
 } from './TypeDefinitions'
+
+const NativeAnimatedModule = NativeModules && NativeModules.NativeAnimatedModule
 
 type Props = NavigationProps &
   CardsRendererProps & {
@@ -58,16 +64,39 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
     return null
   }
 
+  configureTransition = (
+    transitionProps: NavigationTransitionProps,
+    prevTransitionProps: NavigationTransitionProps,
+  ) => {
+    const isModal = this.props.mode === 'modal'
+    const transitionSpec = {
+      ...TransitionConfigs.getTransitionConfig(
+        undefined,
+        transitionProps,
+        prevTransitionProps,
+        isModal,
+      ).transitionSpec,
+    }
+    if (!!NativeAnimatedModule && CardStackStyleInterpolator.canUseNativeDriver()) {
+      transitionSpec.useNativeDriver = true
+    }
+    return transitionSpec
+  }
+
   render() {
-    const { navigationState, onNavigateBack } = this.props
-    const { router } = this.state
+    const { cards, navigationState, onNavigateBack } = this.props
+    const route = navigationState.routes[navigationState.index]
+    const card = cards.find(({ key }) => key === route.routeName)
+    const transitionerProps = { ...this.props, ...card }
+    const { configureTransition, onTransitionStart, onTransitionEnd } = transitionerProps
     return (
-      <CardStackTransitioner
-        {...this.props}
-        headerTransitionPreset={Platform.OS === 'ios' ? 'uikit' : 'fade-in-place'}
-        router={router}
+      <Transitioner
+        render={this.renderStack}
+        configureTransition={configureTransition || this.configureTransition}
+        onTransitionStart={onTransitionStart}
+        onTransitionEnd={onTransitionEnd}
         navigation={addNavigationHelpers({
-          state: { ...navigationState },
+          state: navigationState,
           addListener: () => ({}),
           dispatch: action => {
             if (action.type === NavigationActions.back().type) {
@@ -75,6 +104,35 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
             }
           },
         })}
+      />
+    )
+  }
+
+  renderStack = (props: Props, prevProps) => {
+    const { cards } = this.props
+    const { router } = this.state
+    const { scene: { route } } = props
+    const card = cards.find(({ key }) => key === route.routeName)
+    const cardStackProps = { ...this.props, ...card }
+    const {
+      screenProps,
+      headerMode,
+      headerTransitionPreset,
+      mode,
+      cardStyle,
+      transitionConfig,
+    } = cardStackProps
+    return (
+      <CardStack
+        screenProps={screenProps}
+        headerMode={headerMode}
+        headerTransitionPreset={headerTransitionPreset}
+        mode={mode}
+        router={router}
+        cardStyle={cardStyle}
+        transitionConfig={transitionConfig}
+        transitionProps={props}
+        prevTransitionProps={prevProps}
       />
     )
   }
