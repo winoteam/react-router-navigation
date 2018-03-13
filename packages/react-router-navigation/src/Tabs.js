@@ -6,7 +6,7 @@ import { TabBar } from 'react-native-tab-view'
 import type { SceneRendererProps, Scene } from 'react-native-tab-view/types'
 import { TabStack, type TabsRendererProps } from 'react-router-navigation-core'
 import DefaultTabsRenderer from './DefaultTabsRenderer'
-import { type TabsProps, type TabRoute } from './TypeDefinitions'
+import type { TabsProps, TabRoute } from './TypeDefinitions'
 
 const styles = StyleSheet.create({
   tabLabel: {

@@ -110,6 +110,7 @@ export type TabBarProps<T> = {
 export type TabsProps = TabBarProps<
   TabsProps & TabsRendererProps & SceneRendererProps<TabRoute>,
 > & {
+  style?: StyleObj,
   // <Tabs /> only:
   initialLayout?: { width: number, height: number },
   configureTransition?: TransitionConfigurator,

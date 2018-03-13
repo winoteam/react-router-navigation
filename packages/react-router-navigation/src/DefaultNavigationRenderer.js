@@ -1,7 +1,7 @@
 /* @flow */
 
 import React from 'react'
-import { Platform, NativeModules } from 'react-native'
+import { NativeModules } from 'react-native'
 import {
   Transitioner,
   CardStack,
@@ -83,32 +83,10 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
     return transitionSpec
   }
 
-  render() {
-    const { cards, navigationState, onNavigateBack } = this.props
-    const route = navigationState.routes[navigationState.index]
-    const card = cards.find(({ key }) => key === route.routeName)
-    const transitionerProps = { ...this.props, ...card }
-    const { configureTransition, onTransitionStart, onTransitionEnd } = transitionerProps
-    return (
-      <Transitioner
-        render={this.renderStack}
-        configureTransition={configureTransition || this.configureTransition}
-        onTransitionStart={onTransitionStart}
-        onTransitionEnd={onTransitionEnd}
-        navigation={addNavigationHelpers({
-          state: navigationState,
-          addListener: () => ({}),
-          dispatch: action => {
-            if (action.type === NavigationActions.back().type) {
-              onNavigateBack()
-            }
-          },
-        })}
-      />
-    )
-  }
-
-  renderStack = (props: Props, prevProps) => {
+  renderStack = (
+    props: Props & NavigationTransitionProps,
+    prevProps: Props & NavigationTransitionProps,
+  ) => {
     const { cards } = this.props
     const { router } = this.state
     const { scene: { route } } = props
@@ -133,6 +111,31 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
         transitionConfig={transitionConfig}
         transitionProps={props}
         prevTransitionProps={prevProps}
+      />
+    )
+  }
+
+  render() {
+    const { cards, navigationState, onNavigateBack } = this.props
+    const route = navigationState.routes[navigationState.index]
+    const card = cards.find(({ key }) => key === route.routeName)
+    const transitionerProps = { ...this.props, ...card }
+    const { configureTransition, onTransitionStart, onTransitionEnd } = transitionerProps
+    return (
+      <Transitioner
+        render={this.renderStack}
+        configureTransition={configureTransition || this.configureTransition}
+        onTransitionStart={onTransitionStart}
+        onTransitionEnd={onTransitionEnd}
+        navigation={addNavigationHelpers({
+          state: navigationState,
+          addListener: () => ({}),
+          dispatch: action => {
+            if (action.type === NavigationActions.back().type) {
+              onNavigateBack()
+            }
+          },
+        })}
       />
     )
   }
