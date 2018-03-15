@@ -21,7 +21,7 @@
     "react-redux": "5.0.6",
     "react-router": "4.2.0",
     "react-router-native": "4.2.0",
-    "react-router-navigation": "1.0.0-rc.4",
+    "react-router-navigation": "1.0.0-rc.5",
     "react-router-redux": "5.0.0-alpha.6",
     "redux": "3.7.2"
   }
