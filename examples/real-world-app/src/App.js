@@ -55,7 +55,7 @@ class App extends React.Component<Props> {
           )}
         />
         <Tab
-          path="/profile/(likes|bookmarks)"
+          path="/profile/(likes|bookmarks|settings)"
           component={Profile}
           onIndexChange={() => history.replace('/profile/likes')}
           onReset={() => history.replace('/profile/likes')}

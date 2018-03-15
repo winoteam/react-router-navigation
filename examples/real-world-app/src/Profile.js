@@ -109,6 +109,24 @@ class Profile extends React.Component<Props, State> {
               >
                 <Text style={styles.span}>Go to bookmarks</Text>
               </Link>
+              {tabsLength === 2 && (
+                <TouchableOpacity
+                  style={styles.link}
+                  onPress={this.handleToggleSettingsTab}
+                >
+                  <Text style={styles.span}>Add settings tab</Text>
+                </TouchableOpacity>
+              )}
+              {tabsLength === 3 && (
+                <Link
+                  style={styles.link}
+                  replace
+                  component={TouchableOpacity}
+                  to="/profile/settings"
+                >
+                  <Text style={styles.span}>Go to settings</Text>
+                </Link>
+              )}
             </View>
           )}
         />
@@ -128,9 +146,56 @@ class Profile extends React.Component<Props, State> {
               >
                 <Text style={styles.span}>Go to likes</Text>
               </Link>
+              {tabsLength === 2 && (
+                <TouchableOpacity
+                  style={styles.link}
+                  onPress={this.handleToggleSettingsTab}
+                >
+                  <Text style={styles.span}>Add settings tab</Text>
+                </TouchableOpacity>
+              )}
+              {tabsLength === 3 && (
+                <Link
+                  style={styles.link}
+                  replace
+                  component={TouchableOpacity}
+                  to="/profile/settings"
+                >
+                  <Text style={styles.span}>Go to settings</Text>
+                </Link>
+              )}
             </View>
           )}
         />
+        {tabsLength === 3 && (
+          <Tab
+            path="/profile/settings"
+            label="Settings"
+            render={() => (
+              <View style={styles.scene}>
+                <Text>
+                  Current: <Text style={styles.strong}>settings</Text>
+                </Text>
+                <Link
+                  style={styles.link}
+                  replace
+                  component={TouchableOpacity}
+                  to="/profile/likes"
+                >
+                  <Text style={styles.span}>Go to likes</Text>
+                </Link>
+                <Link
+                  style={styles.link}
+                  replace
+                  component={TouchableOpacity}
+                  to="/profile/bookmarks"
+                >
+                  <Text style={styles.span}>Go to bookmarks</Text>
+                </Link>
+              </View>
+            )}
+          />
+        )}
       </Tabs>
     )
   }
