@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-native-scripts": "1.8.1"
+    "react-native-scripts": "1.11.1"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
@@ -13,9 +13,9 @@
     "ios": "react-native-scripts ios"
   },
   "dependencies": {
-    "expo": "^23.0.4",
-    "react": "16.0.0",
-    "react-native": "0.50.3",
+    "expo": "25.0.0",
+    "react": "16.2.0",
+    "react-native": "0.52.0",
     "react-router": "4.2.0",
     "react-router-native": "4.2.0",
     "react-router-navigation": "1.0.0-rc.5"

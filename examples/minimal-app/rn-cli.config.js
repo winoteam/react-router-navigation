@@ -1,5 +1,5 @@
 const path = require('path')
-const metroBundler = require('metro-bundler')
+const metroBundler = require('metro')
 
 module.exports = {
   extraNodeModules: {
