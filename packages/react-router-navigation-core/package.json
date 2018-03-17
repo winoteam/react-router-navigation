@@ -18,7 +18,7 @@
     "react-router": "4.2.x"
   },
   "dependencies": {
-    "react-navigation": "1.4.0"
+    "react-navigation": "1.5.8"
   },
   "devDependencies": {
     "flow-bin": "0.56.0",
