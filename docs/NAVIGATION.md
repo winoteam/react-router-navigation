@@ -46,6 +46,7 @@ const App = () => (
 * **cardStyle** `?StyleSheet` override style for the card component
 * **configureTransition** `?Function` function which customize animation
 * **mode** `?string` sets the mode configuration. Can be either `card` (default) or `modal`
+* **gesturesEnabled** `?boolean` whether you can use gestures to dismiss this screen.
 
 #### `<Card />` props
 

@@ -84,6 +84,7 @@ export type NavigationProps = NavBarProps<
   ) => NavigationTransitionSpec,
   onTransitionStart?: (...args: Array<mixed>) => void,
   onTransitionEnd?: (...args: Array<mixed>) => void,
+  gesturesEnabled?: boolean,
 }
 
 export type Card = CardProps & { key: string }
