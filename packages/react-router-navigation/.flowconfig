@@ -21,6 +21,9 @@
 ; Ignore polyfills
 .*/Libraries/polyfills/.*
 
+; Ignore "example" dir
+.*/example/.*
+
 ; Ignore test dirs
 .*/__tests__/.*
 
