@@ -1,0 +1,12 @@
+{
+  "lerna": "2.1.2",
+  "registry": "https://registry.npmjs.org/",
+  "npmClient": "yarn",
+  "version": "independent",
+  "packages": ["packages/*", "examples/*"],
+  "commands": {
+    "publish": {
+      "skipGit": true
+    }
+  }
+}
