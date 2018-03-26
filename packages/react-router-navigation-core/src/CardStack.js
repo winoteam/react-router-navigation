@@ -152,7 +152,7 @@ class CardStack extends React.Component<Props, State> {
                   // eslint-disable-next-line
                   n > state.navigationState.index ? 1 : state.navigationState.index - n + 1,
                 ),
-                state.navigationState.index - n,
+                n > state.navigationState.index ? 0 : state.navigationState.index - n,
               ),
             }))
           } else {
