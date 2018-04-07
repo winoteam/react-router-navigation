@@ -150,9 +150,9 @@ class CardStack extends React.Component<Props, State> {
                 state.navigationState.routes.slice(
                   0,
                   // eslint-disable-next-line
-                  state.navigationState.index - n + 1,
+                  n > state.navigationState.index ? 1 : state.navigationState.index - n + 1,
                 ),
-                state.navigationState.index - n,
+                n > state.navigationState.index ? 0 : state.navigationState.index - n,
               ),
             }))
           } else {
