@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import * as React from 'react'
 import { Dimensions } from 'react-native'
 import { type StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 import { TabStack, type TabsRendererProps } from 'react-router-navigation-core'

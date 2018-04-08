@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from 'react'
 import { Route } from 'react-router'
 import type { CardProps } from './TypeDefinitions'
 import SceneView from './SceneView'
+import * as React from 'react'
 
 type Props = CardProps
 

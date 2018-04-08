@@ -1,6 +1,6 @@
-/* eslint react/no-unused-prop-types: 0 */
+/* @flow */
 
-import React from 'react'
+import * as React from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import type { Match, Location } from 'react-router'
 import { Link } from 'react-router-native'

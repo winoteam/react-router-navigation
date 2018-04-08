@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import * as React from 'react'
 import { StyleSheet } from 'react-native'
 import { type TabsRendererProps } from 'react-router-navigation-core'
 import { TabViewAnimated } from 'react-native-tab-view'

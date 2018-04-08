@@ -7,7 +7,7 @@ Tabs make it easy to explore and switch between different views.
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/tabs.gif" width="250">
 
 ```js
-import React from 'react'
+import * as React from 'react'
 import { Tabs, Tab } from 'react-router-navigation'
 
 const App = () => (

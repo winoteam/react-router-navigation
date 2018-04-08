@@ -1,7 +1,7 @@
 /* @flow */
 
-import React from 'react'
 import { NativeModules } from 'react-native'
+import * as React from 'react'
 import {
   Transitioner,
   CardStack,

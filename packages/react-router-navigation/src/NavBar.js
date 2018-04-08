@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import * as React from 'react'
 import { Header, HeaderTitle, HeaderBackButton } from 'react-navigation'
 import type { CardsRendererProps, Route } from 'react-router-navigation-core'
 import type {

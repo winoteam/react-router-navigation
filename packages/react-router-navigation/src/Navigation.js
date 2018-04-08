@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import * as React from 'react'
 import { CardStack, type CardsRendererProps } from 'react-router-navigation-core'
 import type { NavigationProps, NavBarProps, NavigationHeaderProps } from './TypeDefinitions'
 import DefaultNavigationRenderer from './DefaultNavigationRenderer'

@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import * as React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { TabBar } from 'react-native-tab-view'
 import type { SceneRendererProps, Scene } from 'react-native-tab-view/types'

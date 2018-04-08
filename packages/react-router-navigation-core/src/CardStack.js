@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import * as React from 'react'
 import { BackHandler } from 'react-native'
 import { StateUtils } from 'react-navigation'
 import { type RouterHistory, type Location, withRouter, matchPath } from 'react-router'
@@ -158,7 +158,7 @@ class CardStack extends React.Component<Props, State> {
           } else {
             this.setState(state => ({
               navigationState: StateUtils.pop(state.navigationState),
-            }))
+          }))
           }
           break
         }

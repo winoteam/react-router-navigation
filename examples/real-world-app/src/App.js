@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import * as React from 'react'
 import { Platform, Image } from 'react-native'
 import { BottomNavigation, Tab } from 'react-router-navigation'
 import type { RouterHistory } from 'react-router'

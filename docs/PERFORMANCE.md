@@ -62,7 +62,7 @@ const App = () => (
 )
 ```
 
-✅**Prefer the following:**
+✅ **Prefer the following:**
 
 ```js
 class App extends React.Component {

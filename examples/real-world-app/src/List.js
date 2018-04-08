@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import * as React from 'react'
 import { StyleSheet, PixelRatio, ListView, View, Text } from 'react-native'
 import { Link } from 'react-router-native'
 import type { Match } from 'react-router'

@@ -7,7 +7,7 @@ Bottom navigation bars make it easy to explore and switch between top-level view
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/bottom-navigation.gif" width="250">
 
 ```js
-import React from 'react'
+import * as React from 'react'
 import { BottomNavigation, Tab } from 'react-router-navigation'
 
 const App = () => (

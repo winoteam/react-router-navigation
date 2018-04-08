@@ -1,7 +1,7 @@
 /* @flow */
 
-import React from 'react'
 import { type RouterHistory, type Location, withRouter } from 'react-router'
+import * as React from 'react'
 import type { NavigationState, TabsRendererProps, Tab } from './TypeDefinitions'
 import * as StackUtils from './StackUtils'
 import * as HistoryUtils from './HistoryUtils'
