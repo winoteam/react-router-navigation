@@ -1,15 +1,21 @@
 /* @flow */
 
-import type { ContextRouter } from 'react-router'
+import type { ContextRouter, Match } from 'react-router'
 
 export type Route = {
   key: string,
   routeName: string,
+  routeMatch: ?Match,
 }
 
-export type NavigationState<OwnRoute> = {
+export type NavigationState<NavigationRoute> = {
   index: number,
-  routes: Array<Route & OwnRoute>,
+  routes: Array<Route & NavigationRoute>,
+}
+
+export type NavigationAction = {
+  type: 'PUSH' | 'REPLACE' | 'POP' | 'CHANGE_INDEX',
+  payload: { n?: number },
 }
 
 export type RouteProps = {
@@ -20,6 +26,7 @@ export type RouteProps = {
   exact?: boolean,
   strict?: boolean,
   sensitive?: boolean,
+  routePath?: string,
 }
 
 export type Card = RouteProps & {
@@ -27,6 +34,7 @@ export type Card = RouteProps & {
 }
 
 export type CardsRendererProps = {
+  renderCard: (route: Route) => React$Node,
   onNavigateBack: () => boolean,
   navigationState: NavigationState<{
     path?: string,
@@ -37,15 +45,12 @@ export type CardsRendererProps = {
 
 export type Tab = RouteProps & {
   key: string,
-  onIndexChange?: (index: number) => void,
+  onIndexChange?: () => void,
 }
 
 export type TabsRendererProps = {
+  renderTab: (route: Route) => React$Node,
   onIndexChange: (index: number) => void,
-  navigationState: NavigationState<{
-    title?: string,
-    testID?: string,
-  }>,
-  loadedTabs: Array<string>,
+  navigationState: NavigationState<{ title?: string, testID?: string }>,
   tabs: Array<Tab>,
 }

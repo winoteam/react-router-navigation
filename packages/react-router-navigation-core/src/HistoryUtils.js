@@ -2,14 +2,18 @@
 
 import type { RouterHistory } from 'react-router'
 
-// eslint-disable-next-line
-export const runHistoryListenner = (
-  history: RouterHistory,
-  onListenHistory: Function,
-): Function => {
-  let lastHistory = { ...history }
-  return history.listen(() => {
-    onListenHistory(lastHistory, history)
-    lastHistory = { ...history }
-  })
+const HistoryUtils = {
+  listen: (history: RouterHistory, callback: Function): Function => {
+    let lastHistory = { ...history }
+    return history.listen(() => {
+      callback(lastHistory, history)
+      lastHistory = { ...history }
+    })
+  },
+
+  persistNodes: () => false,
+
+  saveNodes: (history: RouterHistory, rootIndex: number, nodes: Array<Location>) => {},
 }
+
+export default HistoryUtils
