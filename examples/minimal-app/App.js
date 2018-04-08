@@ -18,11 +18,26 @@ const styles = StyleSheet.create({
   tabs: {
     backgroundColor: PRIMARY_COLOR,
   },
+  tab: {
+    paddingTop: 10,
+    opacity: 10,
+  },
   indicator: {
     backgroundColor: 'white',
   },
   button: {
+    alignSelf: 'flex-start',
     marginTop: 10,
+    marginLeft: -8,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderWidth: 1,
+    borderColor: 'grey',
+    borderRadius: 3,
+  },
+  strong: {
+    fontWeight: '700',
+    marginBottom: 10,
   },
 })
 
@@ -34,7 +49,7 @@ class App extends Component {
 
   render() {
     return (
-      <NativeRouter>
+      <NativeRouter initialEntries={['/', '/yolo', '/hello/one']} initialIndex={2}>
         <View style={styles.container}>
           <StatusBar barStyle={this.state.navigation.barStyle} />
           <Navigation
@@ -48,12 +63,12 @@ class App extends Component {
               title="Index"
               render={() => (
                 <View style={styles.scene}>
-                  <Link component={TouchableOpacity} to="/yolo">
+                  <Link component={TouchableOpacity} to="/yolo" style={styles.button}>
                     <Text>Push a new scene</Text>
                   </Link>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {
+                    onPress={() =>
                       this.setState({
                         navigation: {
                           navBarStyle: {
@@ -65,7 +80,7 @@ class App extends Component {
                           backButtonTintColor: 'white',
                         },
                       })
-                    }}
+                    }
                   >
                     <Text>Change navbar style</Text>
                   </TouchableOpacity>
@@ -82,7 +97,7 @@ class App extends Component {
               path="/yolo"
               render={() => (
                 <View style={styles.scene}>
-                  <Link component={TouchableOpacity} to="/hello">
+                  <Link component={TouchableOpacity} style={styles.button} to="/hello">
                     <Text>Push tabs</Text>
                   </Link>
                   <TouchableOpacity
@@ -144,27 +159,48 @@ class App extends Component {
                         <Tab
                           path={`${match.url}/one`}
                           label="One"
+                          tabStyle={styles.tab}
                           render={() => (
                             <View style={styles.scene}>
-                              <Text>One</Text>
+                              <Text style={styles.strong}>One</Text>
+                              <TouchableOpacity style={styles.button}>
+                                <Text>Go to "two"</Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity style={styles.button}>
+                                <Text>Go to "three"</Text>
+                              </TouchableOpacity>
                             </View>
                           )}
                         />
                         <Tab
                           path={`${match.url}/two`}
                           label="Two"
+                          tabStyle={styles.tab}
                           render={() => (
                             <View style={styles.scene}>
-                              <Text>Two</Text>
+                              <Text style={styles.strong}>Two</Text>
+                              <TouchableOpacity style={styles.button}>
+                                <Text>Go to "one"</Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity style={styles.button}>
+                                <Text>Go to "three"</Text>
+                              </TouchableOpacity>
                             </View>
                           )}
                         />
                         <Tab
                           path={`${match.url}/three`}
                           label="Three"
+                          tabStyle={styles.tab}
                           render={() => (
                             <View style={styles.scene}>
-                              <Text>Three</Text>
+                              <Text style={styles.strong}>Three</Text>
+                              <TouchableOpacity style={styles.button}>
+                                <Text>Go to "one"</Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity style={styles.button}>
+                                <Text>Go to "two"</Text>
+                              </TouchableOpacity>
                             </View>
                           )}
                         />
