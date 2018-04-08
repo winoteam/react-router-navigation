@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { Dimensions } from 'react-native'
-import { type StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
+import { Route } from 'react-router'
 import { TabStack, type TabsRendererProps } from 'react-router-navigation-core'
 import { TabViewPagerPan } from 'react-native-tab-view'
 import { type SceneRendererProps, type Scene } from 'react-native-tab-view/types'
@@ -12,19 +12,18 @@ import TabBarBottom from './TabBarBottom'
 
 type Props = TabsProps & {
   children?: React$Node,
-  lazy?: boolean,
-  style?: StyleObj,
 }
 
 class BottomNavigation extends React.Component<Props> {
   static defaultProps = {
     lazy: true,
     tabBarPosition: 'bottom',
+    initialLayout: Dimensions.get('window'),
+    animationEnabled: false,
   }
 
   renderPager = (pagerProps: *) => {
-    const { key, ...sceneProps } = pagerProps
-    return <TabViewPagerPan {...sceneProps} animationEnabled={false} swipeEnabled={false} />
+    return <TabViewPagerPan {...pagerProps} animationEnabled={false} swipeEnabled={false} />
   }
 
   renderTabBar = (
@@ -43,19 +42,22 @@ class BottomNavigation extends React.Component<Props> {
 
   render() {
     return (
-      <TabStack
-        {...this.props}
-        render={tabsRendererProps => (
-          <DefaultTabsRenderer
-            initialLayout={Dimensions.get('window')}
-            animationEnabled={false}
-            renderPager={this.renderPager}
-            renderTabBar={this.renderTabBar}
+      <Route>
+        {({ history }) => (
+          <TabStack
             {...this.props}
-            {...tabsRendererProps}
+            history={history}
+            render={tabsRendererProps => (
+              <DefaultTabsRenderer
+                renderPager={this.renderPager}
+                renderTabBar={this.renderTabBar}
+                {...this.props}
+                {...tabsRendererProps}
+              />
+            )}
           />
         )}
-      />
+      </Route>
     )
   }
 }

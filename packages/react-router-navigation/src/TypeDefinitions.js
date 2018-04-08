@@ -112,10 +112,10 @@ export type TabsProps = TabBarProps<
   TabsProps & TabsRendererProps & SceneRendererProps<TabRoute>,
 > & {
   style?: StyleObj,
+  lazy?: boolean,
   // <Tabs /> only:
   initialLayout?: { width: number, height: number },
   configureTransition?: TransitionConfigurator,
-  lazy?: boolean,
 }
 
 export type TabProps = RouteProps &

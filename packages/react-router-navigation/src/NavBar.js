@@ -35,7 +35,7 @@ class NavBar extends React.Component<Props> {
     }
     const previousScene = scenes[Math.max(0, sceneProps.scene.index - 1)]
     const { routeName: previousRouteName } = previousScene.route
-    const previousCard = cards.find(card => card.key === previousRouteName)
+    const previousCard = cards.find(card => card.path === previousRouteName)
     const previousSceneProps = { ...previousScene, ...previousCard }
     return (
       <HeaderBackButton
@@ -66,8 +66,8 @@ class NavBar extends React.Component<Props> {
         {...this.props}
         getScreenDetails={scene => {
           const { route: { routeName } } = scene
-          const card = this.props.cards.find(({ key }) => key === routeName)
-          const sceneProps = { ...this.props, ...card, ...scene.route, scene }
+          const activeCard = this.props.cards.find(card => card.path === routeName)
+          const sceneProps = { ...this.props, ...activeCard, ...scene.route, scene }
           return {
             options: {
               headerStyle: sceneProps.navBarStyle,

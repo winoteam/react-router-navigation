@@ -1,7 +1,7 @@
 /* @flow */
 
-import { NativeModules } from 'react-native'
 import * as React from 'react'
+import { Platform, NativeModules } from 'react-native'
 import {
   Transitioner,
   CardStack,
@@ -11,7 +11,7 @@ import {
 } from 'react-navigation'
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator'
 import TransitionConfigs from 'react-navigation/src/views/CardStack/TransitionConfigs'
-import type { CardsRendererProps, Card } from 'react-router-navigation-core'
+import type { CardsRendererProps } from 'react-router-navigation-core'
 import type {
   NavigationProps,
   NavBarProps,
@@ -36,32 +36,49 @@ type State = {
 }
 
 class DefaultNavigationRenderer extends React.Component<Props, State> {
+  static defaultProps = {
+    headerTransitionPreset: Platform.OS === 'android' ? 'fade-in-place' : 'uikit',
+  }
+
   constructor(props: Props) {
     super(props)
+    this.state = { router: this.getRouter(props) }
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (this.props.cards !== nextProps.cards) {
+      this.setState({ router: this.getRouter(nextProps) })
+    }
+  }
+
+  getRouter = (props: Props): NavigationRouter => {
     const { renderHeader, cards } = props
     const routeConfigMap = cards.reduce((acc, card) => {
       return {
         ...acc,
-        [card.key]: {
+        [card.path]: {
           screen: this.getScreenComponent(card),
           navigationOptions: {
             ...props,
             ...card,
-            header: sceneProps => renderHeader({ ...props, ...sceneProps }),
+            header: sceneProps => {
+              return renderHeader({ ...props, ...sceneProps })
+            },
           },
         },
       }
     }, {})
-    const router = StackRouter(routeConfigMap)
-    this.state = { router }
+    return StackRouter(routeConfigMap)
   }
 
-  getScreenComponent = (card: Card) => {
-    const { render, children, component } = card
-    if (render) return render
-    else if (children && typeof children === 'function') return children
-    else if (component) return component
-    return null
+  getScreenComponent = () => {
+    return this.renderScreenComponent
+  }
+
+  renderScreenComponent = ({ navigation }) => {
+    const { renderCard } = this.props
+    const { state: route } = navigation
+    return renderCard(route)
   }
 
   configureTransition = (
@@ -90,8 +107,7 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
     const { cards } = this.props
     const { router } = this.state
     const { scene: { route } } = props
-    const card = cards.find(({ key }) => key === route.routeName)
-    const cardStackProps = { ...this.props, ...card }
+    const cardStackProps = cards.find(card => card.path === route.routeName)
     const {
       screenProps,
       headerMode,
@@ -118,8 +134,7 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
   render() {
     const { cards, navigationState, onNavigateBack } = this.props
     const route = navigationState.routes[navigationState.index]
-    const card = cards.find(({ key }) => key === route.routeName)
-    const transitionerProps = { ...this.props, ...card }
+    const transitionerProps = cards.find(card => card.path === route.routeName)
     const { configureTransition, onTransitionStart, onTransitionEnd } = transitionerProps
     return (
       <Transitioner

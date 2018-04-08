@@ -1,6 +1,7 @@
 /* @flow */
 
 import * as React from 'react'
+import { Route } from 'react-router'
 import { CardStack, type CardsRendererProps } from 'react-router-navigation-core'
 import type { NavigationProps, NavBarProps, NavigationHeaderProps } from './TypeDefinitions'
 import DefaultNavigationRenderer from './DefaultNavigationRenderer'
@@ -17,8 +18,8 @@ class Navigation extends React.Component<Props> {
       NavigationHeaderProps,
   ) => {
     const { cards, scene: { route } } = headerProps
-    const card = cards.find(({ key }) => key === route.routeName)
-    const navBarProps = { ...headerProps, ...card }
+    const activeCard = cards.find(card => card.path === route.routeName)
+    const navBarProps = { ...headerProps, ...activeCard }
     if (navBarProps.hideNavBar) return null
     if (navBarProps.renderNavBar) {
       return navBarProps.renderNavBar(headerProps)
@@ -28,16 +29,21 @@ class Navigation extends React.Component<Props> {
 
   render() {
     return (
-      <CardStack
-        {...this.props}
-        render={cardsRendererProps => (
-          <DefaultNavigationRenderer
+      <Route>
+        {({ history }) => (
+          <CardStack
             {...this.props}
-            {...cardsRendererProps}
-            renderHeader={this.renderHeader}
+            history={history}
+            render={cardsRendererProps => (
+              <DefaultNavigationRenderer
+                {...this.props}
+                {...cardsRendererProps}
+                renderHeader={this.renderHeader}
+              />
+            )}
           />
         )}
-      />
+      </Route>
     )
   }
 }

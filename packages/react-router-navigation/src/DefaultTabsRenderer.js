@@ -32,18 +32,18 @@ class DefaultTabsRenderer extends React.Component<Props> {
   }
 
   renderTabBar = (position: 'top' | 'bottom', sceneProps: SceneProps) => {
-    const { tabs, renderTabBar, ...props } = this.props
+    const { tabs, renderTabBar, tabBarPosition } = this.props
     if (!renderTabBar) return null
     const { navigationState } = sceneProps
     const route = navigationState.routes[navigationState.index]
-    const tab = tabs.find(({ key }) => key === route.routeName)
-    if (!tab) return null
-    const { key, ...tabProps } = tab
-    const tabBarProps = { ...props, tabs, ...sceneProps, ...tabProps }
+    const activeTab = tabs.find(tab => tab.path === route.routeName)
+    if (!activeTab) return null
+    const { path, ...tabProps } = activeTab
+    const tabBarProps = { tabs, tabBarPosition, ...sceneProps, ...tabProps }
     if (tabBarProps.tabBarPosition !== position) return null
     if (tabBarProps.hideTabBar) return null
     return React.createElement(renderTabBar, {
-      ...props,
+      ...tabBarProps,
       ...sceneProps,
       tabs,
       style: tabBarProps.tabBarStyle,
@@ -53,22 +53,9 @@ class DefaultTabsRenderer extends React.Component<Props> {
   }
 
   renderScene = (sceneProps: SceneProps & Scene<TabRoute>) => {
-    // $FlowFixMe
-    const { tabs, lazy, loadedTabs } = this.props
+    const { renderTab } = this.props
     const { route } = sceneProps
-    const tab = tabs.find(({ key }) => key === route.routeName)
-    if (!tab) return null
-    const { render, children, component } = tab
-    if (lazy && !loadedTabs.includes(route.routeName)) {
-      return null
-    } else if (render) {
-      return render(sceneProps)
-    } else if (children && typeof children === 'function') {
-      return children(sceneProps)
-    } else if (component) {
-      return React.createElement(component, sceneProps)
-    }
-    return null
+    return renderTab(route)
   }
 
   onTabPress = (scene: Scene<TabRoute>) => {
