@@ -30,8 +30,6 @@ type State = {|
 |}
 
 class List extends React.Component<Props, State> {
-  listView: ListView
-
   constructor(props: Props) {
     super(props)
     const ds = new ListView.DataSource({
@@ -48,6 +46,18 @@ class List extends React.Component<Props, State> {
     if (this.listView) this.listView.scrollTo(options)
   }
 
+  renderRow = rowData => {
+    return (
+      <Link to={`${url}/article/${rowData.slice(9)}`}>
+        <Text style={styles.row}>{rowData}</Text>
+      </Link>
+    )
+  }
+
+  renderSeparator = (sectionIndex, rowIndex) => {
+    return <View key={`${sectionIndex}-${rowIndex}`} style={styles.separator} />
+  }
+
   render() {
     const { match: { url } } = this.props
     return (
@@ -57,14 +67,8 @@ class List extends React.Component<Props, State> {
         }}
         style={styles.container}
         dataSource={this.state.dataSource}
-        renderRow={rowData => (
-          <Link to={`${url}/article/${rowData.slice(9)}`}>
-            <Text style={styles.row}>{rowData}</Text>
-          </Link>
-        )}
-        renderSeparator={(sectionIndex, rowIndex) => (
-          <View key={`${sectionIndex}-${rowIndex}`} style={styles.separator} />
-        )}
+        renderRow={this.renderRow}
+        renderSeparator={this.renderSeparator}
       />
     )
   }

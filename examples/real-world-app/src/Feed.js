@@ -26,8 +26,21 @@ type Props = {
 }
 
 class Feed extends Component<Props> {
-  props: Props
-  listView: List
+  renderTitle(router: ContextRouter) {
+    const { match } = router
+    return <HeaderTitle style={styles.title}>Item {match && match.params.id}</HeaderTitle>
+  }
+
+  renderList(router: ContextRouter) {
+    return (
+      <List
+        ref={c => {
+          this.listView = c
+        }}
+        {...props}
+      />
+    )
+  }
 
   shouldComponentUpdate() {
     return false
@@ -41,26 +54,12 @@ class Feed extends Component<Props> {
         titleStyle={styles.title}
         backButtonTintColor="white"
       >
-        <Card
-          exact
-          path={url}
-          render={props => (
-            <List
-              ref={c => {
-                this.listView = c
-              }}
-              {...props}
-            />
-          )}
-          title="Feed"
-        />
+        <Card exact path={url} render={this.renderList} title="Feed" />
         <Card
           path={`${url}/article/:id`}
           component={Article}
           backButtonTitle="Back"
-          renderTitle={({ match }) => (
-            <HeaderTitle style={styles.title}>Item {match && match.params.id}</HeaderTitle>
-          )}
+          renderTitle={this.renderTitle}
         />
       </Navigation>
     )

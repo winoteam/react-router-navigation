@@ -13,8 +13,36 @@ type Props = {
 }
 
 class App extends React.Component<Props> {
-  props: Props
-  feed: Feed
+  onReset() {
+    if (this.feed && this.feed.listView) {
+      this.feed.listView.scrollTo({ y: 0 })
+    }
+  }
+
+  renderFeed(router: ContextRouter) {
+    return (
+      <Feed
+        {...router}
+        ref={c => {
+          this.feed = c
+        }}
+      />
+    )
+  }
+
+  renderTabIcon() {
+    return (
+      <Image
+        source={require('./assets/profile.png')}
+        style={{
+          marginBottom: Platform.OS === 'android' ? 0 : -2,
+          width: Platform.OS === 'android' ? 27.5 : 31,
+          height: Platform.OS === 'android' ? 27.5 : 31,
+          tintColor: focused ? tabActiveTintColor : tabTintColor,
+        }}
+      />
+    )
+  }
 
   shouldComponentUpdate() {
     return false
@@ -26,33 +54,10 @@ class App extends React.Component<Props> {
       <BottomNavigation tabTintColor={NEUTRAL_COLOR_50} tabActiveTintColor={BRAND_COLOR_60}>
         <Tab
           path="/feed"
-          render={ownProps => (
-            <Feed
-              {...ownProps}
-              ref={c => {
-                this.feed = c
-              }}
-            />
-          )}
-          onReset={() => {
-            if (this.feed && this.feed.listView) {
-              this.feed.listView.scrollTo({ y: 0 })
-            }
-          }}
+          render={this.renderFeed}
+          onReset={this.onReset}
           label="Feed"
-          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) => (
-            <Image
-              source={require('./assets/feed.png')}
-              style={[
-                {
-                  marginBottom: Platform.OS === 'android' ? 2.5 : 1,
-                  width: Platform.OS === 'android' ? 22.5 : 25,
-                  height: Platform.OS === 'android' ? 22.5 : 25,
-                  tintColor: focused ? tabActiveTintColor : tabTintColor,
-                },
-              ]}
-            />
-          )}
+          renderTabIcon={this.renderTabIcon}
         />
         <Tab
           path="/profile/(likes|bookmarks|settings)"
@@ -60,17 +65,7 @@ class App extends React.Component<Props> {
           onIndexChange={() => history.replace('/profile/likes')}
           onReset={() => history.replace('/profile/likes')}
           label="Profile"
-          renderTabIcon={({ focused, tabTintColor, tabActiveTintColor }) => (
-            <Image
-              source={require('./assets/profile.png')}
-              style={{
-                marginBottom: Platform.OS === 'android' ? 0 : -2,
-                width: Platform.OS === 'android' ? 27.5 : 31,
-                height: Platform.OS === 'android' ? 27.5 : 31,
-                tintColor: focused ? tabActiveTintColor : tabTintColor,
-              }}
-            />
-          )}
+          renderTabIcon={this.renderTabIcon}
         />
       </BottomNavigation>
     )

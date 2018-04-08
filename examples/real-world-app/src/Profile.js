@@ -68,6 +68,99 @@ type State = {
 class Profile extends React.Component<Props, State> {
   state = { tabsLength: 2 }
 
+  renderTabBar(tabBarProps: *) {
+    return (
+      <SafeAreaView
+        forceInset={{ bottom: 'never', top: 'always' }}
+        style={styles.tabBarSafeView}
+      >
+        <TabBar {...tabBarProps} />
+      </SafeAreaView>
+    )
+  }
+
+  renderTabLikes() {
+    return (
+      <View style={styles.scene}>
+        <Text>
+          Current: <Text style={styles.strong}>likes</Text>
+        </Text>
+        <Link
+          style={styles.link}
+          replace
+          component={TouchableOpacity}
+          to="/profile/bookmarks"
+        >
+          <Text style={styles.span}>Go to bookmarks</Text>
+        </Link>
+        {tabsLength === 2 && (
+          <TouchableOpacity style={styles.link} onPress={this.handleToggleSettingsTab}>
+            <Text style={styles.span}>Add settings tab</Text>
+          </TouchableOpacity>
+        )}
+        {tabsLength === 3 && (
+          <Link
+            style={styles.link}
+            replace
+            component={TouchableOpacity}
+            to="/profile/settings"
+          >
+            <Text style={styles.span}>Go to settings</Text>
+          </Link>
+        )}
+      </View>
+    )
+  }
+
+  renderTabBookmarks() {
+    return (
+      <View style={styles.scene}>
+        <Text>
+          Current: <Text style={styles.strong}>bookmarks</Text>
+        </Text>
+        <Link style={styles.link} replace component={TouchableOpacity} to="/profile/likes">
+          <Text style={styles.span}>Go to likes</Text>
+        </Link>
+        {tabsLength === 2 && (
+          <TouchableOpacity style={styles.link} onPress={this.handleToggleSettingsTab}>
+            <Text style={styles.span}>Add settings tab</Text>
+          </TouchableOpacity>
+        )}
+        {tabsLength === 3 && (
+          <Link
+            style={styles.link}
+            replace
+            component={TouchableOpacity}
+            to="/profile/settings"
+          >
+            <Text style={styles.span}>Go to settings</Text>
+          </Link>
+        )}
+      </View>
+    )
+  }
+
+  renderTabSettings() {
+    return (
+      <View style={styles.scene}>
+        <Text>
+          Current: <Text style={styles.strong}>settings</Text>
+        </Text>
+        <Link style={styles.link} replace component={TouchableOpacity} to="/profile/likes">
+          <Text style={styles.span}>Go to likes</Text>
+        </Link>
+        <Link
+          style={styles.link}
+          replace
+          component={TouchableOpacity}
+          to="/profile/bookmarks"
+        >
+          <Text style={styles.span}>Go to bookmarks</Text>
+        </Link>
+      </View>
+    )
+  }
+
   handleToggleSettingsTab = () => {
     this.setState(prevState => ({
       tabsLength: prevState.tabsLength === 2 ? 3 : 2,
@@ -84,117 +177,12 @@ class Profile extends React.Component<Props, State> {
       <Tabs
         tabBarStyle={styles.tabBar}
         tabBarIndicatorStyle={styles.indicatorStyle}
-        renderTabBar={tabBarProps => (
-          <SafeAreaView
-            forceInset={{ bottom: 'never', top: 'always' }}
-            style={styles.tabBarSafeView}
-          >
-            <TabBar {...tabBarProps} />
-          </SafeAreaView>
-        )}
+        renderTabBar={this.renderTabBar}
       >
-        <Tab
-          path="/profile/likes"
-          label="Likes"
-          render={() => (
-            <View style={styles.scene}>
-              <Text>
-                Current: <Text style={styles.strong}>likes</Text>
-              </Text>
-              <Link
-                style={styles.link}
-                replace
-                component={TouchableOpacity}
-                to="/profile/bookmarks"
-              >
-                <Text style={styles.span}>Go to bookmarks</Text>
-              </Link>
-              {tabsLength === 2 && (
-                <TouchableOpacity
-                  style={styles.link}
-                  onPress={this.handleToggleSettingsTab}
-                >
-                  <Text style={styles.span}>Add settings tab</Text>
-                </TouchableOpacity>
-              )}
-              {tabsLength === 3 && (
-                <Link
-                  style={styles.link}
-                  replace
-                  component={TouchableOpacity}
-                  to="/profile/settings"
-                >
-                  <Text style={styles.span}>Go to settings</Text>
-                </Link>
-              )}
-            </View>
-          )}
-        />
-        <Tab
-          path="/profile/bookmarks"
-          label="Bookmarks"
-          render={() => (
-            <View style={styles.scene}>
-              <Text>
-                Current: <Text style={styles.strong}>bookmarks</Text>
-              </Text>
-              <Link
-                style={styles.link}
-                replace
-                component={TouchableOpacity}
-                to="/profile/likes"
-              >
-                <Text style={styles.span}>Go to likes</Text>
-              </Link>
-              {tabsLength === 2 && (
-                <TouchableOpacity
-                  style={styles.link}
-                  onPress={this.handleToggleSettingsTab}
-                >
-                  <Text style={styles.span}>Add settings tab</Text>
-                </TouchableOpacity>
-              )}
-              {tabsLength === 3 && (
-                <Link
-                  style={styles.link}
-                  replace
-                  component={TouchableOpacity}
-                  to="/profile/settings"
-                >
-                  <Text style={styles.span}>Go to settings</Text>
-                </Link>
-              )}
-            </View>
-          )}
-        />
+        <Tab path="/profile/likes" label="Likes" render={this.renderTabLikes} />
+        <Tab path="/profile/bookmarks" label="Bookmarks" render={this.renderTabBookmarks} />
         {tabsLength === 3 && (
-          <Tab
-            path="/profile/settings"
-            label="Settings"
-            render={() => (
-              <View style={styles.scene}>
-                <Text>
-                  Current: <Text style={styles.strong}>settings</Text>
-                </Text>
-                <Link
-                  style={styles.link}
-                  replace
-                  component={TouchableOpacity}
-                  to="/profile/likes"
-                >
-                  <Text style={styles.span}>Go to likes</Text>
-                </Link>
-                <Link
-                  style={styles.link}
-                  replace
-                  component={TouchableOpacity}
-                  to="/profile/bookmarks"
-                >
-                  <Text style={styles.span}>Go to bookmarks</Text>
-                </Link>
-              </View>
-            )}
-          />
+          <Tab path="/profile/settings" label="Settings" render={this.renderTabSettings} />
         )}
       </Tabs>
     )
