@@ -11,23 +11,31 @@
     "type": "git",
     "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
   },
-  "keywords": ["react-native", "ios", "android", "router", "navigation", "navigator"],
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "router",
+    "navigation",
+    "navigator"
+  ],
+  "dependencies": {
+    "fbjs": "0.8.16",
+    "invariant": "^2.2.4"
+  },
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
     "react-router": "4.2.x"
   },
-  "dependencies": {
-    "react-navigation": "1.5.8"
-  },
   "devDependencies": {
-    "flow-bin": "0.56.0",
+    "flow-bin": "0.63.0",
     "history": "4.7.2",
-    "jest": "21.2.1",
-    "react": "16.0.0",
-    "react-native": "0.50.3",
+    "jest": "22.4.0",
+    "react": "16.2.0",
+    "react-native": "0.53.0",
     "react-router": "4.2.0",
     "react-router-native": "4.2.0",
-    "react-test-renderer": "16.0.0"
+    "react-test-renderer": "16.2.0"
   }
 }
