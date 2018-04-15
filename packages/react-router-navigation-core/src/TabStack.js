@@ -45,7 +45,7 @@ class TabStack extends React.Component<Props, State> {
       location.pathname,
     )
     const historyRootIndex = index
-    const historyNodes = new Map([[navigationState.index, entries.slice(index)]])
+    const historyNodes = { [navigationState.index]: entries.slice(index) }
     this.state = { tabs, navigationState, historyRootIndex, historyNodes }
   }
 
@@ -80,9 +80,10 @@ class TabStack extends React.Component<Props, State> {
     const { location } = nextHistory
     const { navigationState, tabs } = this.state
     const currentRoute = navigationState.routes[navigationState.index]
-    const nextRoute = RouteUtils.create(tabs, location)
+    const nextTab = tabs.find(tab => matchPath(location.pathname, tab))
+    const nextRoute = RouteUtils.create(nextTab, location)
     const newHistoryNodes = HistoryUtils.saveNodes()
-    if (!RouteUtils.equal(currentRoute, nextRoute)) {
+    if (nextRoute && !RouteUtils.equal(currentRoute, nextRoute)) {
       this.setState(prevState => ({
         historyNodes: newHistoryNodes,
         navigationState: StateUtils.changeIndex(prevState.navigationState, nextRoute),
@@ -99,18 +100,28 @@ class TabStack extends React.Component<Props, State> {
     const { tabs, navigationState, historyNodes, historyRootIndex } = this.state
     const nextTab = tabs[index]
     if (index !== navigationState.index) {
-      this.setState({ navigationState: StateUtils.changeIndex(navigationState, index) })
-      if (enableHistoryNodes) {
-        HistoryUtils.persistNodes(this.props.history, historyNodes[index], historyRootIndex)
-      }
-      if (nextTab.onHistoryChange) {
-        nextTab.onHistoryChange()
-      } else if (!historyNodes[index]) {
-        this.props.history.replace(nextTab.path)
-      } else {
-        const entry = historyNodes[index].slice(-1)[0]
-        this.props.history.replace(entry.pathname, entry.state)
-      }
+      this.setState(
+        {
+          navigationState: StateUtils.changeIndex(navigationState, index),
+        },
+        () => {
+          if (enableHistoryNodes) {
+            HistoryUtils.persistNodes(
+              this.props.history,
+              historyNodes[index],
+              historyRootIndex,
+            )
+          }
+          if (nextTab.onHistoryChange) {
+            nextTab.onHistoryChange()
+          } else if (!historyNodes[index]) {
+            this.props.history.replace(nextTab.path)
+          } else {
+            const entry = historyNodes[index].slice(-1)[0]
+            this.props.history.replace(entry.pathname, entry.state)
+          }
+        },
+      )
     } else {
       const n = historyRootIndex - history.index
       if (n < 0) {
