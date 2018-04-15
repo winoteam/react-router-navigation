@@ -39,7 +39,7 @@ $ yarn add react-router react-router-native react-router-navigation
 And then, enjoy it:
 
 ```js
-import React from 'react'
+import * as React from 'react'
 import { Text } from 'react-native'
 import { NativeRouter, Link } from 'react-router-native'
 import { Navigation, Card } from 'react-router-navigation'
@@ -90,7 +90,7 @@ Remember to add tests for your change if possible.
 
 ## Questions
 
-If you have any questions, feel free to get in touch on Twitter, [@Leo_LeBras](https://twitter.com/Leo_LeBras).
+If you have any questions, feel free to get in touch on Twitter [@Leo_LeBras](https://twitter.com/Leo_LeBras) or open an issue.
 
 ## Thanks
 

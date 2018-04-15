@@ -38,7 +38,7 @@ const App = () => (
 
 ## Questions
 
-If you have any questions, feel free to get in touch on Twitter, [@Leo_LeBras](https://twitter.com/Leo_LeBras).
+If you have any questions, feel free to get in touch on Twitter [@Leo_LeBras](https://twitter.com/Leo_LeBras) or open an issue.
 
 ## Credits
 
