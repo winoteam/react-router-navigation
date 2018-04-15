@@ -1,7 +1,7 @@
 /* @flow */
 
 import * as React from 'react'
-import { Platform, NativeModules } from 'react-native'
+import { NativeModules } from 'react-native'
 import {
   Transitioner,
   CardStack,
@@ -36,10 +36,6 @@ type State = {
 }
 
 class DefaultNavigationRenderer extends React.Component<Props, State> {
-  static defaultProps = {
-    headerTransitionPreset: Platform.OS === 'android' ? 'fade-in-place' : 'uikit',
-  }
-
   constructor(props: Props) {
     super(props)
     this.state = { router: this.getRouter(props) }

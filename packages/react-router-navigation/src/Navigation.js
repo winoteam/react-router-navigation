@@ -1,6 +1,7 @@
 /* @flow */
 
 import * as React from 'react'
+import { Platform } from 'react-native'
 import { Route } from 'react-router'
 import { CardStack, type CardsRendererProps } from 'react-router-navigation-core'
 import type { NavigationProps, NavBarProps, NavigationHeaderProps } from './TypeDefinitions'
@@ -12,6 +13,10 @@ type Props = NavigationProps & {
 }
 
 class Navigation extends React.Component<Props> {
+  static defaultProps = {
+    headerTransitionPreset: Platform.OS === 'android' ? 'fade-in-place' : 'uikit',
+  }
+
   renderHeader = (
     headerProps: NavBarProps<CardsRendererProps & NavigationHeaderProps> &
       CardsRendererProps &
