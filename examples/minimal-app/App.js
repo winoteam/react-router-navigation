@@ -47,169 +47,217 @@ class App extends Component {
     card: {},
   }
 
-  render() {
+  renderFistCard = () => {
     return (
-      <NativeRouter initialEntries={['/', '/yolo', '/hello/one']} initialIndex={2}>
+      <View style={styles.scene}>
+        <Link component={TouchableOpacity} to="/newpage" style={styles.button}>
+          <Text>Push a new scene</Text>
+        </Link>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            this.setState({
+              navigation: {
+                navBarStyle: {
+                  backgroundColor: PRIMARY_COLOR,
+                  borderBottomWidth: 0,
+                },
+                titleStyle: { color: 'white' },
+                barStyle: 'light-content',
+                backButtonTintColor: 'white',
+              },
+            })
+          }
+        >
+          <Text>Change navbar style</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  renderSecondCard = () => {
+    return (
+      <View style={styles.scene}>
+        <Link component={TouchableOpacity} style={styles.button} to="/tabs">
+          <Text>Push tabs</Text>
+        </Link>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            this.setState(prevState => ({
+              navigation: {
+                ...prevState.navigation,
+                barStyle: 'light-content',
+              },
+              card: {
+                ...prevState.card,
+                navBarStyle: {
+                  backgroundColor: SECONDARY_COLOR,
+                  borderBottomWidth: 0,
+                },
+                titleStyle: { color: 'white' },
+                backButtonTintColor: 'white',
+              },
+            }))
+          }}
+        >
+          <Text>Change navbar style</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            this.setState(prevState => ({
+              card: {
+                ...prevState.card,
+                title: 'New title !',
+              },
+            }))
+          }}
+        >
+          <Text>Change title</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  renderThirdCard = contextRouter => {
+    const { location, match } = contextRouter
+    return (
+      <Switch location={location}>
+        <Route exact path={match.url} render={() => <Redirect to={`${match.url}/one`} />} />
+        <Route
+          render={() => (
+            <Tabs
+              style={styles.container}
+              tabBarStyle={styles.tabs}
+              tabBarIndicatorStyle={styles.indicator}
+            >
+              <Tab
+                path={`${match.url}/one`}
+                label="One"
+                tabStyle={styles.tab}
+                render={this.renderFirstTab}
+              />
+              <Tab
+                path={`${match.url}/two`}
+                label="Two"
+                tabStyle={styles.tab}
+                render={this.renderSecondTab}
+              />
+              <Tab
+                path={`${match.url}/three`}
+                label="Three"
+                tabStyle={styles.tab}
+                render={this.renderThirdTab}
+              />
+            </Tabs>
+          )}
+        />
+      </Switch>
+    )
+  }
+
+  renderFirstTab = contextRouter => {
+    const { match } = contextRouter
+    const basePath = match && match.url.slice(0, match.url.lastIndexOf('/'))
+    return (
+      <View style={styles.scene}>
+        <Text style={styles.strong}>One</Text>
+        <Link
+          component={TouchableOpacity}
+          style={styles.button}
+          replace
+          to={`${basePath}/two`}
+        >
+          <Text>Go to "two"</Text>
+        </Link>
+        <Link
+          component={TouchableOpacity}
+          style={styles.button}
+          replace
+          to={`${basePath}/three`}
+        >
+          <Text>Go to "three"</Text>
+        </Link>
+      </View>
+    )
+  }
+
+  renderSecondTab = contextRouter => {
+    const { match } = contextRouter
+    const basePath = match && match.url.slice(0, match.url.lastIndexOf('/'))
+    return (
+      <View style={styles.scene}>
+        <Text style={styles.strong}>Two</Text>
+        <Link
+          component={TouchableOpacity}
+          style={styles.button}
+          replace
+          to={`${basePath}/one`}
+        >
+          <Text>Go to "one"</Text>
+        </Link>
+        <Link
+          component={TouchableOpacity}
+          style={styles.button}
+          replace
+          to={`${basePath}/three`}
+        >
+          <Text>Go to "three"</Text>
+        </Link>
+      </View>
+    )
+  }
+
+  renderThirdTab = contextRouter => {
+    const { match } = contextRouter
+    const basePath = match && match.url.slice(0, match.url.lastIndexOf('/'))
+    return (
+      <View style={styles.scene}>
+        <Text style={styles.strong}>Three</Text>
+        <Link
+          component={TouchableOpacity}
+          style={styles.button}
+          replace
+          to={`${basePath}/one`}
+        >
+          <Text>Go to "one"</Text>
+        </Link>
+        <Link
+          component={TouchableOpacity}
+          style={styles.button}
+          replace
+          to={`${basePath}/two`}
+        >
+          <Text>Go to "two"</Text>
+        </Link>
+      </View>
+    )
+  }
+
+  render() {
+    const { navigation, card } = this.state
+    return (
+      <NativeRouter>
         <View style={styles.container}>
-          <StatusBar barStyle={this.state.navigation.barStyle} />
+          <StatusBar barStyle={navigation.barStyle} />
           <Navigation
-            navBarStyle={this.state.navigation.navBarStyle}
-            titleStyle={this.state.navigation.titleStyle}
-            backButtonTintColor={this.state.navigation.backButtonTintColor}
+            navBarStyle={navigation.navBarStyle}
+            titleStyle={navigation.titleStyle}
+            backButtonTintColor={navigation.backButtonTintColor}
           >
+            <Card exact path="/" title="Index" render={this.renderFistCard} />
             <Card
-              exact
-              path="/"
-              title="Index"
-              render={() => (
-                <View style={styles.scene}>
-                  <Link component={TouchableOpacity} to="/yolo" style={styles.button}>
-                    <Text>Push a new scene</Text>
-                  </Link>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() =>
-                      this.setState({
-                        navigation: {
-                          navBarStyle: {
-                            backgroundColor: PRIMARY_COLOR,
-                            borderBottomWidth: 0,
-                          },
-                          titleStyle: { color: 'white' },
-                          barStyle: 'light-content',
-                          backButtonTintColor: 'white',
-                        },
-                      })
-                    }
-                  >
-                    <Text>Change navbar style</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
-            <Card
-              titleStyle={this.state.card.titleStyle || this.state.navigation.titleStyle}
-              navBarStyle={this.state.card.navBarStyle || this.state.navigation.navBarStyle}
+              titleStyle={card.titleStyle || navigation.titleStyle}
+              navBarStyle={card.navBarStyle || navigation.navBarStyle}
               backButtonTintColor={
-                this.state.card.backButtonTintColor ||
-                this.state.navigation.backButtonTintColor
+                card.backButtonTintColor || navigation.backButtonTintColor
               }
-              path="/yolo"
-              render={() => (
-                <View style={styles.scene}>
-                  <Link component={TouchableOpacity} style={styles.button} to="/hello">
-                    <Text>Push tabs</Text>
-                  </Link>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                      this.setState(prevState => ({
-                        navigation: {
-                          ...prevState.navigation,
-                          barStyle: 'light-content',
-                        },
-                        card: {
-                          ...prevState.card,
-                          navBarStyle: {
-                            backgroundColor: SECONDARY_COLOR,
-                            borderBottomWidth: 0,
-                          },
-                          titleStyle: { color: 'white' },
-                          backButtonTintColor: 'white',
-                        },
-                      }))
-                    }}
-                  >
-                    <Text>Change navbar style</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                      this.setState(prevState => ({
-                        card: {
-                          ...prevState.card,
-                          title: 'New title !',
-                        },
-                      }))
-                    }}
-                  >
-                    <Text>Change title</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-              title={this.state.card.title || 'Yolo'}
+              path="/newpage"
+              render={this.renderSecondCard}
+              title={card.title || 'New scene'}
             />
-            <Card
-              path="/hello"
-              title="Hello"
-              render={({ match, location }) => (
-                <Switch location={location}>
-                  <Route
-                    exact
-                    path={match.url}
-                    render={() => <Redirect to={`${match.url}/one`} />}
-                  />
-                  <Route
-                    render={() => (
-                      <Tabs
-                        style={styles.container}
-                        tabBarStyle={styles.tabs}
-                        tabBarIndicatorStyle={styles.indicator}
-                      >
-                        <Tab
-                          path={`${match.url}/one`}
-                          label="One"
-                          tabStyle={styles.tab}
-                          render={() => (
-                            <View style={styles.scene}>
-                              <Text style={styles.strong}>One</Text>
-                              <TouchableOpacity style={styles.button}>
-                                <Text>Go to "two"</Text>
-                              </TouchableOpacity>
-                              <TouchableOpacity style={styles.button}>
-                                <Text>Go to "three"</Text>
-                              </TouchableOpacity>
-                            </View>
-                          )}
-                        />
-                        <Tab
-                          path={`${match.url}/two`}
-                          label="Two"
-                          tabStyle={styles.tab}
-                          render={() => (
-                            <View style={styles.scene}>
-                              <Text style={styles.strong}>Two</Text>
-                              <TouchableOpacity style={styles.button}>
-                                <Text>Go to "one"</Text>
-                              </TouchableOpacity>
-                              <TouchableOpacity style={styles.button}>
-                                <Text>Go to "three"</Text>
-                              </TouchableOpacity>
-                            </View>
-                          )}
-                        />
-                        <Tab
-                          path={`${match.url}/three`}
-                          label="Three"
-                          tabStyle={styles.tab}
-                          render={() => (
-                            <View style={styles.scene}>
-                              <Text style={styles.strong}>Three</Text>
-                              <TouchableOpacity style={styles.button}>
-                                <Text>Go to "one"</Text>
-                              </TouchableOpacity>
-                              <TouchableOpacity style={styles.button}>
-                                <Text>Go to "two"</Text>
-                              </TouchableOpacity>
-                            </View>
-                          )}
-                        />
-                      </Tabs>
-                    )}
-                  />
-                </Switch>
-              )}
-            />
+            <Card path="/tabs" title="Tabs" render={this.renderThirdCard} />
           </Navigation>
         </View>
       </NativeRouter>
