@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "react-router-navigation-core": "1.0.0-rc.6",
-    "react-native-tab-view": "0.0.77",
+    "react-native-tab-view": "0.0.74",
     "react-navigation": "1.5.11"
   },
   "devDependencies": {

@@ -97,7 +97,6 @@ class TabBarBottom extends React.Component<Props> {
   }
 
   render() {
-    // $FlowFixMe
     const { label, renderTabIcon, renderLabel, ...props } = this.props
     const tabBarStyle = [
       styles.tabBar,
