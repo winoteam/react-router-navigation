@@ -72,8 +72,8 @@ class App extends React.Component {
   render() {
     return (
       <Navigation>
-        <Card component={MyExpensiveComponentA />} />
-        <Card component={MyExpensiveComponentB />} />
+        <Card component={MyExpensiveComponentA} />
+        <Card component={MyExpensiveComponentB} />
       </Navigation>
     )
   }
