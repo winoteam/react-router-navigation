@@ -14,8 +14,7 @@ export const renderCardView = ({ navigationState, renderCard }) => {
   return renderCard(route)
 }
 
-export const renderTabView = ({ navigationState: { routes, index }, tabs }) => {
-  const route = routes[index]
-  const tab = StackUtils.get(tabs, route)
-  return createElement(tab.render, { key: tab.key })
+export const renderTabView = ({ navigationState, renderTab }) => {
+  const route = navigationState.routes[navigationState.index]
+  return renderTab(route)
 }

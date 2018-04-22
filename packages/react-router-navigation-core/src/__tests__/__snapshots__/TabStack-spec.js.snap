@@ -1,24 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TabStack /> re-renders correctly when "replace" action is called 1`] = `
+exports[`<TabStack /> should re-render correctly when "goBack" action is called 1`] = `
 <Text>
-  Index
+  Goodbye
 </Text>
 `;
 
-exports[`<TabStack /> re-renders correctly when "replace" action is called 2`] = `
+exports[`<TabStack /> should re-render correctly when "goBack" action is called 2`] = `
 <Text>
   Hello
 </Text>
 `;
 
-exports[`<TabStack /> renders correctly 1`] = `
+exports[`<TabStack /> should re-render correctly when "push" action is called 1`] = `
 <Text>
   Index
 </Text>
 `;
 
-exports[`<TabStack /> renders correctly with initialEntries prop  1`] = `
+exports[`<TabStack /> should re-render correctly when "push" action is called 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "replace" action is called 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "replace" action is called 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> should render correctly 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should render correctly with initialIndex and initialEntries props  1`] = `
 <Text>
   Hello
 </Text>
