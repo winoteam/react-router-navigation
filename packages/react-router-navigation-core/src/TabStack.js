@@ -7,7 +7,7 @@ import HistoryUtils from './HistoryUtils'
 import StackUtils from './StackUtils'
 import RouteUtils from './RouteUtils'
 import StateUtils from './StateUtils'
-import type { NavigationState, TabsRendererProps, Tab } from './TypeDefinitions'
+import type { NavigationState, TabsRendererProps, Tab, Route } from './TypeDefinitions'
 
 type Props = {
   history: RouterHistory,
@@ -15,13 +15,14 @@ type Props = {
   render: (props: TabsRendererProps) => React.Element<any>,
   lazy?: boolean,
   enableHistoryNodes?: boolean,
+  onReset?: () => void,
 }
 
 type State = {|
   tabs: Array<Tab>,
   navigationState: NavigationState,
   historyRootIndex?: number,
-  historyNodes?: { [key: string]: Array<Location> },
+  historyNodes?: { [routeName: string]: Array<Location> },
 |}
 
 class TabStack extends React.Component<Props, State> {
@@ -37,15 +38,16 @@ class TabStack extends React.Component<Props, State> {
       children || React.Children.count(children) > 0,
       'A <TabStack /> must have child elements',
     )
-    const tabs = StackUtils.create(children, props)
-    const navigationState = StateUtils.initialize(tabs, location)
+    const tabs = children && StackUtils.create(children, props)
+    const navigationState = StateUtils.initialize(tabs, location, entries, 'stack')
     invariant(
       navigationState.index !== -1,
       'There is no route defined for path « %s »',
       location.pathname,
     )
+    const initialRoute = navigationState.routes[navigationState.index]
     const historyRootIndex = index
-    const historyNodes = { [navigationState.index]: entries.slice(index) }
+    const historyNodes = { [initialRoute.routeName]: entries.slice(index) }
     this.state = { tabs, navigationState, historyRootIndex, historyNodes }
   }
 
@@ -61,12 +63,17 @@ class TabStack extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     const { tabs } = this.state
     const { children: nextChildren, history } = nextProps
-    const { location } = history
+    const { location, entries } = history
     const nextTabs = StackUtils.create(nextChildren, nextProps)
     const nextTab = nextTabs.find(tab => matchPath(location.pathname, tab))
     const nextRoute = nextTab && RouteUtils.create(nextTab, location)
     if (nextRoute && !StackUtils.shallowEqual(tabs, nextTabs)) {
-      const nextNavigationState = StateUtils.initialize(nextTabs, location)
+      const nextNavigationState = StateUtils.initialize(
+        nextTabs,
+        location,
+        entries,
+        'stack',
+      )
       invariant(
         nextNavigationState.index !== -1,
         'There is no route defined for path « %s »',
@@ -78,11 +85,11 @@ class TabStack extends React.Component<Props, State> {
 
   onHistoryChange = (history: RouterHistory, nextHistory: RouterHistory) => {
     const { location } = nextHistory
-    const { navigationState, tabs } = this.state
+    const { navigationState, tabs, historyNodes } = this.state
     const currentRoute = navigationState.routes[navigationState.index]
     const nextTab = tabs.find(tab => matchPath(location.pathname, tab))
     const nextRoute = RouteUtils.create(nextTab, location)
-    const newHistoryNodes = HistoryUtils.saveNodes()
+    const newHistoryNodes = HistoryUtils.saveNodes(historyNodes)
     if (nextRoute && !RouteUtils.equal(currentRoute, nextRoute)) {
       this.setState(prevState => ({
         historyNodes: newHistoryNodes,
@@ -128,20 +135,32 @@ class TabStack extends React.Component<Props, State> {
         this.props.history.go(n)
       } else {
         if (this.props.onReset) this.props.onReset()
-        if (nextTab.onReset) nextTab.onReset()
+        if (nextTab && nextTab.onReset) nextTab.onReset()
       }
     }
   }
 
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    return (
+      this.state.tabs !== nextState.tabs ||
+      this.state.navigationState !== nextState.navigationState
+    )
+  }
+
   renderTab = (route: Route) => {
+    const { lazy } = this.props
+    const { historyNodes } = this.state
+    if (lazy && !historyNodes[route.routeName]) return null
     const children = React.Children.toArray(this.props.children)
     const child = children.find(({ props }) => props.path === route.routeName)
+    if (!child) return null
     return React.cloneElement(child, route)
   }
 
   render() {
     return this.props.render({
-      ...this.state,
+      navigationState: this.state.navigationState,
+      tabs: this.state.tabs,
       onIndexChange: this.onIndexChange,
       renderTab: this.renderTab,
     })

@@ -39,13 +39,13 @@ export type CardsRendererProps = {
 }
 
 export type Tab = RouteProps & {
-  key: string,
   onIndexChange?: () => void,
+  onReset?: () => void,
 }
 
 export type TabsRendererProps = {
   renderTab: (route: Route) => React$Node,
   onIndexChange: (index: number) => void,
-  navigationState: NavigationState<{ title?: string, testID?: string }>,
+  navigationState: NavigationState,
   tabs: Array<Tab>,
 }

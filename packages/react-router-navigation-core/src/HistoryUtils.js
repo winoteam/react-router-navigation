@@ -13,7 +13,7 @@ const HistoryUtils = {
 
   persistNodes: () => false,
 
-  saveNodes: (history: RouterHistory, rootIndex: number, nodes: Array<Location>) => {},
+  saveNodes: oldHistoryNodes => oldHistoryNodes,
 }
 
 export default HistoryUtils

@@ -13,13 +13,16 @@ const StateUtils = {
     buildFrom: 'entries' | 'stack',
   ): NavigationState {
     const historyEntries = StackUtils.getHistoryEntries(stack, entries, location)
+    if (buildFrom === 'stack') {
       return stack.reduce(
         (state, item) => {
-          const match = matchPath(location.pathname, item)
-          const route = RouteUtils.create(item, match && location)
+          const entry = historyEntries.find(({ pathname }) => matchPath(pathname, item))
+          const match = entry ? matchPath(entry.pathname, item) : null
+          const route = RouteUtils.create(item, match && entry)
           if (!route) return state
+          const isCurrentLocation = entry && entry.pathname === location.pathname
           return {
-            index: match ? state.routes.length : state.index,
+            index: isCurrentLocation ? state.routes.length : state.index,
             routes: [...state.routes, route],
           }
         },
