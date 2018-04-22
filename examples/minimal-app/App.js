@@ -8,9 +8,6 @@ const PRIMARY_COLOR = 'rgb(226, 68, 68)'
 const SECONDARY_COLOR = 'rgb(226, 144, 68)'
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   scene: {
     flex: 1,
     padding: 18,
@@ -239,7 +236,7 @@ class App extends Component {
     const { navigation, card } = this.state
     return (
       <NativeRouter>
-        <View style={styles.container}>
+        <React.Fragment>
           <StatusBar barStyle={navigation.barStyle} />
           <Navigation
             navBarStyle={navigation.navBarStyle}
@@ -259,7 +256,7 @@ class App extends Component {
             />
             <Card path="/tabs" title="Tabs" render={this.renderThirdCard} />
           </Navigation>
-        </View>
+        </React.Fragment>
       </NativeRouter>
     )
   }

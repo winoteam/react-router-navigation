@@ -68,7 +68,7 @@ type State = {
 class Profile extends React.Component<Props, State> {
   state = { tabsLength: 2 }
 
-  renderTabBar(tabBarProps: *) {
+  renderTabBar = (tabBarProps: *) => {
     return (
       <SafeAreaView
         forceInset={{ bottom: 'never', top: 'always' }}
@@ -79,7 +79,7 @@ class Profile extends React.Component<Props, State> {
     )
   }
 
-  renderTabLikes() {
+  renderTabLikes = () => {
     return (
       <View style={styles.scene}>
         <Text>
@@ -112,7 +112,7 @@ class Profile extends React.Component<Props, State> {
     )
   }
 
-  renderTabBookmarks() {
+  renderTabBookmarks = () => {
     return (
       <View style={styles.scene}>
         <Text>
@@ -140,7 +140,7 @@ class Profile extends React.Component<Props, State> {
     )
   }
 
-  renderTabSettings() {
+  renderTabSettings = () => {
     return (
       <View style={styles.scene}>
         <Text>

@@ -26,18 +26,18 @@ type Props = {
 }
 
 class Feed extends Component<Props> {
-  renderTitle(router: ContextRouter) {
-    const { match } = router
+  renderTitle = (titleProps: *) => {
+    const { routeMatch: match } = titleProps
     return <HeaderTitle style={styles.title}>Item {match && match.params.id}</HeaderTitle>
   }
 
-  renderList(router: ContextRouter) {
+  renderList = (contextRouter: ContextRouter) => {
     return (
       <List
         ref={c => {
           this.listView = c
         }}
-        {...props}
+        {...contextRouter}
       />
     )
   }

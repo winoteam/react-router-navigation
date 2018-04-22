@@ -13,16 +13,18 @@ type Props = {
 }
 
 class App extends React.Component<Props> {
-  onReset() {
+  feed = null
+
+  onReset = () => {
     if (this.feed && this.feed.listView) {
       this.feed.listView.scrollTo({ y: 0 })
     }
   }
 
-  renderFeed(router: ContextRouter) {
+  renderFeed = (contextRouter: ContextRouter) => {
     return (
       <Feed
-        {...router}
+        {...contextRouter}
         ref={c => {
           this.feed = c
         }}
@@ -30,18 +32,36 @@ class App extends React.Component<Props> {
     )
   }
 
-  renderTabIcon() {
-    return (
-      <Image
-        source={require('./assets/profile.png')}
-        style={{
-          marginBottom: Platform.OS === 'android' ? 0 : -2,
-          width: Platform.OS === 'android' ? 27.5 : 31,
-          height: Platform.OS === 'android' ? 27.5 : 31,
-          tintColor: focused ? tabActiveTintColor : tabTintColor,
-        }}
-      />
-    )
+  renderTabIcon = (tabIconProps: { focused: boolean }) => {
+    const { route, focused, tabActiveTintColor, tabTintColor } = tabIconProps
+    switch (route.routeName) {
+      case '/feed':
+        return (
+          <Image
+            source={require('./assets/feed.png')}
+            style={{
+              marginBottom: Platform.OS === 'android' ? 2.5 : 1,
+              width: Platform.OS === 'android' ? 22.5 : 25,
+              height: Platform.OS === 'android' ? 22.5 : 25,
+              tintColor: focused ? tabActiveTintColor : tabTintColor,
+            }}
+          />
+        )
+      case '/profile/(likes|bookmarks|settings)':
+        return (
+          <Image
+            source={require('./assets/profile.png')}
+            style={{
+              marginBottom: Platform.OS === 'android' ? 0 : -2,
+              width: Platform.OS === 'android' ? 27.5 : 31,
+              height: Platform.OS === 'android' ? 27.5 : 31,
+              tintColor: focused ? tabActiveTintColor : tabTintColor,
+            }}
+          />
+        )
+      default:
+        return null
+    }
   }
 
   shouldComponentUpdate() {

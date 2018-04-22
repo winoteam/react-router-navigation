@@ -47,6 +47,7 @@ class List extends React.Component<Props, State> {
   }
 
   renderRow = rowData => {
+    const { match: { url } } = this.props
     return (
       <Link to={`${url}/article/${rowData.slice(9)}`}>
         <Text style={styles.row}>{rowData}</Text>
