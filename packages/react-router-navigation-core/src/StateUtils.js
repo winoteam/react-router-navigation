@@ -2,15 +2,17 @@
 
 import { matchPath, type Location } from 'react-router'
 import RouteUtils from './RouteUtils'
+import StackUtils from './StackUtils'
 import type { NavigationState, RouteProps, Route } from './TypeDefinitions'
 
 const StateUtils = {
-  initialize<NavigationRoute>(
-    stack?: Array<RouteProps>,
+  initialize(
+    stack: ?Array<RouteProps>,
     location: Location,
-    entries?: Array<Location>,
-  ): NavigationState<NavigationRoute> {
-    if (!entries) {
+    entries: Array<Location>,
+    buildFrom: 'entries' | 'stack',
+  ): NavigationState {
+    const historyEntries = StackUtils.getHistoryEntries(stack, entries, location)
       return stack.reduce(
         (state, item) => {
           const match = matchPath(location.pathname, item)
@@ -24,9 +26,7 @@ const StateUtils = {
         { index: -1, routes: [] },
       )
     }
-    const lastRouteIndex = entries.findIndex(entry => entry.pathname === location.pathname)
-    const initialEntries = entries.slice(0, lastRouteIndex + 1)
-    return initialEntries.reduce(
+    return historyEntries.reduce(
       (state, entry) => {
         const item = stack.find(({ path, exact, strict }) => {
           return matchPath(entry.pathname, {
@@ -47,10 +47,7 @@ const StateUtils = {
     )
   },
 
-  push<NavigationRoute>(
-    state: NavigationState<NavigationRoute>,
-    route: Route & NavigationRoute,
-  ): NavigationState<NavigationRoute> {
+  push(state: NavigationState, route: Route): NavigationState {
     const newRoutes = [...state.routes, route]
     return {
       ...state,
@@ -59,10 +56,7 @@ const StateUtils = {
     }
   },
 
-  pop<NavigationRoute>(
-    state: NavigationState<NavigationRoute>,
-    n: number = 1,
-  ): NavigationState<NavigationRoute> {
+  pop(state: NavigationState, n: number = 1): NavigationState {
     if (state.index <= 0) return state
     const newRoutes = state.routes.slice(0, -n)
     return {
@@ -72,11 +66,7 @@ const StateUtils = {
     }
   },
 
-  replace<NavigationRoute>(
-    state: NavigationState<NavigationRoute>,
-    index: number,
-    route: Route & NavigationRoute,
-  ): NavigationState<NavigationRoute> {
+  replace(state: NavigationState, index: number, route: Route): NavigationState {
     if (state.routes[index] === route || index > state.routes.length) {
       return state
     }
@@ -92,15 +82,13 @@ const StateUtils = {
     }
   },
 
-  changeIndex<NavigationRoute>(
-    state: NavigationState<NavigationRoute>,
-    arg: number | Route,
-  ) {
+  changeIndex(state: NavigationState, arg: number | Route) {
     if (typeof arg === 'number') {
       return { ...state, index: arg }
     }
     const index = state.routes.findIndex(route => route.routeName === arg.routeName)
-    return { ...state, index }
+    const routes = [...state.routes.slice(0, index), arg, ...state.routes.slice(index + 1)]
+    return { ...state, routes, index }
   },
 }
 

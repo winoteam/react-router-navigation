@@ -8,9 +8,9 @@ export type Route = {
   routeMatch: ?Match,
 }
 
-export type NavigationState<NavigationRoute> = {
+export type NavigationState = {
   index: number,
-  routes: Array<Route & NavigationRoute>,
+  routes: Array<Route>,
 }
 
 export type NavigationAction = {
@@ -29,17 +29,12 @@ export type RouteProps = {
   routePath?: string,
 }
 
-export type Card = RouteProps & {
-  key: string,
-}
+export type Card = RouteProps
 
 export type CardsRendererProps = {
   renderCard: (route: Route) => React$Node,
   onNavigateBack: () => boolean,
-  navigationState: NavigationState<{
-    path?: string,
-    params?: Object,
-  }>,
+  navigationState: NavigationState,
   cards: Array<Card>,
 }
 

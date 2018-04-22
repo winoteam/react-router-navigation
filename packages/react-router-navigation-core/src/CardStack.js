@@ -33,7 +33,7 @@ class CardStack extends React.Component<Props, State> {
       'A <CardStack /> must have child elements',
     )
     const cards = StackUtils.create(children, props)
-    const navigationState = StateUtils.initialize(cards, location, entries)
+    const navigationState = StateUtils.initialize(cards, location, entries, 'entries')
     invariant(
       navigationState.index !== -1,
       'There is no route defined for path « %s »',
@@ -59,7 +59,12 @@ class CardStack extends React.Component<Props, State> {
     const nextCards = StackUtils.create(nextChildren, nextProps)
     if (!StackUtils.shallowEqual(cards, nextCards)) {
       const { location, entries } = history
-      const nextNavigationState = StateUtils.initialize(nextCards, location, entries)
+      const nextNavigationState = StateUtils.initialize(
+        nextCards,
+        location,
+        entries,
+        'entries',
+      )
       invariant(
         nextNavigationState.index !== -1,
         'There is no route defined for path « %s »',
@@ -76,7 +81,7 @@ class CardStack extends React.Component<Props, State> {
     const currentRoute = navigationState.routes[navigationState.index]
     const nextCard = cards.find(card => matchPath(location.pathname, card))
     const nextRoute = RouteUtils.create(nextCard, location)
-    if (!RouteUtils.equal(currentRoute, nextRoute)) {
+    if (nextRoute && !RouteUtils.equal(currentRoute, nextRoute)) {
       switch (action) {
         case 'PUSH': {
           this.setState(prevState => ({
@@ -124,6 +129,7 @@ class CardStack extends React.Component<Props, State> {
   renderCard = (route: Route) => {
     const children = React.Children.toArray(this.props.children)
     const child = children.find(({ props }) => props.path === route.routeName)
+    if (!child) return null
     return React.cloneElement(child, route)
   }
 
