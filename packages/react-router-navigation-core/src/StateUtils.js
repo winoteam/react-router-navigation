@@ -7,7 +7,7 @@ import type { NavigationState, RouteProps, Route } from './TypeDefinitions'
 
 const StateUtils = {
   initialize(
-    stack: ?Array<RouteProps>,
+    stack: Array<RouteProps>,
     location: Location,
     entries: Array<Location>,
     buildFrom: 'entries' | 'stack',
@@ -89,6 +89,7 @@ const StateUtils = {
     if (typeof arg === 'number') {
       return { ...state, index: arg }
     }
+    // $FlowFixMe
     const index = state.routes.findIndex(route => route.routeName === arg.routeName)
     const routes = [...state.routes.slice(0, index), arg, ...state.routes.slice(index + 1)]
     return { ...state, routes, index }

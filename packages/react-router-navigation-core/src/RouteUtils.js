@@ -4,7 +4,7 @@ import { matchPath, type Location } from 'react-router'
 import type { RouteProps, Route } from './TypeDefinitions'
 
 const RouteUtils = {
-  create: (item: RouteProps, location?: Location): ?Route => {
+  create: (item: RouteProps, location?: ?Location): ?Route => {
     if (!item || !item.path) return null
     const routeName = item.path
     return {

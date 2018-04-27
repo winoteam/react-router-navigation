@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { ContextRouter, Match } from 'react-router'
+import type { Location, ContextRouter, Match } from 'react-router'
 
 export type Route = {
   key: string,
@@ -21,7 +21,7 @@ export type NavigationAction = {
 export type RouteProps = {
   component?: React$ComponentType<ContextRouter>,
   render?: (router: ContextRouter) => React$Node,
-  children?: React$ComponentType<ContextRouter> | React$Node,
+  children?: (router: ContextRouter) => React$Node | React$Node,
   path?: string,
   exact?: boolean,
   strict?: boolean,
@@ -49,3 +49,9 @@ export type TabsRendererProps = {
   navigationState: NavigationState,
   tabs: Array<Tab>,
 }
+
+export type HistoryNode = Array<Location>
+
+export type HistoryNodes = { [routeName: string]: HistoryNode }
+
+export type HistoryRootIndex = number

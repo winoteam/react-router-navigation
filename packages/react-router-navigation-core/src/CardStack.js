@@ -12,7 +12,7 @@ import type { Route, CardsRendererProps, NavigationState, Card } from './TypeDef
 
 type Props = {
   history: RouterHistory,
-  children?: Array<React$Node>,
+  children: Array<React$Node>,
   render: (props: CardsRendererProps) => React$Element<*>,
 }
 
@@ -57,7 +57,7 @@ class CardStack extends React.Component<Props, State> {
     const { children: nextChildren, history } = nextProps
     const { cards } = this.state
     const nextCards = StackUtils.create(nextChildren, nextProps)
-    if (!StackUtils.shallowEqual(cards, nextCards)) {
+    if (nextCards && !StackUtils.shallowEqual(cards, nextCards)) {
       const { location, entries } = history
       const nextNavigationState = StateUtils.initialize(
         nextCards,
@@ -80,7 +80,7 @@ class CardStack extends React.Component<Props, State> {
     const { navigationState, cards } = this.state
     const currentRoute = navigationState.routes[navigationState.index]
     const nextCard = cards.find(card => matchPath(location.pathname, card))
-    const nextRoute = RouteUtils.create(nextCard, location)
+    const nextRoute = nextCard && RouteUtils.create(nextCard, location)
     if (nextRoute && !RouteUtils.equal(currentRoute, nextRoute)) {
       switch (action) {
         case 'PUSH': {

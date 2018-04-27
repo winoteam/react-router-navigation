@@ -7,11 +7,18 @@ import HistoryUtils from './HistoryUtils'
 import StackUtils from './StackUtils'
 import RouteUtils from './RouteUtils'
 import StateUtils from './StateUtils'
-import type { NavigationState, TabsRendererProps, Tab, Route } from './TypeDefinitions'
+import type {
+  NavigationState,
+  TabsRendererProps,
+  Tab,
+  Route,
+  HistoryRootIndex,
+  HistoryNodes,
+} from './TypeDefinitions'
 
 type Props = {
   history: RouterHistory,
-  children?: Array<React$Node>,
+  children: Array<React$Node>,
   render: (props: TabsRendererProps) => React.Element<any>,
   lazy?: boolean,
   enableHistoryNodes?: boolean,
@@ -21,11 +28,13 @@ type Props = {
 type State = {|
   tabs: Array<Tab>,
   navigationState: NavigationState,
-  historyRootIndex?: number,
-  historyNodes?: { [routeName: string]: Array<Location> },
+  historyRootIndex: HistoryRootIndex,
+  historyNodes: HistoryNodes,
 |}
 
 class TabStack extends React.Component<Props, State> {
+  unlistenHistory: ?Function = null
+
   static defaultProps = {
     enableHistoryNodes: false,
   }
@@ -88,7 +97,7 @@ class TabStack extends React.Component<Props, State> {
     const { navigationState, tabs, historyNodes } = this.state
     const currentRoute = navigationState.routes[navigationState.index]
     const nextTab = tabs.find(tab => matchPath(location.pathname, tab))
-    const nextRoute = RouteUtils.create(nextTab, location)
+    const nextRoute = nextTab ? RouteUtils.create(nextTab, location) : null
     const newHistoryNodes = HistoryUtils.saveNodes(historyNodes)
     if (nextRoute && !RouteUtils.equal(currentRoute, nextRoute)) {
       this.setState(prevState => ({
@@ -106,6 +115,7 @@ class TabStack extends React.Component<Props, State> {
     const { enableHistoryNodes, history } = this.props
     const { tabs, navigationState, historyNodes, historyRootIndex } = this.state
     const nextTab = tabs[index]
+    const nextRoute = navigationState.routes[navigationState.index]
     if (index !== navigationState.index) {
       this.setState(
         {
@@ -115,16 +125,16 @@ class TabStack extends React.Component<Props, State> {
           if (enableHistoryNodes) {
             HistoryUtils.persistNodes(
               this.props.history,
-              historyNodes[index],
+              historyNodes[nextRoute.routeName],
               historyRootIndex,
             )
           }
-          if (nextTab.onHistoryChange) {
-            nextTab.onHistoryChange()
-          } else if (!historyNodes[index]) {
-            this.props.history.replace(nextTab.path)
+          if (nextTab.onIndexChange) {
+            nextTab.onIndexChange()
+          } else if (!historyNodes[nextRoute.routeName]) {
+            this.props.history.replace(nextRoute.routeName)
           } else {
-            const entry = historyNodes[index].slice(-1)[0]
+            const entry = historyNodes[nextRoute.routeName].slice(-1)[0]
             this.props.history.replace(entry.pathname, entry.state)
           }
         },

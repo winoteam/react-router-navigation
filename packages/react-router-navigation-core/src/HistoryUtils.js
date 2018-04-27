@@ -1,6 +1,7 @@
 /* @flow */
 
 import type { RouterHistory } from 'react-router'
+import type { HistoryNodes, HistoryNode, HistoryRootIndex } from './TypeDefinitions'
 
 const HistoryUtils = {
   listen: (history: RouterHistory, callback: Function): Function => {
@@ -11,9 +12,13 @@ const HistoryUtils = {
     })
   },
 
-  persistNodes: () => false,
+  persistNodes: (
+    history: RouterHistory,
+    historyNode: HistoryNode,
+    historyRootIndex: HistoryRootIndex,
+  ) => false,
 
-  saveNodes: oldHistoryNodes => oldHistoryNodes,
+  saveNodes: (oldHistoryNodes: HistoryNodes): HistoryNodes => oldHistoryNodes,
 }
 
 export default HistoryUtils

@@ -19,12 +19,8 @@ class SceneView extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-    const { history: { location }, routeMatch } = props
-    this.state = { match: routeMatch, location }
-  }
-
-  componentWillMount() {
-    const { history } = this.props
+    const { history, routeMatch } = props
+    this.state = { match: routeMatch || null, location: history.location }
     this.unlisten = history.listen(this.onHistoryChange)
   }
 
@@ -57,7 +53,13 @@ class SceneView extends React.Component<Props, State> {
     } else if (children && React.Children.count(children) === 0) {
       return React.cloneElement(children, contextRouter)
     } else if (Component) {
-      return <Component {...contextRouter} />
+      return (
+        <Component
+          match={contextRouter.match}
+          location={contextRouter.location}
+          history={contextRouter.history}
+        />
+      )
     }
     return null
   }

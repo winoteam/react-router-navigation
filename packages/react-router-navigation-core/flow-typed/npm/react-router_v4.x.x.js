@@ -32,8 +32,8 @@ declare module 'react-router' {
     canGo?: (n: number) => boolean,
     block(callback: (location: Location, action: HistoryAction) => boolean): void,
     // createMemoryHistory
-    index?: number,
-    entries?: Array<Location>,
+    index: number,
+    entries: Array<Location>,
   }
 
   declare export type Match = {

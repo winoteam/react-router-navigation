@@ -6,17 +6,11 @@ import shallowEqual from 'fbjs/lib/shallowEqual'
 import type { RouteProps } from './TypeDefinitions'
 
 const StackUtils = {
-  create: (children: ?Array<React$Node>, props: *): Array<RouteProps> => {
+  create: (children: ?Array<React$Node>, props: *) => {
     return React.Children.toArray(children).reduce((stack, child) => {
       return [
         ...stack,
-        {
-          ...props,
-          ...child.props,
-          children: child.props.children,
-          history: child.props.history,
-          render: child.props.render,
-        },
+        { ...props, ...child.props },
       ]
     }, [])
   },
@@ -31,7 +25,7 @@ const StackUtils = {
     stack: Array<RouteProps>,
     entries: Array<Location>,
     location: Location,
-  ) => {
+  ): Array<Location> => {
     const startHistoryIndex = entries.reduce((acc, entry, index) => {
       if (stack.find(item => matchPath(entry.pathname, item))) {
         if (acc === -1) return index
