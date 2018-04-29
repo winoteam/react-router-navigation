@@ -8,9 +8,9 @@ export type Route = {
   routeMatch: ?Match,
 }
 
-export type NavigationState = {
+export type NavigationState<NavigationRoute = {}> = {
   index: number,
-  routes: Array<Route>,
+  routes: Array<Route & NavigationRoute>,
 }
 
 export type NavigationAction = {
@@ -23,10 +23,10 @@ export type RouteProps = {
   render?: (router: ContextRouter) => React$Node,
   children?: (router: ContextRouter) => React$Node | React$Node,
   path?: string,
+  routePath?: string,
   exact?: boolean,
   strict?: boolean,
   sensitive?: boolean,
-  routePath?: string,
 }
 
 export type Card = RouteProps
@@ -34,7 +34,7 @@ export type Card = RouteProps
 export type CardsRendererProps = {
   renderCard: (route: Route) => React$Node,
   onNavigateBack: () => boolean,
-  navigationState: NavigationState,
+  navigationState: NavigationState<>,
   cards: Array<Card>,
 }
 
@@ -43,10 +43,10 @@ export type Tab = RouteProps & {
   onReset?: () => void,
 }
 
-export type TabsRendererProps = {
+export type TabsRendererProps<TabRoute = {}> = {
   renderTab: (route: Route) => React$Node,
   onIndexChange: (index: number) => void,
-  navigationState: NavigationState,
+  navigationState: NavigationState<TabRoute>,
   tabs: Array<Tab>,
 }
 

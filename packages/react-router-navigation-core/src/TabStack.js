@@ -1,7 +1,7 @@
 /* @flow */
 
 import * as React from 'react'
-import { matchPath, type RouterHistory, type Location } from 'react-router'
+import { matchPath, type RouterHistory } from 'react-router'
 import invariant from 'invariant'
 import HistoryUtils from './HistoryUtils'
 import StackUtils from './StackUtils'
@@ -19,7 +19,7 @@ import type {
 type Props = {
   history: RouterHistory,
   children: Array<React$Node>,
-  render: (props: TabsRendererProps) => React.Element<any>,
+  render: (props: TabsRendererProps<>) => React.Element<any>,
   lazy?: boolean,
   enableHistoryNodes?: boolean,
   onReset?: () => void,
@@ -27,7 +27,7 @@ type Props = {
 
 type State = {|
   tabs: Array<Tab>,
-  navigationState: NavigationState,
+  navigationState: NavigationState<>,
   historyRootIndex: HistoryRootIndex,
   historyNodes: HistoryNodes,
 |}
@@ -48,7 +48,12 @@ class TabStack extends React.Component<Props, State> {
       'A <TabStack /> must have child elements',
     )
     const tabs = children && StackUtils.create(children, props)
-    const navigationState = StateUtils.initialize(tabs, location, entries, 'stack')
+    const navigationState = StateUtils.initialize(
+      tabs,
+      location,
+      entries,
+      'stack',
+    )
     invariant(
       navigationState.index !== -1,
       'There is no route defined for path « %s »',
@@ -102,7 +107,10 @@ class TabStack extends React.Component<Props, State> {
     if (nextRoute && !RouteUtils.equal(currentRoute, nextRoute)) {
       this.setState(prevState => ({
         historyNodes: newHistoryNodes,
-        navigationState: StateUtils.changeIndex(prevState.navigationState, nextRoute),
+        navigationState: StateUtils.changeIndex(
+          prevState.navigationState,
+          nextRoute,
+        ),
       }))
     } else {
       this.setState({
@@ -114,8 +122,8 @@ class TabStack extends React.Component<Props, State> {
   onIndexChange = (index: number) => {
     const { enableHistoryNodes, history } = this.props
     const { tabs, navigationState, historyNodes, historyRootIndex } = this.state
-    const nextTab = tabs[index]
-    const nextRoute = navigationState.routes[navigationState.index]
+    const nextRoute = navigationState.routes[index]
+    const nextTab = tabs.find(tab => tab.path === nextRoute.routeName)
     if (index !== navigationState.index) {
       this.setState(
         {

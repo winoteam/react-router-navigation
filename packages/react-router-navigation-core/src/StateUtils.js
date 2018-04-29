@@ -11,8 +11,12 @@ const StateUtils = {
     location: Location,
     entries: Array<Location>,
     buildFrom: 'entries' | 'stack',
-  ): NavigationState {
-    const historyEntries = StackUtils.getHistoryEntries(stack, entries, location)
+  ): NavigationState<> {
+    const historyEntries = StackUtils.getHistoryEntries(
+      stack,
+      entries,
+      location,
+    )
     if (buildFrom === 'stack') {
       return stack.reduce(
         (state, item) => {
@@ -50,7 +54,7 @@ const StateUtils = {
     )
   },
 
-  push(state: NavigationState, route: Route): NavigationState {
+  push(state: NavigationState<>, route: Route): NavigationState<> {
     const newRoutes = [...state.routes, route]
     return {
       ...state,
@@ -59,7 +63,7 @@ const StateUtils = {
     }
   },
 
-  pop(state: NavigationState, n: number = 1): NavigationState {
+  pop(state: NavigationState<>, n: number = 1): NavigationState<> {
     if (state.index <= 0) return state
     const newRoutes = state.routes.slice(0, -n)
     return {
@@ -69,7 +73,11 @@ const StateUtils = {
     }
   },
 
-  replace(state: NavigationState, index: number, route: Route): NavigationState {
+  replace(
+    state: NavigationState<>,
+    index: number,
+    route: Route,
+  ): NavigationState<> {
     if (state.routes[index] === route || index > state.routes.length) {
       return state
     }
@@ -85,13 +93,19 @@ const StateUtils = {
     }
   },
 
-  changeIndex(state: NavigationState, arg: number | Route) {
+  changeIndex(state: NavigationState<>, arg: number | Route) {
     if (typeof arg === 'number') {
       return { ...state, index: arg }
     }
+    const index = state.routes.findIndex(
     // $FlowFixMe
-    const index = state.routes.findIndex(route => route.routeName === arg.routeName)
-    const routes = [...state.routes.slice(0, index), arg, ...state.routes.slice(index + 1)]
+      route => route.routeName === arg.routeName,
+    )
+    const routes = [
+      ...state.routes.slice(0, index),
+      arg,
+      ...state.routes.slice(index + 1),
+    ]
     return { ...state, routes, index }
   },
 }
