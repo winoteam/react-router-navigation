@@ -39,7 +39,7 @@ export type CardsRendererProps = {
 }
 
 export type Tab = RouteProps & {
-  onIndexChange?: () => void,
+  onRequestChangeTab?: () => void,
   onReset?: () => void,
 }
 

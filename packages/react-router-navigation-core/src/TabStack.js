@@ -129,8 +129,8 @@ class TabStack extends React.Component<Props, State> {
               historyRootIndex,
             )
           }
-          if (nextTab.onIndexChange) {
-            nextTab.onIndexChange()
+          if (nextTab && nextTab.onRequestChangeTab) {
+            nextTab.onRequestChangeTab()
           } else if (!historyNodes[nextRoute.routeName]) {
             this.props.history.replace(nextRoute.routeName)
           } else {
