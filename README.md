@@ -5,7 +5,7 @@
 [![Am I a cool kid ?](http://cool-kid.herokuapp.com/LeoLeBras/react-router-navigation)](https://github.com/awemakers/cool-kid)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-**`react-router-navigation` is still a work in progress. That means it's extremely likely that you'll encounter issues. Always consider it.**
+**`react-router-navigation` is still [a work in progress](https://github.com/LeoLeBras/react-router-navigation/tree/dev). That means it's extremely likely that you'll encounter issues. Always consider it.**
 
 `react-router-navigation` provides tools to navigate between multiple screens with
 navigators or tab views. This library is based on `react-router`, `react-navigation`,
