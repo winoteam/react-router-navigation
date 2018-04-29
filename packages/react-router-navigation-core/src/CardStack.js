@@ -8,7 +8,12 @@ import HistoryUtils from './HistoryUtils'
 import StackUtils from './StackUtils'
 import RouteUtils from './RouteUtils'
 import StateUtils from './StateUtils'
-import type { Route, CardsRendererProps, NavigationState, Card } from './TypeDefinitions'
+import type {
+  Route,
+  CardsRendererProps,
+  NavigationState,
+  Card,
+} from './TypeDefinitions'
 
 type Props = {
   history: RouterHistory,
@@ -18,7 +23,7 @@ type Props = {
 
 type State = {|
   cards: Array<Card>,
-  navigationState: NavigationState,
+  navigationState: NavigationState<>,
 |}
 
 class CardStack extends React.Component<Props, State> {
@@ -33,7 +38,12 @@ class CardStack extends React.Component<Props, State> {
       'A <CardStack /> must have child elements',
     )
     const cards = StackUtils.create(children, props)
-    const navigationState = StateUtils.initialize(cards, location, entries, 'entries')
+    const navigationState = StateUtils.initialize(
+      cards,
+      location,
+      entries,
+      'entries',
+    )
     invariant(
       navigationState.index !== -1,
       'There is no route defined for path « %s »',
@@ -85,7 +95,10 @@ class CardStack extends React.Component<Props, State> {
       switch (action) {
         case 'PUSH': {
           this.setState(prevState => ({
-            navigationState: StateUtils.push(prevState.navigationState, nextRoute),
+            navigationState: StateUtils.push(
+              prevState.navigationState,
+              nextRoute,
+            ),
           }))
           break
         }
