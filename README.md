@@ -20,7 +20,7 @@
 * Cross-platform
 * First class deep linking support
 * Nested Navigators
-* Fully typed with [Flow](https://flow.org/)
+* [Fully-tested](https://facebook.github.io/jest/) & [strictly-typed[Flow](https://flow.org/)
 * [TypeScript support](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/23114)
 
 ## 📟  Demos
@@ -56,10 +56,10 @@ To learn how the library work, head to this introduction written by [@CharlesMan
 
 1. Fork this repository to your own GitHub account and then clone it to your local device
 2. Install dependencies using Yarn: `yarn run bootstrap`
-3. Ensure that the tests are passing using yarn test
+3. Ensure that the tests are passing using `yarn test`
 4. Send a pull request 🙌
 
-😘 Remember to add tests for your change if possible.
+Remember to add tests for your change if possible.
 ️
 ## 👋 Questions
 
