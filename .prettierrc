@@ -3,5 +3,6 @@
   "trailingComma": "all",
   "tabWidth": 2,
   "singleQuote": true,
-  "printWidth": 92
+  "printWidth": 80,
+  "parser": "flow"
 }
