@@ -1,7 +1,12 @@
 /* @flow */
 
 import * as React from 'react'
-import { matchPath, type RouterHistory, type Location, type Match } from 'react-router'
+import {
+  matchPath,
+  type RouterHistory,
+  type Location,
+  type Match,
+} from 'react-router'
 import type { Route, RouteProps } from './TypeDefinitions'
 
 type Props = Route &
@@ -29,9 +34,17 @@ class SceneView extends React.Component<Props, State> {
   }
 
   onHistoryChange = (location: Location) => {
-    const { path, exact, strict } = this.props
-    const match = matchPath(location.pathname, { path, exact, strict })
-    if (!this.state.match) {
+    const { routePath, path, exact, strict } = this.props
+    const { match: oldMatch } = this.state
+    const minimalRoute = { path: routePath || path, exact, strict }
+    const minimalMatch = matchPath(location.pathname, minimalRoute)
+    const route = { path, exact, strict }
+    const match = matchPath(location.pathname, route)
+    if (
+      match &&
+      minimalMatch &&
+      (!oldMatch || (oldMatch.url !== match.url && oldMatch.url.includes(minimalMatch.url)))
+    ) {
       this.setState({ match, location })
     } else {
       this.setState({ location })

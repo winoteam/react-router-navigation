@@ -15,6 +15,9 @@ describe('<SceneView />', () => {
     const history = createHistory({
       initialEntries: ['/1'],
     })
+    const SceneComponent = jest.fn(({ match }) => {
+      return componentFactory()({ match })
+    })
     const component = renderer.create(
       <Router history={history}>
         <Route>
@@ -23,11 +26,7 @@ describe('<SceneView />', () => {
               history={contextRouter.history}
               routeMatch={{ path: '/:id', url: '/1', params: { id: '1' } }}
               path="/:id"
-              render={({ match, location, history }) => {
-                expect(history.location.pathname).toBe('/1')
-                expect(location.pathname).toBe('/1')
-                return componentFactory()({ match })
-              }}
+              render={SceneComponent}
             />
           )}
         </Route>
@@ -35,6 +34,11 @@ describe('<SceneView />', () => {
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
+    expect(SceneComponent.mock.calls[0][0]).toMatchObject({
+      match: { url: '/1', params: { id: '1' } },
+      history: { location: { pathname: '/1' } },
+      location: { pathname: '/1' },
+    })
   })
 
   it('should re-render correctly on history change', async () => {
@@ -62,20 +66,20 @@ describe('<SceneView />', () => {
     expect(tree).toMatchSnapshot()
     history.push('/2')
     tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
     expect(SceneComponent.mock.calls[0][0]).toMatchObject({
-      match: { url: '/1' },
+      match: { url: '/1', params: { id: '1' } },
       location: { pathname: '/1' },
     })
     expect(SceneComponent.mock.calls[1][0]).toMatchObject({
-      match: { url: '/1' },
+      match: { url: '/1', params: { id: '1' } },
       location: { pathname: '/1' },
     })
     expect(SceneComponent.mock.calls[2][0]).toMatchObject({
-      match: { url: '/1' },
+      match: { url: '/1', params: { id: '1' } },
       location: { pathname: '/2' },
     })
     expect(SceneComponent.mock.calls).toHaveLength(3)
-    expect(tree).toMatchSnapshot()
   })
 
   it('should re-render correctly on history change with no default route match prop', async () => {
@@ -102,15 +106,77 @@ describe('<SceneView />', () => {
     expect(tree).toMatchSnapshot()
     history.push('/2')
     tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
     expect(SceneComponent.mock.calls[0][0]).toMatchObject({
       match: null,
       location: { pathname: '/1' },
     })
     expect(SceneComponent.mock.calls[1][0]).toMatchObject({
-      match: { url: '/2' },
+      match: { url: '/2', params: { id: '2' } },
       location: { pathname: '/2' },
     })
     expect(SceneComponent.mock.calls).toHaveLength(2)
+  })
+
+  it('should re-render correctly with routePath prop', () => {
+    const SceneComponent = jest.fn(({ match }) => {
+      return componentFactory()({ match })
+    })
+    const history = createHistory({ initialEntries: ['/1'] })
+    const component = renderer.create(
+      <Router history={history}>
+        <Route>
+          {contextRouter => (
+            <SceneView
+              history={contextRouter.history}
+              routeMatch={{ path: '/:id', url: '/1', params: { id: '1' } }}
+              path="/:id/:method(read|update)?"
+              routePath="/:id"
+              component={SceneComponent}
+            />
+          )}
+        </Route>
+      </Router>,
+    )
+    let tree = component.toJSON()
     expect(tree).toMatchSnapshot()
+    history.push('/1/read')
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    history.push('/1/read/bookmarks')
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    history.push('/2/read')
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    expect(SceneComponent.mock.calls[0][0]).toMatchObject({
+      match: { url: '/1', params: { id: '1' } },
+      location: { pathname: '/1' },
+    })
+    expect(SceneComponent.mock.calls[1][0]).toMatchObject({
+      match: { url: '/1', params: { id: '1' } },
+      location: { pathname: '/1' },
+    })
+    expect(SceneComponent.mock.calls[2][0]).toMatchObject({
+      match: { url: '/1/read', params: { id: '1', method: 'read' } },
+      location: { pathname: '/1/read' },
+    })
+    expect(SceneComponent.mock.calls[3][0]).toMatchObject({
+      match: { url: '/1/read', params: { id: '1', method: 'read' } },
+      location: { pathname: '/1/read' },
+    })
+    expect(SceneComponent.mock.calls[4][0]).toMatchObject({
+      match: { url: '/1/read', params: { id: '1', method: 'read' } },
+      location: { pathname: '/1/read/bookmarks' },
+    })
+    expect(SceneComponent.mock.calls[5][0]).toMatchObject({
+      match: { url: '/1/read', params: { id: '1', method: 'read' } },
+      location: { pathname: '/1/read/bookmarks' },
+    })
+    expect(SceneComponent.mock.calls[6][0]).toMatchObject({
+      match: { url: '/1/read', params: { id: '1', method: 'read' } },
+      location: { pathname: '/2/read' },
+    })
+    expect(SceneComponent.mock.calls).toHaveLength(7)
   })
 })
