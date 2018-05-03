@@ -6,7 +6,14 @@ import * as StackUtils from './../StackUtils'
 
 export const componentFactory = message => ({ match }) => {
   if (!match && !message) return null
-  return <Text>{(match && (match.params.id || match.params.slug)) || message}</Text>
+  return (
+    <Text>
+      {(match &&
+        Object.values(match.params).length > 0 &&
+        JSON.stringify(match.params)) ||
+        message}
+    </Text>
+  )
 }
 
 export const renderCardView = ({ navigationState, renderCard }) => {
