@@ -13,9 +13,9 @@ export type NavigationState<OwnRoute> = {
 }
 
 export type RouteProps = {
-  component?: React$ComponentType<ContextRouter>,
+  component?: React$ComponentType<ContextRouter, any>,
   render?: (router: ContextRouter) => React$Node,
-  children?: React$ComponentType<ContextRouter> | React$Node,
+  children?: React$ChildrenArray<any>,
   path?: string,
   exact?: boolean,
   strict?: boolean,
