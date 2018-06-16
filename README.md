@@ -20,7 +20,7 @@
 * Cross-platform
 * First class deep linking support
 * Nested Navigators
-* [Fully-tested](https://facebook.github.io/jest/) & [strictly-typed[Flow](https://flow.org/)
+* [Fully-tested](https://facebook.github.io/jest/) & [strictly-typed](https://flow.org/)
 * [TypeScript support](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/23114)
 
 ## 📟  Demos
