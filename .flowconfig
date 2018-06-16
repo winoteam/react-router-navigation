@@ -7,6 +7,7 @@
 
 ; Ignore unexpected extra "@providesModule"
 .*/node_modules/.*/node_modules/fbjs/.*
+.*/fbemitter/.*
 
 ; Ignore duplicate module providers
 ; For RN Apps installed via npm, "Libraries" folder is inside
@@ -18,6 +19,13 @@
 
 ; Ignore metro
 .*/node_modules/metro/.*
+
+; Ignore test files
+.*/tests/.*
+.*/__tests__/.*
+
+; Ignore xdl
+.*/node_modules/xdl/.*
 
 [include]
 
@@ -51,4 +59,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 [version]
-^0.65.0
+^0.67.0
