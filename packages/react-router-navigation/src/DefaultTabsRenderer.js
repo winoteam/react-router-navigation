@@ -3,8 +3,7 @@
 import * as React from 'react'
 import { StyleSheet } from 'react-native'
 import { type TabsRendererProps } from 'react-router-navigation-core'
-import { TabViewAnimated } from 'react-native-tab-view'
-import { type SceneRendererProps, type Scene } from 'react-native-tab-view/types'
+import { TabView, type SceneRendererProps, type Scene } from 'react-native-tab-view'
 import { type TabsProps, type TabRoute } from './TypeDefinitions'
 
 const styles = StyleSheet.create({
@@ -67,7 +66,7 @@ class DefaultTabsRenderer extends React.Component<Props> {
 
   render() {
     return (
-      <TabViewAnimated
+      <TabView
         {...this.props}
         style={[styles.container, this.props.style]}
         renderHeader={tabBarProps => this.renderTabBar('top', tabBarProps)}

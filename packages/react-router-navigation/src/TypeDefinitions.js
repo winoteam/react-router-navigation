@@ -4,7 +4,7 @@
 
 import { Animated } from 'react-native'
 import type { StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
-import type { SceneRendererProps, Scene } from 'react-native-tab-view/types'
+import type { SceneRendererProps, Scene } from 'react-native-tab-view'
 import type { TransitionConfigurator } from 'react-native-tab-view/src/TabViewTypeDefinitions'
 import type {
   RouteProps,
@@ -50,7 +50,9 @@ export type NavigationScene = {
   route: Route,
 }
 
-export type NavigationHeaderProps = NavigationTransitionProps & { router: NavigationRouter }
+export type NavigationHeaderProps = NavigationTransitionProps & {
+  router: NavigationRouter,
+}
 
 export type CardProps = RouteProps &
   NavBarProps<NavigationProps & CardsRendererProps & NavigationHeaderProps>

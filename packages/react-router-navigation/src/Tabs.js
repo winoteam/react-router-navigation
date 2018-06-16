@@ -3,8 +3,11 @@
 import * as React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { Route } from 'react-router'
-import { TabBar } from 'react-native-tab-view'
-import type { SceneRendererProps, Scene } from 'react-native-tab-view/types'
+import {
+  TabBar,
+  type SceneRendererProps,
+  type Scene,
+} from 'react-native-tab-view'
 import { TabStack, type TabsRendererProps } from 'react-router-navigation-core'
 import DefaultTabsRenderer from './DefaultTabsRenderer'
 import type { TabsProps, TabRoute } from './TypeDefinitions'

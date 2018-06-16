@@ -1,18 +1,18 @@
 /* @flow */
 
 import * as React from 'react'
-import { Route as ReactRoute } from 'react-router'
-import { SceneView, type Route } from 'react-router-navigation-core'
+import { Route } from 'react-router'
+import { SceneView } from 'react-router-navigation-core'
 import { type CardProps } from './TypeDefinitions'
 
-type Props = CardProps & Route
+type Props = CardProps
 
 const Tab = (props: Props) => (
-  <ReactRoute>
+  <Route>
     {({ history }) => {
       return <SceneView {...props} history={history} />
     }}
-  </ReactRoute>
+  </Route>
 )
 
 export default Tab

@@ -4,8 +4,11 @@ import * as React from 'react'
 import { StyleSheet, Platform, Text } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import { type TabsRendererProps } from 'react-router-navigation-core'
-import { TabBar } from 'react-native-tab-view'
-import { type SceneRendererProps, type Scene } from 'react-native-tab-view/types'
+import {
+  TabBar,
+  type SceneRendererProps,
+  type Scene,
+} from 'react-native-tab-view'
 import { type TabsProps, type TabRoute } from './TypeDefinitions'
 
 const TAB_HEIGHT = Platform.OS === 'ios' ? 49 : 56
@@ -107,7 +110,9 @@ class TabBarBottom extends React.Component<Props> {
     return (
       <SafeAreaView
         forceInset={{ bottom: 'always', top: 'never' }}
-        style={{ backgroundColor: flattenStyle && flattenStyle.backgroundColor }}
+        style={{
+          backgroundColor: flattenStyle && flattenStyle.backgroundColor,
+        }}
       >
         <TabBar
           layout={props.layout}

@@ -4,8 +4,11 @@ import * as React from 'react'
 import { Dimensions } from 'react-native'
 import { Route } from 'react-router'
 import { TabStack, type TabsRendererProps } from 'react-router-navigation-core'
-import { TabViewPagerPan } from 'react-native-tab-view'
-import { type SceneRendererProps, type Scene } from 'react-native-tab-view/types'
+import {
+  TabViewPagerPan,
+  type SceneRendererProps,
+  type Scene,
+} from 'react-native-tab-view'
 import { type TabsProps, type TabRoute } from './TypeDefinitions'
 import DefaultTabsRenderer from './DefaultTabsRenderer'
 import TabBarBottom from './TabBarBottom'
@@ -23,7 +26,13 @@ class BottomNavigation extends React.Component<Props> {
   }
 
   renderPager = (pagerProps: *) => {
-    return <TabViewPagerPan {...pagerProps} animationEnabled={false} swipeEnabled={false} />
+    return (
+      <TabViewPagerPan
+        {...pagerProps}
+        animationEnabled={false}
+        swipeEnabled={false}
+      />
+    )
   }
 
   renderTabBar = (
