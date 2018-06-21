@@ -20,11 +20,14 @@ const StateUtils = {
     if (buildFrom === 'stack') {
       return stack.reduce(
         (state, item) => {
-          const entry = historyEntries.find(({ pathname }) => matchPath(pathname, item))
+          const entry = historyEntries
+            .reverse()
+            .find(({ pathname }) => matchPath(pathname, item))
           const match = entry ? matchPath(entry.pathname, item) : null
           const route = RouteUtils.create(item, match && entry)
           if (!route) return state
-          const isCurrentLocation = entry && entry.pathname === location.pathname
+          const isCurrentLocation =
+            entry && entry.pathname === location.pathname
           return {
             index: isCurrentLocation ? state.routes.length : state.index,
             routes: [...state.routes, route],
@@ -35,18 +38,18 @@ const StateUtils = {
     }
     return historyEntries.reduce(
       (state, entry) => {
-        const item = stack.find(({ path, exact, strict }) => {
-          return matchPath(entry.pathname, {
-            path,
-            exact,
-            strict,
-          })
+        const item = stack.find(route => {
+          const routePath = route.routePath || route.path
+          return matchPath(entry.pathname, { path: routePath, ...route })
         })
         if (!item || !item.path) return state
         const route = RouteUtils.create(item, entry)
         if (!route) return state
+        const itemPath = item.routePath || item.path
         return {
-          index: matchPath(location.pathname, item) ? state.routes.length : state.index,
+          index: matchPath(location.pathname, { ...item, path: itemPath })
+            ? state.routes.length
+            : state.index,
           routes: [...state.routes, route],
         }
       },
@@ -98,7 +101,7 @@ const StateUtils = {
       return { ...state, index: arg }
     }
     const index = state.routes.findIndex(
-    // $FlowFixMe
+      // $FlowFixMe
       route => route.routeName === arg.routeName,
     )
     const routes = [

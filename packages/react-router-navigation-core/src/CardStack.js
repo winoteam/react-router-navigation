@@ -18,7 +18,7 @@ import type {
 type Props = {
   history: RouterHistory,
   children: Array<React$Node>,
-  render: (props: CardsRendererProps) => React$Element<*>,
+  render: (props: CardsRendererProps) => React$Node,
 }
 
 type State = {|

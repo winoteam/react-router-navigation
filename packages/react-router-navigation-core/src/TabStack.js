@@ -19,7 +19,7 @@ import type {
 type Props = {
   history: RouterHistory,
   children: Array<React$Node>,
-  render: (props: TabsRendererProps<>) => React.Element<any>,
+  render: (props: TabsRendererProps<>) => React$Node,
   lazy?: boolean,
   enableHistoryNodes?: boolean,
   onReset?: () => void,

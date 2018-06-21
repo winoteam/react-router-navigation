@@ -43,7 +43,8 @@ class SceneView extends React.Component<Props, State> {
     if (
       match &&
       minimalMatch &&
-      (!oldMatch || (oldMatch.url !== match.url && oldMatch.url.includes(minimalMatch.url)))
+      (!oldMatch ||
+        (oldMatch.url !== match.url && oldMatch.url.includes(minimalMatch.url)))
     ) {
       this.setState({ match, location })
     } else {

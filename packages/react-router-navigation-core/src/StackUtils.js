@@ -6,16 +6,15 @@ import shallowEqual from 'fbjs/lib/shallowEqual'
 import type { RouteProps } from './TypeDefinitions'
 
 const StackUtils = {
-  create: (children: ?Array<React$Node>, props: *) => {
-    return React.Children.toArray(children).reduce((stack, child) => {
-      return [
-        ...stack,
-        { ...props, ...child.props },
-      ]
+  create: (stackChildren: ?Array<React$Node>, props: any) => {
+    // eslint-disable-next-line
+    const { history, children, render, ...rest } = props
+    return React.Children.toArray(stackChildren).reduce((stack, child) => {
+      return [...stack, { ...rest, ...child.props }]
     }, [])
   },
 
-  shallowEqual: (oldStack: Array<*>, newStack: Array<*>): boolean => {
+  shallowEqual: (oldStack: Array<any>, newStack: Array<any>): boolean => {
     return oldStack.every((oldItem, index) => {
       return shallowEqual(oldItem, newStack[index])
     })
