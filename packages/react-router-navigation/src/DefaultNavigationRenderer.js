@@ -1,5 +1,3 @@
-/* @flow */
-
 import * as React from 'react'
 import { NativeModules } from 'react-native'
 import {
@@ -11,43 +9,22 @@ import {
 } from 'react-navigation'
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator'
 import TransitionConfigs from 'react-navigation/src/views/CardStack/TransitionConfigs'
-import type { CardsRendererProps } from 'react-router-navigation-core'
-import type {
-  NavigationProps,
-  NavBarProps,
-  NavigationHeaderProps,
-  NavigationRouter,
-  NavigationTransitionProps,
-} from './TypeDefinitions'
 
 const NativeAnimatedModule = NativeModules && NativeModules.NativeAnimatedModule
 
-type Props = NavigationProps &
-  CardsRendererProps & {
-    renderHeader: (
-      NavBarProps<CardsRendererProps & NavigationHeaderProps> &
-        CardsRendererProps &
-        NavigationHeaderProps,
-    ) => ?React$Element<any>,
-  }
-
-type State = {
-  router: NavigationRouter,
-}
-
-class DefaultNavigationRenderer extends React.Component<Props, State> {
-  constructor(props: Props) {
+class DefaultNavigationRenderer extends React.Component {
+  constructor(props) {
     super(props)
     this.state = { router: this.getRouter(props) }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.cards !== nextProps.cards) {
       this.setState({ router: this.getRouter(nextProps) })
     }
   }
 
-  getRouter = (props: Props): NavigationRouter => {
+  getRouter = props => {
     const { renderHeader, cards } = props
     const routeConfigMap = cards.reduce((acc, card) => {
       return {
@@ -77,10 +54,7 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
     return renderCard(route)
   }
 
-  configureTransition = (
-    transitionProps: NavigationTransitionProps,
-    prevTransitionProps: NavigationTransitionProps,
-  ) => {
+  configureTransition = (transitionProps, prevTransitionProps) => {
     const isModal = this.props.mode === 'modal'
     const transitionSpec = {
       ...TransitionConfigs.getTransitionConfig(
@@ -90,19 +64,21 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
         isModal,
       ).transitionSpec,
     }
-    if (!!NativeAnimatedModule && CardStackStyleInterpolator.canUseNativeDriver()) {
+    if (
+      !!NativeAnimatedModule &&
+      CardStackStyleInterpolator.canUseNativeDriver()
+    ) {
       transitionSpec.useNativeDriver = true
     }
     return transitionSpec
   }
 
-  renderStack = (
-    props: Props & NavigationTransitionProps,
-    prevProps: Props & NavigationTransitionProps,
-  ) => {
+  renderStack = (props, prevProps) => {
     const { cards } = this.props
     const { router } = this.state
-    const { scene: { route } } = props
+    const {
+      scene: { route },
+    } = props
     const cardStackProps = cards.find(card => card.path === route.routeName)
     const {
       screenProps,
@@ -131,7 +107,11 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
     const { cards, navigationState, onNavigateBack } = this.props
     const route = navigationState.routes[navigationState.index]
     const transitionerProps = cards.find(card => card.path === route.routeName)
-    const { configureTransition, onTransitionStart, onTransitionEnd } = transitionerProps
+    const {
+      configureTransition,
+      onTransitionStart,
+      onTransitionEnd,
+    } = transitionerProps
     return (
       <Transitioner
         render={this.renderStack}

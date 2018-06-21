@@ -1,29 +1,19 @@
-/* @flow */
-
 import * as React from 'react'
 import { Platform } from 'react-native'
 import { Route } from 'react-router'
-import { CardStack, type CardsRendererProps } from 'react-router-navigation-core'
-import type { NavigationProps, NavBarProps, NavigationHeaderProps } from './TypeDefinitions'
+import { CardStack } from 'react-router-navigation-core'
 import DefaultNavigationRenderer from './DefaultNavigationRenderer'
 import NavBar from './NavBar'
 
-type Props = NavigationProps & {
-  children?: React$Node,
-}
-
-class Navigation extends React.Component<Props> {
+class Navigation extends React.Component {
   static defaultProps = {
-    headerTransitionPreset: Platform.OS === 'android' ? 'fade-in-place' : 'uikit',
+    headerTransitionPreset:
+      Platform.OS === 'android' ? 'fade-in-place' : 'uikit',
   }
 
-  renderHeader = (
-    headerProps: NavBarProps<CardsRendererProps & NavigationHeaderProps> &
-      CardsRendererProps &
-      NavigationHeaderProps,
-  ) => {
-    const { cards, scene: { route } } = headerProps
-    const activeCard = cards.find(card => card.path === route.routeName)
+  renderHeader = headerProps => {
+    const { cards, scene } = headerProps
+    const activeCard = cards.find(card => card.path === scene.route.routeName)
     const navBarProps = { ...headerProps, ...activeCard }
     if (navBarProps.hideNavBar) return null
     if (navBarProps.renderNavBar) {

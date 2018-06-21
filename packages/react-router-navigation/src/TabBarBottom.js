@@ -1,15 +1,7 @@
-/* @flow */
-
 import * as React from 'react'
 import { StyleSheet, Platform, Text } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
-import { type TabsRendererProps } from 'react-router-navigation-core'
-import {
-  TabBar,
-  type SceneRendererProps,
-  type Scene,
-} from 'react-native-tab-view'
-import { type TabsProps, type TabRoute } from './TypeDefinitions'
+import { TabBar } from 'react-native-tab-view'
 
 const TAB_HEIGHT = Platform.OS === 'ios' ? 49 : 56
 
@@ -46,13 +38,7 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = TabsRendererProps &
-  TabsProps &
-  SceneRendererProps<TabRoute> & {
-    onTabPress: (scene: Scene<TabRoute>) => void,
-  }
-
-class TabBarBottom extends React.Component<Props> {
+class TabBarBottom extends React.Component {
   static defaultProps = {
     tabTintColor: '#929292',
     tabActiveTintColor: '#3478f6',
@@ -62,7 +48,7 @@ class TabBarBottom extends React.Component<Props> {
     return null
   }
 
-  renderLabel = (scene: Scene<TabRoute>) => {
+  renderLabel = scene => {
     const { tabs } = this.props
     const { route } = scene
     const activeTab = tabs.find(tab => tab.path === route.routeName)
@@ -84,7 +70,7 @@ class TabBarBottom extends React.Component<Props> {
     )
   }
 
-  renderIcon = (scene: Scene<TabRoute>) => {
+  renderIcon = scene => {
     const { tabs } = this.props
     const { route } = scene
     const activeTab = tabs.find(tab => tab.path === route.routeName)
@@ -93,7 +79,7 @@ class TabBarBottom extends React.Component<Props> {
     return iconProps.renderTabIcon(iconProps)
   }
 
-  shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps) {
     const { index } = this.props.navigationState
     const { index: nextIndex } = nextProps.navigationState
     return index !== nextIndex

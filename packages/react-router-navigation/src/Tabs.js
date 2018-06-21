@@ -1,16 +1,9 @@
-/* @flow */
-
 import * as React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { Route } from 'react-router'
-import {
-  TabBar,
-  type SceneRendererProps,
-  type Scene,
-} from 'react-native-tab-view'
-import { TabStack, type TabsRendererProps } from 'react-router-navigation-core'
+import { TabBar } from 'react-native-tab-view'
+import { TabStack } from 'react-router-navigation-core'
 import DefaultTabsRenderer from './DefaultTabsRenderer'
-import type { TabsProps, TabRoute } from './TypeDefinitions'
 
 const styles = StyleSheet.create({
   tabLabel: {
@@ -20,14 +13,8 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = TabsProps & {
-  children?: React$Node,
-}
-
-type TabBarProps = TabsRendererProps & TabsProps & SceneRendererProps<TabRoute>
-
-class Tabs extends React.Component<Props> {
-  renderTabBar = (tabBarProps: TabBarProps) => {
+class Tabs extends React.Component {
+  renderTabBar = tabBarProps => {
     const renderTabBar = tabBarProps.renderTabBar || this.props.renderTabBar
     if (tabBarProps.hideTabBar) return null
     if (renderTabBar) {
@@ -44,7 +31,7 @@ class Tabs extends React.Component<Props> {
     )
   }
 
-  renderTabLabel = (tabLabelProps: TabBarProps, scene: Scene<TabRoute>) => {
+  renderTabLabel = (tabLabelProps, scene) => {
     const { tabs } = tabLabelProps
     const { route, focused } = scene
     const activeTab = tabs.find(tab => tab.path === route.routeName)

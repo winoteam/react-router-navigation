@@ -1,27 +1,8 @@
-/* @flow */
-
 import * as React from 'react'
 import { Header, HeaderTitle, HeaderBackButton } from 'react-navigation'
-import type { CardsRendererProps, Route } from 'react-router-navigation-core'
-import type {
-  NavBarProps,
-  Card,
-  NavigationHeaderProps,
-  NavigationScene,
-} from './TypeDefinitions'
 
-type Props = NavBarProps<CardsRendererProps & NavigationHeaderProps> &
-  CardsRendererProps &
-  NavigationHeaderProps
-
-type SceneProps = Props &
-  Card &
-  Route & {
-    scene: NavigationScene,
-  }
-
-class NavBar extends React.Component<Props> {
-  renderLeftComponent = (sceneProps: SceneProps) => {
+class NavBar extends React.Component {
+  renderLeftComponent = sceneProps => {
     const { scenes, cards } = sceneProps
     if (sceneProps.renderLeftButton) {
       return sceneProps.renderLeftButton(sceneProps)
@@ -46,14 +27,18 @@ class NavBar extends React.Component<Props> {
     )
   }
 
-  renderTitleComponent = (sceneProps: SceneProps) => {
+  renderTitleComponent = sceneProps => {
     if (sceneProps.renderTitle) {
       return sceneProps.renderTitle(sceneProps)
     }
-    return <HeaderTitle style={sceneProps.titleStyle}>{sceneProps.title}</HeaderTitle>
+    return (
+      <HeaderTitle style={sceneProps.titleStyle}>
+        {sceneProps.title}
+      </HeaderTitle>
+    )
   }
 
-  renderRightComponent = (sceneProps: SceneProps) => {
+  renderRightComponent = sceneProps => {
     if (sceneProps.renderRightButton) {
       return sceneProps.renderRightButton(sceneProps)
     }
@@ -65,9 +50,16 @@ class NavBar extends React.Component<Props> {
       <Header
         {...this.props}
         getScreenDetails={scene => {
-          const { route: { routeName } } = scene
-          const activeCard = this.props.cards.find(card => card.path === routeName)
-          const sceneProps = { ...this.props, ...activeCard, ...scene.route, scene }
+          const { route } = scene
+          const activeCard = this.props.cards.find(card => {
+            return card.path === route.routeName
+          })
+          const sceneProps = {
+            ...this.props,
+            ...activeCard,
+            ...scene.route,
+            scene,
+          }
           return {
             options: {
               headerStyle: sceneProps.navBarStyle,

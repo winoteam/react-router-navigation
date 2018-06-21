@@ -1,10 +1,6 @@
-/* @flow */
-
 import * as React from 'react'
 import { StyleSheet } from 'react-native'
-import { type TabsRendererProps } from 'react-router-navigation-core'
-import { TabView, type SceneRendererProps, type Scene } from 'react-native-tab-view'
-import { type TabsProps, type TabRoute } from './TypeDefinitions'
+import { TabView } from 'react-native-tab-view'
 
 const styles = StyleSheet.create({
   container: {
@@ -12,25 +8,12 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = TabsProps &
-  TabsRendererProps & {
-    renderTabBar: (
-      tabBar: TabsProps &
-        TabsRendererProps &
-        SceneRendererProps<TabRoute> & {
-          onTabPress: (scene: Scene<TabRoute>) => void,
-        },
-    ) => ?React$Element<*>,
-  }
-
-type SceneProps = SceneRendererProps<TabRoute>
-
-class DefaultTabsRenderer extends React.Component<Props> {
+class DefaultTabsRenderer extends React.Component {
   static defaultProps = {
     tabBarPosition: 'top',
   }
 
-  renderTabBar = (position: 'top' | 'bottom', sceneProps: SceneProps) => {
+  renderTabBar = (position, sceneProps) => {
     const { tabs, renderTabBar, tabBarPosition } = this.props
     if (!renderTabBar) return null
     const { navigationState } = sceneProps
@@ -51,13 +34,13 @@ class DefaultTabsRenderer extends React.Component<Props> {
     })
   }
 
-  renderScene = (sceneProps: SceneProps & Scene<TabRoute>) => {
+  renderScene = sceneProps => {
     const { renderTab } = this.props
     const { route } = sceneProps
     return renderTab(route)
   }
 
-  onTabPress = (scene: Scene<TabRoute>) => {
+  onTabPress = scene => {
     const { onIndexChange } = this.props
     if (scene.focused) {
       onIndexChange(scene.index)
