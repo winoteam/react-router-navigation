@@ -30,7 +30,10 @@ const App = () => (
           </Link>
         )}
       />
-      <Card path="/hello" render={() => <Text>Hello</Text>} />
+      <Card
+        path="/hello"
+        render={() => <Text>Hello</Text>}
+      />
     </Navigation>
   </NativeRouter>
 )
