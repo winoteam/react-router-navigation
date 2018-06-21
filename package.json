@@ -29,7 +29,7 @@
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.4.0",
     "flow-bin": "0.67.1",
-    "jest": "22.4.2",
+    "jest": "23.1.0",
     "prettier": "^1.13.5",
     "pretty-quick": "^1.6.0",
     "trash-cli": "^1.4.0"

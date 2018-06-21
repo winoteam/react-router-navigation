@@ -3,17 +3,21 @@
   "version": "1.0.0-rc.6",
   "license": "MIT",
   "main": "src/index.js",
-  "scripts": {
-    "test": "node_modules/.bin/jest --config=jest.json --coverage"
-  },
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
   },
-  "keywords": ["react-native", "ios", "android", "router", "navigation", "navigator"],
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "router",
+    "navigation",
+    "navigator"
+  ],
   "dependencies": {
-    "fbjs": "0.8.16",
+    "fbjs": "0.8.17",
     "invariant": "^2.2.4"
   },
   "peerDependencies": {
@@ -23,11 +27,19 @@
   },
   "devDependencies": {
     "history": "4.7.2",
-    "jest": "22.4.2",
+    "jest": "23.1.0",
     "react": "16.3.1",
     "react-native": "0.55.4",
     "react-router": "4.2.0",
     "react-router-native": "4.2.0",
     "react-test-renderer": "16.3.1"
+  },
+  "jest": {
+    "preset": "react-native",
+    "testRegex": "react-router-navigation-core/.*/__tests__/.*-spec.js$",
+    "rootDir": "./../../",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-navigation)"
+    ]
   }
 }
