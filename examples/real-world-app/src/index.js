@@ -3,7 +3,11 @@
 import * as React from 'react'
 import { StyleSheet, StatusBar, View } from 'react-native'
 import { Switch, Route, Redirect } from 'react-router'
-import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux'
+import {
+  ConnectedRouter,
+  routerReducer,
+  routerMiddleware,
+} from 'react-router-redux'
 import createHistory from 'history/createMemoryHistory'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers, applyMiddleware } from 'redux'

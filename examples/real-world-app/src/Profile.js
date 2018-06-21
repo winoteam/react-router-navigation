@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import { Link } from 'react-router-native'
 import { Tabs, Tab } from 'react-router-navigation'
-import { TabBar } from 'react-native-tab-view'
+import { TabBar, type SceneRendererProps } from 'react-native-tab-view'
 import { SafeAreaView } from 'react-navigation'
 import { NEUTRAL_COLOR_50, BRAND_COLOR_50 } from './theme'
 
@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
     backgroundColor: BRAND_COLOR_50,
   },
   tabBar: {
-    paddingTop: Platform.OS === 'ios' && Dimensions.get('window').height !== 812 ? 10 : 0,
+    paddingTop:
+      Platform.OS === 'ios' && Dimensions.get('window').height !== 812 ? 10 : 0,
     backgroundColor: BRAND_COLOR_50,
   },
   indicatorStyle: {
@@ -61,14 +62,14 @@ const styles = StyleSheet.create({
 
 type Props = {}
 
-type State = {
+type State = {|
   tabsLength: number,
-}
+|}
 
-class Profile extends React.Component<Props, State> {
+class Profile<T> extends React.Component<Props, State> {
   state = { tabsLength: 2 }
 
-  renderTabBar = (tabBarProps: *) => {
+  renderTabBar = (tabBarProps: SceneRendererProps<T>) => {
     return (
       <SafeAreaView
         forceInset={{ bottom: 'never', top: 'always' }}
@@ -80,6 +81,7 @@ class Profile extends React.Component<Props, State> {
   }
 
   renderTabLikes = () => {
+    const { tabsLength } = this.state
     return (
       <View style={styles.scene}>
         <Text>
@@ -94,7 +96,10 @@ class Profile extends React.Component<Props, State> {
           <Text style={styles.span}>Go to bookmarks</Text>
         </Link>
         {tabsLength === 2 && (
-          <TouchableOpacity style={styles.link} onPress={this.handleToggleSettingsTab}>
+          <TouchableOpacity
+            style={styles.link}
+            onPress={this.handleToggleSettingsTab}
+          >
             <Text style={styles.span}>Add settings tab</Text>
           </TouchableOpacity>
         )}
@@ -113,16 +118,25 @@ class Profile extends React.Component<Props, State> {
   }
 
   renderTabBookmarks = () => {
+    const { tabsLength } = this.state
     return (
       <View style={styles.scene}>
         <Text>
           Current: <Text style={styles.strong}>bookmarks</Text>
         </Text>
-        <Link style={styles.link} replace component={TouchableOpacity} to="/profile/likes">
+        <Link
+          style={styles.link}
+          replace
+          component={TouchableOpacity}
+          to="/profile/likes"
+        >
           <Text style={styles.span}>Go to likes</Text>
         </Link>
         {tabsLength === 2 && (
-          <TouchableOpacity style={styles.link} onPress={this.handleToggleSettingsTab}>
+          <TouchableOpacity
+            style={styles.link}
+            onPress={this.handleToggleSettingsTab}
+          >
             <Text style={styles.span}>Add settings tab</Text>
           </TouchableOpacity>
         )}
@@ -146,7 +160,12 @@ class Profile extends React.Component<Props, State> {
         <Text>
           Current: <Text style={styles.strong}>settings</Text>
         </Text>
-        <Link style={styles.link} replace component={TouchableOpacity} to="/profile/likes">
+        <Link
+          style={styles.link}
+          replace
+          component={TouchableOpacity}
+          to="/profile/likes"
+        >
           <Text style={styles.span}>Go to likes</Text>
         </Link>
         <Link
@@ -180,9 +199,17 @@ class Profile extends React.Component<Props, State> {
         renderTabBar={this.renderTabBar}
       >
         <Tab path="/profile/likes" label="Likes" render={this.renderTabLikes} />
-        <Tab path="/profile/bookmarks" label="Bookmarks" render={this.renderTabBookmarks} />
+        <Tab
+          path="/profile/bookmarks"
+          label="Bookmarks"
+          render={this.renderTabBookmarks}
+        />
         {tabsLength === 3 && (
-          <Tab path="/profile/settings" label="Settings" render={this.renderTabSettings} />
+          <Tab
+            path="/profile/settings"
+            label="Settings"
+            render={this.renderTabSettings}
+          />
         )}
       </Tabs>
     )

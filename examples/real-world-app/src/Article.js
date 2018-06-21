@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import type { Match, Location } from 'react-router'
+import type { ContextRouter } from 'react-router'
 import { Link } from 'react-router-native'
 import { BRAND_COLOR_50, BRAND_COLOR_60 } from './theme'
 
@@ -30,22 +30,25 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = {
-  match: Match,
-  location: Location,
-}
+type Props = ContextRouter
 
-type State = {
+type State = {|
   time: 0,
-}
+|}
 
 class Article extends React.Component<Props, State> {
+  timer: ?IntervalID = null
+
   state = { time: 0 }
 
   componentDidMount() {
     this.timer = setInterval(() => {
-      if (this.props.match && this.props.match.url === this.props.location.pathname) {
+      if (
+        this.props.match &&
+        this.props.match.url === this.props.location.pathname
+      ) {
         this.setState(prevState => ({
+          // $FlowFixMe
           time: prevState.time + 250,
         }))
       }
@@ -53,35 +56,40 @@ class Article extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer)
+    if (this.timer) clearInterval(this.timer)
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
     return this.state.time !== nextState.time
   }
 
   render() {
     const { history, match } = this.props
+    const params = match && match.params
+    if (!params || !params.id) return null
     return (
       <View style={styles.scene}>
-        <Text style={styles.strong}>Focus time: {this.state.time / 1000}s</Text>
+        <Text style={styles.strong}>
+          {params.method === 'update' ? 'Updating' : 'Reading'} time:{' '}
+          {this.state.time / 1000}s
+        </Text>
         <Link
           style={styles.link}
           component={TouchableOpacity}
-          to={`/feed/article/${parseInt(match.params.id, 10) + 1}`}
+          to={`/feed/article/${parseInt(params.id, 10) + 1}`}
         >
           <Text style={styles.span}>
-            Push to article {parseInt(match.params.id, 10) + 1} (n + 1)
+            Push to article {parseInt(params.id, 10) + 1} (n + 1)
           </Text>
         </Link>
         <Link
           style={styles.link}
           component={TouchableOpacity}
-          to={`/feed/article/${parseInt(match.params.id, 10) + 1}`}
+          to={`/feed/article/${parseInt(params.id, 10) + 1}`}
           replace
         >
           <Text style={styles.span}>
-            Replace to article {parseInt(match.params.id, 10) + 1} (n + 1)
+            Replace to article {parseInt(params.id, 10) + 1} (n + 1)
           </Text>
         </Link>
         <TouchableOpacity style={styles.link} onPress={() => history.goBack()}>

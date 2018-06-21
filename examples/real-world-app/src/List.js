@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { StyleSheet, PixelRatio, ListView, View, Text } from 'react-native'
 import { Link } from 'react-router-native'
-import type { Match } from 'react-router'
+import type { ContextRouter } from 'react-router'
 
 const styles = StyleSheet.create({
   container: {
@@ -21,15 +21,15 @@ const styles = StyleSheet.create({
   },
 })
 
-type Props = {
-  match: Match,
-}
+type Props = ContextRouter
 
 type State = {|
   dataSource: Object,
 |}
 
 class List extends React.Component<Props, State> {
+  listView: ?List = null
+
   constructor(props: Props) {
     super(props)
     const ds = new ListView.DataSource({
@@ -42,25 +42,25 @@ class List extends React.Component<Props, State> {
     }
   }
 
-  scrollTo = (options: Object) => {
+  scrollTo = (options: { x?: number, y?: number, animated?: boolean }) => {
     if (this.listView) this.listView.scrollTo(options)
   }
 
-  renderRow = rowData => {
-    const { match: { url } } = this.props
+  renderRow = (rowData: string) => {
+    const { match } = this.props
+    if (!match || !match.params) return null
     return (
-      <Link to={`${url}/article/${rowData.slice(9)}`}>
+      <Link to={`${match.url}/article/${rowData.slice(9)}`}>
         <Text style={styles.row}>{rowData}</Text>
       </Link>
     )
   }
 
-  renderSeparator = (sectionIndex, rowIndex) => {
+  renderSeparator = (sectionIndex: number, rowIndex: number) => {
     return <View key={`${sectionIndex}-${rowIndex}`} style={styles.separator} />
   }
 
   render() {
-    const { match: { url } } = this.props
     return (
       <ListView
         ref={c => {

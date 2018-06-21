@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Platform, Image } from 'react-native'
 import { BottomNavigation, Tab } from 'react-router-navigation'
-import type { RouterHistory } from 'react-router'
+import type { RouterHistory, ContextRouter } from 'react-router'
 import Feed from './Feed'
 import Profile from './Profile'
 import { NEUTRAL_COLOR_50, BRAND_COLOR_60 } from './theme'
@@ -12,8 +12,8 @@ type Props = {
   history: RouterHistory,
 }
 
-class App extends React.Component<Props> {
-  feed = null
+class App<T> extends React.Component<Props> {
+  feed: ?Feed = null
 
   onReset = () => {
     if (this.feed && this.feed.listView) {
@@ -24,15 +24,20 @@ class App extends React.Component<Props> {
   renderFeed = (contextRouter: ContextRouter) => {
     return (
       <Feed
-        {...contextRouter}
-        ref={c => {
-          this.feed = c
-        }}
+        ref={c => (this.feed = c)}
+        history={contextRouter.history}
+        location={contextRouter.location}
+        match={contextRouter.match}
       />
     )
   }
 
-  renderTabIcon = (tabIconProps: { focused: boolean }) => {
+  renderTabIcon = (tabIconProps: {
+    tabActiveTintColor: string,
+    tabTintColor: string,
+    focused: boolean,
+    route: { routeName: string },
+  }) => {
     const { route, focused, tabActiveTintColor, tabTintColor } = tabIconProps
     switch (route.routeName) {
       case '/feed':
@@ -71,7 +76,10 @@ class App extends React.Component<Props> {
   render() {
     const { history } = this.props
     return (
-      <BottomNavigation tabTintColor={NEUTRAL_COLOR_50} tabActiveTintColor={BRAND_COLOR_60}>
+      <BottomNavigation
+        tabTintColor={NEUTRAL_COLOR_50}
+        tabActiveTintColor={BRAND_COLOR_60}
+      >
         <Tab
           path="/feed"
           render={this.renderFeed}
@@ -82,7 +90,7 @@ class App extends React.Component<Props> {
         <Tab
           path="/profile/(likes|bookmarks|settings)"
           component={Profile}
-          onIndexChange={() => history.replace('/profile/likes')}
+          onRequestChangeTab={() => history.replace('/profile/likes')}
           onReset={() => history.replace('/profile/likes')}
           label="Profile"
           renderTabIcon={this.renderTabIcon}
