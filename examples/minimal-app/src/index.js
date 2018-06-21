@@ -1,5 +1,11 @@
-import React, { Component } from 'react'
-import { StatusBar, StyleSheet, View, TouchableOpacity, Text } from 'react-native'
+import * as React from 'react'
+import {
+  StatusBar,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+} from 'react-native'
 import { Switch, Route, Redirect } from 'react-router'
 import { NativeRouter, Link } from 'react-router-native'
 import { Navigation, Card, Tabs, Tab } from 'react-router-navigation'
@@ -38,7 +44,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class App extends Component {
+class App extends React.Component {
   state = {
     navigation: {},
     card: {},
@@ -121,7 +127,11 @@ class App extends Component {
     const { location, match } = contextRouter
     return (
       <Switch location={location}>
-        <Route exact path={match.url} render={() => <Redirect to={`${match.url}/one`} />} />
+        <Route
+          exact
+          path={match.url}
+          render={() => <Redirect to={`${match.url}/one`} />}
+        />
         <Route
           render={() => (
             <Tabs

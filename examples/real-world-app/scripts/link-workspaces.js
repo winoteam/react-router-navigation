@@ -1,1 +1,1 @@
-require('crna-make-symlinks-for-yarn-workspaces')(__dirname)
+require('crna-make-symlinks-for-yarn-workspaces')(`${__dirname}/../`)

@@ -1,5 +1,3 @@
-/* @flow */
-
 import App from './src/'
 import Expo from 'expo'
 import React from 'react'

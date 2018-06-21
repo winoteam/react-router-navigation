@@ -15,6 +15,7 @@
     "history": "4.7.2",
     "react": "16.3.1",
     "react-native": "0.55.4",
+    "path-to-regexp": "2.2.1",
     "react-navigation": "1.5.8",
     "react-redux": "5.0.6",
     "react-router": "4.2.0",
@@ -24,6 +25,6 @@
     "redux": "3.7.2"
   },
   "devDependencies": {
-    "react-native-scripts": "1.11.1"
+    "react-native-scripts": "1.14.0"
   }
 }
