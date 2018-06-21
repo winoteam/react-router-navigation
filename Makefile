@@ -1,12 +1,12 @@
 MAKEFLAGS = -j1
 
 format:
-	node_modules/.bin/prettier --write "**/*.{js,json,css,md}"
+	node_modules/.bin/prettier --write "**/*.js"
 
 test:
-	node_modules/.bin/flow --show-all-errors
 	node_modules/.bin/eslint .
-	lerna run test
+	node_modules/.bin/flow --show-all-errors
+	node_modules/.bin/jest --projects packages/**
 
 clean:
 	trash yarn.lock

@@ -7,7 +7,13 @@
 
 ; Ignore unexpected extra "@providesModule"
 .*/node_modules/.*/node_modules/fbjs/.*
+.*/node_modules/.*/node_modules/warning/.*
+.*/packages/.*/node_modules/fbjs/.*
+
+; Ignore misc packages
+<PROJECT_ROOT>/node_modules/react-native-tab-view/.*
 .*/fbemitter/.*
+.*/expo/.*
 
 ; Ignore duplicate module providers
 ; For RN Apps installed via npm, "Libraries" folder is inside
