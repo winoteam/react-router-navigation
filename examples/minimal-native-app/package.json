@@ -1,5 +1,5 @@
 {
-  "name": "minimal-app",
+  "name": "minimal-native-app",
   "version": "0.1.0",
   "private": true,
   "main": "index.js",
@@ -16,7 +16,7 @@
     "react-native": "0.55.4",
     "react-router": "4.2.0",
     "react-router-native": "4.2.0",
-    "react-router-navigation": "1.0.0-rc.6"
+    "react-router-navigation": "2.0.0-alpha.1"
   },
   "devDependencies": {
     "crna-make-symlinks-for-yarn-workspaces": "^1.0.1",

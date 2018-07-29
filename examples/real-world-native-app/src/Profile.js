@@ -162,7 +162,7 @@ class Profile<T> extends React.Component<Props, State> {
         </Text>
         <Link
           style={styles.link}
-          replace
+          replace={true}
           component={TouchableOpacity}
           to="/profile/likes"
         >
@@ -170,7 +170,7 @@ class Profile<T> extends React.Component<Props, State> {
         </Link>
         <Link
           style={styles.link}
-          replace
+          replace={true}
           component={TouchableOpacity}
           to="/profile/bookmarks"
         >

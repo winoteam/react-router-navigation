@@ -1,5 +1,5 @@
 {
-  "name": "real-world-app",
+  "name": "real-world-native-app",
   "version": "0.1.0",
   "private": true,
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
@@ -20,7 +20,7 @@
     "react-redux": "5.0.6",
     "react-router": "4.2.0",
     "react-router-native": "4.2.0",
-    "react-router-navigation": "1.0.0-rc.6",
+    "react-router-navigation": "2.0.0-alpha.1",
     "react-router-redux": "5.0.0-alpha.9",
     "redux": "3.7.2"
   },

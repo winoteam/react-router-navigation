@@ -86,7 +86,7 @@ class Article extends React.Component<Props, State> {
           style={styles.link}
           component={TouchableOpacity}
           to={`/feed/article/${parseInt(params.id, 10) + 1}`}
-          replace
+          replace={true}
         >
           <Text style={styles.span}>
             Replace to article {parseInt(params.id, 10) + 1} (n + 1)
