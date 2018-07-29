@@ -64,3 +64,4 @@ npm-debug.*
 package-lock.json
 coverage
 lerna-debug.log
+lib
