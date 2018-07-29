@@ -16,7 +16,7 @@ const HistoryUtils = {
     })
   },
 
-  persistNodes: (
+  regenerate: (
     history: RouterHistory,
     historyNode: HistoryNode,
     historyRootIndex: HistoryRootIndex,
@@ -24,7 +24,7 @@ const HistoryUtils = {
     return false
   },
 
-  saveNodes: (oldHistoryNodes: HistoryNodes): HistoryNodes => {
+  save: (oldHistoryNodes: HistoryNodes): HistoryNodes => {
     return oldHistoryNodes
   },
 }

@@ -1,5 +1,3 @@
-/* @noflow */
-
 import * as React from 'react'
 import { Text } from 'react-native'
 import { Router, Route } from 'react-router'

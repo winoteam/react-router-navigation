@@ -132,7 +132,7 @@ exports[`<CardStack /> should re-render correctly when "replace" action is calle
 </Text>
 `;
 
-exports[`<CardStack /> should render correctly with basic history 1`] = `
+exports[`<CardStack /> should render correctly 1`] = `
 <Text>
   Index
 </Text>

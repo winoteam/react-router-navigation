@@ -35,7 +35,7 @@ export type CardsRendererProps = {
   renderCard: (route: Route) => React$Node,
   onNavigateBack: () => boolean,
   navigationState: NavigationState<>,
-  cards: Array<Card>,
+  cards: Card[],
 }
 
 export type Tab = RouteProps & {
@@ -47,11 +47,16 @@ export type TabsRendererProps<TabRoute = {}> = {
   renderTab: (route: Route) => React$Node,
   onIndexChange: (index: number) => void,
   navigationState: NavigationState<TabRoute>,
-  tabs: Array<Tab>,
+  tabs: Tab[],
 }
 
-export type HistoryNode = Array<Location>
+export type HistoryNode = Location[]
 
 export type HistoryNodes = { [routeName: string]: HistoryNode }
 
 export type HistoryRootIndex = number
+
+export type BackHandler = {
+  addEventListener: (name: string, callback: Function) => void,
+  removeEventListener: (name: string, callback: Function) => void,
+}

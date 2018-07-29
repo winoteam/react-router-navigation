@@ -1,9 +1,15 @@
 {
   "name": "react-router-navigation-core",
-  "version": "1.0.0-rc.6",
+  "version": "2.0.0-alpha.1",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
+  "scripts": {
+    "build": "yarn build:cjs && yarn build:flow",
+    "build:watch": "babel -d ./lib ./src/ --ignore __tests__ --watch",
+    "build:cjs": "babel -d ./lib ./src/ --ignore __tests__",
+    "build:flow": "for file in $(find ./src -name '*.js' -not -path '*/__tests__*'); do cp \"$file\" `echo \"$file\" | sed 's/\\/src\\//\\/lib\\//g'`.flow; done"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
@@ -27,7 +33,7 @@
   },
   "devDependencies": {
     "history": "4.7.2",
-    "jest": "23.1.0",
+    "jest": "^23.4.2",
     "react": "16.3.1",
     "react-native": "0.55.4",
     "react-router": "4.2.0",
@@ -36,7 +42,7 @@
   },
   "jest": {
     "preset": "react-native",
-    "testRegex": "react-router-navigation-core/.*/__tests__/.*-spec.js$",
+    "testRegex": "react-router-navigation-core/.*/__tests__/.*.spec.js$",
     "rootDir": "./../../",
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-navigation)"

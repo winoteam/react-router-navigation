@@ -1,7 +1,6 @@
 /* @flow */
 
 import * as React from 'react'
-import { BackHandler } from 'react-native'
 import { matchPath, type RouterHistory } from 'react-router'
 import invariant from 'invariant'
 import HistoryUtils from './HistoryUtils'
@@ -13,16 +12,18 @@ import type {
   CardsRendererProps,
   NavigationState,
   Card,
+  BackHandler,
 } from './TypeDefinitions'
 
 type Props = {
   history: RouterHistory,
-  children: Array<React$Node>,
+  children: React$Node[],
+  backHandler: BackHandler,
   render: (props: CardsRendererProps) => React$Node,
 }
 
 type State = {|
-  cards: Array<Card>,
+  cards: Card[],
   navigationState: NavigationState<>,
 |}
 
@@ -32,17 +33,22 @@ class CardStack extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     const { children, history } = props
-    const { entries, location } = history
+    invariant(
+      history,
+      'The prop `history` is marked as required in `CardStack`, but its value is `undefined`. in CardStack',
+    )
     invariant(
       children || React.Children.count(children) > 0,
       'A <CardStack /> must have child elements',
     )
+    const { location } = history
+    const entries = history.entries || [location]
     const cards = StackUtils.create(children, props)
     const navigationState = StateUtils.initialize(
       cards,
       location,
       entries,
-      'entries',
+      'history',
     )
     invariant(
       navigationState.index !== -1,
@@ -53,14 +59,15 @@ class CardStack extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const { history } = this.props
+    const { history, backHandler } = this.props
     this.unlistenHistory = HistoryUtils.listen(history, this.onHistoryChange)
-    BackHandler.addEventListener('hardwareBackPress', this.onNavigateBack)
+    backHandler.addEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
   componentWillUnmount() {
+    const { backHandler } = this.props
     if (this.unlistenHistory) this.unlistenHistory()
-    BackHandler.removeEventListener('hardwareBackPress', this.onNavigateBack)
+    backHandler.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -68,12 +75,13 @@ class CardStack extends React.Component<Props, State> {
     const { cards } = this.state
     const nextCards = StackUtils.create(nextChildren, nextProps)
     if (nextCards && !StackUtils.shallowEqual(cards, nextCards)) {
-      const { location, entries } = history
+      const { location } = history
+      const entries = history.entries || [location]
       const nextNavigationState = StateUtils.initialize(
         nextCards,
         location,
         entries,
-        'entries',
+        'history',
       )
       invariant(
         nextNavigationState.index !== -1,

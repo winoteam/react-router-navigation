@@ -1,5 +1,3 @@
-/* @noflow */
-
 import { createMemoryHistory } from 'history'
 import HistoryUtils from './../HistoryUtils'
 
@@ -58,15 +56,15 @@ describe('HistoryUtils', () => {
     })
   })
 
-  describe('persistNodes', () => {
+  describe('regenerate', () => {
     it('should return false', () => {
-      expect(HistoryUtils.persistNodes()).toBe(false)
+      expect(HistoryUtils.regenerate()).toBe(false)
     })
   })
 
-  describe('saveNodes', () => {
+  describe('save', () => {
     it('should return array of nodes', () => {
-      expect(Array.isArray(HistoryUtils.saveNodes([]))).toBe(true)
+      expect(Array.isArray(HistoryUtils.save([]))).toBe(true)
     })
   })
 })

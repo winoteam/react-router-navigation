@@ -1,5 +1,3 @@
-/* @noflow */
-
 jest.mock('View', () => {
   const RealComponent = require.requireActual('View')
   const React = require('react')

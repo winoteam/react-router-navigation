@@ -6,7 +6,7 @@ import shallowEqual from 'fbjs/lib/shallowEqual'
 import type { RouteProps } from './TypeDefinitions'
 
 const StackUtils = {
-  create: (stackChildren: ?Array<React$Node>, props: any) => {
+  create: (stackChildren: React$Node[], props: any) => {
     // eslint-disable-next-line
     const { history, children, render, ...rest } = props
     return React.Children.toArray(stackChildren).reduce((stack, child) => {
@@ -14,17 +14,17 @@ const StackUtils = {
     }, [])
   },
 
-  shallowEqual: (oldStack: Array<any>, newStack: Array<any>): boolean => {
+  shallowEqual: (oldStack: any[], newStack: any[]): boolean => {
     return oldStack.every((oldItem, index) => {
       return shallowEqual(oldItem, newStack[index])
     })
   },
 
   getHistoryEntries: (
-    stack: Array<RouteProps>,
-    entries: Array<Location>,
+    stack: RouteProps[],
+    entries: Location[],
     location: Location,
-  ): Array<Location> => {
+  ): Location[] => {
     const startHistoryIndex = entries.reduce((acc, entry, index) => {
       if (stack.find(item => matchPath(entry.pathname, item))) {
         if (acc === -1) return index

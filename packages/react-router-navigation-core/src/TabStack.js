@@ -18,15 +18,14 @@ import type {
 
 type Props = {
   history: RouterHistory,
-  children: Array<React$Node>,
+  children: React$Node[],
   render: (props: TabsRendererProps<>) => React$Node,
   lazy?: boolean,
-  enableHistoryNodes?: boolean,
   onReset?: () => void,
 }
 
 type State = {|
-  tabs: Array<Tab>,
+  tabs: Tab[],
   navigationState: NavigationState<>,
   historyRootIndex: HistoryRootIndex,
   historyNodes: HistoryNodes,
@@ -35,24 +34,25 @@ type State = {|
 class TabStack extends React.Component<Props, State> {
   unlistenHistory: ?Function = null
 
-  static defaultProps = {
-    enableHistoryNodes: false,
-  }
-
   constructor(props: Props) {
     super(props)
     const { children, history } = props
-    const { entries, index, location } = history
+    invariant(
+      history,
+      'The prop `history` is marked as required in `TabStack`, but its value is `undefined`. in TabStack',
+    )
     invariant(
       children || React.Children.count(children) > 0,
       'A <TabStack /> must have child elements',
     )
+    const { index, location } = history
+    const entries = history.entries || [location]
     const tabs = children && StackUtils.create(children, props)
     const navigationState = StateUtils.initialize(
       tabs,
       location,
       entries,
-      'stack',
+      'nodes',
     )
     invariant(
       navigationState.index !== -1,
@@ -61,6 +61,7 @@ class TabStack extends React.Component<Props, State> {
     )
     const initialRoute = navigationState.routes[navigationState.index]
     const historyRootIndex = index
+    // const historyNodes = { [initialRoute.routeName]: entries.slice(index) }
     const historyNodes = { [initialRoute.routeName]: entries.slice(index) }
     this.state = { tabs, navigationState, historyRootIndex, historyNodes }
   }
@@ -77,7 +78,8 @@ class TabStack extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     const { tabs } = this.state
     const { children: nextChildren, history } = nextProps
-    const { location, entries } = history
+    const { location } = history
+    const entries = history.entries || [location]
     const nextTabs = StackUtils.create(nextChildren, nextProps)
     const nextTab = nextTabs.find(tab => matchPath(location.pathname, tab))
     const nextRoute = nextTab && RouteUtils.create(nextTab, location)
@@ -86,7 +88,7 @@ class TabStack extends React.Component<Props, State> {
         nextTabs,
         location,
         entries,
-        'stack',
+        'nodes',
       )
       invariant(
         nextNavigationState.index !== -1,
@@ -103,7 +105,7 @@ class TabStack extends React.Component<Props, State> {
     const currentRoute = navigationState.routes[navigationState.index]
     const nextTab = tabs.find(tab => matchPath(location.pathname, tab))
     const nextRoute = nextTab ? RouteUtils.create(nextTab, location) : null
-    const newHistoryNodes = HistoryUtils.saveNodes(historyNodes)
+    const newHistoryNodes = HistoryUtils.save(historyNodes)
     if (nextRoute && !RouteUtils.equal(currentRoute, nextRoute)) {
       this.setState(prevState => ({
         historyNodes: newHistoryNodes,
@@ -119,9 +121,10 @@ class TabStack extends React.Component<Props, State> {
     }
   }
 
-  onIndexChange = (index: number) => {
-    const { enableHistoryNodes, history } = this.props
+  onIndexChange = (arg: number | Route) => {
+    const { history } = this.props
     const { tabs, navigationState, historyNodes, historyRootIndex } = this.state
+    const index = StateUtils.getRouteIndex(navigationState, arg)
     const nextRoute = navigationState.routes[index]
     const nextTab = tabs.find(tab => tab.path === nextRoute.routeName)
     if (index !== navigationState.index) {
@@ -130,13 +133,11 @@ class TabStack extends React.Component<Props, State> {
           navigationState: StateUtils.changeIndex(navigationState, index),
         },
         () => {
-          if (enableHistoryNodes) {
-            HistoryUtils.persistNodes(
-              this.props.history,
-              historyNodes[nextRoute.routeName],
-              historyRootIndex,
-            )
-          }
+          HistoryUtils.regenerate(
+            this.props.history,
+            historyNodes[nextRoute.routeName],
+            historyRootIndex,
+          )
           if (nextTab && nextTab.onRequestChangeTab) {
             nextTab.onRequestChangeTab()
           } else if (!historyNodes[nextRoute.routeName]) {

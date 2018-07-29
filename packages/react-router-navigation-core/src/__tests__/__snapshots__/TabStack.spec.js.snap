@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TabStack /> should re render correctly when new tabs are provided 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should re render correctly when new tabs are provided 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "go" action is called 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "go" action is called 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "goBack" action is called 1`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "goBack" action is called 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 2`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 3`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 4`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "push" action is called 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "push" action is called 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "replace" action is called 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "replace" action is called 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "replace" action is called with routePath prop 1`] = `
+<Text>
+  {"language":"en"}
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "replace" action is called with routePath prop 2`] = `
+<Text>
+  {"language":"fr"}
+</Text>
+`;
+
+exports[`<TabStack /> should render correctly 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should render correctly with initialIndex and initialEntries props  1`] = `
+<Text>
+  Hello
+</Text>
+`;

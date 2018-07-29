@@ -7,18 +7,18 @@ import type { NavigationState, RouteProps, Route } from './TypeDefinitions'
 
 const StateUtils = {
   initialize(
-    stack: Array<RouteProps>,
+    nodes: RouteProps[],
     location: Location,
-    entries: Array<Location>,
-    buildFrom: 'entries' | 'stack',
+    entries: Location[],
+    buildFrom: 'history' | 'nodes',
   ): NavigationState<> {
     const historyEntries = StackUtils.getHistoryEntries(
-      stack,
+      nodes,
       entries,
       location,
     )
-    if (buildFrom === 'stack') {
-      return stack.reduce(
+    if (buildFrom === 'nodes') {
+      return nodes.reduce(
         (state, item) => {
           const entry = historyEntries
             .reverse()
@@ -29,16 +29,16 @@ const StateUtils = {
           const isCurrentLocation =
             entry && entry.pathname === location.pathname
           return {
-            index: isCurrentLocation ? state.routes.length : state.index,
             routes: [...state.routes, route],
+            index: isCurrentLocation ? state.routes.length : state.index,
           }
         },
-        { index: -1, routes: [] },
+        { routes: [], index: -1 },
       )
     }
     return historyEntries.reduce(
       (state, entry) => {
-        const item = stack.find(route => {
+        const item = nodes.find(route => {
           const routePath = route.routePath || route.path
           return matchPath(entry.pathname, { path: routePath, ...route })
         })
@@ -47,14 +47,23 @@ const StateUtils = {
         if (!route) return state
         const itemPath = item.routePath || item.path
         return {
+          routes: [...state.routes, route],
           index: matchPath(location.pathname, { ...item, path: itemPath })
             ? state.routes.length
             : state.index,
-          routes: [...state.routes, route],
         }
       },
-      { index: -1, routes: [] },
+      { routes: [], index: -1 },
     )
+  },
+
+  getRouteIndex(state: NavigationState<>, arg: number | Route) {
+    if (typeof arg === 'number') {
+      if (state.routes[arg]) return arg
+      return -1
+    }
+    // $FlowFixMe
+    return state.routes.findIndex(route => route.routeName === arg.routeName)
   },
 
   push(state: NavigationState<>, route: Route): NavigationState<> {
@@ -67,8 +76,8 @@ const StateUtils = {
   },
 
   pop(state: NavigationState<>, n: number = 1): NavigationState<> {
-    if (state.index <= 0) return state
-    const newRoutes = state.routes.slice(0, -n)
+    if (n <= 0) return state
+    const newRoutes = state.routes.slice(0, Math.max(state.index + 1 - n, 1))
     return {
       ...state,
       index: newRoutes.length - 1,
@@ -81,7 +90,7 @@ const StateUtils = {
     index: number,
     route: Route,
   ): NavigationState<> {
-    if (state.routes[index] === route || index > state.routes.length) {
+    if (state.routes[index] === route || index > state.routes.length - 1) {
       return state
     }
     const newRoutes = [
@@ -97,18 +106,20 @@ const StateUtils = {
   },
 
   changeIndex(state: NavigationState<>, arg: number | Route) {
-    if (typeof arg === 'number') {
-      return { ...state, index: arg }
-    }
-    const index = state.routes.findIndex(
-      // $FlowFixMe
-      route => route.routeName === arg.routeName,
-    )
-    const routes = [
-      ...state.routes.slice(0, index),
-      arg,
-      ...state.routes.slice(index + 1),
-    ]
+    const index =
+      typeof arg === 'number'
+        ? arg
+        : // $FlowFixMe
+          state.routes.findIndex(route => route.routeName === arg.routeName)
+    if (index === -1 || index > state.routes.length - 1) return state
+    const routes =
+      typeof arg === 'number'
+        ? state.routes
+        : [
+            ...state.routes.slice(0, index),
+            arg,
+            ...state.routes.slice(index + 1),
+          ]
     return { ...state, routes, index }
   },
 }

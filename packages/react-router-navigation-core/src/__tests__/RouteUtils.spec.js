@@ -1,5 +1,3 @@
-/* @noflow */
-
 import { createLocation } from 'history'
 import RouteUtils from './../RouteUtils'
 

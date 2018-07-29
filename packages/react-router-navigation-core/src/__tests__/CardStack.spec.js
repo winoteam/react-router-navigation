@@ -1,7 +1,5 @@
-/* @noflow */
-
 import * as React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, BackHandler } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
@@ -16,7 +14,7 @@ describe('<CardStack />', () => {
   const GoodbyeComponent = componentFactory('Goodbye')
   const ArticleComponent = componentFactory()
 
-  it('should render correctly with basic history', () => {
+  it('should render correctly', () => {
     const history = createHistory()
     const CardViewComponent = jest.fn(props => {
       return renderCardView(props)
@@ -28,6 +26,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route exact path="/" component={IndexComponent} />
               <Route path="/hello" component={HelloComponent} />
@@ -88,6 +87,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route exact path="/" component={IndexComponent} />
               <Route path="/hello" component={HelloComponent} />
@@ -139,6 +139,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route exact path="/" component={IndexComponent} />
               <Route path="/hello" component={HelloComponent} />
@@ -209,6 +210,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route path="/article/:id" component={ArticleComponent} />
             </CardStack>
@@ -279,6 +281,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route exact path="/" component={IndexComponent} />
               <Route path="/hello" component={HelloComponent} />
@@ -350,6 +353,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route path="/article/:id" component={ArticleComponent} />
             </CardStack>
@@ -420,6 +424,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route exact path="/" component={IndexComponent} />
               <Route path="/hello" component={HelloComponent} />
@@ -502,6 +507,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route path="/article/:id" component={ArticleComponent} />
             </CardStack>
@@ -582,6 +588,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route exact path="/" component={IndexComponent} />
               <Route path="/hello" component={HelloComponent} />
@@ -664,6 +671,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route path="/article/:id" component={ArticleComponent} />
             </CardStack>
@@ -743,6 +751,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route
                 path="/article/:id/:method(read|update)?"
@@ -809,6 +818,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route exact path="/" component={IndexComponent} />
               <Route path="/hello" component={HelloComponent} />
@@ -878,6 +888,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route exact path="/" component={IndexComponent} />
               <Route path="/hello" component={HelloComponent} />
@@ -895,6 +906,7 @@ describe('<CardStack />', () => {
             <CardStack
               history={contextRouter.history}
               render={CardViewComponent}
+              backHandler={BackHandler}
             >
               <Route exact path="/" component={HelloComponent} />
             </CardStack>
