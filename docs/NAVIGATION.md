@@ -52,3 +52,4 @@ const App = () => (
 
 * [`... <Route />` props](https://reacttraining.com/react-router/native/api/Route)
 * [`... <Navigation />` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navigation--props)
+* **routePath** `?string` any valid URL path 

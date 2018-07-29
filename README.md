@@ -17,15 +17,16 @@
 * URL Driven Development
 * Easy-to-use navigation solution using `react-navigation`
 * Tab Bar Support using `react-native-tab-view`
-* Cross-platform
+* Cross-platform (iOS, Android and Web)
 * First class deep linking support
 * Nested Navigators
 * [Fully-tested](https://facebook.github.io/jest/) & [strictly-typed](https://flow.org/)
 * [TypeScript support](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/23114)
 
 ## 📟  Demos
-* [Minimal app](examples/minimal-app)
-* [Real world app](examples/real-world-app)
+* [Minimal native app](examples/minimal-native-app)
+* [Real world native app](examples/real-world-native-app)
+* [Experimental web app](examples/experimental-web-app)
 
 ## 💻  How to use
 
@@ -45,10 +46,10 @@ To learn how the library work, head to this introduction written by [@CharlesMan
 
 ## 📖 Docs
 
-* [`<Navigation />`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md) handles the transition between different scenes in your app.
-* [`<Tabs />`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/TABS.md) make it easy to explore and switch between different views.
-* [`<BottomNavigation />`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md) make it easy to explore and switch between top-level views in a single tap.
-* And some [performance tips](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/PERFORMANCE.md)
+* [`<Navigation />`](docs/NAVIGATION.md) handles the transition between different scenes in your app.
+* [`<Tabs />`](docs/TABS.md) make it easy to explore and switch between different views.
+* [`<BottomNavigation />`](docs/BOTTOM_NAVIGATION.md) make it easy to explore and switch between top-level views in a single tap.
+* And some [performance tips](docs/PERFORMANCE.md)
 
 ## 🕺 Contribute
 

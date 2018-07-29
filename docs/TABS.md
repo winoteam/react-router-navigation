@@ -43,11 +43,13 @@ const App = () => (
 
 * [`... TabBar props` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **style** `?StyleSheet` override or extend the default style for `<View />` container
+* **initialLayout** optional object containing the initial `height` and `width`, can be passed to prevent the one frame delay in rendering
 * **lazy** `?boolean` whether to load tabs lazily when you start switching
-* **configureTransition** `:?Function` callback which returns a configuration for the transition, return null to disable animation
 
 #### `<Tab />` props
 
 * [`... <Route />` props](https://reacttraining.com/react-router/native/api/Route)
 * [`... TabBar props` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+* **routePath** `?string` any valid URL path 
 * **onReset** `?Function` callback which resets the current tab
+* **onRequestChangeTab** `?Function` callback which update history
