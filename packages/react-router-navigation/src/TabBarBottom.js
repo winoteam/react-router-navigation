@@ -2,6 +2,7 @@ import * as React from 'react'
 import { StyleSheet, Platform, Text } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import { TabBar } from 'react-native-tab-view'
+import { TabBarPropTypes } from './PropTypes'
 
 const TAB_HEIGHT = Platform.OS === 'ios' ? 49 : 56
 
@@ -39,6 +40,8 @@ const styles = StyleSheet.create({
 })
 
 class TabBarBottom extends React.Component {
+  static propTypes = TabBarPropTypes
+
   static defaultProps = {
     tabTintColor: '#929292',
     tabActiveTintColor: '#3478f6',

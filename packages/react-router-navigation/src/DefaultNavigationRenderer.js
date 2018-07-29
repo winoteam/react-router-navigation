@@ -9,10 +9,13 @@ import {
 } from 'react-navigation'
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator'
 import TransitionConfigs from 'react-navigation/src/views/CardStack/TransitionConfigs'
+import { DefaultNavigationRendererPropTypes } from './PropTypes'
 
 const NativeAnimatedModule = NativeModules && NativeModules.NativeAnimatedModule
 
 class DefaultNavigationRenderer extends React.Component {
+  static propTypes = DefaultNavigationRendererPropTypes
+
   constructor(props) {
     super(props)
     this.state = { router: this.getRouter(props) }

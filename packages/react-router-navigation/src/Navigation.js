@@ -1,11 +1,14 @@
 import * as React from 'react'
-import { Platform } from 'react-native'
+import { Platform, BackHandler } from 'react-native'
 import { Route } from 'react-router'
 import { CardStack } from 'react-router-navigation-core'
 import DefaultNavigationRenderer from './DefaultNavigationRenderer'
 import NavBar from './NavBar'
+import { NavigationPropTypes } from './PropTypes'
 
 class Navigation extends React.Component {
+  static propTypes = NavigationPropTypes
+
   static defaultProps = {
     headerTransitionPreset:
       Platform.OS === 'android' ? 'fade-in-place' : 'uikit',
@@ -28,6 +31,7 @@ class Navigation extends React.Component {
         {({ history }) => (
           <CardStack
             {...this.props}
+            backHandler={BackHandler}
             history={history}
             render={cardsRendererProps => (
               <DefaultNavigationRenderer

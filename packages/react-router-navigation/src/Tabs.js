@@ -4,6 +4,7 @@ import { Route } from 'react-router'
 import { TabBar } from 'react-native-tab-view'
 import { TabStack } from 'react-router-navigation-core'
 import DefaultTabsRenderer from './DefaultTabsRenderer'
+import { TabsPropTypes } from './PropTypes'
 
 const styles = StyleSheet.create({
   tabLabel: {
@@ -14,6 +15,8 @@ const styles = StyleSheet.create({
 })
 
 class Tabs extends React.Component {
+  static propTypes = TabsPropTypes
+
   renderTabBar = tabBarProps => {
     const renderTabBar = tabBarProps.renderTabBar || this.props.renderTabBar
     if (tabBarProps.hideTabBar) return null

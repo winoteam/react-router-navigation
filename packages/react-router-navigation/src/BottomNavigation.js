@@ -5,13 +5,14 @@ import { TabStack } from 'react-router-navigation-core'
 import { TabViewPagerPan } from 'react-native-tab-view'
 import DefaultTabsRenderer from './DefaultTabsRenderer'
 import TabBarBottom from './TabBarBottom'
+import { BottomNavigationPropTypes } from './PropTypes'
 
 class BottomNavigation extends React.Component {
+  static propTypes = BottomNavigationPropTypes
+
   static defaultProps = {
     lazy: true,
-    tabBarPosition: 'bottom',
     initialLayout: Dimensions.get('window'),
-    animationEnabled: false,
   }
 
   renderPager = pagerProps => {
@@ -41,8 +42,10 @@ class BottomNavigation extends React.Component {
             history={history}
             render={tabsRendererProps => (
               <DefaultTabsRenderer
+                animationEnabled={false}
                 renderPager={this.renderPager}
                 renderTabBar={this.renderTabBar}
+                tabBarPosition="bottom"
                 {...this.props}
                 {...tabsRendererProps}
               />
