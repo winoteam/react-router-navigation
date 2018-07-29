@@ -1,9 +1,7 @@
 /* @jest-environment jsdom */
-process.env.JEST_PUPPETEER_CONFIG = 'nop.js'
-process.env.JEST_PUPPETEER_CONFIG = 'all'
+
 describe('Experimental web app', () => {
   beforeAll(async () => {
-    process.env.JEST_PUPPETEER_CONFIG = 'bb'
     jest.setTimeout(25000)
   })
 
