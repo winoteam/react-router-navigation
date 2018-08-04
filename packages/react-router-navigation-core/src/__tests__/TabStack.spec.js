@@ -570,6 +570,8 @@ describe('<TabStack />', () => {
   it('should re-render correctly when "onIndexChange" action is called with index arg', () => {
     let onIndexChange
     const history = createHistory()
+    const historySpy = jest.fn()
+    history.listen(historySpy)
     const TabViewComponent = jest.fn(props => {
       onIndexChange = props.onIndexChange
       return renderTabView(props)
@@ -592,7 +594,7 @@ describe('<TabStack />', () => {
     onIndexChange(2)
     tree = component.toJSON()
     expect(tree).toMatchSnapshot()
-    expect(TabViewComponent.mock.calls).toHaveLength(3)
+    expect(TabViewComponent.mock.calls).toHaveLength(2)
     expect(TabViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 0,
       routes: [
@@ -633,23 +635,95 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: null,
+          name: '/hello',
+          match: null,
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          name: '/goodbye',
+          match: {
+            url: '/goodbye',
+            isExact: true,
+            path: '/goodbye',
+            params: {},
+          },
         },
       ],
     })
-    expect(TabViewComponent.mock.calls[2][0].navigationState).toMatchObject({
+    expect(historySpy.mock.calls).toHaveLength(1)
+    expect(historySpy.mock.calls).toMatchObject([
+      [
+        {
+          pathname: '/goodbye',
+          search: '',
+          hash: '',
+          state: undefined,
+        },
+        'REPLACE',
+      ],
+    ])
+  })
+
+  it('should re-render correctly when "onIndexChange" action is called with route arg', () => {
+    let onIndexChange
+    const history = createHistory()
+    const historySpy = jest.fn()
+    history.listen(historySpy)
+    const TabViewComponent = jest.fn(props => {
+      onIndexChange = props.onIndexChange
+      return renderTabView(props)
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <Route>
+          {contextRouter => (
+            <TabStack history={contextRouter.history} render={TabViewComponent}>
+              <Route exact path="/" component={IndexComponent} />
+              <Route path="/hello" component={HelloComponent} />
+              <Route path="/goodbye" component={GoodbyeComponent} />
+            </TabStack>
+          )}
+        </Route>
+      </Router>,
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    onIndexChange({ name: '/goodbye' })
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    expect(TabViewComponent.mock.calls).toHaveLength(2)
+    expect(TabViewComponent.mock.calls[0][0].navigationState).toMatchObject({
+      index: 0,
+      routes: [
+        {
+          key: '/',
+          name: '/',
+          match: {
+            url: '/',
+            isExact: true,
+            path: '/',
+            params: {},
+          },
+        },
+        {
+          key: '/hello',
+          name: '/hello',
+          match: null,
+        },
+        {
+          key: '/goodbye',
+          name: '/goodbye',
+          match: null,
+        },
+      ],
+    })
+    expect(TabViewComponent.mock.calls[1][0].navigationState).toMatchObject({
       index: 2,
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -673,11 +747,25 @@ describe('<TabStack />', () => {
         },
       ],
     })
+    expect(historySpy.mock.calls).toHaveLength(1)
+    expect(historySpy.mock.calls).toMatchObject([
+      [
+        {
+          pathname: '/goodbye',
+          search: '',
+          hash: '',
+          state: undefined,
+        },
+        'REPLACE',
+      ],
+    ])
   })
 
-  it('should re-render correctly when "onIndexChange" action is called with index arg', () => {
+  it('should re-render correctly when "onIndexChange" action is called with index arg and initialPath prop', () => {
     let onIndexChange
     const history = createHistory()
+    const historySpy = jest.fn()
+    history.listen(historySpy)
     const TabViewComponent = jest.fn(props => {
       onIndexChange = props.onIndexChange
       return renderTabView(props)
@@ -689,7 +777,11 @@ describe('<TabStack />', () => {
             <TabStack history={contextRouter.history} render={TabViewComponent}>
               <Route exact path="/" component={IndexComponent} />
               <Route path="/hello" component={HelloComponent} />
-              <Route path="/goodbye" component={GoodbyeComponent} />
+              <Route
+                path="/:name"
+                initialPath="/goodbye"
+                component={GoodbyeComponent}
+              />
             </TabStack>
           )}
         </Route>
@@ -697,17 +789,17 @@ describe('<TabStack />', () => {
     )
     let tree = component.toJSON()
     expect(tree).toMatchSnapshot()
-    onIndexChange({ routeName: '/goodbye' })
+    onIndexChange(2)
     tree = component.toJSON()
     expect(tree).toMatchSnapshot()
-    expect(TabViewComponent.mock.calls).toHaveLength(3)
+    expect(TabViewComponent.mock.calls).toHaveLength(2)
     expect(TabViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 0,
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -865,8 +957,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -875,13 +967,172 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: null,
+          name: '/hello',
+          match: null,
+        },
+        {
+          key: '/:name/:extra?',
+          name: '/:name/:extra?',
+          match: {
+            url: '/goodbye/first',
+            isExact: true,
+            path: '/:name/:extra?',
+            params: { name: 'goodbye', extra: 'first' },
+          },
+        },
+      ],
+    })
+    expect(TabViewComponent.mock.calls[3][0].navigationState).toMatchObject({
+      index: 2,
+      routes: [
+        {
+          key: '/',
+          name: '/',
+          match: {
+            url: '/',
+            isExact: true,
+            path: '/',
+            params: {},
+          },
+        },
+        {
+          key: '/hello',
+          name: '/hello',
+          match: null,
+        },
+        {
+          key: '/:name/:extra?',
+          name: '/:name/:extra?',
+          match: {
+            url: '/goodbye/second',
+            isExact: true,
+            path: '/:name/:extra?',
+            params: { name: 'goodbye', extra: 'second' },
+          },
+        },
+      ],
+    })
+    expect(TabViewComponent.mock.calls[4][0].navigationState).toMatchObject({
+      index: 2,
+      routes: [
+        {
+          key: '/',
+          name: '/',
+          match: {
+            url: '/',
+            isExact: true,
+            path: '/',
+            params: {},
+          },
+        },
+        {
+          key: '/hello',
+          name: '/hello',
+          match: null,
+        },
+        {
+          key: '/:name/:extra?',
+          name: '/:name/:extra?',
+          match: {
+            url: '/goodbye',
+            isExact: true,
+            path: '/:name/:extra?',
+            params: { name: 'goodbye' },
+          },
+        },
+      ],
+    })
+    expect(historySpy.mock.calls).toHaveLength(4)
+    expect(historySpy.mock.calls).toMatchObject([
+      [
+        {
+          pathname: '/goodbye',
+          search: '',
+          hash: '',
+          state: undefined,
+        },
+        'REPLACE',
+      ],
+      [
+        {
+          pathname: '/goodbye/first',
+          search: '',
+          hash: '',
+          state: undefined,
+        },
+        'PUSH',
+      ],
+      [
+        {
+          pathname: '/goodbye/second',
+          search: '',
+          hash: '',
+          state: undefined,
+        },
+        'PUSH',
+      ],
+      [
+        {
+          hash: '',
+          pathname: '/goodbye',
+          search: '',
+          state: undefined,
+        },
+        'POP',
+      ],
+    ])
+  })
+
+  it('should reset tab by calling onReset prop function', () => {
+    let onIndexChange
+    const history = createHistory({ initialEntries: ['/goodbye'] })
+    const historySpy = jest.fn()
+    const resetSpy = jest.fn()
+    history.listen(historySpy)
+    const TabViewComponent = jest.fn(props => {
+      onIndexChange = props.onIndexChange
+      return renderTabView(props)
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <Route>
+          {contextRouter => (
+            <TabStack history={contextRouter.history} render={TabViewComponent}>
+              <Route exact path="/" component={IndexComponent} />
+              <Route path="/hello" component={HelloComponent} />
+              <Route
+                path="/goodbye"
+                component={GoodbyeComponent}
+                onReset={resetSpy}
+              />
+            </TabStack>
+          )}
+        </Route>
+      </Router>,
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    onIndexChange(2)
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    expect(TabViewComponent.mock.calls).toHaveLength(1)
+    expect(TabViewComponent.mock.calls[0][0].navigationState).toMatchObject({
+      index: 2,
+      routes: [
+        {
+          key: '/',
+          name: '/',
+          match: null,
+        },
+        {
+          key: '/hello',
+          name: '/hello',
+          match: null,
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: {
+          name: '/goodbye',
+          match: {
             url: '/goodbye',
             isExact: true,
             path: '/goodbye',
@@ -890,6 +1141,145 @@ describe('<TabStack />', () => {
         },
       ],
     })
+    expect(historySpy.mock.calls).toHaveLength(0)
+  })
+
+  it('should reset tab by calling history.replace function with initialPath prop', () => {
+    let onIndexChange
+    const history = createHistory({ initialEntries: ['/goodbye'] })
+    const historySpy = jest.fn()
+    history.listen(historySpy)
+    const TabViewComponent = jest.fn(props => {
+      onIndexChange = props.onIndexChange
+      return renderTabView(props)
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <Route>
+          {contextRouter => (
+            <TabStack history={contextRouter.history} render={TabViewComponent}>
+              <Route exact path="/" component={IndexComponent} />
+              <Route path="/hello" component={HelloComponent} />
+              <Route
+                path="/:name"
+                initialPath="/goodbye"
+                component={GoodbyeComponent}
+              />
+            </TabStack>
+          )}
+        </Route>
+      </Router>,
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    onIndexChange(2)
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    expect(TabViewComponent.mock.calls).toHaveLength(1)
+    expect(TabViewComponent.mock.calls[0][0].navigationState).toMatchObject({
+      index: 2,
+      routes: [
+        {
+          key: '/',
+          name: '/',
+          match: null,
+        },
+        {
+          key: '/hello',
+          name: '/hello',
+          match: null,
+        },
+        {
+          key: '/goodbye',
+          name: '/:name',
+          match: {
+            url: '/goodbye',
+            isExact: true,
+            path: '/:name',
+            params: { name: 'goodbye' },
+          },
+        },
+      ],
+    })
+    expect(historySpy.mock.calls).toHaveLength(1)
+    expect(historySpy.mock.calls).toMatchObject([
+      [
+        {
+          pathname: '/goodbye',
+          search: '',
+          hash: '',
+          state: undefined,
+        },
+        'REPLACE',
+      ],
+    ])
+  })
+
+  it('should reset tab by calling history.replace function with path prop', () => {
+    let onIndexChange
+    const history = createHistory({ initialEntries: ['/goodbye'] })
+    const historySpy = jest.fn()
+    history.listen(historySpy)
+    const TabViewComponent = jest.fn(props => {
+      onIndexChange = props.onIndexChange
+      return renderTabView(props)
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <Route>
+          {contextRouter => (
+            <TabStack history={contextRouter.history} render={TabViewComponent}>
+              <Route exact path="/" component={IndexComponent} />
+              <Route path="/hello" component={HelloComponent} />
+              <Route path="/goodbye" component={GoodbyeComponent} />
+            </TabStack>
+          )}
+        </Route>
+      </Router>,
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    onIndexChange(2)
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    expect(TabViewComponent.mock.calls).toHaveLength(1)
+    expect(TabViewComponent.mock.calls[0][0].navigationState).toMatchObject({
+      index: 2,
+      routes: [
+        {
+          key: '/',
+          name: '/',
+          match: null,
+        },
+        {
+          key: '/hello',
+          name: '/hello',
+          match: null,
+        },
+        {
+          key: '/goodbye',
+          name: '/goodbye',
+          match: {
+            url: '/goodbye',
+            isExact: true,
+            path: '/goodbye',
+            params: {},
+          },
+        },
+      ],
+    })
+    expect(historySpy.mock.calls).toHaveLength(1)
+    expect(historySpy.mock.calls).toMatchObject([
+      [
+        {
+          pathname: '/goodbye',
+          search: '',
+          hash: '',
+          state: undefined,
+        },
+        'REPLACE',
+      ],
+    ])
   })
 
   it('should re render correctly when new tabs are provided', () => {

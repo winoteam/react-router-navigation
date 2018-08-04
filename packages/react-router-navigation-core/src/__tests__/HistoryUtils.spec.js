@@ -56,6 +56,34 @@ describe('HistoryUtils', () => {
     })
   })
 
+  describe('createLocation', () => {
+    it('should return location with initial path', () => {
+      const history = createMemoryHistory()
+      const item = { path: '/:name', initialPath: '/hello' }
+      expect(HistoryUtils.createLocation(history, item)).toMatchObject({
+        pathname: '/hello',
+      })
+    })
+
+    it('should return location with path', () => {
+      const history = createMemoryHistory()
+      const item = { path: '/hello' }
+      expect(HistoryUtils.createLocation(history, item)).toMatchObject({
+        pathname: '/hello',
+      })
+    })
+
+    it('should return location with state', () => {
+      const history = createMemoryHistory()
+      history.push('/sayhello', { from: '/' })
+      const item = { path: '/hello' }
+      expect(HistoryUtils.createLocation(history, item)).toMatchObject({
+        pathname: '/hello',
+        state: { from: '/' },
+      })
+    })
+  })
+
   describe('regenerate', () => {
     it('should return false', () => {
       expect(HistoryUtils.regenerate()).toBe(false)

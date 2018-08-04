@@ -42,23 +42,23 @@ exports[`<TabStack /> should re-render correctly when "onIndexChange" action is 
 </Text>
 `;
 
-exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 2`] = `
-<Text>
-  Goodbye
-</Text>
-`;
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 2`] = `null`;
 
-exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 3`] = `
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg and initialPath prop 1`] = `
 <Text>
   Index
 </Text>
 `;
 
-exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 4`] = `
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg and initialPath prop 2`] = `null`;
+
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with route arg 1`] = `
 <Text>
-  Goodbye
+  Index
 </Text>
 `;
+
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with route arg 2`] = `null`;
 
 exports[`<TabStack /> should re-render correctly when "push" action is called 1`] = `
 <Text>
@@ -105,5 +105,53 @@ exports[`<TabStack /> should render correctly 1`] = `
 exports[`<TabStack /> should render correctly with initialIndex and initialEntries props  1`] = `
 <Text>
   Hello
+</Text>
+`;
+
+exports[`<TabStack /> should reset tab by calling history.go function 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<TabStack /> should reset tab by calling history.go function 2`] = `
+<Text>
+  {"name":"goodbye"}
+</Text>
+`;
+
+exports[`<TabStack /> should reset tab by calling history.replace function with initialPath prop 1`] = `
+<Text>
+  {"name":"goodbye"}
+</Text>
+`;
+
+exports[`<TabStack /> should reset tab by calling history.replace function with initialPath prop 2`] = `
+<Text>
+  {"name":"goodbye"}
+</Text>
+`;
+
+exports[`<TabStack /> should reset tab by calling history.replace function with path prop 1`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<TabStack /> should reset tab by calling history.replace function with path prop 2`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<TabStack /> should reset tab by calling onReset prop function 1`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<TabStack /> should reset tab by calling onReset prop function 2`] = `
+<Text>
+  Goodbye
 </Text>
 `;

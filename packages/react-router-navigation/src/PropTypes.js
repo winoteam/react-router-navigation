@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { View, Text } from 'react-native'
 
 export const RoutePropTypes = {
-  path: PropTypes.string,
+  path: PropTypes.string.isRequired,
   exact: PropTypes.bool,
   strict: PropTypes.bool,
   sensitive: PropTypes.bool,
@@ -78,6 +78,6 @@ export const TabPropTypes = {
   ...RoutePropTypes,
   ...TabBarPropTypes,
   routePath: PropTypes.string,
+  initialPath: PropTypes.string,
   onReset: PropTypes.func,
-  onRequestChangeTab: PropTypes.func,
 }

@@ -24,6 +24,7 @@ export type RouteProps = {
   children?: (router: ContextRouter) => React$Node | React$Node,
   path?: string,
   routePath?: string,
+  initialPath?: string,
   exact?: boolean,
   strict?: boolean,
   sensitive?: boolean,
@@ -39,7 +40,6 @@ export type CardsRendererProps = {
 }
 
 export type Tab = RouteProps & {
-  onRequestChangeTab?: () => void,
   onReset?: () => void,
 }
 
@@ -52,7 +52,7 @@ export type TabsRendererProps<TabRoute = {}> = {
 
 export type HistoryNode = Location[]
 
-export type HistoryNodes = { [routeName: string]: HistoryNode }
+export type HistoryNodes = { [name: string]: HistoryNode }
 
 export type HistoryRootIndex = number
 

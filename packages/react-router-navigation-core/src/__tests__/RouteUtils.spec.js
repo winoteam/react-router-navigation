@@ -22,12 +22,29 @@ describe('RouteUtils', () => {
         RouteUtils.create({ path: '/article/:id' }, location),
       ).toMatchObject({
         key: '/article/1',
-        routeMatch: {
+        name: '/article/:id',
+        match: {
           url: '/article/1',
           path: '/article/:id',
           params: { id: '1' },
         },
-        routeName: '/article/:id',
+      })
+    })
+
+    it('should return Route object with URL parameters and staleRoute ', () => {
+      const location = createLocation('/article/1')
+      expect(
+        RouteUtils.create({ path: '/article/:id' }, location, {
+          key: '/article/:id',
+        }),
+      ).toMatchObject({
+        key: '/article/:id',
+        name: '/article/:id',
+        match: {
+          url: '/article/1',
+          path: '/article/:id',
+          params: { id: '1' },
+        },
       })
     })
 

@@ -1,7 +1,9 @@
 /* @flow */
 
-import type { RouterHistory } from 'react-router'
+import { createLocation } from 'history'
+import type { RouterHistory, Location } from 'react-router'
 import type {
+  RouteProps,
   HistoryNodes,
   HistoryNode,
   HistoryRootIndex,
@@ -16,11 +18,21 @@ const HistoryUtils = {
     })
   },
 
+  createLocation: (history: RouterHistory, route: RouteProps): Location => {
+    const path = route.initialPath || route.path
+    return createLocation(
+      path,
+      history.location.state,
+      undefined,
+      history.location,
+    )
+  },
+
   regenerate: (
     history: RouterHistory,
     historyNode: HistoryNode,
     historyRootIndex: HistoryRootIndex,
-  ) => {
+  ): boolean => {
     return false
   },
 
