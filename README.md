@@ -56,7 +56,7 @@ To learn how the library work, head to this introduction written by [@CharlesMan
 **Want to hack on `react-router-navigation`? Awesome! We welcome contributions from anyone and everyone. :rocket:**
 
 1. Fork this repository to your own GitHub account and then clone it to your local device
-2. Install dependencies using Yarn: `yarn run bootstrap`
+2. Install dependencies using Yarn: `yarn`
 3. Ensure that the tests are passing using `yarn test`
 4. Send a pull request 🙌
 
