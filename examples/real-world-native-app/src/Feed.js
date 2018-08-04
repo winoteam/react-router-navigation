@@ -39,8 +39,8 @@ type Props = ContextRouter
 class Feed extends React.Component<Props> {
   listView: ?List = null
 
-  renderArticleTitle = (titleProps: { routeMatch: Match }) => {
-    const { routeMatch: match } = titleProps
+  renderArticleTitle = (titleProps: { match: Match }) => {
+    const { match } = titleProps
     return (
       <HeaderTitle style={styles.title}>
         Item {match && match.params.id}
@@ -48,12 +48,9 @@ class Feed extends React.Component<Props> {
     )
   }
 
-  renderArticleRightComponent = (rightComponentProps: {
-    routeMatch: Match,
-    routeMatchPath: string,
-  }) => {
-    const { routeMatch: match, routeMatchPath: matchPath } = rightComponentProps
-    const toPath = pathToRegexp.compile(matchPath)
+  renderArticleRightComponent = (rightComponentProps: { match: Match }) => {
+    const { match } = rightComponentProps
+    const toPath = pathToRegexp.compile(match.path)
     if (!match || !match.params) return null
     const newPath = toPath({
       ...match.params,

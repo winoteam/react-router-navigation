@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "prestart": "node scripts/link-workspaces.js",
+    "postinstall": "node scripts/link-workspaces.js",
     "start": "react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",

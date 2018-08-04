@@ -12,7 +12,7 @@ type Props = {
   history: RouterHistory,
 }
 
-class App<T> extends React.Component<Props> {
+class App extends React.Component<Props> {
   feed: ?Feed = null
 
   onReset = () => {
@@ -36,10 +36,10 @@ class App<T> extends React.Component<Props> {
     tabActiveTintColor: string,
     tabTintColor: string,
     focused: boolean,
-    route: { routeName: string },
+    route: { name: string },
   }) => {
     const { route, focused, tabActiveTintColor, tabTintColor } = tabIconProps
-    switch (route.routeName) {
+    switch (route.name) {
       case '/feed':
         return (
           <Image
@@ -74,7 +74,6 @@ class App<T> extends React.Component<Props> {
   }
 
   render() {
-    const { history } = this.props
     return (
       <BottomNavigation
         tabTintColor={NEUTRAL_COLOR_50}
@@ -89,9 +88,8 @@ class App<T> extends React.Component<Props> {
         />
         <Tab
           path="/profile/(likes|bookmarks|settings)"
+          initialPath="/profile/likes"
           component={Profile}
-          onRequestChangeTab={() => history.replace('/profile/likes')}
-          onReset={() => history.replace('/profile/likes')}
           label="Profile"
           renderTabIcon={this.renderTabIcon}
         />
