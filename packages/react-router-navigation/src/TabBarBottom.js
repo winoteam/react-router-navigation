@@ -54,7 +54,7 @@ class TabBarBottom extends React.Component {
   renderLabel = scene => {
     const { tabs } = this.props
     const { route } = scene
-    const activeTab = tabs.find(tab => tab.path === route.routeName)
+    const activeTab = tabs.find(tab => tab.path === route.name)
     const labelprops = { ...activeTab, ...scene }
     if (labelprops.renderLabel) return labelprops.renderLabel(labelprops, scene)
     const { label, tabTintColor, tabActiveTintColor, focused } = labelprops
@@ -76,7 +76,7 @@ class TabBarBottom extends React.Component {
   renderIcon = scene => {
     const { tabs } = this.props
     const { route } = scene
-    const activeTab = tabs.find(tab => tab.path === route.routeName)
+    const activeTab = tabs.find(tab => tab.path === route.name)
     const iconProps = { ...scene, ...activeTab }
     if (!iconProps.renderTabIcon) return null
     return iconProps.renderTabIcon(iconProps)

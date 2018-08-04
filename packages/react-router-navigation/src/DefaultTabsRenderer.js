@@ -21,7 +21,7 @@ class DefaultTabsRenderer extends React.Component {
     if (!renderTabBar) return null
     const { navigationState } = sceneProps
     const route = navigationState.routes[navigationState.index]
-    const activeTab = tabs.find(tab => tab.path === route.routeName)
+    const activeTab = tabs.find(tab => tab.path === route.name)
     if (!activeTab) return null
     const { path, ...tabProps } = activeTab
     const tabBarProps = { tabs, tabBarPosition, ...sceneProps, ...tabProps }

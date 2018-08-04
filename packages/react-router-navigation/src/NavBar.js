@@ -18,7 +18,7 @@ class NavBar extends React.Component {
       return null
     }
     const previousScene = scenes[Math.max(0, sceneProps.scene.index - 1)]
-    const { routeName: previousRouteName } = previousScene.route
+    const { name: previousRouteName } = previousScene.route
     const previousCard = cards.find(card => card.path === previousRouteName)
     const previousSceneProps = { ...previousScene, ...previousCard }
     return (
@@ -55,7 +55,7 @@ class NavBar extends React.Component {
         getScreenDetails={scene => {
           const { route } = scene
           const activeCard = this.props.cards.find(card => {
-            return card.path === route.routeName
+            return card.path === route.name
           })
           const sceneProps = {
             ...this.props,

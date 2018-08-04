@@ -82,7 +82,7 @@ class DefaultNavigationRenderer extends React.Component {
     const {
       scene: { route },
     } = props
-    const cardStackProps = cards.find(card => card.path === route.routeName)
+    const cardStackProps = cards.find(card => card.path === route.name)
     const {
       screenProps,
       headerMode,
@@ -109,7 +109,7 @@ class DefaultNavigationRenderer extends React.Component {
   render() {
     const { cards, navigationState, onNavigateBack } = this.props
     const route = navigationState.routes[navigationState.index]
-    const transitionerProps = cards.find(card => card.path === route.routeName)
+    const transitionerProps = cards.find(card => card.path === route.name)
     const {
       configureTransition,
       onTransitionStart,
@@ -122,7 +122,13 @@ class DefaultNavigationRenderer extends React.Component {
         onTransitionStart={onTransitionStart}
         onTransitionEnd={onTransitionEnd}
         navigation={addNavigationHelpers({
-          state: navigationState,
+          state: {
+            ...navigationState,
+            routes: navigationState.routes.map(route => ({
+              ...route,
+              routeName: route.name,
+            })),
+          },
           addListener: () => ({}),
           dispatch: action => {
             if (action.type === NavigationActions.back().type) {

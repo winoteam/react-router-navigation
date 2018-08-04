@@ -37,7 +37,7 @@ class Tabs extends React.Component {
   renderTabLabel = (tabLabelProps, scene) => {
     const { tabs } = tabLabelProps
     const { route, focused } = scene
-    const activeTab = tabs.find(tab => tab.path === route.routeName)
+    const activeTab = tabs.find(tab => tab.path === route.name)
     const tabsProps = { ...tabLabelProps, ...activeTab }
     const { tabTintColor, tabActiveTintColor } = tabsProps
     if (tabsProps.renderLabel) return tabsProps.renderLabel(tabsProps, scene)
