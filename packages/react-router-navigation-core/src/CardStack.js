@@ -35,7 +35,7 @@ class CardStack extends React.Component<Props, State> {
     const { children, history } = props
     invariant(
       history,
-      'The prop `history` is marked as required in `CardStack`, but its value is `undefined`. in CardStack',
+      'The prop `history` is marked as required in `CardStack`, but its value is `undefined` in CardStack',
     )
     invariant(
       children || React.Children.count(children) > 0,
@@ -149,7 +149,7 @@ class CardStack extends React.Component<Props, State> {
 
   renderCard = (route: Route) => {
     const children = React.Children.toArray(this.props.children)
-    const child = children.find(({ props }) => props.path === route.routeName)
+    const child = children.find(({ props }) => props.path === route.name)
     if (!child) return null
     return React.cloneElement(child, route)
   }

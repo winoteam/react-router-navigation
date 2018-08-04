@@ -4,8 +4,8 @@ import type { Location, ContextRouter, Match } from 'react-router'
 
 export type Route = {
   key: string,
-  routeName: string,
-  routeMatch: ?Match,
+  name: string,
+  match: ?Match,
 }
 
 export type NavigationState<NavigationRoute = {}> = {

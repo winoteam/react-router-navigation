@@ -57,13 +57,13 @@ const StateUtils = {
     )
   },
 
-  getRouteIndex(state: NavigationState<>, arg: number | Route) {
+  getRouteIndex(state: NavigationState<>, arg: number | Route): number {
     if (typeof arg === 'number') {
       if (state.routes[arg]) return arg
       return -1
     }
     // $FlowFixMe
-    return state.routes.findIndex(route => route.routeName === arg.routeName)
+    return state.routes.findIndex(route => route.name === arg.name)
   },
 
   push(state: NavigationState<>, route: Route): NavigationState<> {
@@ -110,7 +110,7 @@ const StateUtils = {
       typeof arg === 'number'
         ? arg
         : // $FlowFixMe
-          state.routes.findIndex(route => route.routeName === arg.routeName)
+          state.routes.findIndex(route => route.name === arg.name)
     if (index === -1 || index > state.routes.length - 1) return state
     const routes =
       typeof arg === 'number'

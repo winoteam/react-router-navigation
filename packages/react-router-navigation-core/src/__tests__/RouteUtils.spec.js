@@ -7,12 +7,12 @@ describe('RouteUtils', () => {
       const location = createLocation('/contact')
       expect(RouteUtils.create({ path: '/contact' }, location)).toMatchObject({
         key: '/contact',
-        routeMatch: {
+        name: '/contact',
+        match: {
           url: '/contact',
           path: '/contact',
           params: {},
         },
-        routeName: '/contact',
       })
     })
 
@@ -34,16 +34,16 @@ describe('RouteUtils', () => {
     it('should return Route object without location argument', () => {
       expect(RouteUtils.create({ path: '/contact' })).toMatchObject({
         key: '/contact',
-        routeMatch: null,
-        routeName: '/contact',
+        name: '/contact',
+        match: null,
       })
     })
 
     it('should return Route object with URL parameters without location argument', () => {
       expect(RouteUtils.create({ path: '/article/:id' })).toMatchObject({
         key: '/article/:id',
-        routeMatch: null,
-        routeName: '/article/:id',
+        name: '/article/:id',
+        match: null,
       })
     })
 
@@ -59,12 +59,12 @@ describe('RouteUtils', () => {
         ),
       ).toMatchObject({
         key: '/article/1',
-        routeMatch: {
+        name: '/article/:id/:method(create|update)?',
+        match: {
           url: '/article/1/update',
           path: '/article/:id/:method(create|update)?',
           params: { id: '1', method: 'update' },
         },
-        routeName: '/article/:id/:method(create|update)?',
       })
     })
 

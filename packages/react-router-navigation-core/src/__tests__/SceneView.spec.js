@@ -3,7 +3,6 @@ import { Text } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
-
 import { componentFactory } from './utils'
 import './__mocks__'
 import SceneView from './../SceneView'
@@ -22,7 +21,7 @@ describe('<SceneView />', () => {
           {contextRouter => (
             <SceneView
               history={contextRouter.history}
-              routeMatch={{ path: '/:id', url: '/1', params: { id: '1' } }}
+              match={{ path: '/:id', url: '/1', params: { id: '1' } }}
               path="/:id"
               render={SceneComponent}
             />
@@ -52,7 +51,7 @@ describe('<SceneView />', () => {
           {contextRouter => (
             <SceneView
               history={contextRouter.history}
-              routeMatch={{ path: '/:id', url: '/1', params: { id: '1' } }}
+              match={{ path: '/:id', url: '/1', params: { id: '1' } }}
               path="/:id"
               component={SceneComponent}
             />
@@ -127,7 +126,7 @@ describe('<SceneView />', () => {
           {contextRouter => (
             <SceneView
               history={contextRouter.history}
-              routeMatch={{ path: '/:id', url: '/1', params: { id: '1' } }}
+              match={{ path: '/:id', url: '/1', params: { id: '1' } }}
               path="/:id/:method(read|update)?"
               routePath="/:id"
               component={SceneComponent}

@@ -3,7 +3,6 @@ import { TouchableOpacity, BackHandler } from 'react-native'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
-
 import { componentFactory, renderCardView } from './utils'
 import CardStack from './../CardStack'
 import './__mocks__'
@@ -60,8 +59,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -105,8 +104,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
@@ -115,8 +114,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             path: '/hello',
             isExact: true,
@@ -159,8 +158,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
@@ -174,8 +173,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
@@ -184,8 +183,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             path: '/hello',
             isExact: true,
@@ -229,8 +228,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/1',
             path: '/article/:id',
             isExact: true,
@@ -244,8 +243,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/1',
             path: '/article/:id',
             isExact: true,
@@ -254,8 +253,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/article/2',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/2',
             path: '/article/:id',
             isExact: true,
@@ -301,8 +300,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -311,8 +310,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             isExact: true,
             path: '/hello',
@@ -326,8 +325,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -372,8 +371,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/1',
             path: '/article/:id',
             isExact: true,
@@ -382,8 +381,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/article/2',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/2',
             path: '/article/:id',
             isExact: true,
@@ -397,8 +396,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/1',
             path: '/article/:id',
             isExact: true,
@@ -445,8 +444,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -455,8 +454,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             isExact: true,
             path: '/hello',
@@ -465,8 +464,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: {
+          name: '/goodbye',
+          match: {
             url: '/goodbye',
             isExact: true,
             path: '/goodbye',
@@ -480,8 +479,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -526,8 +525,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/1',
             path: '/article/:id',
             isExact: true,
@@ -536,8 +535,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/article/2',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/2',
             path: '/article/:id',
             isExact: true,
@@ -546,8 +545,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/article/3',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/3',
             path: '/article/:id',
             isExact: true,
@@ -561,8 +560,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/1',
             path: '/article/:id',
             isExact: true,
@@ -609,8 +608,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
@@ -619,8 +618,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             path: '/hello',
             isExact: true,
@@ -634,8 +633,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
@@ -644,8 +643,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: {
+          name: '/goodbye',
+          match: {
             url: '/goodbye',
             path: '/goodbye',
             isExact: true,
@@ -690,8 +689,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/1',
             path: '/article/:id',
             isExact: true,
@@ -700,8 +699,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/article/2',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/2',
             path: '/article/:id',
             isExact: true,
@@ -715,8 +714,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/1',
             path: '/article/:id',
             isExact: true,
@@ -725,8 +724,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/article/3',
-          routeName: '/article/:id',
-          routeMatch: {
+          name: '/article/:id',
+          match: {
             url: '/article/3',
             path: '/article/:id',
             isExact: true,
@@ -774,8 +773,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id/:method(read|update)?',
-          routeMatch: {
+          name: '/article/:id/:method(read|update)?',
+          match: {
             url: '/article/1',
             path: '/article/:id/:method(read|update)?',
             isExact: true,
@@ -789,8 +788,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/article/1',
-          routeName: '/article/:id/:method(read|update)?',
-          routeMatch: {
+          name: '/article/:id/:method(read|update)?',
+          match: {
             url: '/article/1/update',
             path: '/article/:id/:method(read|update)?',
             isExact: true,
@@ -839,8 +838,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
@@ -849,8 +848,8 @@ describe('<CardStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             path: '/hello',
             isExact: true,
@@ -864,8 +863,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
@@ -922,8 +921,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
@@ -948,8 +947,8 @@ describe('<CardStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,

@@ -14,15 +14,15 @@ describe('StateUtils', () => {
         routes: [
           {
             key: '/a',
-            routeMatch: { isExact: true, params: {}, path: '/a', url: '/a' },
-            routeName: '/a',
+            match: { isExact: true, params: {}, path: '/a', url: '/a' },
+            name: '/a',
           },
           {
             key: '/b',
-            routeMatch: { isExact: true, params: {}, path: '/b', url: '/b' },
-            routeName: '/b',
+            match: { isExact: true, params: {}, path: '/b', url: '/b' },
+            name: '/b',
           },
-          { key: '/c', routeMatch: null, routeName: '/c' },
+          { key: '/c', match: null, name: '/c' },
         ],
       })
     })
@@ -38,13 +38,13 @@ describe('StateUtils', () => {
         routes: [
           {
             key: '/b',
-            routeMatch: { isExact: true, params: {}, path: '/b', url: '/b' },
-            routeName: '/b',
+            match: { isExact: true, params: {}, path: '/b', url: '/b' },
+            name: '/b',
           },
           {
             key: '/a',
-            routeMatch: { isExact: true, params: {}, path: '/a', url: '/a' },
-            routeName: '/a',
+            match: { isExact: true, params: {}, path: '/a', url: '/a' },
+            name: '/a',
           },
         ],
       })
@@ -54,7 +54,7 @@ describe('StateUtils', () => {
   describe('getRouteIndex', () => {
     it('should return index with correct index arg', () => {
       const state = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       }
       expect(StateUtils.getRouteIndex(state, 0)).toBe(0)
@@ -62,7 +62,7 @@ describe('StateUtils', () => {
 
     it('should return index with impossible index arg', () => {
       const state = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       }
       expect(StateUtils.getRouteIndex(state, 3)).toBe(-1)
@@ -70,25 +70,25 @@ describe('StateUtils', () => {
 
     it('should return index with route arg', () => {
       const state = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       }
-      expect(StateUtils.getRouteIndex(state, { routeName: '/a' })).toBe(0)
+      expect(StateUtils.getRouteIndex(state, { name: '/a' })).toBe(0)
     })
   })
 
   describe('push', () => {
     it('should return new state', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 2,
       }
-      expect(StateUtils.push(oldState, { routeName: '/d' })).toMatchObject({
+      expect(StateUtils.push(oldState, { name: '/d' })).toMatchObject({
         routes: [
-          { routeName: '/a' },
-          { routeName: '/b' },
-          { routeName: '/c' },
-          { routeName: '/d' },
+          { name: '/a' },
+          { name: '/b' },
+          { name: '/c' },
+          { name: '/d' },
         ],
         index: 3,
       })
@@ -98,22 +98,22 @@ describe('StateUtils', () => {
   describe('pop', () => {
     it('should return new state', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 2,
       }
       expect(StateUtils.pop(oldState, 1)).toMatchObject({
-        routes: [{ routeName: '/a' }, { routeName: '/b' }],
+        routes: [{ name: '/a' }, { name: '/b' }],
         index: 1,
       })
     })
 
     it('should return new state without n arg', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 2,
       }
       expect(StateUtils.pop(oldState)).toMatchObject({
-        routes: [{ routeName: '/a' }, { routeName: '/b' }],
+        routes: [{ name: '/a' }, { name: '/b' }],
         index: 1,
       })
     })
@@ -121,37 +121,37 @@ describe('StateUtils', () => {
     it('should return new state with initial huge number of routes', () => {
       const oldState = {
         routes: [
-          { routeName: '/a' },
-          { routeName: '/b' },
-          { routeName: '/c' },
-          { routeName: '/d' },
+          { name: '/a' },
+          { name: '/b' },
+          { name: '/c' },
+          { name: '/d' },
         ],
         index: 2,
       }
       expect(StateUtils.pop(oldState, 1)).toMatchObject({
-        routes: [{ routeName: '/a' }, { routeName: '/b' }],
+        routes: [{ name: '/a' }, { name: '/b' }],
         index: 1,
       })
     })
 
     it('should return new state with index arg that is not big', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 2,
       }
       expect(StateUtils.pop(oldState, 4)).toMatchObject({
-        routes: [{ routeName: '/a' }],
+        routes: [{ name: '/a' }],
         index: 0,
       })
     })
 
     it('should return new state with index arg that is negative', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       }
       expect(StateUtils.changeIndex(oldState, -1)).toMatchObject({
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       })
     })
@@ -161,22 +161,22 @@ describe('StateUtils', () => {
     it('should return new state', () => {
       const oldState = {
         routes: [
-          { routeName: '/a' },
-          { routeName: '/b' },
-          { routeName: '/c', title: 'Title' },
+          { name: '/a' },
+          { name: '/b' },
+          { name: '/c', title: 'Title' },
         ],
         index: 1,
       }
       expect(
         StateUtils.replace(oldState, 2, {
-          routeName: '/c',
+          name: '/c',
           title: 'New title',
         }),
       ).toMatchObject({
         routes: [
-          { routeName: '/a' },
-          { routeName: '/b' },
-          { routeName: '/c', title: 'New title' },
+          { name: '/a' },
+          { name: '/b' },
+          { name: '/c', title: 'New title' },
         ],
         index: 2,
       })
@@ -184,26 +184,24 @@ describe('StateUtils', () => {
 
     it('should return new state with index arg that is greater than the length of the routes', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 2,
       }
-      expect(
-        StateUtils.replace(oldState, 3, { routeName: '/d' }),
-      ).toMatchObject({
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+      expect(StateUtils.replace(oldState, 3, { name: '/d' })).toMatchObject({
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 2,
       })
     })
 
     it('should return new state with index arg that is negative', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       }
       expect(
-        StateUtils.changeIndex(oldState, -1, { routeName: '/z' }),
+        StateUtils.changeIndex(oldState, -1, { name: '/z' }),
       ).toMatchObject({
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       })
     })
@@ -212,7 +210,7 @@ describe('StateUtils', () => {
   describe('changeIndex', () => {
     it('should return new state with index arg', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       }
       expect(StateUtils.changeIndex(oldState, 2)).toMatchObject({
@@ -222,7 +220,7 @@ describe('StateUtils', () => {
 
     it('should return new state with index arg that is greater than the length of the routes', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       }
       expect(StateUtils.changeIndex(oldState, 3)).toMatchObject({
@@ -232,7 +230,7 @@ describe('StateUtils', () => {
 
     it('should return new state with index arg that is negative', () => {
       const oldState = {
-        routes: [{ routeName: '/a' }, { routeName: '/b' }, { routeName: '/c' }],
+        routes: [{ name: '/a' }, { name: '/b' }, { name: '/c' }],
         index: 1,
       }
       expect(StateUtils.changeIndex(oldState, -1)).toMatchObject({
@@ -243,22 +241,22 @@ describe('StateUtils', () => {
     it('should return new state with route arg', () => {
       const oldState = {
         routes: [
-          { routeName: '/a' },
-          { routeName: '/b' },
-          { routeName: '/c', title: 'Title' },
+          { name: '/a' },
+          { name: '/b' },
+          { name: '/c', title: 'Title' },
         ],
         index: 1,
       }
       expect(
         StateUtils.changeIndex(oldState, {
-          routeName: '/c',
+          name: '/c',
           title: 'New title',
         }),
       ).toMatchObject({
         routes: [
-          { routeName: '/a' },
-          { routeName: '/b' },
-          { routeName: '/c', title: 'New title' },
+          { name: '/a' },
+          { name: '/b' },
+          { name: '/c', title: 'New title' },
         ],
         index: 2,
       })
@@ -267,21 +265,21 @@ describe('StateUtils', () => {
     it('should return new state with route arg that is not exist in routes', () => {
       const oldState = {
         routes: [
-          { routeName: '/a' },
-          { routeName: '/b' },
-          { routeName: '/c', title: 'Title' },
+          { name: '/a' },
+          { name: '/b' },
+          { name: '/c', title: 'Title' },
         ],
         index: 1,
       }
       expect(
         StateUtils.changeIndex(oldState, {
-          routeName: '/d',
+          name: '/d',
         }),
       ).toMatchObject({
         routes: [
-          { routeName: '/a' },
-          { routeName: '/b' },
-          { routeName: '/c', title: 'Title' },
+          { name: '/a' },
+          { name: '/b' },
+          { name: '/c', title: 'Title' },
         ],
         index: 1,
       })

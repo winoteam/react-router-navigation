@@ -24,8 +24,8 @@ class SceneView extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-    const { history, routeMatch } = props
-    this.state = { match: routeMatch || null, location: history.location }
+    const { history, match } = props
+    this.state = { match: match || null, location: history.location }
     this.unlisten = history.listen(this.onHistoryChange)
   }
 

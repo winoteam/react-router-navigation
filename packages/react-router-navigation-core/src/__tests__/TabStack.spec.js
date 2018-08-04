@@ -4,7 +4,6 @@ import * as React from 'react'
 import { Router, Route } from 'react-router'
 import createHistory from 'history/createMemoryHistory'
 import renderer from 'react-test-renderer'
-
 import './__mocks__'
 import { componentFactory, renderTabView } from './utils'
 import TabStack from './../TabStack'
@@ -45,8 +44,8 @@ describe('<TabStack />', () => {
                   routes: [
                     {
                       key: '/',
-                      routeName: '/',
-                      routeMatch: {
+                      name: '/',
+                      match: {
                         url: '/',
                         isExact: true,
                         path: '/',
@@ -55,13 +54,13 @@ describe('<TabStack />', () => {
                     },
                     {
                       key: '/hello',
-                      routeName: '/hello',
-                      routeMatch: null,
+                      name: '/hello',
+                      match: null,
                     },
                     {
                       key: '/goodbye',
-                      routeName: '/goodbye',
-                      routeMatch: null,
+                      name: '/goodbye',
+                      match: null,
                     },
                   ],
                 })
@@ -109,13 +108,13 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: null,
+          name: '/',
+          match: null,
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             isExact: true,
             path: '/hello',
@@ -124,8 +123,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: {
+          name: '/goodbye',
+          match: {
             url: '/goodbye',
             isExact: true,
             path: '/goodbye',
@@ -165,8 +164,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -175,13 +174,13 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: null,
+          name: '/hello',
+          match: null,
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          name: '/goodbye',
+          match: null,
         },
       ],
     })
@@ -190,8 +189,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -200,8 +199,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             isExact: true,
             path: '/hello',
@@ -210,8 +209,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          name: '/goodbye',
+          match: null,
         },
       ],
     })
@@ -249,13 +248,13 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: null,
+          name: '/',
+          match: null,
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             isExact: true,
             path: '/hello',
@@ -264,8 +263,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: {
+          name: '/goodbye',
+          match: {
             url: '/goodbye',
             isExact: true,
             path: '/goodbye',
@@ -279,13 +278,13 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: null,
+          name: '/',
+          match: null,
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             isExact: true,
             path: '/hello',
@@ -294,8 +293,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: {
+          name: '/goodbye',
+          match: {
             url: '/goodbye',
             isExact: true,
             path: '/goodbye',
@@ -338,8 +337,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -348,8 +347,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             isExact: true,
             path: '/hello',
@@ -358,8 +357,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: {
+          name: '/goodbye',
+          match: {
             url: '/goodbye',
             isExact: true,
             path: '/goodbye',
@@ -373,8 +372,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -383,8 +382,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             isExact: true,
             path: '/hello',
@@ -393,8 +392,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: {
+          name: '/goodbye',
+          match: {
             url: '/goodbye',
             isExact: true,
             path: '/goodbye',
@@ -434,8 +433,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -444,13 +443,13 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: null,
+          name: '/hello',
+          match: null,
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          name: '/goodbye',
+          match: null,
         },
       ],
     })
@@ -459,8 +458,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -469,8 +468,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: {
+          name: '/hello',
+          match: {
             url: '/hello',
             isExact: true,
             path: '/hello',
@@ -479,8 +478,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          name: '/goodbye',
+          match: null,
         },
       ],
     })
@@ -521,13 +520,13 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: null,
+          name: '/',
+          match: null,
         },
         {
           key: '/hello',
-          routeName: '/hello/:language(fr|en)',
-          routeMatch: {
+          name: '/hello/:language(fr|en)',
+          match: {
             url: '/hello/en',
             isExact: true,
             path: '/hello/:language(fr|en)',
@@ -536,8 +535,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          name: '/goodbye',
+          match: null,
         },
       ],
     })
@@ -546,13 +545,13 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: null,
+          name: '/',
+          match: null,
         },
         {
           key: '/hello',
-          routeName: '/hello/:language(fr|en)',
-          routeMatch: {
+          name: '/hello/:language(fr|en)',
+          match: {
             url: '/hello/fr',
             isExact: true,
             path: '/hello/:language(fr|en)',
@@ -561,8 +560,8 @@ describe('<TabStack />', () => {
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          name: '/goodbye',
+          match: null,
         },
       ],
     })
@@ -599,8 +598,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -609,13 +608,13 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: null,
+          name: '/hello',
+          match: null,
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          name: '/goodbye',
+          match: null,
         },
       ],
     })
@@ -624,8 +623,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -659,13 +658,13 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: null,
+          name: '/hello',
+          match: null,
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: {
+          name: '/goodbye',
+          match: {
             url: '/goodbye',
             isExact: true,
             path: '/goodbye',
@@ -717,13 +716,13 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: null,
+          name: '/hello',
+          match: null,
         },
         {
-          key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          key: '/:name',
+          name: '/:name',
+          match: null,
         },
       ],
     })
@@ -732,8 +731,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             isExact: true,
             path: '/',
@@ -742,13 +741,122 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: null,
+          name: '/hello',
+          match: null,
         },
         {
-          key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          key: '/:name',
+          name: '/:name',
+          match: {
+            url: '/goodbye',
+            isExact: true,
+            path: '/:name',
+            params: { name: 'goodbye' },
+          },
+        },
+      ],
+    })
+    expect(historySpy.mock.calls).toHaveLength(1)
+    expect(historySpy.mock.calls).toMatchObject([
+      [
+        {
+          pathname: '/goodbye',
+          search: '',
+          hash: '',
+          state: undefined,
+        },
+        'REPLACE',
+      ],
+    ])
+  })
+
+  it('should reset tab by calling history.go function', () => {
+    let onIndexChange
+    const history = createHistory()
+    const historySpy = jest.fn()
+    history.listen(historySpy)
+    const TabViewComponent = jest.fn(props => {
+      onIndexChange = props.onIndexChange
+      return renderTabView(props)
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <Route>
+          {contextRouter => (
+            <TabStack history={contextRouter.history} render={TabViewComponent}>
+              <Route exact path="/" component={IndexComponent} />
+              <Route path="/hello" component={HelloComponent} />
+              <Route
+                path="/:name/:extra?"
+                initialPath="/goodbye"
+                component={GoodbyeComponent}
+              />
+            </TabStack>
+          )}
+        </Route>
+      </Router>,
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    onIndexChange(2)
+    history.push('/goodbye/first')
+    history.push('/goodbye/second')
+    onIndexChange(2)
+    tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+    expect(TabViewComponent.mock.calls).toHaveLength(5)
+    expect(TabViewComponent.mock.calls[0][0].navigationState).toMatchObject({
+      index: 0,
+      routes: [
+        {
+          key: '/',
+          name: '/',
+          match: {
+            url: '/',
+            isExact: true,
+            path: '/',
+            params: {},
+          },
+        },
+        {
+          key: '/hello',
+          name: '/hello',
+          match: null,
+        },
+        {
+          key: '/:name/:extra?',
+          name: '/:name/:extra?',
+          match: null,
+        },
+      ],
+    })
+    expect(TabViewComponent.mock.calls[1][0].navigationState).toMatchObject({
+      index: 2,
+      routes: [
+        {
+          key: '/',
+          name: '/',
+          match: {
+            url: '/',
+            isExact: true,
+            path: '/',
+            params: {},
+          },
+        },
+        {
+          key: '/hello',
+          name: '/hello',
+          match: null,
+        },
+        {
+          key: '/:name/:extra?',
+          name: '/:name/:extra?',
+          match: {
+            url: '/goodbye',
+            isExact: true,
+            path: '/:name/:extra?',
+            params: { name: 'goodbye' },
+          },
         },
       ],
     })
@@ -823,8 +931,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
@@ -833,13 +941,13 @@ describe('<TabStack />', () => {
         },
         {
           key: '/hello',
-          routeName: '/hello',
-          routeMatch: null,
+          name: '/hello',
+          match: null,
         },
         {
           key: '/goodbye',
-          routeName: '/goodbye',
-          routeMatch: null,
+          name: '/goodbye',
+          match: null,
         },
       ],
     })
@@ -863,8 +971,8 @@ describe('<TabStack />', () => {
       routes: [
         {
           key: '/',
-          routeName: '/',
-          routeMatch: {
+          name: '/',
+          match: {
             url: '/',
             path: '/',
             isExact: true,
