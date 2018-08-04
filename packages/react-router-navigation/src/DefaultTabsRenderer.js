@@ -31,7 +31,6 @@ class DefaultTabsRenderer extends React.Component {
       ...sceneProps,
       style: tabBarProps.tabBarStyle,
       indicatorStyle: tabBarProps.tabBarIndicatorStyle,
-      onTabPress: this.onTabPress,
     })
   }
 
@@ -39,11 +38,6 @@ class DefaultTabsRenderer extends React.Component {
     const { renderTab } = this.props
     const { route } = sceneProps
     return renderTab(route)
-  }
-
-  onTabPress = scene => {
-    const { onIndexChange } = this.props
-    onIndexChange(scene.route)
   }
 
   render() {
