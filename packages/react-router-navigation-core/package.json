@@ -15,6 +15,7 @@
     "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
   },
   "keywords": [
+    "web",
     "react-native",
     "ios",
     "android",
@@ -28,7 +29,6 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*",
     "react-router": "4.2.x"
   },
   "devDependencies": {
