@@ -6,7 +6,7 @@ import DefaultNavigationRenderer from './DefaultNavigationRenderer'
 import NavBar from './NavBar'
 import { NavigationPropTypes } from './PropTypes'
 
-class Navigation extends React.Component {
+export default class Navigation extends React.Component {
   static propTypes = NavigationPropTypes
 
   static defaultProps = {
@@ -33,10 +33,10 @@ class Navigation extends React.Component {
             {...this.props}
             backHandler={BackHandler}
             history={history}
-            render={cardsRendererProps => (
+            render={cardStackRendererProps => (
               <DefaultNavigationRenderer
                 {...this.props}
-                {...cardsRendererProps}
+                {...cardStackRendererProps}
                 renderHeader={this.renderHeader}
               />
             )}
@@ -46,5 +46,3 @@ class Navigation extends React.Component {
     )
   }
 }
-
-export default Navigation

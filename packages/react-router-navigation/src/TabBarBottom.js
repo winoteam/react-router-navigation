@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class TabBarBottom extends React.Component {
+export default class TabBarBottom extends React.Component {
   static propTypes = TabBarPropTypes
 
   static defaultProps = {
@@ -123,5 +123,3 @@ class TabBarBottom extends React.Component {
     )
   }
 }
-
-export default TabBarBottom

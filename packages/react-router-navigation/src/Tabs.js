@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class Tabs extends React.Component {
+export default class Tabs extends React.Component {
   static propTypes = TabsPropTypes
 
   renderTabBar = tabBarProps => {
@@ -62,10 +62,10 @@ class Tabs extends React.Component {
           <TabStack
             {...this.props}
             history={history}
-            render={tabsRendererProps => (
+            render={tabStacktRendererProps => (
               <DefaultTabsRenderer
                 {...this.props}
-                {...tabsRendererProps}
+                {...tabStacktRendererProps}
                 renderTabBar={this.renderTabBar}
               />
             )}
@@ -75,5 +75,3 @@ class Tabs extends React.Component {
     )
   }
 }
-
-export default Tabs

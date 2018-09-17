@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Header, HeaderTitle, HeaderBackButton } from 'react-navigation'
 import { NavBarPropTypes } from './PropTypes'
 
-class NavBar extends React.Component {
+export default class NavBar extends React.Component {
   static propTypes = NavBarPropTypes
 
   renderLeftComponent = sceneProps => {
@@ -76,5 +76,3 @@ class NavBar extends React.Component {
     )
   }
 }
-
-export default NavBar

@@ -3,7 +3,7 @@ import { Route } from 'react-router'
 import { SceneView } from 'react-router-navigation-core'
 import { TabPropTypes } from './PropTypes'
 
-class Tab extends React.Component {
+export default class Tab extends React.Component {
   static propTypes = TabPropTypes
 
   render() {
@@ -16,5 +16,3 @@ class Tab extends React.Component {
     )
   }
 }
-
-export default Tab

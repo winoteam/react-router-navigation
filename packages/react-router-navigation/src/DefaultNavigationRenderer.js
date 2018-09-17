@@ -13,7 +13,7 @@ import { DefaultNavigationRendererPropTypes } from './PropTypes'
 
 const NativeAnimatedModule = NativeModules && NativeModules.NativeAnimatedModule
 
-class DefaultNavigationRenderer extends React.Component {
+export default class DefaultNavigationRenderer extends React.Component {
   static propTypes = DefaultNavigationRendererPropTypes
 
   constructor(props) {
@@ -140,5 +140,3 @@ class DefaultNavigationRenderer extends React.Component {
     )
   }
 }
-
-export default DefaultNavigationRenderer

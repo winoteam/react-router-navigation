@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class DefaultTabsRenderer extends React.Component {
+export default class DefaultTabsRenderer extends React.Component {
   static propTypes = DefaultTabsRendererPropTypes
 
   static defaultProps = {
@@ -52,5 +52,3 @@ class DefaultTabsRenderer extends React.Component {
     )
   }
 }
-
-export default DefaultTabsRenderer

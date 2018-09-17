@@ -3,7 +3,7 @@ import { Route } from 'react-router'
 import { SceneView } from 'react-router-navigation-core'
 import { CardPropTypes } from './PropTypes'
 
-class Card extends React.Component {
+export default class Card extends React.Component {
   static propTypes = CardPropTypes
 
   render() {
@@ -16,5 +16,3 @@ class Card extends React.Component {
     )
   }
 }
-
-export default Card
