@@ -30,7 +30,7 @@ type State = {|
   historyNodes: HistoryNodes,
 |}
 
-class TabStack extends React.Component<Props, State> {
+export default class TabStack extends React.Component<Props, State> {
   unlistenHistory: ?Function = null
 
   constructor(props: Props) {
@@ -60,7 +60,12 @@ class TabStack extends React.Component<Props, State> {
     )
     const initialRoute = navigationState.routes[navigationState.index]
     const historyRootIndex = index
-    const historyNodes = { [initialRoute.name]: entries.slice(index) }
+    const historyNodes = {
+      [initialRoute.name]: {
+        index: 0,
+        entries: entries.slice(index),
+      },
+    }
     this.state = { tabs, navigationState, historyRootIndex, historyNodes }
   }
 
@@ -102,7 +107,7 @@ class TabStack extends React.Component<Props, State> {
 
   onHistoryChange = (history: RouterHistory, nextHistory: RouterHistory) => {
     const { location } = nextHistory
-    const { navigationState, tabs } = this.state
+    const { navigationState, tabs, historyRootIndex } = this.state
     const { routes } = navigationState
     const currentRoute = routes[navigationState.index]
     const nextTab = tabs.find(tab => matchPath(location.pathname, tab))
@@ -118,6 +123,15 @@ class TabStack extends React.Component<Props, State> {
         }))
       }
     }
+    this.setState(prevState => ({
+      historyNodes: {
+        ...prevState.historyNodes,
+        [currentRoute.name]: {
+          index: nextHistory.index - historyRootIndex,
+          entries: nextHistory.entries.slice(historyRootIndex),
+        },
+      },
+    }))
   }
 
   onIndexChange = (arg: number | Route) => {
@@ -129,14 +143,28 @@ class TabStack extends React.Component<Props, State> {
     if (nextTab && index !== navigationState.index) {
       const location = HistoryUtils.createLocation(history, nextTab)
       this.setState(
-        {
-          navigationState: StateUtils.changeIndex(
-            navigationState,
-            RouteUtils.create(nextTab, location, nextRoute) || index,
-          ),
+        prevState => {
+          const prevHistoryNode = prevState.historyNodes[nextRoute.name]
+          return {
+            navigationState: StateUtils.changeIndex(
+              navigationState,
+              RouteUtils.create(nextTab, location, nextRoute) || index,
+            ),
+            historyNodes: {
+              ...prevState.historyNodes,
+              [nextRoute.name]: {
+                index: prevHistoryNode ? prevHistoryNode.index : 0,
+                entries: prevHistoryNode ? prevHistoryNode.entries : [location],
+              },
+            },
+          }
         },
         () => {
-          history.replace(location.pathname, location.state)
+          HistoryUtils.regenerate(
+            history,
+            this.state.historyNodes[nextRoute.name],
+            historyRootIndex,
+          )
         },
       )
     } else {
@@ -181,5 +209,3 @@ class TabStack extends React.Component<Props, State> {
     })
   }
 }
-
-export default TabStack

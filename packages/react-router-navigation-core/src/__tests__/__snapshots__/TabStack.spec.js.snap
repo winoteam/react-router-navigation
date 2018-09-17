@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<TabStack /> should not re-render correctly when "replace" action is called with not defined location 1`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> should not re-render correctly when "replace" action is called with not defined location 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
 exports[`<TabStack /> should re render correctly when new tabs are provided 1`] = `
 <Text>
   Index
@@ -42,7 +54,11 @@ exports[`<TabStack /> should re-render correctly when "onIndexChange" action is 
 </Text>
 `;
 
-exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 2`] = `null`;
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg 2`] = `
+<Text>
+  Goodbye
+</Text>
+`;
 
 exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg and initialPath prop 1`] = `
 <Text>
@@ -50,7 +66,29 @@ exports[`<TabStack /> should re-render correctly when "onIndexChange" action is 
 </Text>
 `;
 
-exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg and initialPath prop 2`] = `null`;
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg and initialPath prop 2`] = `
+<Text>
+  {"name":"goodbye"}
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg inside advanced history nodes 1`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg inside advanced history nodes 2`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with index arg inside advanced history nodes 3`] = `
+<Text>
+  Hello
+</Text>
+`;
 
 exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with route arg 1`] = `
 <Text>
@@ -58,7 +96,11 @@ exports[`<TabStack /> should re-render correctly when "onIndexChange" action is 
 </Text>
 `;
 
-exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with route arg 2`] = `null`;
+exports[`<TabStack /> should re-render correctly when "onIndexChange" action is called with route arg 2`] = `
+<Text>
+  Goodbye
+</Text>
+`;
 
 exports[`<TabStack /> should re-render correctly when "push" action is called 1`] = `
 <Text>
@@ -94,6 +136,114 @@ exports[`<TabStack /> should re-render correctly when "replace" action is called
 <Text>
   {"language":"fr"}
 </Text>
+`;
+
+exports[`<TabStack /> should re-render with lazy prop disabled 1`] = `
+Array [
+  <View>
+    <Text>
+      Index
+    </Text>
+  </View>,
+  <View>
+    <Text>
+      Hello
+    </Text>
+  </View>,
+  <View>
+    <Text>
+      Goodbye
+    </Text>
+  </View>,
+]
+`;
+
+exports[`<TabStack /> should re-render with lazy prop disabled 2`] = `
+Array [
+  <View>
+    <Text>
+      Index
+    </Text>
+  </View>,
+  <View>
+    <Text>
+      Hello
+    </Text>
+  </View>,
+  <View>
+    <Text>
+      Goodbye
+    </Text>
+  </View>,
+]
+`;
+
+exports[`<TabStack /> should re-render with lazy prop disabled 3`] = `
+Array [
+  <View>
+    <Text>
+      Index
+    </Text>
+  </View>,
+  <View>
+    <Text>
+      Hello
+    </Text>
+  </View>,
+  <View>
+    <Text>
+      Goodbye
+    </Text>
+  </View>,
+]
+`;
+
+exports[`<TabStack /> should re-render with lazy prop enabled 1`] = `
+Array [
+  <View />,
+  <View>
+    <Text>
+      Hello
+    </Text>
+  </View>,
+  <View />,
+]
+`;
+
+exports[`<TabStack /> should re-render with lazy prop enabled 2`] = `
+Array [
+  <View>
+    <Text>
+      Index
+    </Text>
+  </View>,
+  <View>
+    <Text>
+      Hello
+    </Text>
+  </View>,
+  <View />,
+]
+`;
+
+exports[`<TabStack /> should re-render with lazy prop enabled 3`] = `
+Array [
+  <View>
+    <Text>
+      Index
+    </Text>
+  </View>,
+  <View>
+    <Text>
+      Hello
+    </Text>
+  </View>,
+  <View>
+    <Text>
+      Goodbye
+    </Text>
+  </View>,
+]
 `;
 
 exports[`<TabStack /> should render correctly 1`] = `

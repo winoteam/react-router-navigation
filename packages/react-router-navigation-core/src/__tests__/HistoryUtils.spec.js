@@ -85,14 +85,144 @@ describe('HistoryUtils', () => {
   })
 
   describe('regenerate', () => {
-    it('should return false', () => {
-      expect(HistoryUtils.regenerate()).toBe(false)
+    it('should make a simple replace call (1)', () => {
+      const historySpy = jest.fn()
+      let history = createMemoryHistory({
+        initialIndex: 3,
+        initialEntries: ['/', '/yolo', '/goodbye', '/hello'],
+      })
+      history.listen(historySpy)
+      HistoryUtils.regenerate(
+        history,
+        { entries: [{ pathname: '/salut' }], index: 0 },
+        3,
+      )
+      expect(historySpy).toHaveBeenCalledTimes(1)
+      expect(history).toMatchObject({
+        index: 3,
+        entries: [
+          { pathname: '/' },
+          { pathname: '/yolo' },
+          { pathname: '/goodbye' },
+          { pathname: '/salut' },
+        ],
+        location: { pathname: '/salut' },
+      })
     })
-  })
 
-  describe('save', () => {
-    it('should return array of nodes', () => {
-      expect(Array.isArray(HistoryUtils.save([]))).toBe(true)
+    it('should recreate history and make a simple replace call (1)', () => {
+      const historySpy = jest.fn()
+      let history = createMemoryHistory({
+        initialIndex: 3,
+        initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/hello/one'],
+      })
+      history.listen(historySpy)
+      HistoryUtils.regenerate(
+        history,
+        {
+          entries: [{ pathname: '/salut' }],
+          index: 0,
+        },
+        3,
+      )
+      expect(historySpy).toHaveBeenCalledTimes(1)
+      expect(history).toMatchObject({
+        index: 3,
+        entries: [
+          { pathname: '/' },
+          { pathname: '/yolo' },
+          { pathname: '/goodbye' },
+          { pathname: '/salut' },
+        ],
+        location: { pathname: '/salut' },
+      })
+    })
+
+    it('should recreate history and make a simple replace call (2)', () => {
+      const historySpy = jest.fn()
+      let history = createMemoryHistory({
+        initialIndex: 3,
+        initialEntries: ['/', '/yolo', '/goodbye', '/hello'],
+      })
+      history.listen(historySpy)
+      HistoryUtils.regenerate(
+        history,
+        {
+          entries: [{ pathname: '/salut' }, { pathname: '/salut/a' }],
+          index: 1,
+        },
+        3,
+      )
+      expect(historySpy).toHaveBeenCalledTimes(1)
+      expect(history).toMatchObject({
+        index: 4,
+        entries: [
+          { pathname: '/' },
+          { pathname: '/yolo' },
+          { pathname: '/goodbye' },
+          { pathname: '/salut' },
+          { pathname: '/salut/a' },
+        ],
+        location: { pathname: '/salut/a' },
+      })
+    })
+
+    it('should recreate history and make a simple replace call (3)', () => {
+      const historySpy = jest.fn()
+      let history = createMemoryHistory({
+        initialIndex: 4,
+        initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/hello/one'],
+      })
+      history.listen(historySpy)
+      HistoryUtils.regenerate(
+        history,
+        {
+          entries: [{ pathname: '/salut' }, { pathname: '/salut/a' }],
+          index: 1,
+        },
+        3,
+      )
+      expect(historySpy).toHaveBeenCalledTimes(1)
+      expect(history).toMatchObject({
+        index: 4,
+        entries: [
+          { pathname: '/' },
+          { pathname: '/yolo' },
+          { pathname: '/goodbye' },
+          { pathname: '/salut' },
+          { pathname: '/salut/a' },
+        ],
+        location: { pathname: '/salut/a' },
+      })
+    })
+
+    it('should recreate history and make a simple replace call (4)', () => {
+      const historySpy = jest.fn()
+      let history = createMemoryHistory({
+        initialIndex: 4,
+        initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/hello/one'],
+      })
+      history.listen(historySpy)
+      HistoryUtils.regenerate(
+        history,
+        {
+          entries: [{ pathname: '/salut' }, { pathname: '/salut/a' }],
+          index: 0,
+        },
+        3,
+      )
+      expect(historySpy).toHaveBeenCalledTimes(1)
+      expect(history).toMatchObject({
+        index: 3,
+        entries: [
+          { pathname: '/' },
+          { pathname: '/yolo' },
+          { pathname: '/goodbye' },
+          { pathname: '/salut' },
+          { pathname: '/salut/a' },
+        ],
+        location: { pathname: '/salut' },
+      })
     })
   })
 })
