@@ -1,0 +1,37 @@
+{
+  "name": "react-router-polaris",
+  "version": "2.0.0-alpha.1",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
+  "scripts": {
+    "build": "yarn build:cjs && yarn build:flow",
+    "build:watch": "babel -d ./lib ./src/ --ignore __tests__ --watch",
+    "build:cjs": "babel -d ./lib ./src/ --ignore __tests__",
+    "build:flow": "for file in $(find ./src -name '*.js' -not -path '*/__tests__*'); do cp \"$file\" `echo \"$file\" | sed 's/\\/src\\//\\/lib\\//g'`.flow; done"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
+  },
+  "keywords": [
+    "web",
+    "polaris",
+    "router",
+    "tabs",
+    "navigation",
+    "navigator"
+  ],
+  "peerDependencies": {
+    "react": "*",
+    "react-router": "4.2.x"
+  },
+  "dependencies": {
+    "@shopify/polaris": "^2.5.0",
+    "react-router-navigation-core": "2.0.0-alpha.1"
+  },
+  "devDependencies": {
+    "react": "16.3.1",
+    "react-router": "4.2.0"
+  }
+}
