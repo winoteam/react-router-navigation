@@ -8988,15 +8988,9 @@ react-native-svg@6.2.2:
     lodash "^4.16.6"
     pegjs "^0.10.0"
 
-react-native-tab-view@^1.0.2:
+react-native-tab-view@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.0.2.tgz#66e0bc6d38a227ed2b212e3a256b7902f6ce02ed"
-  dependencies:
-    prop-types "^15.6.1"
-
-"react-native-tab-view@git+https://github.com/react-native-community/react-native-tab-view":
-  version "1.0.2"
-  resolved "git+https://github.com/react-native-community/react-native-tab-view#f5756e95bd1beeee02ecfbc26f98ee2acae8b83e"
   dependencies:
     prop-types "^15.6.1"
 
