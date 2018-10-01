@@ -27,7 +27,7 @@ type State = {|
   dataSource: Object,
 |}
 
-class List extends React.Component<Props, State> {
+export default class List extends React.Component<Props, State> {
   listView: ?List = null
 
   constructor(props: Props) {
@@ -63,9 +63,7 @@ class List extends React.Component<Props, State> {
   render() {
     return (
       <ListView
-        ref={c => {
-          this.listView = c
-        }}
+        ref={c => (this.listView = c)}
         style={styles.container}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow}
@@ -74,5 +72,3 @@ class List extends React.Component<Props, State> {
     )
   }
 }
-
-export default List

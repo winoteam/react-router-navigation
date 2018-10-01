@@ -66,10 +66,10 @@ type State = {|
   tabsLength: number,
 |}
 
-class Profile<T> extends React.Component<Props, State> {
+export default class Profile extends React.Component<Props, State> {
   state = { tabsLength: 2 }
 
-  renderTabBar = (tabBarProps: SceneRendererProps<T>) => {
+  renderTabBar = (tabBarProps: SceneRendererProps<any>) => {
     return (
       <SafeAreaView
         forceInset={{ bottom: 'never', top: 'always' }}
@@ -89,7 +89,7 @@ class Profile<T> extends React.Component<Props, State> {
         </Text>
         <Link
           style={styles.link}
-          replace
+          replace={true}
           component={TouchableOpacity}
           to="/profile/bookmarks"
         >
@@ -106,7 +106,7 @@ class Profile<T> extends React.Component<Props, State> {
         {tabsLength === 3 && (
           <Link
             style={styles.link}
-            replace
+            replace={true}
             component={TouchableOpacity}
             to="/profile/settings"
           >
@@ -126,7 +126,7 @@ class Profile<T> extends React.Component<Props, State> {
         </Text>
         <Link
           style={styles.link}
-          replace
+          replace={true}
           component={TouchableOpacity}
           to="/profile/likes"
         >
@@ -143,7 +143,7 @@ class Profile<T> extends React.Component<Props, State> {
         {tabsLength === 3 && (
           <Link
             style={styles.link}
-            replace
+            replace={true}
             component={TouchableOpacity}
             to="/profile/settings"
           >
@@ -215,5 +215,3 @@ class Profile<T> extends React.Component<Props, State> {
     )
   }
 }
-
-export default Profile

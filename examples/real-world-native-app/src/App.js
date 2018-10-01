@@ -12,7 +12,7 @@ type Props = {
   history: RouterHistory,
 }
 
-class App extends React.Component<Props> {
+export default class App extends React.Component<Props> {
   feed: ?Feed = null
 
   onReset = () => {
@@ -97,5 +97,3 @@ class App extends React.Component<Props> {
     )
   }
 }
-
-export default App

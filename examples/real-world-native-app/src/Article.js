@@ -36,7 +36,7 @@ type State = {|
   time: 0,
 |}
 
-class Article extends React.Component<Props, State> {
+export default class Article extends React.Component<Props, State> {
   timer: ?IntervalID = null
 
   state = { time: 0 }
@@ -104,5 +104,3 @@ class Article extends React.Component<Props, State> {
     )
   }
 }
-
-export default Article

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
 type Props = ContextRouter
 
-class Feed extends React.Component<Props> {
+export default class Feed extends React.Component<Props> {
   listView: ?List = null
 
   renderArticleTitle = (titleProps: { match: Match }) => {
@@ -107,5 +107,3 @@ class Feed extends React.Component<Props> {
     )
   }
 }
-
-export default Feed
