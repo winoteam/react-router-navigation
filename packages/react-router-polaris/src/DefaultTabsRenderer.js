@@ -1,20 +1,16 @@
 /* @flow */
 
 import * as React from 'react'
-import { Route } from 'react-router'
 import { Card, Tabs } from '@shopify/polaris'
-import type { NavigationState } from 'react-router-navigation-core'
-import { DefaultTabsRendererPropTypes } from './PropTypes'
+import {
+  type TabsRendererProps,
+  TabsRendererPropType,
+} from 'react-router-navigation-core'
 
-type Props = {
-  children?: React$Node[],
-  navigationState: NavigationState,
-  onIndexChange: (index: number) => void,
-  renderTab: (route: Route) => ?React$Node,
-}
+type Props = TabsRendererProps<>
 
 export default class DefaultTabsRenderer extends React.Component<Props> {
-  static propTypes = DefaultTabsRendererPropTypes
+  static propTypes = TabsRendererPropType
 
   renderCurrentTab = () => {
     const { renderTab, navigationState } = this.props
@@ -29,7 +25,10 @@ export default class DefaultTabsRenderer extends React.Component<Props> {
           selected={navigationState.index}
           onSelect={onIndexChange}
           tabs={tabs.map(tab => {
-            const item: { path?: string, label?: string } = { ...tab }
+            const item: {
+              path?: string,
+              label?: string,
+            } = { ...tab }
             return {
               id: item.path,
               content: item.label,

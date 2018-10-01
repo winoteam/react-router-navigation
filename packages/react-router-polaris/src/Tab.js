@@ -1,26 +1,28 @@
 /* @flow */
 
 import * as React from 'react'
-import { Route } from 'react-router'
-import { SceneView, type RouteProps } from 'react-router-navigation-core'
-import { TabPropTypes } from './PropTypes'
-import { TabOptions } from './TypeDefinitions'
+import PropTypes from 'prop-types'
+import * as ReactRouter from 'react-router'
+import {
+  SceneView,
+  TabPropType,
+  type RouteProps,
+} from 'react-router-navigation-core'
+import { type TabOptions } from './TypeDefinitions'
 
-type Props = {
-  ...RouteProps,
-  ...TabOptions,
-}
+type Props = RouteProps & TabOptions
 
-export default class Tab extends React.Component {
-  static propTypes = TabPropTypes
+export default class Tab extends React.Component<Props> {
+  // $FlowFixMe
+  static propTypes = { ...TabPropType, label: PropTypes.string.isRequired }
 
   render() {
     return (
-      <Route>
+      <ReactRouter.Route>
         {({ history }) => {
           return <SceneView {...this.props} history={history} />
         }}
-      </Route>
+      </ReactRouter.Route>
     )
   }
 }

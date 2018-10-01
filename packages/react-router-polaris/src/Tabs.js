@@ -1,17 +1,19 @@
 /* @flow */
 
 import * as React from 'react'
-import { TabStack } from 'react-router-navigation-core'
+import PropTypes from 'prop-types'
 import { Route } from 'react-router'
+import { TabStack } from 'react-router-navigation-core'
 import DefaultTabsRenderer from './DefaultTabsRenderer'
-import { TabsPropTypes } from './PropTypes'
 
 type Props = {
   children?: React$Node[],
 }
 
 export default class Tabs extends React.Component<Props> {
-  static defaultProps = TabsPropTypes
+  static defaultProps = {
+    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+  }
 
   render() {
     return (
