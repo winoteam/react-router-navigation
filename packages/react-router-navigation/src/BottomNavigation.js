@@ -2,12 +2,12 @@ import * as React from 'react'
 import { Dimensions } from 'react-native'
 import { Route } from 'react-router'
 import { TabStack } from 'react-router-navigation-core'
-import { TabViewPagerPan } from 'react-native-tab-view'
+import { PagerPan } from 'react-native-tab-view'
 import DefaultTabsRenderer from './DefaultTabsRenderer'
 import TabBarBottom from './TabBarBottom'
 import { BottomNavigationPropTypes } from './PropTypes'
 
-class BottomNavigation extends React.Component {
+export default class BottomNavigation extends React.Component {
   static propTypes = BottomNavigationPropTypes
 
   static defaultProps = {
@@ -15,9 +15,10 @@ class BottomNavigation extends React.Component {
     initialLayout: Dimensions.get('window'),
   }
 
-  renderPager = pagerProps => {
+  renderPager = props => pagerProps => {
     return (
-      <TabViewPagerPan
+      <PagerPan
+        {...props}
         {...pagerProps}
         animationEnabled={false}
         swipeEnabled={false}
@@ -25,12 +26,15 @@ class BottomNavigation extends React.Component {
     )
   }
 
-  renderTabBar = tabBarProps => {
+  renderTabBar = props => tabBarProps => {
     if (tabBarProps.hideTabBar) return null
     if (tabBarProps.renderTabBar) {
-      return React.createElement(tabBarProps.renderTabBar, tabBarProps)
+      return React.createElement(tabBarProps.renderTabBar, {
+        ...props,
+        ...tabBarProps,
+      })
     }
-    return <TabBarBottom {...tabBarProps} />
+    return <TabBarBottom {...props} {...tabBarProps} />
   }
 
   render() {
@@ -39,15 +43,16 @@ class BottomNavigation extends React.Component {
         {({ history }) => (
           <TabStack
             {...this.props}
+            changeTabMode="history"
             history={history}
-            render={tabsRendererProps => (
+            render={tabStackRendererProps => (
               <DefaultTabsRenderer
                 animationEnabled={false}
-                renderPager={this.renderPager}
-                renderTabBar={this.renderTabBar}
+                renderPager={this.renderPager(tabStackRendererProps)}
+                renderTabBar={this.renderTabBar(tabStackRendererProps)}
                 tabBarPosition="bottom"
                 {...this.props}
-                {...tabsRendererProps}
+                {...tabStackRendererProps}
               />
             )}
           />
@@ -56,5 +61,3 @@ class BottomNavigation extends React.Component {
     )
   }
 }
-
-export default BottomNavigation

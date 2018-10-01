@@ -61,6 +61,7 @@ export default class Tabs extends React.Component {
         {({ history }) => (
           <TabStack
             {...this.props}
+            changeTabMode="state"
             history={history}
             render={tabStacktRendererProps => (
               <DefaultTabsRenderer

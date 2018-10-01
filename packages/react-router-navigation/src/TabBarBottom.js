@@ -47,17 +47,28 @@ export default class TabBarBottom extends React.Component {
     tabActiveTintColor: '#3478f6',
   }
 
+  onTabPress = scene => {
+    const { navigationState, onIndexChange } = this.props
+    const { route } = scene
+    const activeRoute = navigationState.routes[navigationState.index]
+    if (activeRoute.key === route.key) {
+      onIndexChange(route)
+    }
+  }
+
   renderIndicator = () => {
     return null
   }
 
   renderLabel = scene => {
-    const { tabs } = this.props
+    const { tabs, navigationState } = this.props
     const { route } = scene
+    const activeRoute = navigationState.routes[navigationState.index]
     const activeTab = tabs.find(tab => tab.path === route.name)
     const labelprops = { ...activeTab, ...scene }
+    const focused = activeRoute.key === route.key
     if (labelprops.renderLabel) return labelprops.renderLabel(labelprops, scene)
-    const { label, tabTintColor, tabActiveTintColor, focused } = labelprops
+    const { label, tabTintColor, tabActiveTintColor } = labelprops
     if (!label) return null
     return (
       <Text
@@ -74,10 +85,12 @@ export default class TabBarBottom extends React.Component {
   }
 
   renderIcon = scene => {
-    const { tabs } = this.props
+    const { tabs, navigationState } = this.props
     const { route } = scene
+    const activeRoute = navigationState.routes[navigationState.index]
     const activeTab = tabs.find(tab => tab.path === route.name)
-    const iconProps = { ...scene, ...activeTab }
+    const focused = activeRoute.key === route.key
+    const iconProps = { ...scene, ...activeTab, focused }
     if (!iconProps.renderTabIcon) return null
     return iconProps.renderTabIcon(iconProps)
   }
@@ -104,14 +117,14 @@ export default class TabBarBottom extends React.Component {
         }}
       >
         <TabBar
+          onTabPress={this.onTabPress}
+          jumpTo={props.jumpTo}
           layout={props.layout}
           navigationState={props.navigationState}
           panX={props.panX}
           offsetX={props.offsetX}
           position={props.position}
-          jumpToIndex={props.jumpToIndex}
           useNativeDriver={props.useNativeDriver}
-          onTabPress={props.onTabPress}
           style={tabBarStyle}
           tabStyle={[styles.tab, props.tabStyle]}
           pressOpacity={1}
