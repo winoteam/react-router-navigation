@@ -1,21 +1,25 @@
 language: node_js
 
 node_js:
-  - '8'
+  - 9
+
+dist: trusty
+
+sudo: required
+
+addons:
+  chrome: beta
+
+before_install:
+  - google-chrome-beta --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
 cache:
   yarn: true
-  bundler: true
   directories:
     - node_modules
 
-before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.1.0
-  - export PATH="$HOME/.yarn/bin:$PATH"
+install:
+  - yarn
 
-before_script:
-  - yarn run bootstrap
-
-script: yarn run test
-
-sudo: false
+script:
+  - yarn test

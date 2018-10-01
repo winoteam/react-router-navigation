@@ -7,7 +7,7 @@ Tabs make it easy to explore and switch between different views.
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/tabs.gif" width="250">
 
 ```js
-import React from 'react'
+import * as React from 'react'
 import { Tabs, Tab } from 'react-router-navigation'
 
 const App = () => (
@@ -43,11 +43,13 @@ const App = () => (
 
 * [`... TabBar props` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **style** `?StyleSheet` override or extend the default style for `<View />` container
+* **initialLayout** optional object containing the initial `height` and `width`, can be passed to prevent the one frame delay in rendering
 * **lazy** `?boolean` whether to load tabs lazily when you start switching
-* **configureTransition** `:?Function` callback which returns a configuration for the transition, return null to disable animation
 
 #### `<Tab />` props
 
 * [`... <Route />` props](https://reacttraining.com/react-router/native/api/Route)
 * [`... TabBar props` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
-* **onReset** `?Function` callback which resets the current tab
+* **routePath** `?string` any valid URL path 
+* **initialPath** `?string` any valid URL path 
+* **onReset** `?Function` callback which resets the current tab 

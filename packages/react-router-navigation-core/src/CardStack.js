@@ -1,173 +1,128 @@
 /* @flow */
 
-import React from 'react'
-import { BackHandler } from 'react-native'
-import { StateUtils } from 'react-navigation'
-import { type RouterHistory, type Location, withRouter, matchPath } from 'react-router'
-import type { CardsRendererProps, NavigationState, Card } from './TypeDefinitions'
-import * as StackUtils from './StackUtils'
-import * as HistoryUtils from './HistoryUtils'
-
-const buildNavigationState = (
-  location: Location,
-  entries: Array<Location>,
-  cards: Array<Card>,
-): NavigationState<{
-  path?: string,
-  params?: Object,
-}> => {
-  // Find last route and reproduce actual route stack
-  // Fix > https://github.com/LeoLeBras/react-router-navigation/issues/37
-  const lastRouteIndex = entries.findIndex(entry => entry.pathname === location.pathname)
-  const initialEntries = entries.slice(0, lastRouteIndex + 1)
-  // $FlowFixMe
-  return initialEntries.reduce(
-    (state, entry) => {
-      const card = cards.find(({ path, exact, strict }) => {
-        return matchPath(entry.pathname, { path, exact, strict })
-      })
-      if (!card || !card.path) return state
-      const route = StackUtils.getRoute(cards, entry)
-      if (!route) return { index: -1, routes: [] }
-      return {
-        index: matchPath(location.pathname, card) ? state.routes.length : state.index,
-        routes: [...state.routes, route],
-      }
-    },
-    { index: -1, routes: [] },
-  )
-}
-
-type State = {
-  key: number,
-  navigationState: NavigationState<{
-    path?: string,
-    params?: Object,
-  }>,
-  cards: Array<Card>,
-}
+import * as React from 'react'
+import { matchPath, type RouterHistory } from 'react-router'
+import invariant from 'invariant'
+import HistoryUtils from './HistoryUtils'
+import StackUtils from './StackUtils'
+import RouteUtils from './RouteUtils'
+import StateUtils from './StateUtils'
+import type {
+  Route,
+  CardsRendererProps,
+  NavigationState,
+  Card,
+  BackHandler,
+} from './TypeDefinitions'
 
 type Props = {
-  history: RouterHistory, // eslint-disable-next-line
-  children?: React$Node,
-  render: (props: CardsRendererProps) => React$Element<any>,
+  history: RouterHistory,
+  children: React$Node[],
+  backHandler: BackHandler,
+  render: (props: CardsRendererProps) => React$Node,
 }
 
-class CardStack extends React.Component<Props, State> {
-  props: Props
-  state: State
+type State = {|
+  cards: Card[],
+  navigationState: NavigationState<>,
+|}
 
-  unlistenHistory: Function
+export default class CardStack extends React.Component<Props, State> {
+  unlistenHistory: ?Function = null
 
   constructor(props: Props) {
     super(props)
-    // Build the card stack
-    const { children, history: { entries, index, location } } = props
-    const cards = children && StackUtils.build(children)
-    // CardStack can be mount ?
-    if (!cards) {
-      throw new Error('No initial route found')
-    }
-    if (!entries || index === undefined) {
-      throw new Error('No history entries found')
-    }
-    // Build navigation state
-    const navigationState = buildNavigationState(location, entries, cards)
-    // Set key
-    const key = 0
-    // Save everything in component state
-    this.state = { navigationState, cards, key }
+    const { children, history } = props
+    invariant(
+      history,
+      'The prop `history` is marked as required in `CardStack`, but its value is `undefined` in CardStack',
+    )
+    invariant(
+      children || React.Children.count(children) > 0,
+      'A <CardStack /> must have child elements',
+    )
+    const { location } = history
+    const entries = history.entries || [location]
+    const cards = StackUtils.create(children, props)
+    const navigationState = StateUtils.initialize(
+      cards,
+      location,
+      entries,
+      'history',
+    )
+    invariant(
+      navigationState.index !== -1,
+      'There is no route defined for path « %s »',
+      location.pathname,
+    )
+    this.state = { cards, navigationState }
   }
 
-  // Listen hardware BackHandler event + history event
   componentDidMount() {
-    const { history } = this.props
-    this.unlistenHistory = HistoryUtils.runHistoryListenner(history, this.onListenHistory)
-    BackHandler.addEventListener('hardwareBackPress', this.onNavigateBack)
+    const { history, backHandler } = this.props
+    this.unlistenHistory = HistoryUtils.listen(history, this.onHistoryChange)
+    backHandler.addEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
-  // Remove all listeners
   componentWillUnmount() {
-    this.unlistenHistory()
-    BackHandler.removeEventListener('hardwareBackPress', this.onNavigateBack)
+    const { backHandler } = this.props
+    if (this.unlistenHistory) this.unlistenHistory()
+    backHandler.removeEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
-  // Update cards
   componentWillReceiveProps(nextProps: Props) {
-    const { children } = this.props
-    const { children: nextChildren, history: { entries, location } } = nextProps
-    if (children !== nextChildren && entries) {
-      const nextCards = nextChildren && StackUtils.build(nextChildren)
-      if (nextCards) {
-        const newNavigationState = buildNavigationState(location, entries, nextCards)
-        this.setState(prevState => ({
-          key: prevState.key + 1,
-          cards: nextCards,
-          navigationState: newNavigationState,
-        }))
-      }
+    const { children: nextChildren, history } = nextProps
+    const { cards } = this.state
+    const nextCards = StackUtils.create(nextChildren, nextProps)
+    if (nextCards && !StackUtils.shallowEqual(cards, nextCards)) {
+      const { location } = history
+      const entries = history.entries || [location]
+      const nextNavigationState = StateUtils.initialize(
+        nextCards,
+        location,
+        entries,
+        'history',
+      )
+      invariant(
+        nextNavigationState.index !== -1,
+        'There is no route defined for path « %s »',
+        location.pathname,
+      )
+      this.setState({ cards: nextCards, navigationState: nextNavigationState })
     }
   }
 
-  // Update navigation state
-  onListenHistory = (history: RouterHistory, nextHistory: RouterHistory) => {
-    const { location, entries, index } = history
-    const { location: nextLocation, action, index: nextIndex } = nextHistory
+  onHistoryChange = (history: RouterHistory, nextHistory: RouterHistory) => {
+    const { index } = history
+    const { location, action, index: nextIndex } = nextHistory
     const { navigationState, cards } = this.state
-    // Get current card
     const currentRoute = navigationState.routes[navigationState.index]
-    const currentCard = cards.find(({ key }) => key === currentRoute.routeName)
-    // Get next card
-    const nextRoute = StackUtils.getRoute(cards, nextLocation)
-    if (!nextRoute) return
-    const nextCard = cards.find(({ key }) => key === nextRoute.routeName)
-    // Local state must be updated ?
-    if (
-      currentCard &&
-      nextCard &&
-      StackUtils.shouldUpdate(currentCard, nextCard, location, nextLocation)
-    ) {
-      const key = StackUtils.createKey(nextRoute)
+    const nextCard = cards.find(card => matchPath(location.pathname, card))
+    const nextRoute = nextCard && RouteUtils.create(nextCard, location)
+    if (nextRoute && !RouteUtils.equal(currentRoute, nextRoute)) {
       switch (action) {
         case 'PUSH': {
-          this.setState(state => ({
-            navigationState: StateUtils.push(state.navigationState, {
-              ...nextRoute,
-              key,
-            }),
+          this.setState(prevState => ({
+            navigationState: StateUtils.push(
+              prevState.navigationState,
+              nextRoute,
+            ),
           }))
           break
         }
         case 'POP': {
-          if (index === undefined || nextIndex === undefined || entries === undefined) {
-            return
-          }
           const n = index - nextIndex
-          if (n > 1) {
-            this.setState(state => ({
-              navigationState: StateUtils.reset(
-                state.navigationState,
-                state.navigationState.routes.slice(
-                  0,
-                  // eslint-disable-next-line
-                  state.navigationState.index - n + 1,
-                ),
-                state.navigationState.index - n,
-              ),
-            }))
-          } else {
-            this.setState(state => ({
-              navigationState: StateUtils.pop(state.navigationState),
-            }))
-          }
+          this.setState(prevState => ({
+            navigationState: StateUtils.pop(prevState.navigationState, n),
+          }))
           break
         }
         case 'REPLACE': {
-          this.setState(state => ({
-            navigationState: StateUtils.replaceAtIndex(
-              state.navigationState,
-              state.navigationState.index,
-              { ...nextRoute, key },
+          this.setState(prevState => ({
+            navigationState: StateUtils.replace(
+              prevState.navigationState,
+              prevState.navigationState.index,
+              nextRoute,
             ),
           }))
           break
@@ -177,7 +132,6 @@ class CardStack extends React.Component<Props, State> {
     }
   }
 
-  // Pop to previous scene (n-1)
   onNavigateBack = () => {
     if (this.state.navigationState.index > 0) {
       this.props.history.goBack()
@@ -188,20 +142,23 @@ class CardStack extends React.Component<Props, State> {
 
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     return (
-      this.state.key !== nextState.key ||
       this.state.cards !== nextState.cards ||
       this.state.navigationState !== nextState.navigationState
     )
+  }
+
+  renderCard = (route: Route) => {
+    const children = React.Children.toArray(this.props.children)
+    const child = children.find(({ props }) => props.path === route.name)
+    if (!child) return null
+    return React.cloneElement(child, route)
   }
 
   render() {
     return this.props.render({
       ...this.state,
       onNavigateBack: this.onNavigateBack,
+      renderCard: this.renderCard,
     })
   }
 }
-
-const CardStackWithHistory = withRouter(CardStack)
-
-export default CardStackWithHistory

@@ -1,21 +1,29 @@
-/* eslint react/prop-types: 0 */
+/* @noflow */
 
 import React, { createElement } from 'react'
 import { Text } from 'react-native'
 import * as StackUtils from './../StackUtils'
 
-export const componentFactory = message => ({ match }) => (
-  <Text>{(match && (match.params.id || match.params.slug)) || message}</Text>
-)
-
-export const renderCardView = ({ navigationState: { routes, index }, cards }) => {
-  const route = routes[index]
-  const card = StackUtils.get(cards, route)
-  return createElement(card.render, { key: card.key })
+export function componentFactory(message) {
+  return function({ match }) {
+    if (!match && !message) return null
+    return (
+      <Text>
+        {(match &&
+          Object.values(match.params).length > 0 &&
+          JSON.stringify(match.params)) ||
+          message}
+      </Text>
+    )
+  }
 }
 
-export const renderTabView = ({ navigationState: { routes, index }, tabs }) => {
-  const route = routes[index]
-  const tab = StackUtils.get(tabs, route)
-  return createElement(tab.render, { key: tab.key })
+export function renderCardView({ navigationState, renderCard }) {
+  const route = navigationState.routes[navigationState.index]
+  return renderCard(route)
+}
+
+export function renderTabView({ navigationState, renderTab }) {
+  const route = navigationState.routes[navigationState.index]
+  return renderTab(route)
 }

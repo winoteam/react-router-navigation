@@ -1,6 +1,4 @@
-/* @flow */
-
-import React from 'react'
+import * as React from 'react'
 import { NativeModules } from 'react-native'
 import {
   Transitioner,
@@ -11,63 +9,55 @@ import {
 } from 'react-navigation'
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator'
 import TransitionConfigs from 'react-navigation/src/views/CardStack/TransitionConfigs'
-import type { CardsRendererProps, Card } from 'react-router-navigation-core'
-import type {
-  NavigationProps,
-  NavBarProps,
-  NavigationHeaderProps,
-  NavigationRouter,
-  NavigationTransitionProps,
-} from './TypeDefinitions'
+import { DefaultNavigationRendererPropTypes } from './PropTypes'
 
 const NativeAnimatedModule = NativeModules && NativeModules.NativeAnimatedModule
 
-type Props = NavigationProps &
-  CardsRendererProps & {
-    renderHeader: (
-      NavBarProps<CardsRendererProps & NavigationHeaderProps> &
-        CardsRendererProps &
-        NavigationHeaderProps,
-    ) => ?React$Element<any>,
+export default class DefaultNavigationRenderer extends React.Component {
+  static propTypes = DefaultNavigationRendererPropTypes
+
+  constructor(props) {
+    super(props)
+    this.state = { router: this.getRouter(props) }
   }
 
-type State = {
-  router: NavigationRouter,
-}
+  componentWillReceiveProps(nextProps) {
+    if (this.props.cards !== nextProps.cards) {
+      this.setState({ router: this.getRouter(nextProps) })
+    }
+  }
 
-class DefaultNavigationRenderer extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
+  getRouter = props => {
     const { renderHeader, cards } = props
     const routeConfigMap = cards.reduce((acc, card) => {
       return {
         ...acc,
-        [card.key]: {
+        [card.path]: {
           screen: this.getScreenComponent(card),
           navigationOptions: {
             ...props,
             ...card,
-            header: sceneProps => renderHeader({ ...props, ...sceneProps }),
+            header: sceneProps => {
+              return renderHeader({ ...props, ...sceneProps })
+            },
           },
         },
       }
     }, {})
-    const router = StackRouter(routeConfigMap)
-    this.state = { router }
+    return StackRouter(routeConfigMap)
   }
 
-  getScreenComponent = (card: Card) => {
-    const { render, children, component } = card
-    if (render) return render
-    else if (children && typeof children === 'function') return children
-    else if (component) return component
-    return null
+  getScreenComponent = () => {
+    return this.renderScreenComponent
   }
 
-  configureTransition = (
-    transitionProps: NavigationTransitionProps,
-    prevTransitionProps: NavigationTransitionProps,
-  ) => {
+  renderScreenComponent = ({ navigation }) => {
+    const { renderCard } = this.props
+    const { state: route } = navigation
+    return renderCard(route)
+  }
+
+  configureTransition = (transitionProps, prevTransitionProps) => {
     const isModal = this.props.mode === 'modal'
     const transitionSpec = {
       ...TransitionConfigs.getTransitionConfig(
@@ -77,21 +67,22 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
         isModal,
       ).transitionSpec,
     }
-    if (!!NativeAnimatedModule && CardStackStyleInterpolator.canUseNativeDriver()) {
+    if (
+      !!NativeAnimatedModule &&
+      CardStackStyleInterpolator.canUseNativeDriver()
+    ) {
       transitionSpec.useNativeDriver = true
     }
     return transitionSpec
   }
 
-  renderStack = (
-    props: Props & NavigationTransitionProps,
-    prevProps: Props & NavigationTransitionProps,
-  ) => {
+  renderStack = (props, prevProps) => {
     const { cards } = this.props
     const { router } = this.state
-    const { scene: { route } } = props
-    const card = cards.find(({ key }) => key === route.routeName)
-    const cardStackProps = { ...this.props, ...card }
+    const {
+      scene: { route },
+    } = props
+    const cardStackProps = cards.find(card => card.path === route.name)
     const {
       screenProps,
       headerMode,
@@ -118,9 +109,12 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
   render() {
     const { cards, navigationState, onNavigateBack } = this.props
     const route = navigationState.routes[navigationState.index]
-    const card = cards.find(({ key }) => key === route.routeName)
-    const transitionerProps = { ...this.props, ...card }
-    const { configureTransition, onTransitionStart, onTransitionEnd } = transitionerProps
+    const transitionerProps = cards.find(card => card.path === route.name)
+    const {
+      configureTransition,
+      onTransitionStart,
+      onTransitionEnd,
+    } = transitionerProps
     return (
       <Transitioner
         render={this.renderStack}
@@ -128,7 +122,13 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
         onTransitionStart={onTransitionStart}
         onTransitionEnd={onTransitionEnd}
         navigation={addNavigationHelpers({
-          state: navigationState,
+          state: {
+            ...navigationState,
+            routes: navigationState.routes.map(route => ({
+              ...route,
+              routeName: route.name,
+            })),
+          },
           addListener: () => ({}),
           dispatch: action => {
             if (action.type === NavigationActions.back().type) {
@@ -140,5 +140,3 @@ class DefaultNavigationRenderer extends React.Component<Props, State> {
     )
   }
 }
-
-export default DefaultNavigationRenderer

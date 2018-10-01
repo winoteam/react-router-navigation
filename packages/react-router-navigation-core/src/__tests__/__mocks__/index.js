@@ -1,6 +1,3 @@
-/* eslint no-undef: 0 */
-/* eslint global-require: 0 */
-
 jest.mock('View', () => {
   const RealComponent = require.requireActual('View')
   const React = require('react')
@@ -19,14 +16,4 @@ jest.mock('Text', () => {
   }
   Text.propTypes = RealComponent.propTypes
   return Text
-})
-
-jest.mock('TouchableOpacity', () => {
-  const RealComponent = require.requireActual('TouchableOpacity')
-  const React = require('react')
-  const TouchableOpacity = ({ children, onPress }) => {
-    return React.createElement('TouchableOpacity', { onPress }, children)
-  }
-  TouchableOpacity.propTypes = RealComponent.propTypes
-  return TouchableOpacity
 })

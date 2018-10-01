@@ -1,27 +1,11 @@
-/* @flow */
-
-import React from 'react'
+import * as React from 'react'
 import { Header, HeaderTitle, HeaderBackButton } from 'react-navigation'
-import type { CardsRendererProps, Route } from 'react-router-navigation-core'
-import type {
-  NavBarProps,
-  Card,
-  NavigationHeaderProps,
-  NavigationScene,
-} from './TypeDefinitions'
+import { NavBarPropTypes } from './PropTypes'
 
-type Props = NavBarProps<CardsRendererProps & NavigationHeaderProps> &
-  CardsRendererProps &
-  NavigationHeaderProps
+export default class NavBar extends React.Component {
+  static propTypes = NavBarPropTypes
 
-type SceneProps = Props &
-  Card &
-  Route & {
-    scene: NavigationScene,
-  }
-
-class NavBar extends React.Component<Props> {
-  renderLeftComponent = (sceneProps: SceneProps) => {
+  renderLeftComponent = sceneProps => {
     const { scenes, cards } = sceneProps
     if (sceneProps.renderLeftButton) {
       return sceneProps.renderLeftButton(sceneProps)
@@ -34,8 +18,8 @@ class NavBar extends React.Component<Props> {
       return null
     }
     const previousScene = scenes[Math.max(0, sceneProps.scene.index - 1)]
-    const { routeName: previousRouteName } = previousScene.route
-    const previousCard = cards.find(card => card.key === previousRouteName)
+    const { name: previousRouteName } = previousScene.route
+    const previousCard = cards.find(card => card.path === previousRouteName)
     const previousSceneProps = { ...previousScene, ...previousCard }
     return (
       <HeaderBackButton
@@ -46,14 +30,18 @@ class NavBar extends React.Component<Props> {
     )
   }
 
-  renderTitleComponent = (sceneProps: SceneProps) => {
+  renderTitleComponent = sceneProps => {
     if (sceneProps.renderTitle) {
       return sceneProps.renderTitle(sceneProps)
     }
-    return <HeaderTitle style={sceneProps.titleStyle}>{sceneProps.title}</HeaderTitle>
+    return (
+      <HeaderTitle style={sceneProps.titleStyle}>
+        {sceneProps.title}
+      </HeaderTitle>
+    )
   }
 
-  renderRightComponent = (sceneProps: SceneProps) => {
+  renderRightComponent = sceneProps => {
     if (sceneProps.renderRightButton) {
       return sceneProps.renderRightButton(sceneProps)
     }
@@ -65,9 +53,16 @@ class NavBar extends React.Component<Props> {
       <Header
         {...this.props}
         getScreenDetails={scene => {
-          const { route: { routeName } } = scene
-          const card = this.props.cards.find(({ key }) => key === routeName)
-          const sceneProps = { ...this.props, ...card, ...scene.route, scene }
+          const { route } = scene
+          const activeCard = this.props.cards.find(card => {
+            return card.path === route.name
+          })
+          const sceneProps = {
+            ...this.props,
+            ...activeCard,
+            ...scene.route,
+            scene,
+          }
           return {
             options: {
               headerStyle: sceneProps.navBarStyle,
@@ -81,5 +76,3 @@ class NavBar extends React.Component<Props> {
     )
   }
 }
-
-export default NavBar

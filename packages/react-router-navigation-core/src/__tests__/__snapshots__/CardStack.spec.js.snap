@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardStack /> should re render correctly when new cards are provided 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> should re render correctly when new cards are provided 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "go" action is called 1`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "go" action is called 2`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "go" action is called with URL parameters 1`] = `
+<Text>
+  {"id":"3"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "go" action is called with URL parameters 2`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "goBack" action is called 1`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "goBack" action is called 2`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "goBack" action is called with URL parameters 1`] = `
+<Text>
+  {"id":"2"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "goBack" action is called with URL parameters 2`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "onNavigationBack" action is called 1`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "onNavigationBack" action is called 2`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "push" action is called 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "push" action is called 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "push" action is called with URL parameters 1`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "push" action is called with URL parameters 2`] = `
+<Text>
+  {"id":"2"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "replace" action is called 1`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "replace" action is called 2`] = `
+<Text>
+  Goodbye
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "replace" action is called with URL parameters 1`] = `
+<Text>
+  {"id":"2"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "replace" action is called with URL parameters 2`] = `
+<Text>
+  {"id":"3"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "replace" action is called with routePath prop 1`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when "replace" action is called with routePath prop 2`] = `
+<Text>
+  {"id":"1","method":"update"}
+</Text>
+`;
+
+exports[`<CardStack /> should render correctly 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> should render correctly with initialIndex and initialEntries props 1`] = `
+<Text>
+  Hello
+</Text>
+`;

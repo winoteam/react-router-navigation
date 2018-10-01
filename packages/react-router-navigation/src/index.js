@@ -1,4 +1,4 @@
-/* @flow */
+/* @noflow */
 
 // High-level wrappers
 export { default as BottomNavigation } from './BottomNavigation'
@@ -11,13 +11,3 @@ export { default as Tabs } from './Tabs'
 // Low-level building blocks
 export { default as DefaultNavigationRenderer } from './DefaultNavigationRenderer'
 export { default as DefaultTabsRenderer } from './DefaultTabsRenderer'
-
-// Type definitions
-export type {
-  CardProps,
-  NavBarProps,
-  NavigationProps,
-  TabBarProps,
-  TabsProps,
-  TabProps,
-} from './TypeDefinitions'

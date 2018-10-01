@@ -1,18 +1,18 @@
-/* @flow */
-
-import React from 'react'
+import * as React from 'react'
 import { Route } from 'react-router'
-import { type TabProps } from './TypeDefinitions'
-import SceneView from './SceneView'
+import { SceneView } from 'react-router-navigation-core'
+import { TabPropTypes } from './PropTypes'
 
-type Props = TabProps
+export default class Tab extends React.Component {
+  static propTypes = TabPropTypes
 
-const Tab = (props: Props) => (
-  <Route>
-    {({ history }) => {
-      return <SceneView {...props} type="tab" history={history} />
-    }}
-  </Route>
-)
-
-export default Tab
+  render() {
+    return (
+      <Route>
+        {({ history }) => {
+          return <SceneView {...this.props} history={history} />
+        }}
+      </Route>
+    )
+  }
+}

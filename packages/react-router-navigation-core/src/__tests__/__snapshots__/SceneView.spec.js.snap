@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SceneView /> should re-render correctly on history change 1`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly on history change 2`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly on history change with no default route match prop 1`] = `null`;
+
+exports[`<SceneView /> should re-render correctly on history change with no default route match prop 2`] = `
+<Text>
+  {"id":"2"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly with routePath prop 1`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly with routePath prop 2`] = `
+<Text>
+  {"id":"1","method":"read"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly with routePath prop 3`] = `
+<Text>
+  {"id":"1","method":"read"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly with routePath prop 4`] = `
+<Text>
+  {"id":"1","method":"read"}
+</Text>
+`;
+
+exports[`<SceneView /> should render correctly 1`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;

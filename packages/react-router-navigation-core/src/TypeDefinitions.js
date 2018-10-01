@@ -1,51 +1,65 @@
 /* @flow */
 
-import type { ContextRouter } from 'react-router'
+import type { Location, ContextRouter, Match } from 'react-router'
 
 export type Route = {
   key: string,
-  routeName: string,
+  name: string,
+  match: ?Match,
 }
 
-export type NavigationState<OwnRoute> = {
+export type NavigationState<NavigationRoute = {}> = {
   index: number,
-  routes: Array<Route & OwnRoute>,
+  routes: Array<Route & NavigationRoute>,
+}
+
+export type NavigationAction = {
+  type: 'PUSH' | 'REPLACE' | 'POP' | 'CHANGE_INDEX',
+  payload: { n?: number },
 }
 
 export type RouteProps = {
   component?: React$ComponentType<ContextRouter>,
   render?: (router: ContextRouter) => React$Node,
-  children?: React$ComponentType<ContextRouter> | React$Node,
+  children?: (router: ContextRouter) => React$Node | React$Node,
   path?: string,
+  routePath?: string,
+  initialPath?: string,
   exact?: boolean,
   strict?: boolean,
   sensitive?: boolean,
 }
 
-export type Card = RouteProps & {
-  key: string,
-}
+export type Card = RouteProps
 
 export type CardsRendererProps = {
+  renderCard: (route: Route) => React$Node,
   onNavigateBack: () => boolean,
-  navigationState: NavigationState<{
-    path?: string,
-    params?: Object,
-  }>,
-  cards: Array<Card>,
+  navigationState: NavigationState<>,
+  cards: Card[],
 }
 
 export type Tab = RouteProps & {
-  key: string,
-  onIndexChange?: (index: number) => void,
+  onReset?: () => void,
 }
 
-export type TabsRendererProps = {
+export type TabsRendererProps<TabRoute = {}> = {
+  renderTab: (route: Route) => React$Node,
   onIndexChange: (index: number) => void,
-  navigationState: NavigationState<{
-    title?: string,
-    testID?: string,
-  }>,
-  loadedTabs: Array<string>,
-  tabs: Array<Tab>,
+  navigationState: NavigationState<TabRoute>,
+  tabs: Tab[],
+}
+
+export type HistoryNode = {
+  index: number,
+  entries: Location[],
+}
+
+export type HistoryNodes = { [name: string]: HistoryNode }
+
+export type HistoryRootIndex = number
+
+export type BackHandler = {
+  addEventListener: (name: string, callback: Function) => void,
+  removeEventListener: (name: string, callback: Function) => void,
 }

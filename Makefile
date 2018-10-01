@@ -1,17 +1,17 @@
 MAKEFLAGS = -j1
 
-bootstrap:
-	yarn
-	lerna bootstrap
-
 format:
-	node_modules/.bin/prettier --write "**/*.{js,json,css,md}"
+	node_modules/.bin/prettier --write "**/*.js"
 
 test:
 	node_modules/.bin/eslint .
-	lerna run test
+	node_modules/.bin/flow --show-all-errors
+	node scripts/tests.js
 
 clean:
+	trash yarn.lock
+	trash packages/*/yarn.lock
+	trash examples/*/yarn.lock
 	trash packages/*/node_modules
 	trash examples/*/node_modules
 	trash node_modules

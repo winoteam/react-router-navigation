@@ -1,5 +1,5 @@
 flow-typed
 node_modules
-examples
 __tests__
 coverage
+lib

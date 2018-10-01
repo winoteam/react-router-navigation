@@ -1,63 +1,63 @@
-/* @flow */
-
-import React from 'react'
+import * as React from 'react'
 import { Dimensions } from 'react-native'
-import { type StyleObj } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
-import { TabStack, type TabsRendererProps } from 'react-router-navigation-core'
-import { TabViewPagerPan } from 'react-native-tab-view'
-import { type SceneRendererProps, type Scene } from 'react-native-tab-view/types'
-import { type TabsProps, type TabRoute } from './TypeDefinitions'
+import { Route } from 'react-router'
+import { TabStack } from 'react-router-navigation-core'
+import { PagerPan } from 'react-native-tab-view'
 import DefaultTabsRenderer from './DefaultTabsRenderer'
 import TabBarBottom from './TabBarBottom'
+import { BottomNavigationPropTypes } from './PropTypes'
 
-type Props = TabsProps & {
-  children?: React$Node,
-  lazy?: boolean,
-  style?: StyleObj,
-}
+export default class BottomNavigation extends React.Component {
+  static propTypes = BottomNavigationPropTypes
 
-class BottomNavigation extends React.Component<Props> {
   static defaultProps = {
     lazy: true,
-    tabBarPosition: 'bottom',
+    initialLayout: Dimensions.get('window'),
   }
 
-  renderPager = (pagerProps: *) => {
-    const { key, ...sceneProps } = pagerProps
-    return <TabViewPagerPan {...sceneProps} animationEnabled={false} swipeEnabled={false} />
+  renderPager = props => pagerProps => {
+    return (
+      <PagerPan
+        {...props}
+        {...pagerProps}
+        animationEnabled={false}
+        swipeEnabled={false}
+      />
+    )
   }
 
-  renderTabBar = (
-    tabBarProps: TabsRendererProps &
-      TabsProps &
-      SceneRendererProps<TabRoute> & {
-        onTabPress: (scene: Scene<TabRoute>) => void,
-      },
-  ) => {
+  renderTabBar = props => tabBarProps => {
     if (tabBarProps.hideTabBar) return null
     if (tabBarProps.renderTabBar) {
-      return React.createElement(tabBarProps.renderTabBar, tabBarProps)
+      return React.createElement(tabBarProps.renderTabBar, {
+        ...props,
+        ...tabBarProps,
+      })
     }
-    return <TabBarBottom {...tabBarProps} />
+    return <TabBarBottom {...props} {...tabBarProps} />
   }
 
   render() {
     return (
-      <TabStack
-        {...this.props}
-        render={tabsRendererProps => (
-          <DefaultTabsRenderer
-            initialLayout={Dimensions.get('window')}
-            animationEnabled={false}
-            renderPager={this.renderPager}
-            renderTabBar={this.renderTabBar}
+      <Route>
+        {({ history }) => (
+          <TabStack
             {...this.props}
-            {...tabsRendererProps}
+            changeTabMode="history"
+            history={history}
+            render={tabStackRendererProps => (
+              <DefaultTabsRenderer
+                animationEnabled={false}
+                renderPager={this.renderPager(tabStackRendererProps)}
+                renderTabBar={this.renderTabBar(tabStackRendererProps)}
+                tabBarPosition="bottom"
+                {...this.props}
+                {...tabStackRendererProps}
+              />
+            )}
           />
         )}
-      />
+      </Route>
     )
   }
 }
-
-export default BottomNavigation

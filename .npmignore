@@ -1,5 +1,7 @@
-examples/
-node_modules/
+examples
+node_modules
+coverage
+flow-typed
 .babelrc
 .git
 .watchmanconfig

@@ -1,18 +1,18 @@
-/* @flow */
-
-import React from 'react'
+import * as React from 'react'
 import { Route } from 'react-router'
-import type { CardProps } from './TypeDefinitions'
-import SceneView from './SceneView'
+import { SceneView } from 'react-router-navigation-core'
+import { CardPropTypes } from './PropTypes'
 
-type Props = CardProps
+export default class Card extends React.Component {
+  static propTypes = CardPropTypes
 
-const Card = (props: Props) => (
-  <Route>
-    {({ history }) => {
-      return <SceneView {...props} type="card" history={history} />
-    }}
-  </Route>
-)
-
-export default Card
+  render() {
+    return (
+      <Route>
+        {({ history }) => {
+          return <SceneView {...this.props} history={history} />
+        }}
+      </Route>
+    )
+  }
+}
