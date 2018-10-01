@@ -1,6 +1,4 @@
-/* @jest-environment jsdom */
-
-describe('Experimental web app', () => {
+describe('Polaris web app', () => {
   beforeAll(async () => {
     jest.setTimeout(25000)
   })

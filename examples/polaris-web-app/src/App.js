@@ -3,8 +3,7 @@
 import * as React from 'react'
 import { type ContextRouter } from 'react-router'
 import { Card } from '@shopify/polaris'
-import Tabs from './Tabs'
-import Tab from './Tab'
+import { Tabs, Tab } from 'react-router-polaris'
 import './App.css'
 
 type Props = {}

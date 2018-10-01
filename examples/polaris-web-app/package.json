@@ -4,12 +4,12 @@
   "private": true,
   "dependencies": {
     "@shopify/polaris": "^2.5.0",
-    "jest-puppeteer": "^3.2.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-router": "4.2.0",
     "react-router-dom": "4.2.0",
     "react-router-navigation-core": "2.0.0-alpha.1",
+    "react-router-polaris": "2.0.0-alpha.1",
     "react-scripts": "1.1.4"
   },
   "scripts": {
@@ -18,11 +18,13 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "jest": "^23.4.2",
-    "puppeteer": "^1.6.1"
+    "jest": "^23.6.0",
+    "jest-puppeteer": "^3.4.0",
+    "puppeteer": "^1.8.0"
   },
   "jest": {
     "preset": "jest-puppeteer",
-    "globalSetup": "./jest-setup.js"
+    "globalSetup": "./jest-setup.js",
+    "globalTeardown": "./jest-teardown.js"
   }
 }
