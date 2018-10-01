@@ -13,14 +13,22 @@
     "type": "git",
     "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
   },
-  "keywords": ["react-native", "ios", "android", "router", "navigation", "navigator"],
-    "bugs": {
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "router",
+    "navigation",
+    "navigator"
+  ],
+  "bugs": {
     "url": "https://github.com/LeoLeBras/react-router-navigation/issues"
   },
   "homepage": "https://github.com/LeoLeBras/react-router-navigation#readme",
   "devDependencies": {
     "babel-eslint": "7.2.3",
     "babel-jest": "18.0.0",
+    "child_process": "^1.0.2",
     "eslint": "4.10.0",
     "eslint-config-react-app": "^2.0.1",
     "eslint-loader": "1.9.0",
@@ -29,13 +37,15 @@
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.4.0",
     "flow-bin": "0.67.1",
-    "jest": "^23.4.2",
+    "jest": "^23.6.0",
     "prettier": "^1.13.5",
     "pretty-quick": "^1.6.0",
     "trash-cli": "^1.4.0"
   },
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "examples/*"
+    ]
+  }
 }

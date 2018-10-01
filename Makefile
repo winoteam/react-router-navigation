@@ -6,7 +6,7 @@ format:
 test:
 	node_modules/.bin/eslint .
 	node_modules/.bin/flow --show-all-errors
-	node_modules/.bin/jest --projects examples/** packages/**
+	node scripts/tests.js
 
 clean:
 	trash yarn.lock
