@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
 })
 
-class App extends React.Component {
+export default class App extends React.Component {
   state = {
     navigation: {},
     card: {},
@@ -173,7 +173,7 @@ class App extends React.Component {
         <Link
           component={TouchableOpacity}
           style={styles.button}
-          replace
+          replace={true}
           to={`${basePath}/two`}
         >
           <Text>Go to "two"</Text>
@@ -181,7 +181,7 @@ class App extends React.Component {
         <Link
           component={TouchableOpacity}
           style={styles.button}
-          replace
+          replace={true}
           to={`${basePath}/three`}
         >
           <Text>Go to "three"</Text>
@@ -199,7 +199,7 @@ class App extends React.Component {
         <Link
           component={TouchableOpacity}
           style={styles.button}
-          replace
+          replace={true}
           to={`${basePath}/one`}
         >
           <Text>Go to "one"</Text>
@@ -207,7 +207,7 @@ class App extends React.Component {
         <Link
           component={TouchableOpacity}
           style={styles.button}
-          replace
+          replace={true}
           to={`${basePath}/three`}
         >
           <Text>Go to "three"</Text>
@@ -225,7 +225,7 @@ class App extends React.Component {
         <Link
           component={TouchableOpacity}
           style={styles.button}
-          replace
+          replace={true}
           to={`${basePath}/one`}
         >
           <Text>Go to "one"</Text>
@@ -233,7 +233,7 @@ class App extends React.Component {
         <Link
           component={TouchableOpacity}
           style={styles.button}
-          replace
+          replace={true}
           to={`${basePath}/two`}
         >
           <Text>Go to "two"</Text>
@@ -271,5 +271,3 @@ class App extends React.Component {
     )
   }
 }
-
-export default App
