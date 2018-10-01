@@ -44,7 +44,6 @@ describe('<TabStack />', () => {
                   index: 0,
                   routes: [
                     {
-                      key: '/',
                       name: '/',
                       match: {
                         url: '/',
@@ -54,12 +53,10 @@ describe('<TabStack />', () => {
                       },
                     },
                     {
-                      key: '/hello',
                       name: '/hello',
                       match: null,
                     },
                     {
-                      key: '/goodbye',
                       name: '/goodbye',
                       match: null,
                     },
@@ -106,12 +103,10 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -121,7 +116,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -160,7 +154,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -170,12 +163,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -185,7 +176,6 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -195,7 +185,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -205,7 +194,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -289,12 +277,10 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -304,7 +290,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -314,7 +299,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -324,7 +308,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -334,7 +317,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -344,7 +326,6 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -354,7 +335,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -364,7 +344,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -453,12 +432,10 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -468,7 +445,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -478,7 +454,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -488,7 +463,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -498,7 +472,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -508,7 +481,6 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -518,7 +490,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -528,7 +499,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -570,12 +540,10 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -585,7 +553,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -600,12 +567,10 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -615,7 +580,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -657,7 +621,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -667,7 +630,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -677,7 +639,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -692,7 +653,6 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -702,7 +662,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -712,7 +671,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -751,7 +709,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -761,12 +718,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -776,7 +731,6 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -786,7 +740,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -796,7 +749,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -836,12 +788,10 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello/:language(fr|en)',
           match: {
             url: '/hello/en',
@@ -851,7 +801,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -861,12 +810,10 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello/:language(fr|en)',
           match: {
             url: '/hello/fr',
@@ -876,7 +823,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -912,12 +858,10 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -926,7 +870,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -967,7 +910,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -977,12 +919,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -992,7 +932,6 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1002,12 +941,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -1065,7 +1002,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1075,12 +1011,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -1090,7 +1024,6 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1100,12 +1033,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -1167,7 +1098,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1177,12 +1107,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/:name',
           name: '/:name',
           match: null,
         },
@@ -1192,7 +1120,6 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1202,12 +1129,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/:name',
           name: '/:name',
           match: {
             url: '/goodbye',
@@ -1290,12 +1215,10 @@ describe('<TabStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -1305,7 +1228,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -1315,12 +1237,10 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -1330,7 +1250,6 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -1417,7 +1336,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1427,12 +1345,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/:name/:extra?',
           name: '/:name/:extra?',
           match: null,
         },
@@ -1442,7 +1358,6 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1452,12 +1367,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/:name/:extra?',
           name: '/:name/:extra?',
           match: {
             url: '/goodbye',
@@ -1472,7 +1385,6 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1482,12 +1394,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/:name/:extra?',
           name: '/:name/:extra?',
           match: {
             url: '/goodbye/first',
@@ -1502,7 +1412,6 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1512,12 +1421,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/:name/:extra?',
           name: '/:name/:extra?',
           match: {
             url: '/goodbye/second',
@@ -1532,7 +1439,6 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1542,12 +1448,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/:name/:extra?',
           name: '/:name/:extra?',
           match: {
             url: '/goodbye',
@@ -1634,17 +1538,14 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -1692,17 +1593,14 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/:name',
           match: {
             url: '/goodbye',
@@ -1757,17 +1655,14 @@ describe('<TabStack />', () => {
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: null,
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -1828,7 +1723,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -1838,12 +1732,10 @@ describe('<TabStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: null,
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: null,
         },
@@ -1868,7 +1760,6 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',

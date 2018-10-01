@@ -34,8 +34,7 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(1)
     expect(typeof CardViewComponent.mock.calls[0][0].onNavigateBack).toBe(
       'function',
@@ -58,7 +57,6 @@ describe('<CardStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -96,14 +94,12 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(1)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -113,7 +109,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -147,17 +142,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.push('/hello')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -172,7 +164,6 @@ describe('<CardStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -182,7 +173,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -217,17 +207,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.push('/article/2')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 0,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id',
           match: {
             url: '/article/1',
@@ -242,7 +229,6 @@ describe('<CardStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id',
           match: {
             url: '/article/1',
@@ -252,7 +238,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/article/2',
           name: '/article/:id',
           match: {
             url: '/article/2',
@@ -289,17 +274,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.goBack()
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -309,7 +291,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -324,7 +305,6 @@ describe('<CardStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -360,17 +340,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.goBack()
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 1,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id',
           match: {
             url: '/article/1',
@@ -380,7 +357,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/article/2',
           name: '/article/:id',
           match: {
             url: '/article/2',
@@ -395,7 +371,6 @@ describe('<CardStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id',
           match: {
             url: '/article/1',
@@ -433,17 +408,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.go(-2)
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 2,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -453,7 +425,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -463,7 +434,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -478,7 +448,6 @@ describe('<CardStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -514,17 +483,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.go(-2)
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 2,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id',
           match: {
             url: '/article/1',
@@ -534,7 +500,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/article/2',
           name: '/article/:id',
           match: {
             url: '/article/2',
@@ -544,7 +509,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/article/3',
           name: '/article/:id',
           match: {
             url: '/article/3',
@@ -559,7 +523,6 @@ describe('<CardStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id',
           match: {
             url: '/article/1',
@@ -597,17 +560,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.replace('/goodbye')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -617,7 +577,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -632,7 +591,6 @@ describe('<CardStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -642,7 +600,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/goodbye',
           name: '/goodbye',
           match: {
             url: '/goodbye',
@@ -678,17 +635,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.replace('/article/3')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 1,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id',
           match: {
             url: '/article/1',
@@ -698,7 +652,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/article/2',
           name: '/article/:id',
           match: {
             url: '/article/2',
@@ -713,7 +666,6 @@ describe('<CardStack />', () => {
       index: 1,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id',
           match: {
             url: '/article/1',
@@ -723,7 +675,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/article/3',
           name: '/article/:id',
           match: {
             url: '/article/3',
@@ -762,17 +713,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.replace('/article/1/update')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 0,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id/:method(read|update)?',
           match: {
             url: '/article/1',
@@ -787,7 +735,6 @@ describe('<CardStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/article/1',
           name: '/article/:id/:method(read|update)?',
           match: {
             url: '/article/1/update',
@@ -827,17 +774,14 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     onNavigateBack()
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 1,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -847,7 +791,6 @@ describe('<CardStack />', () => {
           },
         },
         {
-          key: '/hello',
           name: '/hello',
           match: {
             url: '/hello',
@@ -862,7 +805,6 @@ describe('<CardStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -896,8 +838,7 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     component.update(
       <Router history={history}>
         <Route>
@@ -913,14 +854,12 @@ describe('<CardStack />', () => {
         </Route>
       </Router>,
     )
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',
@@ -946,7 +885,6 @@ describe('<CardStack />', () => {
       index: 0,
       routes: [
         {
-          key: '/',
           name: '/',
           match: {
             url: '/',

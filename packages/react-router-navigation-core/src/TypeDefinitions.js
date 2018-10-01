@@ -50,7 +50,10 @@ export type TabsRendererProps<TabRoute = {}> = {
   tabs: Tab[],
 }
 
-export type HistoryNode = Location[]
+export type HistoryNode = {
+  index: number,
+  entries: Location[],
+}
 
 export type HistoryNodes = { [name: string]: HistoryNode }
 

@@ -5,8 +5,8 @@ describe('RouteUtils', () => {
   describe('create', () => {
     it('should return Route object', () => {
       const location = createLocation('/contact')
-      expect(RouteUtils.create({ path: '/contact' }, location)).toMatchObject({
-        key: '/contact',
+      const route = RouteUtils.create({ path: '/contact' }, location)
+      expect(route).toMatchObject({
         name: '/contact',
         match: {
           url: '/contact',
@@ -14,14 +14,13 @@ describe('RouteUtils', () => {
           params: {},
         },
       })
+      expect(route.key).toMatch('/contact')
     })
 
     it('should return Route object with URL parameters', () => {
       const location = createLocation('/article/1')
-      expect(
-        RouteUtils.create({ path: '/article/:id' }, location),
-      ).toMatchObject({
-        key: '/article/1',
+      const route = RouteUtils.create({ path: '/article/:id' }, location)
+      expect(route).toMatchObject({
         name: '/article/:id',
         match: {
           url: '/article/1',
@@ -29,16 +28,15 @@ describe('RouteUtils', () => {
           params: { id: '1' },
         },
       })
+      expect(route.key).toMatch('/article/1')
     })
 
     it('should return Route object with URL parameters and staleRoute ', () => {
       const location = createLocation('/article/1')
-      expect(
-        RouteUtils.create({ path: '/article/:id' }, location, {
-          key: '/article/:id',
-        }),
-      ).toMatchObject({
+      const route = RouteUtils.create({ path: '/article/:id' }, location, {
         key: '/article/:id',
+      })
+      expect(route).toMatchObject({
         name: '/article/:id',
         match: {
           url: '/article/1',
@@ -46,36 +44,37 @@ describe('RouteUtils', () => {
           params: { id: '1' },
         },
       })
+      expect(route.key).toMatch('/article/:id')
     })
 
     it('should return Route object without location argument', () => {
-      expect(RouteUtils.create({ path: '/contact' })).toMatchObject({
-        key: '/contact',
+      const route = RouteUtils.create({ path: '/contact' })
+      expect(route).toMatchObject({
         name: '/contact',
         match: null,
       })
+      expect(route.key).toMatch('/contact')
     })
 
     it('should return Route object with URL parameters without location argument', () => {
-      expect(RouteUtils.create({ path: '/article/:id' })).toMatchObject({
-        key: '/article/:id',
+      const route = RouteUtils.create({ path: '/article/:id' })
+      expect(route).toMatchObject({
         name: '/article/:id',
         match: null,
       })
+      expect(route.key).toMatch('/article/:id')
     })
 
     it('should return Route object with routePath defined', () => {
       const location = createLocation('/article/1/update')
-      expect(
-        RouteUtils.create(
-          {
-            path: '/article/:id/:method(create|update)?',
-            routePath: '/article/:id',
-          },
-          location,
-        ),
-      ).toMatchObject({
-        key: '/article/1',
+      const route = RouteUtils.create(
+        {
+          path: '/article/:id/:method(create|update)?',
+          routePath: '/article/:id',
+        },
+        location,
+      )
+      expect(route).toMatchObject({
         name: '/article/:id/:method(create|update)?',
         match: {
           url: '/article/1/update',
@@ -83,6 +82,7 @@ describe('RouteUtils', () => {
           params: { id: '1', method: 'update' },
         },
       })
+      expect(route.key).toMatch('/article/1')
     })
 
     it('should return null with no path defined', () => {

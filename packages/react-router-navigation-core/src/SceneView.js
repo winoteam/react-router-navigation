@@ -7,26 +7,26 @@ import {
   type Location,
   type Match,
 } from 'react-router'
-import type { Route, RouteProps } from './TypeDefinitions'
+import type { RouteProps } from './TypeDefinitions'
 
-type Props = Route &
-  RouteProps & {
-    history: RouterHistory,
-  }
+type Props = RouteProps & {
+  history?: RouterHistory,
+  match?: ?Match,
+}
 
 type State = {|
-  location: Location,
+  location: ?Location,
   match: ?Match,
 |}
 
-class SceneView extends React.Component<Props, State> {
+export default class SceneView extends React.Component<Props, State> {
   unlisten: ?Function
 
   constructor(props: Props) {
     super(props)
     const { history, match } = props
-    this.state = { match: match || null, location: history.location }
-    this.unlisten = history.listen(this.onHistoryChange)
+    this.state = { match: match || null, location: history && history.location }
+    this.unlisten = history && history.listen(this.onHistoryChange)
   }
 
   componentWillUnmount() {
@@ -59,6 +59,9 @@ class SceneView extends React.Component<Props, State> {
   render() {
     const { render, children, component: Component, history } = this.props
     const { match, location } = this.state
+    if (!history || !location) {
+      return null
+    }
     const contextRouter = { history, match, location }
     if (render) {
       return render(contextRouter)
@@ -67,16 +70,8 @@ class SceneView extends React.Component<Props, State> {
     } else if (children && React.Children.count(children) === 0) {
       return React.cloneElement(children, contextRouter)
     } else if (Component) {
-      return (
-        <Component
-          match={contextRouter.match}
-          location={contextRouter.location}
-          history={contextRouter.history}
-        />
-      )
+      return <Component match={match} location={location} history={history} />
     }
     return null
   }
 }
-
-export default SceneView

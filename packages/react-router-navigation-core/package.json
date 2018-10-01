@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "history": "4.7.2",
-    "jest": "^23.4.2",
+    "jest": "^23.6.0",
     "react": "16.3.1",
     "react-native": "0.55.4",
     "react-router": "4.2.0",

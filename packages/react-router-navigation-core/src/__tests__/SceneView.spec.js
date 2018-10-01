@@ -29,8 +29,7 @@ describe('<SceneView />', () => {
         </Route>
       </Router>,
     )
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(SceneComponent.mock.calls[0][0]).toMatchObject({
       match: { url: '/1', params: { id: '1' } },
       history: { location: { pathname: '/1' } },
@@ -59,11 +58,9 @@ describe('<SceneView />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.push('/2')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(SceneComponent.mock.calls[0][0]).toMatchObject({
       match: { url: '/1', params: { id: '1' } },
       location: { pathname: '/1' },
@@ -99,11 +96,9 @@ describe('<SceneView />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.push('/2')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(SceneComponent.mock.calls[0][0]).toMatchObject({
       match: null,
       location: { pathname: '/1' },
@@ -135,17 +130,13 @@ describe('<SceneView />', () => {
         </Route>
       </Router>,
     )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.push('/1/read')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.push('/1/read/bookmarks')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     history.push('/2/read')
-    tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
     expect(SceneComponent.mock.calls[0][0]).toMatchObject({
       match: { url: '/1', params: { id: '1' } },
       location: { pathname: '/1' },

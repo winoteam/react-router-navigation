@@ -27,7 +27,7 @@ type State = {|
   navigationState: NavigationState<>,
 |}
 
-class CardStack extends React.Component<Props, State> {
+export default class CardStack extends React.Component<Props, State> {
   unlistenHistory: ?Function = null
 
   constructor(props: Props) {
@@ -162,5 +162,3 @@ class CardStack extends React.Component<Props, State> {
     })
   }
 }
-
-export default CardStack

@@ -3,12 +3,11 @@
 import { matchPath, type Location } from 'react-router'
 import type { RouteProps, Route } from './TypeDefinitions'
 
-const RouteUtils = {
-  create: (
-    item: RouteProps,
-    location?: ?Location,
-    staleRoute?: Route,
-  ): ?Route => {
+let uniqueBaseId = `id-${Date.now()}`
+let uuidCount = 0
+
+export default {
+  create(item: RouteProps, location?: ?Location, staleRoute?: Route): ?Route {
     if (!item || !item.path) return null
     const routeName = item.path
     const routeMatch = location ? matchPath(location.pathname, item) : null
@@ -16,7 +15,11 @@ const RouteUtils = {
     const route = { ...item, path: routePath }
     const match = location && matchPath(location.pathname, route)
     const key = staleRoute ? staleRoute.key : match ? match.url : routeName
-    return { key, match: routeMatch, name: routeName }
+    return {
+      key: staleRoute ? key : `${key}-${uniqueBaseId}-${uuidCount++}`,
+      match: routeMatch,
+      name: routeName,
+    }
   },
 
   equal(oldRoute: Route, newRoute: Route): boolean {
@@ -26,5 +29,3 @@ const RouteUtils = {
     return !!(oldMatch && newMatch && oldMatch.url === newMatch.url)
   },
 }
-
-export default RouteUtils

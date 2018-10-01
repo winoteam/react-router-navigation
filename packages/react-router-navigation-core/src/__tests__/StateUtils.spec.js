@@ -13,16 +13,14 @@ describe('StateUtils', () => {
         index: 0,
         routes: [
           {
-            key: '/a',
             match: { isExact: true, params: {}, path: '/a', url: '/a' },
             name: '/a',
           },
           {
-            key: '/b',
             match: { isExact: true, params: {}, path: '/b', url: '/b' },
             name: '/b',
           },
-          { key: '/c', match: null, name: '/c' },
+          { match: null, name: '/c' },
         ],
       })
     })
@@ -37,12 +35,10 @@ describe('StateUtils', () => {
         index: 1,
         routes: [
           {
-            key: '/b',
             match: { isExact: true, params: {}, path: '/b', url: '/b' },
             name: '/b',
           },
           {
-            key: '/a',
             match: { isExact: true, params: {}, path: '/a', url: '/a' },
             name: '/a',
           },

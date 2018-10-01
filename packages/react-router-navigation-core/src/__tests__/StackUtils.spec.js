@@ -104,6 +104,34 @@ describe('StackUtils', () => {
           ],
         ),
       ).toBe(false)
+      expect(
+        StackUtils.shallowEqual(
+          [
+            {
+              path: '/a',
+              title: 'A',
+            },
+            {
+              path: '/b',
+              title: 'B',
+            },
+          ],
+          [
+            {
+              path: '/a',
+              title: 'A',
+            },
+            {
+              path: '/b',
+              title: 'B',
+            },
+            {
+              path: '/c',
+              title: 'C',
+            },
+          ],
+        ),
+      ).toBe(false)
     })
   })
 

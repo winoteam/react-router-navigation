@@ -5,7 +5,7 @@ import RouteUtils from './RouteUtils'
 import StackUtils from './StackUtils'
 import type { NavigationState, RouteProps, Route } from './TypeDefinitions'
 
-const StateUtils = {
+export default {
   initialize(
     nodes: RouteProps[],
     location: Location,
@@ -123,5 +123,3 @@ const StateUtils = {
     return { ...state, routes, index }
   },
 }
-
-export default StateUtils
