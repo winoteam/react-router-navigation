@@ -19,7 +19,7 @@ export type NavigationAction = {
 }
 
 export type RouteProps = {
-  component?: React$ComponentType<ContextRouter, any>,
+  component?: React$ComponentType<ContextRouter>,
   render?: (router: ContextRouter) => React$Node,
   children?: (router: ContextRouter) => React$Node | React$Node,
   path?: string,
