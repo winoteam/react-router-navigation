@@ -21,6 +21,9 @@
     "navigation",
     "navigator"
   ],
+  "engines": {
+    "yarn": "^1.9.0"
+  },
   "bugs": {
     "url": "https://github.com/LeoLeBras/react-router-navigation/issues"
   },
