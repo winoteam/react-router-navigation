@@ -28,7 +28,7 @@
 ## 📟  Demos
 * [Minimal native app](examples/minimal-native-app)
 * [Real world native app](examples/real-world-native-app)
-* [Experimental web app](examples/experimental-web-app)
+* [Polaris web app](examples/polaris-web-app)
 
 ## 💻  How to use
 
