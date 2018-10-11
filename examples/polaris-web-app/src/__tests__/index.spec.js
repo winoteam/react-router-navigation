@@ -23,6 +23,7 @@ describe('Polaris web app', () => {
     await page.waitForSelector('.container')
     await page.click('button[tabIndex="-1"]')
     await expect(page).toMatch('Second tab')
+    await expect(page.url()).toMatch('http://localhost:3000/accepts-marketing')
     await expect(page).not.toMatch('First tab')
   })
 })
