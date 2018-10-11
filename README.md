@@ -4,6 +4,8 @@
 [![npm version](https://badge.fury.io/js/react-router-navigation.svg)](https://badge.fury.io/js/react-router-navigation)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
+> We are currently in the development phase of `v2`, which is published at npm under `develop` tag. **Latest stable version is `1.0.0-rc.4` and is published to npm under tag `latest`.**
+
 **`react-router-navigation` provides tools to navigate between multiple screens with navigators or tab views. This library is based on `react-router`, `react-navigation`, and `react-native-tab-view`.**
 
 <img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/demo.gif" width="250">
