@@ -132,6 +132,24 @@ exports[`<CardStack /> should re-render correctly when "replace" action is calle
 </Text>
 `;
 
+exports[`<CardStack /> should re-render correctly when new history is provided 1`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when new history is provided 2`] = `
+<Text>
+  {"id":"3"}
+</Text>
+`;
+
+exports[`<CardStack /> should re-render correctly when new history is provided 3`] = `
+<Text>
+  {"id":"5"}
+</Text>
+`;
+
 exports[`<CardStack /> should render correctly 1`] = `
 <Text>
   Index

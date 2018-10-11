@@ -69,10 +69,6 @@ export default class TabStack extends React.Component<Props, State> {
       [initialRoute.name]: { index: 0, entries: entries.slice(index) },
     }
     this.state = { tabs, navigationState, historyRootIndex, historyNodes }
-  }
-
-  componentDidMount() {
-    const { history } = this.props
     this.unlistenHistory = HistoryUtils.listen(history, this.onHistoryChange)
   }
 
@@ -122,8 +118,7 @@ export default class TabStack extends React.Component<Props, State> {
             ? StateUtils.changeIndex(prevState.navigationState, nextRoute)
             : prevState.navigationState,
         historyNodes:
-          nextRoute &&
-          HistoryUtils.canSaveNodes(nextHistory, nextRoute, prevState)
+          nextRoute && 'entries' in nextHistory
             ? HistoryUtils.saveNodes(nextHistory, nextRoute, prevState)
             : prevState.historyNodes,
       }))
@@ -151,11 +146,13 @@ export default class TabStack extends React.Component<Props, State> {
         }),
         () => {
           if ('entries' in history) {
-            HistoryUtils.regenerate(
+            HistoryUtils.regenerateFromEntries(
               history,
               this.state.historyNodes[nextRoute.name],
               historyRootIndex,
             )
+          } else {
+            HistoryUtils.regenerateFromLocation(history, location)
           }
         },
       )

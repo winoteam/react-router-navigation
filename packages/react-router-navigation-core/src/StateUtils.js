@@ -1,6 +1,7 @@
 /* @flow */
 
-import { matchPath, type Location } from 'react-router'
+import { forEach } from 'iterall'
+import { matchPath, type Location, type RouterHistory } from 'react-router'
 import RouteUtils from './RouteUtils'
 import StackUtils from './StackUtils'
 import type { NavigationState, RouteProps, Route } from './TypeDefinitions'
@@ -64,6 +65,26 @@ export default {
     }
     // $FlowFixMe
     return state.routes.findIndex(route => route.name === arg.name)
+  },
+
+  isCorrumped(
+    state: NavigationState<>,
+    history: RouterHistory,
+    historyRootIndex: number,
+  ) {
+    if (!Array.isArray(history.entries)) return false
+    let isCorrumped = false
+    forEach(state.routes.slice(0, state.index + 1), (route, index) => {
+      const location = history.entries[historyRootIndex + index]
+      const match = route ? route.match : null
+      if (
+        !location ||
+        !(match && matchPath(location.pathname, { path: match.path }))
+      ) {
+        isCorrumped = true
+      }
+    })
+    return isCorrumped
   },
 
   push(state: NavigationState<>, route: Route): NavigationState<> {

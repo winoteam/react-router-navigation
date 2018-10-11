@@ -1,4 +1,5 @@
 import { createMemoryHistory } from 'history'
+import { matchPath } from 'react-router'
 import HistoryUtils from './../HistoryUtils'
 
 describe('HistoryUtils', () => {
@@ -84,7 +85,7 @@ describe('HistoryUtils', () => {
     })
   })
 
-  describe('regenerate', () => {
+  describe('regenerateFromEntries', () => {
     it('should make a simple replace call (1)', () => {
       const historySpy = jest.fn()
       let history = createMemoryHistory({
@@ -92,7 +93,7 @@ describe('HistoryUtils', () => {
         initialEntries: ['/', '/yolo', '/goodbye', '/hello'],
       })
       history.listen(historySpy)
-      HistoryUtils.regenerate(
+      HistoryUtils.regenerateFromEntries(
         history,
         { entries: [{ pathname: '/salut' }], index: 0 },
         3,
@@ -117,7 +118,7 @@ describe('HistoryUtils', () => {
         initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/hello/one'],
       })
       history.listen(historySpy)
-      HistoryUtils.regenerate(
+      HistoryUtils.regenerateFromEntries(
         history,
         {
           entries: [{ pathname: '/salut' }],
@@ -145,7 +146,7 @@ describe('HistoryUtils', () => {
         initialEntries: ['/', '/yolo', '/goodbye', '/hello'],
       })
       history.listen(historySpy)
-      HistoryUtils.regenerate(
+      HistoryUtils.regenerateFromEntries(
         history,
         {
           entries: [{ pathname: '/salut' }, { pathname: '/salut/a' }],
@@ -174,7 +175,7 @@ describe('HistoryUtils', () => {
         initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/hello/one'],
       })
       history.listen(historySpy)
-      HistoryUtils.regenerate(
+      HistoryUtils.regenerateFromEntries(
         history,
         {
           entries: [{ pathname: '/salut' }, { pathname: '/salut/a' }],
@@ -203,7 +204,7 @@ describe('HistoryUtils', () => {
         initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/hello/one'],
       })
       history.listen(historySpy)
-      HistoryUtils.regenerate(
+      HistoryUtils.regenerateFromEntries(
         history,
         {
           entries: [{ pathname: '/salut' }, { pathname: '/salut/a' }],
@@ -223,6 +224,183 @@ describe('HistoryUtils', () => {
         ],
         location: { pathname: '/salut' },
       })
+    })
+  })
+
+  describe('regenerateFromLocation', () => {
+    it('should recreate history and make a simple replace call (4)', () => {
+      const historySpy = jest.fn()
+      let history = createMemoryHistory({
+        initialIndex: 4,
+        initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/hello/one'],
+      })
+      history.listen(historySpy)
+      HistoryUtils.regenerateFromLocation(history, { pathname: '/salut/a' })
+      expect(historySpy).toHaveBeenCalledTimes(1)
+      expect(history).toMatchObject({
+        index: 4,
+        entries: [
+          { pathname: '/' },
+          { pathname: '/yolo' },
+          { pathname: '/goodbye' },
+          { pathname: '/hello' },
+          { pathname: '/salut/a' },
+        ],
+        location: { pathname: '/salut/a' },
+      })
+    })
+  })
+
+  describe('saveNodes', () => {
+    it('should return nodes from a location source', () => {
+      const source = { pathname: '/a' }
+      const route = { name: '/a', match: matchPath('/a', { path: '/a' }) }
+      const localHistoryState = {
+        historyNodes: {
+          '/b': {
+            index: 0,
+            entries: [{ pathname: '/b' }],
+          },
+        },
+      }
+      expect(
+        HistoryUtils.saveNodes(source, route, localHistoryState),
+      ).toMatchObject({
+        '/a': {
+          index: 0,
+          entries: [{ pathname: '/a' }],
+        },
+        '/b': {
+          index: 0,
+          entries: [{ pathname: '/b' }],
+        },
+      })
+    })
+
+    it('should return nodes from a history source', () => {
+      const source = {
+        index: 1,
+        entries: [{ pathname: '/a' }, { pathname: '/a' }],
+      }
+      const route = { name: '/a', match: matchPath('/a', { path: '/a' }) }
+      const localHistoryState = {
+        historyRootIndex: 1,
+        historyNodes: {
+          '/b': {
+            index: 0,
+            entries: [{ pathname: '/b' }],
+          },
+        },
+      }
+      expect(
+        HistoryUtils.saveNodes(source, route, localHistoryState),
+      ).toMatchObject({
+        '/a': {
+          index: 0,
+          entries: [{ pathname: '/a' }],
+        },
+        '/b': {
+          index: 0,
+          entries: [{ pathname: '/b' }],
+        },
+      })
+    })
+
+    it('should return nodes from a deep history source', () => {
+      const source = {
+        index: 2,
+        entries: [{ pathname: '/d' }, { pathname: '/c' }, { pathname: '/a' }],
+      }
+      const route = { name: '/a', match: matchPath('/a', { path: '/a' }) }
+      const localHistoryState = {
+        historyRootIndex: 1,
+        historyNodes: { '/b': { index: 0, entries: [{ pathname: '/b' }] } },
+      }
+      expect(
+        HistoryUtils.saveNodes(source, route, localHistoryState),
+      ).toMatchObject({
+        '/a': {
+          index: 0,
+          entries: [{ pathname: '/a' }],
+        },
+        '/b': {
+          index: 0,
+          entries: [{ pathname: '/b' }],
+        },
+      })
+    })
+
+    it('should return nodes from a very deep history source', () => {
+      const source = {
+        index: 3,
+        entries: [
+          { pathname: '/d' },
+          { pathname: '/c' },
+          { pathname: '/a' },
+          { pathname: '/a/a' },
+        ],
+      }
+      const route = { name: '/a', match: matchPath('/a', { path: '/a' }) }
+      const localHistoryState = {
+        historyRootIndex: 1,
+        historyNodes: { '/b': { index: 0, entries: [{ pathname: '/b' }] } },
+      }
+      expect(
+        HistoryUtils.saveNodes(source, route, localHistoryState),
+      ).toMatchObject({
+        '/a': {
+          index: 1,
+          entries: [{ pathname: '/a' }, { pathname: '/a/a' }],
+        },
+        '/b': {
+          index: 0,
+          entries: [{ pathname: '/b' }],
+        },
+      })
+    })
+  })
+
+  describe('regenerateFromEntries', () => {
+    it('should regenerateFromEntries history in deep', () => {
+      let history = createMemoryHistory({
+        initialIndex: 0,
+        initialEntries: ['/a'],
+      })
+      const spy = jest.fn()
+      history.listen(spy)
+      const historyNode = {
+        index: 0,
+        entries: [{ pathname: '/b' }],
+      }
+      const historyRootIndex = 0
+      HistoryUtils.regenerateFromEntries(history, historyNode, historyRootIndex)
+      expect(history).toMatchObject({
+        index: 0,
+        length: 1,
+        entries: [{ pathname: '/b' }],
+      })
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    it('should regenerateFromEntries history in deep', () => {
+      let history = createMemoryHistory({
+        initialIndex: 3,
+        initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/hello/one'],
+      })
+      const spy = jest.fn()
+      history.listen(spy)
+      const historyNode = {
+        index: 1,
+        entries: [{ pathname: '/a' }, { pathname: '/b' }],
+      }
+      const historyRootIndex = 1
+      HistoryUtils.regenerateFromEntries(history, historyNode, historyRootIndex)
+      expect(history).toMatchObject({
+        index: 2,
+        length: 3,
+        entries: [{ pathname: '/' }, { pathname: '/a' }, { pathname: '/b' }],
+      })
+      expect(spy).toHaveBeenCalledTimes(1)
     })
   })
 })

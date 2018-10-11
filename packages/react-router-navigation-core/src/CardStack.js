@@ -23,8 +23,10 @@ type Props = {
 }
 
 type State = {|
+  key: string,
   cards: Card[],
   navigationState: NavigationState<>,
+  historyRootIndex: number,
 |}
 
 export default class CardStack extends React.Component<Props, State> {
@@ -44,6 +46,7 @@ export default class CardStack extends React.Component<Props, State> {
     const { location } = history
     const entries = history.entries || [location]
     const cards = StackUtils.create(children, props)
+    const key = `id-${Date.now()}`
     const navigationState = StateUtils.initialize(
       cards,
       location,
@@ -55,12 +58,13 @@ export default class CardStack extends React.Component<Props, State> {
       'There is no route defined for path « %s »',
       location.pathname,
     )
-    this.state = { cards, navigationState }
+    this.unlistenHistory = HistoryUtils.listen(history, this.onHistoryChange)
+    const historyRootIndex = history.index - navigationState.index
+    this.state = { key, cards, navigationState, historyRootIndex }
   }
 
   componentDidMount() {
-    const { history, backHandler } = this.props
-    this.unlistenHistory = HistoryUtils.listen(history, this.onHistoryChange)
+    const { backHandler } = this.props
     backHandler.addEventListener('hardwareBackPress', this.onNavigateBack)
   }
 
@@ -72,11 +76,20 @@ export default class CardStack extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     const { children: nextChildren, history } = nextProps
-    const { cards } = this.state
+    const { location } = history
+    const { cards, historyRootIndex, navigationState } = this.state
     const nextCards = StackUtils.create(nextChildren, nextProps)
-    if (nextCards && !StackUtils.shallowEqual(cards, nextCards)) {
-      const { location } = history
+    const nextCard = nextCards.find(card => matchPath(location.pathname, card))
+    const nextRoute = nextCard && RouteUtils.create(nextCard, location)
+    if (
+      nextRoute &&
+      nextCards &&
+      (!StackUtils.shallowEqual(cards, nextCards) ||
+        StateUtils.isCorrumped(navigationState, history, historyRootIndex))
+    ) {
+      const { location, index } = history
       const entries = history.entries || [location]
+      const newKey = `id-${Date.now()}`
       const nextNavigationState = StateUtils.initialize(
         nextCards,
         location,
@@ -88,7 +101,13 @@ export default class CardStack extends React.Component<Props, State> {
         'There is no route defined for path « %s »',
         location.pathname,
       )
-      this.setState({ cards: nextCards, navigationState: nextNavigationState })
+      const newHistoryRootIndex = index - nextNavigationState.index
+      this.setState({
+        key: newKey,
+        cards: nextCards,
+        navigationState: nextNavigationState,
+        historyRootIndex: newHistoryRootIndex,
+      })
     }
   }
 

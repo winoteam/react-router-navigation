@@ -96,6 +96,7 @@ describe('<CardStack />', () => {
     )
     expect(component.toJSON()).toMatchSnapshot()
     expect(CardViewComponent.mock.calls).toHaveLength(1)
+    expect(CardViewComponent.mock.calls[0][0].historyRootIndex).toBe(2)
     expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 1,
       routes: [
@@ -902,5 +903,147 @@ describe('<CardStack />', () => {
         component: HelloComponent,
       },
     ])
+  })
+
+  it('should re-render correctly when new history is provided', () => {
+    const history = createHistory({ initialEntries: ['/article/1'] })
+    const CardViewComponent = jest.fn(props => {
+      return renderCardView(props)
+    })
+    const component = renderer.create(
+      <Router history={history}>
+        <Route>
+          {contextRouter => (
+            <CardStack
+              history={contextRouter.history}
+              render={CardViewComponent}
+              backHandler={BackHandler}
+            >
+              <Route
+                path="/article/:id/:method(read|update)?"
+                routePath="/article/:id"
+                component={ArticleComponent}
+              />
+            </CardStack>
+          )}
+        </Route>
+      </Router>,
+    )
+    expect(component.toJSON()).toMatchSnapshot()
+    history.push('/article/3')
+    expect(component.toJSON()).toMatchSnapshot()
+    history.length = 1
+    history.index = 0
+    history.entries = [{ pathname: '/profile' }]
+    history.replace('/profile')
+    history.push('/profile/bookmarks')
+    history.replace('/article/2')
+    history.push('/article/5')
+    expect(component.toJSON()).toMatchSnapshot()
+    history.length = 2
+    history.index = 1
+    history.entries = [{ pathname: '/article/2' }, { pathname: '/article/5' }]
+    history.replace('/article/5')
+    expect(CardViewComponent.mock.calls).toHaveLength(5)
+    expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
+      index: 0,
+      routes: [
+        {
+          name: '/article/:id/:method(read|update)?',
+          match: {
+            url: '/article/1',
+            path: '/article/:id/:method(read|update)?',
+            isExact: true,
+            params: { id: '1' },
+          },
+        },
+      ],
+    })
+    expect(CardViewComponent.mock.calls[1][0].navigationState).toMatchObject({
+      index: 1,
+      routes: [
+        {
+          name: '/article/:id/:method(read|update)?',
+          match: {
+            url: '/article/1',
+            path: '/article/:id/:method(read|update)?',
+            isExact: true,
+            params: { id: '1' },
+          },
+        },
+        {
+          name: '/article/:id/:method(read|update)?',
+          match: {
+            url: '/article/3',
+            path: '/article/:id/:method(read|update)?',
+            isExact: true,
+            params: { id: '3' },
+          },
+        },
+      ],
+    })
+    expect(CardViewComponent.mock.calls[2][0].historyRootIndex).toBe(1)
+    expect(CardViewComponent.mock.calls[2][0].navigationState).toMatchObject({
+      index: 0,
+      routes: [
+        {
+          name: '/article/:id/:method(read|update)?',
+          match: {
+            url: '/article/2',
+            path: '/article/:id/:method(read|update)?',
+            isExact: true,
+            params: { id: '2' },
+          },
+        },
+      ],
+    })
+    expect(CardViewComponent.mock.calls[3][0].historyRootIndex).toBe(1)
+    expect(CardViewComponent.mock.calls[3][0].navigationState).toMatchObject({
+      index: 1,
+      routes: [
+        {
+          name: '/article/:id/:method(read|update)?',
+          match: {
+            url: '/article/2',
+            path: '/article/:id/:method(read|update)?',
+            isExact: true,
+            params: { id: '2' },
+          },
+        },
+        {
+          name: '/article/:id/:method(read|update)?',
+          match: {
+            url: '/article/5',
+            path: '/article/:id/:method(read|update)?',
+            isExact: true,
+            params: { id: '5' },
+          },
+        },
+      ],
+    })
+    expect(CardViewComponent.mock.calls[4][0].historyRootIndex).toBe(0)
+    expect(CardViewComponent.mock.calls[4][0].navigationState).toMatchObject({
+      index: 1,
+      routes: [
+        {
+          name: '/article/:id/:method(read|update)?',
+          match: {
+            url: '/article/2',
+            path: '/article/:id/:method(read|update)?',
+            isExact: true,
+            params: { id: '2' },
+          },
+        },
+        {
+          name: '/article/:id/:method(read|update)?',
+          match: {
+            url: '/article/5',
+            path: '/article/:id/:method(read|update)?',
+            isExact: true,
+            params: { id: '5' },
+          },
+        },
+      ],
+    })
   })
 })

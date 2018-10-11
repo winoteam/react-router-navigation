@@ -1,3 +1,4 @@
+import { matchPath } from 'react-router'
 import StateUtils from './../StateUtils'
 
 describe('StateUtils', () => {
@@ -24,6 +25,7 @@ describe('StateUtils', () => {
         ],
       })
     })
+
     it('should return initial state from history', () => {
       const nodes = [{ path: '/a' }, { path: '/b' }, { path: '/c' }]
       const location = { pathname: '/a' }
@@ -37,6 +39,33 @@ describe('StateUtils', () => {
           {
             match: { isExact: true, params: {}, path: '/b', url: '/b' },
             name: '/b',
+          },
+          {
+            match: { isExact: true, params: {}, path: '/a', url: '/a' },
+            name: '/a',
+          },
+        ],
+      })
+    })
+
+    it('should return initial state from deep history', () => {
+      const nodes = [{ path: '/a' }, { path: '/b' }, { path: '/c' }]
+      const location = { pathname: '/a' }
+      const entries = [
+        { pathname: '/b' },
+        { pathname: '/d' },
+        { pathname: '/c' },
+        location,
+      ]
+      const buildFrom = 'history'
+      expect(
+        StateUtils.initialize(nodes, location, entries, buildFrom),
+      ).toMatchObject({
+        index: 1,
+        routes: [
+          {
+            match: { isExact: true, params: {}, path: '/c', url: '/c' },
+            name: '/c',
           },
           {
             match: { isExact: true, params: {}, path: '/a', url: '/a' },
@@ -70,6 +99,53 @@ describe('StateUtils', () => {
         index: 1,
       }
       expect(StateUtils.getRouteIndex(state, { name: '/a' })).toBe(0)
+    })
+  })
+
+  describe('isCorrumped', () => {
+    it('should return true', () => {
+      const state = {
+        routes: [
+          { match: matchPath('/a', { path: '/a' }) },
+          { match: matchPath('/b', { path: '/b' }) },
+          { match: matchPath('/c', { path: '/c' }) },
+        ],
+        index: 1,
+      }
+      const history = {
+        index: 1,
+        entries: [{ pathname: '/c' }, { pathname: '/b' }],
+      }
+      expect(StateUtils.isCorrumped(state, history, 0)).toBe(true)
+    })
+
+    it('should return false in web browser env', () => {
+      const state = {
+        routes: [
+          { match: matchPath('/a', { path: '/a' }) },
+          { match: matchPath('/b', { path: '/b' }) },
+        ],
+        index: 1,
+      }
+      const history = {
+        index: 1,
+      }
+      expect(StateUtils.isCorrumped(state, history, 0)).toBe(false)
+    })
+
+    it('should return false with valid state', () => {
+      const state = {
+        routes: [
+          { match: matchPath('/a', { path: '/a' }) },
+          { match: matchPath('/b', { path: '/b' }) },
+        ],
+        index: 1,
+      }
+      const history = {
+        index: 1,
+        entries: [{ pathname: '/a' }, { pathname: '/b' }],
+      }
+      expect(StateUtils.isCorrumped(state, history, 0)).toBe(false)
     })
   })
 

@@ -28,24 +28,6 @@ export default {
     )
   },
 
-  canSaveNodes(
-    history: RouterHistory,
-    route: Route,
-    localHistoryState: {
-      historyRootIndex: number,
-    },
-  ) {
-    const { match } = route
-    if (match) {
-      const { historyRootIndex } = localHistoryState
-      const nextHistoryNodeEntries = history.entries.slice(historyRootIndex)
-      return nextHistoryNodeEntries.every(location => {
-        return matchPath(location.pathname, { path: match.path })
-      })
-    }
-    return true
-  },
-
   saveNodes(
     source: Location | RouterHistory,
     route: Route,
@@ -65,12 +47,21 @@ export default {
     }
     // $FlowFixMe
     const history: RouterHistory = source
-    const index = history.index - historyRootIndex
-    const entries = history.entries.slice(historyRootIndex)
+    const initialEntries = history.entries.slice(historyRootIndex)
+    const initialIndex = initialEntries.findIndex(location => {
+      return (
+        route.match &&
+        matchPath(location.pathname, {
+          path: route.match.path,
+        })
+      )
+    })
+    const index = history.index - historyRootIndex - initialIndex
+    const entries = initialEntries.slice(initialIndex)
     return { ...historyNodes, [route.name]: { index, entries } }
   },
 
-  regenerate(
+  regenerateFromEntries(
     history: RouterHistory,
     historyNode: HistoryNode,
     historyRootIndex: HistoryRootIndex,
@@ -86,6 +77,9 @@ export default {
       history.index = historyRootIndex + historyNode.index
     }
     history.replace(historyNode.entries[historyNode.index].pathname)
-    return
+  },
+
+  regenerateFromLocation(history: RouterHistory, location: Location) {
+    history.replace(location.pathname)
   },
 }
