@@ -94,7 +94,12 @@ export default class Feed extends React.Component<Props> {
         titleStyle={styles.title}
         backButtonTintColor="white"
       >
-        <Card exact path={match.url} render={this.renderList} title="Feed" />
+        <Card
+          exact={true}
+          path={match.url}
+          render={this.renderList}
+          title="Feed"
+        />
         <Card
           path={`${match.url}/article/:id/:method(read|update)?`}
           routePath={`${match.url}/article/:id`}

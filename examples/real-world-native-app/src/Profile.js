@@ -95,6 +95,21 @@ export default class Profile extends React.Component<Props, State> {
         >
           <Text style={styles.span}>Go to bookmarks</Text>
         </Link>
+        <Link
+          style={styles.link}
+          replace={true}
+          component={TouchableOpacity}
+          to="/feed/article/4"
+        >
+          <Text style={styles.span}>Go to the article #4 (replace)</Text>
+        </Link>
+        <Link
+          style={styles.link}
+          component={TouchableOpacity}
+          to="/feed/article/4"
+        >
+          <Text style={styles.span}>Go to the article #4 (push)</Text>
+        </Link>
         {tabsLength === 2 && (
           <TouchableOpacity
             style={styles.link}
