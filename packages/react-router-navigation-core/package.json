@@ -25,7 +25,8 @@
   ],
   "dependencies": {
     "fbjs": "0.8.17",
-    "invariant": "^2.2.4"
+    "invariant": "^2.2.4",
+    "iterall": "^1.2.2"
   },
   "peerDependencies": {
     "react": "*",
