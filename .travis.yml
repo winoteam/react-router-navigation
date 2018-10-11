@@ -7,12 +7,6 @@ dist: trusty
 
 sudo: required
 
-addons:
-  chrome: beta
-
-before_install:
-  - google-chrome-beta --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-
 cache:
   yarn: true
   directories:
