@@ -28,7 +28,7 @@
 ## 📟  Demos
 * [Minimal native app](examples/minimal-native-app)
 * [Real world native app](examples/real-world-native-app)
-* [Polaris web app](examples/polaris-web-app)
+* [Polaris web app](examples/polaris-web-app) ➡️ [See it !](https://focused-blackwell-61841d.netlify.com/)
 
 ## 💻  How to use
 
