@@ -70,3 +70,6 @@ lib
 
 # Jest
 coverage
+
+# Netlify
+.netlify
