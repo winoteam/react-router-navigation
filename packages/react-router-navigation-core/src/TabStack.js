@@ -77,7 +77,7 @@ export default class TabStack extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    const { tabs } = this.state
+    const { tabs, navigationState } = this.state
     const { children: nextChildren, history } = nextProps
     const { location } = history
     const entries = history.entries || [location]
@@ -90,6 +90,7 @@ export default class TabStack extends React.Component<Props, State> {
         location,
         entries,
         'nodes',
+        navigationState,
       )
       invariant(
         nextNavigationState.index !== -1,

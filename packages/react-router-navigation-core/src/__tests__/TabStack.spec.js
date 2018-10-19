@@ -1719,10 +1719,13 @@ describe('<TabStack />', () => {
     )
     expect(component.toJSON()).toMatchSnapshot()
     expect(TabViewComponent.mock.calls).toHaveLength(2)
+    const initialNavigationState =
+      TabViewComponent.mock.calls[0][0].navigationState
     expect(TabViewComponent.mock.calls[0][0].navigationState).toMatchObject({
       index: 0,
       routes: [
         {
+          key: initialNavigationState.routes[0].key,
           name: '/',
           match: {
             url: '/',
@@ -1732,10 +1735,12 @@ describe('<TabStack />', () => {
           },
         },
         {
+          key: initialNavigationState.routes[1].key,
           name: '/hello',
           match: null,
         },
         {
+          key: initialNavigationState.routes[2].key,
           name: '/goodbye',
           match: null,
         },
@@ -1760,6 +1765,7 @@ describe('<TabStack />', () => {
       index: 0,
       routes: [
         {
+          key: initialNavigationState.routes[0].key,
           name: '/',
           match: {
             url: '/',
