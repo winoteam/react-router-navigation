@@ -23,9 +23,14 @@ export default {
     if (buildFrom === 'nodes') {
       return nodes.reduce(
         (state, item) => {
-          const entry = historyEntries
-            .reverse()
-            .find(({ pathname }) => matchPath(pathname, item))
+          let entry
+          forEach(historyEntries, (_entry, index) => {
+            const entryIndex = historyEntries.length - 1 - index
+            const currentEntry = historyEntries[entryIndex]
+            if (currentEntry && matchPath(currentEntry.pathname, item)) {
+              entry = currentEntry
+            }
+          })
           const match = entry ? matchPath(entry.pathname, item) : null
           const staleRoute = staleRoutes && staleRoutes[state.routes.length]
           const route = RouteUtils.create(item, match && entry, staleRoute)
