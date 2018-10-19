@@ -12,12 +12,14 @@ export default {
     location: Location,
     entries: Location[],
     buildFrom: 'history' | 'nodes',
+    staleNavigationState?: NavigationState<>,
   ): NavigationState<> {
     const historyEntries = StackUtils.getHistoryEntries(
       nodes,
       entries,
       location,
     )
+    const staleRoutes = staleNavigationState && staleNavigationState.routes
     if (buildFrom === 'nodes') {
       return nodes.reduce(
         (state, item) => {
@@ -25,7 +27,8 @@ export default {
             .reverse()
             .find(({ pathname }) => matchPath(pathname, item))
           const match = entry ? matchPath(entry.pathname, item) : null
-          const route = RouteUtils.create(item, match && entry)
+          const staleRoute = staleRoutes && staleRoutes[state.routes.length]
+          const route = RouteUtils.create(item, match && entry, staleRoute)
           if (!route) return state
           const isCurrentLocation =
             entry && entry.pathname === location.pathname
@@ -44,7 +47,8 @@ export default {
           return matchPath(entry.pathname, { path: routePath, ...route })
         })
         if (!item || !item.path) return state
-        const route = RouteUtils.create(item, entry)
+        const staleRoute = staleRoutes && staleRoutes[state.routes.length]
+        const route = RouteUtils.create(item, entry, staleRoute)
         if (!route) return state
         const itemPath = item.routePath || item.path
         return {

@@ -818,7 +818,7 @@ describe('<CardStack />', () => {
     })
   })
 
-  it('should re render correctly when new cards are provided', () => {
+  it('should re render correctly when new cards are provided (1)', () => {
     const history = createHistory()
     const CardViewComponent = jest.fn(props => {
       return renderCardView(props)
@@ -903,6 +903,130 @@ describe('<CardStack />', () => {
         component: HelloComponent,
       },
     ])
+    expect(CardViewComponent.mock.calls[0][0].key).toBe(
+      CardViewComponent.mock.calls[1][0].key,
+    )
+  })
+
+  it('should re render correctly when new cards are provided (2)', () => {
+    const history = createHistory({
+      initialIndex: 1,
+      initialEntries: ['/', '/hello'],
+    })
+    const CardViewComponent = jest.fn(props => {
+      return renderCardView(props)
+    })
+    let component = renderer.create(
+      <Router history={history}>
+        <Route>
+          {contextRouter => (
+            <CardStack
+              history={contextRouter.history}
+              render={CardViewComponent}
+              backHandler={BackHandler}
+            >
+              <Route exact path="/" component={HelloComponent} />
+              <Route path="/hello" component={IndexComponent} />
+            </CardStack>
+          )}
+        </Route>
+      </Router>,
+    )
+    expect(component.toJSON()).toMatchSnapshot()
+    component.update(
+      <Router history={history}>
+        <Route>
+          {contextRouter => (
+            <CardStack
+              history={contextRouter.history}
+              render={CardViewComponent}
+              backHandler={BackHandler}
+            >
+              <Route exact path="/" component={IndexComponent} />
+              <Route path="/hello" component={HelloComponent} />
+            </CardStack>
+          )}
+        </Route>
+      </Router>,
+    )
+    expect(component.toJSON()).toMatchSnapshot()
+    expect(CardViewComponent.mock.calls).toHaveLength(2)
+    const initialState = CardViewComponent.mock.calls[0][0].navigationState
+    expect(CardViewComponent.mock.calls[0][0].navigationState).toMatchObject({
+      index: 1,
+      routes: [
+        {
+          key: initialState.routes[0].key,
+          name: '/',
+          match: {
+            url: '/',
+            path: '/',
+            isExact: true,
+            params: {},
+          },
+        },
+        {
+          key: initialState.routes[1].key,
+          name: '/hello',
+          match: {
+            url: '/hello',
+            path: '/hello',
+            isExact: true,
+            params: {},
+          },
+        },
+      ],
+    })
+    expect(CardViewComponent.mock.calls[0][0].cards).toMatchObject([
+      {
+        exact: true,
+        path: '/',
+        component: HelloComponent,
+      },
+      {
+        path: '/hello',
+        component: IndexComponent,
+      },
+    ])
+    expect(CardViewComponent.mock.calls[1][0].navigationState).toMatchObject({
+      index: 1,
+      routes: [
+        {
+          key: initialState.routes[0].key,
+          name: '/',
+          match: {
+            url: '/',
+            path: '/',
+            isExact: true,
+            params: {},
+          },
+        },
+        {
+          key: initialState.routes[1].key,
+          name: '/hello',
+          match: {
+            url: '/hello',
+            path: '/hello',
+            isExact: true,
+            params: {},
+          },
+        },
+      ],
+    })
+    expect(CardViewComponent.mock.calls[1][0].cards).toMatchObject([
+      {
+        exact: true,
+        path: '/',
+        component: IndexComponent,
+      },
+      {
+        path: '/hello',
+        component: HelloComponent,
+      },
+    ])
+    expect(CardViewComponent.mock.calls[0][0].key).toBe(
+      CardViewComponent.mock.calls[1][0].key,
+    )
   })
 
   it('should re-render correctly when new history is provided', () => {
@@ -982,6 +1106,9 @@ describe('<CardStack />', () => {
         },
       ],
     })
+    expect(CardViewComponent.mock.calls[1][0].key).not.toBe(
+      CardViewComponent.mock.calls[2][0].key,
+    )
     expect(CardViewComponent.mock.calls[2][0].historyRootIndex).toBe(1)
     expect(CardViewComponent.mock.calls[2][0].navigationState).toMatchObject({
       index: 0,
@@ -1045,5 +1172,6 @@ describe('<CardStack />', () => {
         },
       ],
     })
+    expect()
   })
 })

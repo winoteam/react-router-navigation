@@ -1,12 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CardStack /> should re render correctly when new cards are provided 1`] = `
+exports[`<CardStack /> should re render correctly when new cards are provided (1) 1`] = `
 <Text>
   Index
 </Text>
 `;
 
-exports[`<CardStack /> should re render correctly when new cards are provided 2`] = `
+exports[`<CardStack /> should re render correctly when new cards are provided (1) 2`] = `
+<Text>
+  Hello
+</Text>
+`;
+
+exports[`<CardStack /> should re render correctly when new cards are provided (2) 1`] = `
+<Text>
+  Index
+</Text>
+`;
+
+exports[`<CardStack /> should re render correctly when new cards are provided (2) 2`] = `
 <Text>
   Hello
 </Text>

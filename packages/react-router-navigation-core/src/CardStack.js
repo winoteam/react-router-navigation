@@ -81,11 +81,15 @@ export default class CardStack extends React.Component<Props, State> {
     const nextCards = StackUtils.create(nextChildren, nextProps)
     const nextCard = nextCards.find(card => matchPath(location.pathname, card))
     const nextRoute = nextCard && RouteUtils.create(nextCard, location)
+    const isCorrumped = StateUtils.isCorrumped(
+      navigationState,
+      history,
+      historyRootIndex,
+    )
     if (
       nextRoute &&
       nextCards &&
-      (!StackUtils.shallowEqual(cards, nextCards) ||
-        StateUtils.isCorrumped(navigationState, history, historyRootIndex))
+      (!StackUtils.shallowEqual(cards, nextCards) || isCorrumped)
     ) {
       const { location, index } = history
       const entries = history.entries || [location]
@@ -95,6 +99,7 @@ export default class CardStack extends React.Component<Props, State> {
         location,
         entries,
         'history',
+        navigationState,
       )
       invariant(
         nextNavigationState.index !== -1,
@@ -102,12 +107,12 @@ export default class CardStack extends React.Component<Props, State> {
         location.pathname,
       )
       const newHistoryRootIndex = index - nextNavigationState.index
-      this.setState({
-        key: newKey,
+      this.setState(prevState => ({
+        key: isCorrumped ? newKey : prevState.key,
         cards: nextCards,
         navigationState: nextNavigationState,
         historyRootIndex: newHistoryRootIndex,
-      })
+      }))
     }
   }
 
