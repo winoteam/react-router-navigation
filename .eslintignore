@@ -3,3 +3,4 @@ node_modules
 __tests__
 coverage
 lib
+build
