@@ -1,7 +1,7 @@
 /* @flow */
 
 import PropTypes from 'prop-types'
-import { View, Text } from 'react-native'
+import { ViewPropTypes, Text } from 'react-native'
 
 export const RoutePropTypes = {
   path: PropTypes.string.isRequired,
@@ -16,7 +16,7 @@ export const RoutePropTypes = {
 export const NavBarPropTypes = {
   hideNavBar: PropTypes.bool,
   renderNavBar: PropTypes.func,
-  navBarStyle: View.propTypes.style,
+  navBarStyle: ViewPropTypes.style,
   hideBackButton: PropTypes.bool,
   backButtonTintColor: PropTypes.string,
   backButtonTitle: PropTypes.string,
@@ -31,7 +31,7 @@ export const DefaultNavigationRendererPropTypes = {
   ...NavBarPropTypes,
   onTransitionStart: PropTypes.func,
   onTransitionEnd: PropTypes.func,
-  cardStyle: View.propTypes.style,
+  cardStyle: ViewPropTypes.style,
   configureTransition: PropTypes.func,
   mode: PropTypes.string,
   gesturesEnabled: PropTypes.bool,
@@ -48,10 +48,10 @@ export const CardPropTypes = {
 export const TabBarPropTypes = {
   hideTabBar: PropTypes.bool,
   tabBarPosition: PropTypes.oneOf(['top', 'bottom']),
-  tabBarIndicatorStyle: View.propTypes.style,
-  tabBarStyle: View.propTypes.style,
+  tabBarIndicatorStyle: ViewPropTypes.style,
+  tabBarStyle: ViewPropTypes.style,
   renderTabBar: PropTypes.func,
-  tabStyle: View.propTypes.style,
+  tabStyle: ViewPropTypes.style,
   tabTintColor: PropTypes.string,
   tabActiveTintColor: PropTypes.string,
   label: PropTypes.string,
@@ -62,7 +62,7 @@ export const TabBarPropTypes = {
 
 export const DefaultTabsRendererPropTypes = {
   ...TabBarPropTypes,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
   initialLayout: PropTypes.shape({
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
