@@ -25,10 +25,12 @@ export default {
         (state, item) => {
           let entry
           forEach(historyEntries, (_entry, index) => {
-            const entryIndex = historyEntries.length - 1 - index
-            const currentEntry = historyEntries[entryIndex]
-            if (currentEntry && matchPath(currentEntry.pathname, item)) {
-              entry = currentEntry
+            if (!entry) {
+              const entryIndex = historyEntries.length - 1 - index
+              const currentEntry = historyEntries[entryIndex]
+              if (currentEntry && matchPath(currentEntry.pathname, item)) {
+                entry = currentEntry
+              }
             }
           })
           const match = entry ? matchPath(entry.pathname, item) : null
