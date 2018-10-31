@@ -1,6 +1,6 @@
 {
   "name": "react-router-polaris",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "main": "lib/index.js",
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@shopify/polaris": "^2.5.0",
-    "react-router-navigation-core": "2.0.0-alpha.2"
+    "react-router-navigation-core": "2.0.0-alpha.7"
   },
   "devDependencies": {
     "react": "16.3.1",
