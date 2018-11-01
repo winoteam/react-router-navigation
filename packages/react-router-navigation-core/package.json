@@ -34,6 +34,7 @@
     "react-router": "4.2.x"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "history": "4.7.2",
     "jest": "^23.6.0",
     "react": "16.3.1",
