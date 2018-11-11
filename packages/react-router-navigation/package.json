@@ -1,6 +1,6 @@
 {
   "name": "react-router-navigation",
-  "version": "2.0.0-alpha.7",
+  "version": "2.0.0-alpha.8",
   "license": "MIT",
   "main": "src/index.js",
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
@@ -24,7 +24,7 @@
   "dependencies": {
     "react-native-tab-view": "1.2.0",
     "react-navigation": "1.5.11",
-    "react-router-navigation-core": "2.0.0-alpha.7"
+    "react-router-navigation-core": "2.0.0-alpha.8"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

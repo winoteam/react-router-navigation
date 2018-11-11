@@ -1,11 +1,11 @@
 {
   "name": "react-router-navigation-core",
-  "version": "2.0.0-alpha.7",
+  "version": "2.0.0-alpha.8",
   "license": "MIT",
   "main": "lib/index.js",
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
   "scripts": {
-    "prepublish": "yarn build",
+    "prepublish": "jest && yarn build",
     "build": "yarn build:cjs && yarn build:flow",
     "build:watch": "babel -d ./lib ./src/ --ignore __tests__ --watch",
     "build:cjs": "babel -d ./lib ./src/ --ignore __tests__",
