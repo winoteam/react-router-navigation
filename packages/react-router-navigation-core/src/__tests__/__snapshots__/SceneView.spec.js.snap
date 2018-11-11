@@ -20,27 +20,51 @@ exports[`<SceneView /> should re-render correctly on history change with no defa
 </Text>
 `;
 
-exports[`<SceneView /> should re-render correctly with routePath prop 1`] = `
+exports[`<SceneView /> should re-render correctly with routePath prop (1) 1`] = `
 <Text>
   {"id":"1"}
 </Text>
 `;
 
-exports[`<SceneView /> should re-render correctly with routePath prop 2`] = `
+exports[`<SceneView /> should re-render correctly with routePath prop (1) 2`] = `
 <Text>
   {"id":"1","method":"read"}
 </Text>
 `;
 
-exports[`<SceneView /> should re-render correctly with routePath prop 3`] = `
+exports[`<SceneView /> should re-render correctly with routePath prop (1) 3`] = `
 <Text>
   {"id":"1","method":"read"}
 </Text>
 `;
 
-exports[`<SceneView /> should re-render correctly with routePath prop 4`] = `
+exports[`<SceneView /> should re-render correctly with routePath prop (1) 4`] = `
 <Text>
   {"id":"1","method":"read"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly with routePath prop (2) 1`] = `
+<Text>
+  {"id":"1"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly with routePath prop (2) 2`] = `
+<Text>
+  {"id":"1","method":"read"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly with routePath prop (2) 3`] = `
+<Text>
+  {"id":"1","method":"read"}
+</Text>
+`;
+
+exports[`<SceneView /> should re-render correctly with routePath prop (2) 4`] = `
+<Text>
+  {"id":"1","method":"update"}
 </Text>
 `;
 

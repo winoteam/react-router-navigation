@@ -40,13 +40,26 @@ export default class SceneView extends React.Component<Props, State> {
     const minimalMatch = matchPath(location.pathname, minimalRoute)
     const route = { path, exact, strict }
     const match = matchPath(location.pathname, route)
-    if (
-      match &&
-      minimalMatch &&
-      (!oldMatch ||
-        (oldMatch.url !== match.url && oldMatch.url.includes(minimalMatch.url)))
-    ) {
+    const shouldUpdateLocation = !!match
+    let shouldUpdateMatch = false
+    if (match && minimalMatch) {
+      if (!oldMatch) {
+        shouldUpdateMatch = true
+      } else if (oldMatch.url !== match.url) {
+        if (
+          oldMatch.path !== minimalMatch.path &&
+          oldMatch.url.includes(minimalMatch.url)
+        ) {
+          shouldUpdateMatch = true
+        } else if (routePath && oldMatch.path === minimalMatch.path) {
+          shouldUpdateMatch = true
+        }
+      }
+    }
+    if (shouldUpdateMatch) {
       this.setState({ match, location })
+    } else if (shouldUpdateLocation) {
+      this.setState({ location })
     }
   }
 
