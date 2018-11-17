@@ -1,6 +1,6 @@
 {
   "name": "react-router-navigation-core",
-  "version": "2.0.0-alpha.8",
+  "version": "2.0.0-alpha.9",
   "license": "MIT",
   "main": "lib/index.js",
   "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
