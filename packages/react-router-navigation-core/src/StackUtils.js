@@ -25,17 +25,31 @@ export default {
     stack: RouteProps[],
     entries: Location[],
     location: Location,
+    historyIndex?: number,
   ): Location[] {
     const startHistoryIndex = entries.reduce((acc, entry, index) => {
       if (stack.find(item => matchPath(entry.pathname, item))) {
-        if (acc === -1) return index
+        if (acc === -1) {
+          return index
+        }
+        return acc
+      }
+      if (typeof historyIndex === 'number' && index > historyIndex) {
         return acc
       }
       return -1
     }, -1)
     const lastHistoryIndex = entries.reduce((acc, entry, index) => {
-      if (index < startHistoryIndex) return -1
-      if (location.pathname === entry.pathname) return index
+      if (
+        index < startHistoryIndex &&
+        typeof historyIndex === 'number' &&
+        index <= historyIndex
+      ) {
+        return -1
+      }
+      if (location.pathname === entry.pathname) {
+        return index
+      }
       return acc
     }, -1)
     return entries.slice(startHistoryIndex, lastHistoryIndex + 1)

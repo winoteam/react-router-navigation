@@ -79,7 +79,7 @@ describe('<TabStack />', () => {
   it('should render correctly with initialIndex and initialEntries props ', () => {
     const history = createHistory({
       initialIndex: 3,
-      initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/'],
+      initialEntries: ['/', '/yolo', '/goodbye', '/hello', '/aa'],
     })
     const TabViewComponent = jest.fn(props => {
       return renderTabView(props)

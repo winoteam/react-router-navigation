@@ -57,6 +57,8 @@ export default class TabStack extends React.Component<Props, State> {
       location,
       entries,
       'nodes',
+      undefined,
+      index,
     )
     invariant(
       navigationState.index !== -1,
@@ -91,6 +93,7 @@ export default class TabStack extends React.Component<Props, State> {
         entries,
         'nodes',
         navigationState,
+        history.index,
       )
       invariant(
         nextNavigationState.index !== -1,

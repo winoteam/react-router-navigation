@@ -12,12 +12,14 @@ export default {
     location: Location,
     entries: Location[],
     buildFrom: 'history' | 'nodes',
-    staleNavigationState?: NavigationState<>,
+    staleNavigationState?: ?NavigationState<>,
+    index?: number,
   ): NavigationState<> {
     const historyEntries = StackUtils.getHistoryEntries(
       nodes,
       entries,
       location,
+      index,
     )
     const staleRoutes = staleNavigationState && staleNavigationState.routes
     if (buildFrom === 'nodes') {

@@ -155,5 +155,45 @@ describe('StackUtils', () => {
         { pathname: '/a' },
       ])
     })
+
+    it('should return history entries with history index (1)', () => {
+      const stack = [{ path: '/a' }, { path: '/b' }]
+      const location = { pathname: '/a' }
+      const entries = [
+        { pathname: '/c' },
+        { pathname: '/a' },
+        { pathname: '/d' },
+        { pathname: '/a' },
+        { pathname: '/b' },
+        { pathname: '/a' },
+        { pathname: '/c' },
+      ]
+      const index = 5
+      expect(
+        StackUtils.getHistoryEntries(stack, entries, location, index),
+      ).toMatchObject([
+        { pathname: '/a' },
+        { pathname: '/b' },
+        { pathname: '/a' },
+      ])
+    })
+
+    it('should return history entries with history index (2)', () => {
+      const stack = [{ path: '/a' }, { path: '/b' }]
+      const location = { pathname: '/a' }
+      const entries = [
+        { pathname: '/c' },
+        { pathname: '/a' },
+        { pathname: '/d' },
+        { pathname: '/a' },
+        { pathname: '/b' },
+        { pathname: '/a' },
+        { pathname: '/c' },
+      ]
+      const index = 6
+      expect(
+        StackUtils.getHistoryEntries(stack, entries, location, index),
+      ).toMatchObject([])
+    })
   })
 })

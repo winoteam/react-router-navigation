@@ -7,7 +7,7 @@ let uniqueBaseId = `id-${Date.now()}`
 let uuidCount = 0
 
 export default {
-  create(item: RouteProps, location?: ?Location, staleRoute?: Route): ?Route {
+  create(item: RouteProps, location?: ?Location, staleRoute?: ?Route): ?Route {
     if (!item || !item.path) return null
     const routeName = item.path
     const routeMatch = location ? matchPath(location.pathname, item) : null
