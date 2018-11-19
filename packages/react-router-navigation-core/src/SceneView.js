@@ -33,33 +33,36 @@ export default class SceneView extends React.Component<Props, State> {
     if (this.unlisten) this.unlisten()
   }
 
-  onHistoryChange = (location: Location) => {
-    const { routePath, path, exact, strict } = this.props
-    const { match: oldMatch } = this.state
-    const minimalRoute = { path: routePath || path, exact, strict }
-    const minimalMatch = matchPath(location.pathname, minimalRoute)
-    const route = { path, exact, strict }
-    const match = matchPath(location.pathname, route)
-    const shouldUpdateLocation = !!match
-    let shouldUpdateMatch = false
-    if (match && minimalMatch) {
-      if (!oldMatch) {
-        shouldUpdateMatch = true
-      } else if (oldMatch.url !== match.url) {
-        if (
-          oldMatch.path !== minimalMatch.path &&
-          oldMatch.url.includes(minimalMatch.url)
-        ) {
+  onHistoryChange = () => {
+    const { history, routePath, path, exact, strict } = this.props
+    if (history) {
+      const { location } = history
+      const { match: oldMatch } = this.state
+      const minimalRoute = { path: routePath || path, exact, strict }
+      const minimalMatch = matchPath(location.pathname, minimalRoute)
+      const route = { path, exact, strict }
+      const match = matchPath(location.pathname, route)
+      const shouldUpdateLocation = !!match
+      let shouldUpdateMatch = false
+      if (match && minimalMatch) {
+        if (!oldMatch) {
           shouldUpdateMatch = true
-        } else if (routePath && oldMatch.path === minimalMatch.path) {
-          shouldUpdateMatch = true
+        } else if (oldMatch.url !== match.url) {
+          if (
+            oldMatch.path !== minimalMatch.path &&
+            oldMatch.url.includes(minimalMatch.url)
+          ) {
+            shouldUpdateMatch = true
+          } else if (routePath && oldMatch.path === minimalMatch.path) {
+            shouldUpdateMatch = true
+          }
         }
       }
-    }
-    if (shouldUpdateMatch) {
-      this.setState({ match, location })
-    } else if (shouldUpdateLocation) {
-      this.setState({ location })
+      if (shouldUpdateMatch) {
+        this.setState({ match, location })
+      } else if (shouldUpdateLocation) {
+        this.setState({ location })
+      }
     }
   }
 
