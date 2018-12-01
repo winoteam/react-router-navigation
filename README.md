@@ -1,6 +1,6 @@
 # react-router-navigation
 
-[![Build Status](https://travis-ci.org/LeoLeBras/react-router-navigation.svg?branch=master)](https://travis-ci.org/LeoLeBras/react-router-navigation)
+[![Build Status](https://travis-ci.org/winoteam/react-router-navigation.svg?branch=master)](https://travis-ci.org/winoteam/react-router-navigation)
 [![npm version](https://badge.fury.io/js/react-router-navigation.svg)](https://badge.fury.io/js/react-router-navigation)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
@@ -8,7 +8,7 @@
 
 **`react-router-navigation` provides tools to navigate between multiple screens with navigators or tab views. This library is based on `react-router`, `react-navigation`, and `react-native-tab-view`.**
 
-<img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/demo.gif" width="250">
+<img src="https://raw.githubusercontent.com/winoteam/react-router-navigation/master/docs/demo.gif" width="250">
 
 ## 🔥 Highlights
 

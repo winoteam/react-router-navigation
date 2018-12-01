@@ -4,7 +4,7 @@ Bottom navigation bars make it easy to explore and switch between top-level view
 
 ## Example
 
-<img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/bottom-navigation.gif" width="250">
+<img src="https://raw.githubusercontent.com/winoteam/react-router-navigation/master/docs/bottom-navigation.gif" width="250">
 
 ```js
 import * as React from 'react'
@@ -35,7 +35,7 @@ const App = () => (
 
 #### `<BottomNavigation />` props
 
-* [`... TabBar props`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+* [`... TabBar props`](https://github.com/winoteam/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **style** `?StyleSheet` override or extend the default style for `<View />` container
 * **initialLayout** optional object containing the initial `height` and `width`, can be passed to prevent the one frame delay in rendering
 * **lazy** `?boolean` whether to load tabs lazily when you start switching
@@ -43,7 +43,7 @@ const App = () => (
 #### `<Tab />` props
 
 * [`... <Route />` props](https://reacttraining.com/react-router/native/api/Route)
-* [`... TabBar props`](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
+* [`... TabBar props`](https://github.com/winoteam/react-router-navigation/blob/master/docs/BOTTOM_NAVIGATION.md#tabbar-props)
 * **routePath** `?string` any valid URL path 
 * **initialPath** `?string` any valid URL path 
 * **onReset** `?Function` callback which resets the current tab 

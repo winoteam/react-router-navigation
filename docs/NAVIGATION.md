@@ -4,7 +4,7 @@ Navigation make it easy to explore and switch between different views.
 
 ## Example
 
-<img src="https://raw.githubusercontent.com/LeoLeBras/react-router-navigation/master/docs/navigation.gif" width="250">
+<img src="https://raw.githubusercontent.com/winoteam/react-router-navigation/master/docs/navigation.gif" width="250">
 
 ```js
 import * as React from 'react'
@@ -40,7 +40,7 @@ const App = () => (
 
 #### `<Navigation />` props
 
-* [... `<NavBar />` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navbar-props)
+* [... `<NavBar />` props](https://github.com/winoteam/react-router-navigation/blob/master/docs/NAVIGATION.md#navbar-props)
 * **onTransitionStart** `?Function` function invoked when the card transition animation is about to start
 * **onTransitionEnd** `?Function` function invoked once the card transition animation completes
 * **cardStyle** `?StyleSheet` override style for the card component
@@ -51,5 +51,5 @@ const App = () => (
 #### `<Card />` props
 
 * [`... <Route />` props](https://reacttraining.com/react-router/native/api/Route)
-* [`... <Navigation />` props](https://github.com/LeoLeBras/react-router-navigation/blob/master/docs/NAVIGATION.md#navigation--props)
+* [`... <Navigation />` props](https://github.com/winoteam/react-router-navigation/blob/master/docs/NAVIGATION.md#navigation--props)
 * **routePath** `?string` any valid URL path 
