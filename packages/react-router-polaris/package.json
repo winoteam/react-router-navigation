@@ -3,7 +3,7 @@
   "version": "0.1.3",
   "license": "MIT",
   "main": "lib/index.js",
-  "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
+  "author": "Léo Le Bras <leolebras@wino.fr> (https://github.com/winoteam/)",
   "scripts": {
     "prepublish": "yarn build",
     "build": "yarn build:cjs && yarn build:flow",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
+    "url": "git+https://github.com/winoteam/react-router-navigation.git"
   },
   "keywords": [
     "web",

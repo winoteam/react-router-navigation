@@ -3,10 +3,10 @@
   "version": "2.0.0-alpha.10",
   "license": "MIT",
   "main": "src/index.js",
-  "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
+  "author": "Léo Le Bras <leolebras@wino.fr> (https://github.com/winoteam/)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
+    "url": "git+https://github.com/winoteam/react-router-navigation.git"
   },
   "keywords": [
     "react-native",

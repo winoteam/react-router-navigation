@@ -8,10 +8,10 @@
     "test": "make test",
     "precommit": "make precommit"
   },
-  "author": "Léo Le Bras <leo.lebrasf@gmail.com> (https://github.com/LeoLeBras/)",
+  "author": "Léo Le Bras <leolebras@wino.fr> (https://github.com/winoteam/)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeoLeBras/react-router-navigation.git"
+    "url": "git+https://github.com/winoteam/react-router-navigation.git"
   },
   "keywords": [
     "react-native",
@@ -25,9 +25,9 @@
     "yarn": "^1.9.0"
   },
   "bugs": {
-    "url": "https://github.com/LeoLeBras/react-router-navigation/issues"
+    "url": "https://github.com/winoteam/react-router-navigation/issues"
   },
-  "homepage": "https://github.com/LeoLeBras/react-router-navigation#readme",
+  "homepage": "https://github.com/winoteam/react-router-navigation#readme",
   "devDependencies": {
     "babel-eslint": "7.2.3",
     "babel-jest": "18.0.0",
