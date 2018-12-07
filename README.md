@@ -51,7 +51,7 @@ To learn how the library work, head to this introduction written by [@CharlesMan
 * [`<Navigation />`](docs/NAVIGATION.md) handles the transition between different scenes in your app.
 * [`<Tabs />`](docs/TABS.md) make it easy to explore and switch between different views.
 * [`<BottomNavigation />`](docs/BOTTOM_NAVIGATION.md) make it easy to explore and switch between top-level views in a single tap.
-* Works great with [React Native web](https://github.com/necolas/react-native-web) [performance tips](docs/REACT_NATIVE_WEB.md)
+* Works great with [React Native web](https://github.com/necolas/react-native-web). [Getting started](docs/REACT_NATIVE_WEB.md)
 * And some [performance tips](docs/PERFORMANCE.md)
 
 ## 🕺 Contribute
